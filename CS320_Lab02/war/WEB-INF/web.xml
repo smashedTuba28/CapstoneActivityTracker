@@ -8,25 +8,25 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>IndexServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.lab02.servlet.IndexServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.IndexServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>AddNumbersServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.lab02.servlet.AddNumbersServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.AddNumbersServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>GuessingGameServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.lab02.servlet.GuessingGameServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.GuessingGameServlet</servlet-class>
   </servlet>
   
   <!-- AJAX servlets. -->
   <servlet>
     <servlet-name>AddNumbersAjaxServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.lab02.servlet.ajax.AddNumbersAjaxServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.ajax.AddNumbersAjaxServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>NextGuessAjaxServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.lab02.servlet.ajax.NextGuessAjaxServlet</servlet-class>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.ajax.NextGuessAjaxServlet</servlet-class>
   </servlet>
 
   <!-- Servlet mappings -->

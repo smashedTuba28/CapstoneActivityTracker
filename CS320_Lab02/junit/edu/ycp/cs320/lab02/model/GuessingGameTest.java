@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.lab02.model.GuessingGame;
+import edu.ycp.cs320.CapstoneActivityTracker.model.GuessingGame;
 
 public class GuessingGameTest {
 	private GuessingGame model;
