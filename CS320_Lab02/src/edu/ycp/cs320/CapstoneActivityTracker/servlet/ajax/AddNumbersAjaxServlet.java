@@ -1,4 +1,4 @@
-package edu.ycp.cs320.lab02.servlet.ajax;
+package edu.ycp.cs320.CapstoneActivityTracker.servlet.ajax;
 
 import java.io.IOException;
 
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.lab02.controller.AddNumbersController;
+import edu.ycp.cs320.CapstoneActivityTracker.controller.AddNumbersController;
 
 public class AddNumbersAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
