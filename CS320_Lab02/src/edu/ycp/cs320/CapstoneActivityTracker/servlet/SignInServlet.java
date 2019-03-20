@@ -64,7 +64,7 @@ public class SignInServlet extends HttpServlet {
 			//TODO: send data to controller to verify log in
 			//model should have a boolean attribute called loggedIn
 		} catch (Exception e){
-			errorMessage = "Invalid Email or Password";
+			errorMessage = "Log In Failed: Recheck Email and Password and try again";
 		}
 		
 		//TODO:
