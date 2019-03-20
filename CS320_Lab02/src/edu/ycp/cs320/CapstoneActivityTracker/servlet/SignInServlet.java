@@ -49,7 +49,7 @@ public class SignInServlet extends HttpServlet {
 	
 			//check if either is empty
 			if (email == null || password == null) {//either empty
-				errorMessage = "Please Enter Both your YCP Email and Password\n";
+				errorMessage = "Please Enter Both your YCP Email and Password";
 			}
 			//check that email is from YCP
 			else if (!email.endsWith("@ycp.edu")) {
