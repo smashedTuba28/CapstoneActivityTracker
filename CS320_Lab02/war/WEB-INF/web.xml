@@ -11,23 +11,27 @@
     <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.IndexServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>AddNumbersServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.AddNumbersServlet</servlet-class>
+    <servlet-name>SignInServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.SignInServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>GuessingGameServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.GuessingGameServlet</servlet-class>
+    <servlet-name>SignUpServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.SignUpServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ForgotPasswordServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.ForgotPasswordServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>StudentMainServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.StudentMainServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminMainServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.StudentMainServlet</servlet-class>
   </servlet>
   
-  <!-- AJAX servlets. -->
-  <servlet>
-    <servlet-name>AddNumbersAjaxServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.ajax.AddNumbersAjaxServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>NextGuessAjaxServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.ajax.NextGuessAjaxServlet</servlet-class>
-  </servlet>
+
 
   <!-- Servlet mappings -->
   <servlet-mapping>
@@ -35,22 +39,24 @@
     <url-pattern>/index</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>AddNumbersServlet</servlet-name>
-    <url-pattern>/addNumbers</url-pattern>
+    <servlet-name>SignInServlet</servlet-name>
+    <url-pattern>/signIn</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>GuessingGameServlet</servlet-name>
-    <url-pattern>/guessingGame</url-pattern>
-  </servlet-mapping>
-  
-  <!--  AJAX servlet mappings. -->
-  <servlet-mapping>
-    <servlet-name>AddNumbersAjaxServlet</servlet-name>
-    <url-pattern>/ajax/addNumbers</url-pattern>
+    <servlet-name>SignUpServlet</servlet-name>
+    <url-pattern>/signUp</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>NextGuessAjaxServlet</servlet-name>
-    <url-pattern>/ajax/nextGuess</url-pattern>
+    <servlet-name>ForgotPasswordServlet</servlet-name>
+    <url-pattern>/signUp</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SudentMainServlet</servlet-name>
+    <url-pattern>/signUp</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminMainServlet</servlet-name>
+    <url-pattern>/signUp</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
