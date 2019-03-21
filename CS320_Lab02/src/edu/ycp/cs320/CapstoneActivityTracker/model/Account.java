@@ -66,11 +66,11 @@ public class Account {
 		return email;
 	}
 	
-	public void setSchool_ID(String school_ID) {
+	public void setSchoolID(String school_ID) {
 		this.schoolID = school_ID;
 	}
 	
-	public String getSchool_ID() {
+	public String getSchoolID() {
 		return schoolID;
 	}
 	
@@ -81,6 +81,18 @@ public class Account {
 	public String getPassword() {
 		return password;
 	}
+	
+	public void setFaculty(boolean faculty) {
+		this.faculty = faculty;
+	}
+	
+	public boolean getFaculty() {
+		return faculty;
+	}
+	
+	
+	
+	
 	
 	public boolean validAccount() {//TODO: comment out once DB is implemented
 		if(this.firstname == null) {
