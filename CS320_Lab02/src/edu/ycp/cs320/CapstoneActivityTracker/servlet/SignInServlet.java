@@ -46,8 +46,8 @@ public class SignInServlet extends HttpServlet {
 		
 		//TODO:
 		//assign model reference to controller
-		Account model = null;
-		boolean valid = null;
+		//Account model = null;
+		boolean valid = false;
 		
 		//decode POSTed from parameters and dispatch to controller
 		try {
@@ -69,8 +69,8 @@ public class SignInServlet extends HttpServlet {
 			}
 			//data clears initial check
 			
-		
-			//next portion is for hardcoded values for milestone1	
+			/*TODO:
+			//BEGIN HARDCODE SECTION	
 			if (email.equals("jsteinberg@ycp.edu")) {
 				model = new Account(1);
 			}
@@ -88,9 +88,10 @@ public class SignInServlet extends HttpServlet {
 				model = new Account();
 			}
 			//end hardcode section
+			*/
 			
 			//TODO: send data to controller to verify log in
-			valid = model.verifyAccount(email, password);
+			//valid = model.verifyAccount(email, password);
 	
 		} catch (Exception e){
 			errorMessage = "Log In Failed: Recheck Email and Password and try again";
@@ -98,8 +99,8 @@ public class SignInServlet extends HttpServlet {
 		
 		//determine if credentials were successful
 		if (valid == true) {
-			//send to student view if successful login
-			resp.sendRedirect(req.getContextPath() + "/StudentView");
+			//get student view if successful login
+			req.getRequestDispatcher("/view/studentView.jsp");
 		}
 		else {
 			//report error

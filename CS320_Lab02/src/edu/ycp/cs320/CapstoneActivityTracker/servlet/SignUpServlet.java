@@ -36,22 +36,31 @@ public class SignUpServlet extends HttpServlet {
 		
 		//TODO:
 		//create model
+		//Account model = null;
 		
 		//TODO:
 		//create controller
 		
 		//TODO:
 		//assign model to controller
-		//Account model = new Account;
+		
+		//FOR HARDCODE
+		String firstname = null;
+		String lastname = null;
+		String email = null;
+		String password = null;
+		String passConfirm = null;
+		String schoolID = null;
+		//FOR HARDCODE
 		
 		//decode POSted from parameter and dispatch to controller
 		try {
-			String firstname = req.getParameter("firstname");
-			String lastname = req.getParameter("lastname");
-			String email = req.getParameter("email");
-			String password = req.getParameter("password");
-			String passConfirm = req.getParameter("passConfrim");
-			String schoolID = req.getParameter("schoolID");
+			/*String*/ firstname = req.getParameter("firstname");
+			/*String*/ lastname = req.getParameter("lastname");
+			/*String*/ email = req.getParameter("email");
+			/*String*/ password = req.getParameter("password");
+			/*String*/ passConfirm = req.getParameter("passConfrim");
+			/*String*/ schoolID = req.getParameter("schoolID");
 			//TODO: boolean for faculaty (jsp have a check box or drop down select)
 	 
 			//check that none are empty
@@ -75,29 +84,43 @@ public class SignUpServlet extends HttpServlet {
 			
 			if (!schoolID.startsWith("90") || schoolID.length() != 9) {
 				errorMessage = errorMessage + "Invalid School ID #\n";
-			}
-			//data cleared all initial checks if errorMessage is still null
-			if (errorMessage == null) {
-				//TODO: send data to controller to verify SignUp
-			}
-			
-			
-			
-			
+			}			
 		}catch (Exception e) {
 			errorMessage = errorMessage + "\nResolve all errors before continuing\n";
 		}
 		
 		
+		boolean valid = true;
+		//data cleared all initial checks if errorMessage is still null
+		if (errorMessage == null) {
+			//TODO: send data to controller to create Account and verify signUp
+			
+			/*
+			//HARD CODE EXAMPLE SECTION BEGINS
+			model.setFirstname(firstname);
+			model.setLastname(lastname);
+			model.setEmail(email);
+			model.setSchoolID(schoolID);
+			model.setPassword(password);
+			model.setFacualty(faculty);
+			valid = model.validAccount();
+			//END HARDCODE SECTION
+			*/
+		}
 		
-		//TODO:
-		//set "model" in jsp to reference desired model class from above
+		if (valid == true) {
+			//if account was made
+			//redirect to login page
+			req.getRequestDispatcher("/view/signIn.jsp").forward(req, resp);
+		}
+		else {
+		
+		//TODO:set "model" in jsp to reference desired model class from above
 		//req.setAttribute("model", model);
-		
 		//set the errorMessage text to the response
 		req.setAttribute("errorMessage", errorMessage);
-		
 		//forward to view to render the result in jsp
 		req.getRequestDispatcher("/view/signUp.jsp").forward(req, resp);
+		}
 	}
 }
