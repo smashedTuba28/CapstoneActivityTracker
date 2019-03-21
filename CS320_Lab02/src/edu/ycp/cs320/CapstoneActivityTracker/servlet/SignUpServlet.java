@@ -111,7 +111,7 @@ public class SignUpServlet extends HttpServlet {
 		if (valid == true) {
 			//if account was made
 			//redirect to login page
-			req.getRequestDispatcher("/view/signIn.jsp").forward(req, resp);
+			req.getRequestDispatcher("/_view/signIn.jsp").forward(req, resp);
 		}
 		else {
 		
@@ -120,7 +120,7 @@ public class SignUpServlet extends HttpServlet {
 		//set the errorMessage text to the response
 		req.setAttribute("errorMessage", errorMessage);
 		//forward to view to render the result in jsp
-		req.getRequestDispatcher("/view/signUp.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/signUp.jsp").forward(req, resp);
 		}
 	}
 }

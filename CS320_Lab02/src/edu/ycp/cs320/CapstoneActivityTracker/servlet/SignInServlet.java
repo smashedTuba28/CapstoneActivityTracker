@@ -54,6 +54,7 @@ public class SignInServlet extends HttpServlet {
 		boolean valid = false;
 		String email = null;
 		String password = null;
+		String hardCodeState = null;
 		
 		//decode POSTed from parameters and dispatch to controller
 		try {
@@ -79,16 +80,20 @@ public class SignInServlet extends HttpServlet {
 			//BEGIN HARDCODE SECTION	
 			if (email.equals("jsteinberg@ycp.edu")) {
 				model = new Account(1);
+				hardCodeState = "1";
 			}
 			
 			else if (email.equals("twetzel1@ycp.edu")) {
 				model = new Account(2);
+				hardCodeState = "2";
 			}
 			else if (email.equals("wtylor1@ycp.edu")) {
 				model = new Account(3);
+				hardCodeState = "3";
 			}
 			else if (email.equals("jdoe@ycp.edu")) {
 				model = new Account(4);
+				hardCodeState = "4";
 			}
 			else {
 				model = new Account();
@@ -106,16 +111,17 @@ public class SignInServlet extends HttpServlet {
 		//determine if credentials were successful
 		if (valid == true) {
 			//get student view if successful login
-			req.getRequestDispatcher("/view/studentView.jsp");
+			req.getRequestDispatcher("/_view/studentView.jsp");
 			//credit for session idea at top
-			req.getSession().setAttribute("userID", email);
+			//TODO: update away from hardcoded
+			req.getSession().setAttribute("userID", hardCodeState);
 		}
 		else {
 			//report error
 			//set the errorMessage text to the response
 			req.setAttribute("errorMessage", errorMessage);
 			//Forward to view to render the result in jsp
-			req.getRequestDispatcher("/view/signIn.jsp").forward(req,  resp);
+			req.getRequestDispatcher("/_view/signIn.jsp").forward(req,  resp);
 		}
 	}
 }

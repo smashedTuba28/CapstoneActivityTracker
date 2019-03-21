@@ -79,6 +79,6 @@ public class ForgotPasswordServlet  extends HttpServlet {
 		req.setAttribute("updateMessage", updateMessage);
 		
 		//Forward to view to render the result in jsp
-		req.getRequestDispatcher("_view/forgotPassword.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/forgotPassword.jsp").forward(req, resp);
 	}
 }
