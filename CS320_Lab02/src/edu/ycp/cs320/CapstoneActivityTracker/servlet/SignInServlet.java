@@ -25,6 +25,10 @@ public class SignInServlet extends HttpServlet {
 		System.out.println("SignIn Servlet: doGet");
 		//call the jsp and generate empty form
 		req.getRequestDispatcher("/_view/signIn.jsp").forward(req, resp);
+		
+		//Got idea for using sessions from Joseph Landau and Edward Nardo
+		//used tutorialspoint for understanding
+		//https://www.tutorialspoint.com/servlets/servlets-session-tracking.htm		
 	}
 	
 	
@@ -48,11 +52,13 @@ public class SignInServlet extends HttpServlet {
 		//assign model reference to controller
 		//Account model = null;
 		boolean valid = false;
+		String email = null;
+		String password = null;
 		
 		//decode POSTed from parameters and dispatch to controller
 		try {
-			String email = req.getParameter("email");//input from jsp under field labeled email
-			String password = req.getParameter("password"); //input from jsp under field labeled password
+			email = req.getParameter("email");//input from jsp under field labeled email
+			password = req.getParameter("password"); //input from jsp under field labeled password
 			
 			//check if either is empty
 			if (email == null || password == null) {//either empty
@@ -101,6 +107,8 @@ public class SignInServlet extends HttpServlet {
 		if (valid == true) {
 			//get student view if successful login
 			req.getRequestDispatcher("/view/studentView.jsp");
+			//credit for session idea at top
+			req.getSession().setAttribute("userID", email);
 		}
 		else {
 			//report error
