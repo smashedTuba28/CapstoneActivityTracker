@@ -4,26 +4,46 @@ import java.util.Date;
 
 public class Room {
 	int number;
-	String roomname;
+	String name;
 	Date open, close;
 	
+	public Room() {
+	}
+	
 	public Room(String roomname){
-		this.roomname = roomname;
+		this.name = roomname;
 	}
 	
-	public String getRoomname() {
-		return roomname;
+	public String getRoomName() {
+		return name;
 	}
 	
-	public void setRoomname(String roomname) {
-		this.roomname = roomname;
+	public void setRoomName(String roomname) {
+		this.name = roomname;
 	}
 	
-	public int getRoomnumber() {
+	public int getRoomNumber() {
 		return number;
 	}
 	
-	public void setRoomnumber(int number) {
+	public void setRoomNumber(int number) {
 		this.number = number;
+	}	
+	
+	public void setOpenTime(Date open) {
+		this.open = open;
 	}
+	
+	public Date getOpenTime() {
+		return open;
+	}
+	
+	public void setCloseTime(Date close) {
+		this.close = close;
+	}
+	
+	public Date getCloseTime() {
+		return close;
+	}
+	
 }
