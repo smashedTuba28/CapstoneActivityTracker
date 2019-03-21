@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+//TODO:
+//import model
+//import controller
+import edu.ycp.cs320.CapstoneActivityTracker.model.*;
+
 
 public class SignInServlet extends HttpServlet {
 	
@@ -41,12 +46,14 @@ public class SignInServlet extends HttpServlet {
 		
 		//TODO:
 		//assign model reference to controller
+		Account model = null;
+		boolean valid = null;
 		
 		//decode POSTed from parameters and dispatch to controller
 		try {
 			String email = req.getParameter("email");//input from jsp under field labeled email
 			String password = req.getParameter("password"); //input from jsp under field labeled password
-	
+			
 			//check if either is empty
 			if (email == null || password == null) {//either empty
 				errorMessage = "Please Enter Both your YCP Email and Password";
@@ -61,20 +68,45 @@ public class SignInServlet extends HttpServlet {
 				errorMessage = "Password Invalid: must contain at least 8 characters";
 			}
 			//data clears initial check
+			
+		
+			//next portion is for hardcoded values for milestone1	
+			if (email.equals("jsteinberg@ycp.edu")) {
+				model = new Account(1);
+			}
+			
+			else if (email.equals("twetzel1@ycp.edu")) {
+				model = new Account(2);
+			}
+			else if (email.equals("wtylor1@ycp.edu")) {
+				model = new Account(3);
+			}
+			else if (email.equals("jdoe@ycp.edu")) {
+				model = new Account(4);
+			}
+			else {
+				model = new Account();
+			}
+			//end hardcode section
+			
 			//TODO: send data to controller to verify log in
-			//model should have a boolean attribute called loggedIn
+			valid = model.verifyAccount(email, password);
+	
 		} catch (Exception e){
 			errorMessage = "Log In Failed: Recheck Email and Password and try again";
 		}
 		
-		//TODO:
-		//set "model" in jsp to reference desired model class from above
-		//req.setAttribute("model", model);
-		
-		//set the errorMessage text to the response
-		req.setAttribute("errorMessage", errorMessage);
-		
-		//Forward to view to render the result in jsp
-		req.getRequestDispatcher("/view/signIn.jsp").forward(req,  resp);
+		//determine if credentials were successful
+		if (valid == true) {
+			//send to student view if successful login
+			resp.sendRedirect(req.getContextPath() + "/StudentView");
+		}
+		else {
+			//report error
+			//set the errorMessage text to the response
+			req.setAttribute("errorMessage", errorMessage);
+			//Forward to view to render the result in jsp
+			req.getRequestDispatcher("/view/signIn.jsp").forward(req,  resp);
+		}
 	}
 }

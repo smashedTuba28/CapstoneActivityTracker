@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+import edu.ycp.cs320.CapstoneActivityTracker.model.*;
+
 public class SignUpServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
@@ -40,6 +42,7 @@ public class SignUpServlet extends HttpServlet {
 		
 		//TODO:
 		//assign model to controller
+		//Account model = new Account;
 		
 		//decode POSted from parameter and dispatch to controller
 		try {
@@ -47,9 +50,11 @@ public class SignUpServlet extends HttpServlet {
 			String lastname = req.getParameter("lastname");
 			String email = req.getParameter("email");
 			String password = req.getParameter("password");
+			String passConfirm = req.getParameter("passConfrim");
 			String schoolID = req.getParameter("schoolID");
-			
-			//check that 
+			//TODO: boolean for faculaty (jsp have a check box or drop down select)
+	 
+			//check that none are empty
 			if (firstname == null || lastname == null || email == null 
 					|| password == null || schoolID == null) {
 				
@@ -63,24 +68,21 @@ public class SignUpServlet extends HttpServlet {
 			if (password.length() < 8) {
 				errorMessage = errorMessage + "Password must contain at least 8 characters\n";
 			}
-			
-			/*TODO: make sure no illegal characters in password
-			if (password.contains()) {
-				errorMessage = errorMessage + "Invalid Password: Cannot Contain these Characters\n:
-									+ "\t: \n";
+		
+			if (!password.equals(passConfirm)) {
+				errorMessage = errorMessage + "Passwords Don't Match. Recheck password and confimation password\n";
 			} 
-			*/
 			
-			/*TODO: make sure schoolID has correct basic formating
-			if (!schoolID.startsWith(prefix) || schoolID.length() != length) {
+			if (!schoolID.startsWith("90") || schoolID.length() != 9) {
 				errorMessage = errorMessage + "Invalid School ID #\n";
 			}
-			*/
-			
 			//data cleared all initial checks if errorMessage is still null
 			if (errorMessage == null) {
 				//TODO: send data to controller to verify SignUp
 			}
+			
+			
+			
 			
 		}catch (Exception e) {
 			errorMessage = errorMessage + "\nResolve all errors before continuing\n";
