@@ -4,39 +4,66 @@
 
 <html>
 	<head>
-		<title>Add Numbers</title>
-		<style type="text/css">
-		.error {
-			color: red;
-		}
-		
-		td.label {
-			text-align: right;
-		}
-		</style>
+		<title>Log In to the Capstone Tracker</title>
 	</head>
 
 	<body>
-		<c:if test="${! empty errorMessage}">
-			<div class="error">${errorMessage}</div>
-		</c:if>
 	
-		<form action="${pageContext.servletContext.contextPath}/addNumbers" method="post">
-			<table>
-				<tr>
-					<td class="label">First number:</td>
-					<td><input type="text" name="first" size="12" value="${first}" /></td>
-				</tr>
-				<tr>
-					<td class="label">Second number:</td>
-					<td><input type="text" name="second" size="12" value="${second}" /></td>
-				</tr>
-				<tr>
-					<td class="label">Result:</td>
-					<td>${result}</td>
-				</tr>
-			</table>
-			<input type="Submit" name="submit" value="Add Numbers!">
+	<!---enter user credentials--->
+		<form action="${pageContext.servletContext.contextPath}/signUp" method="post">
+			<c:if test="${empty model}">
+				<table>
+					<tr>
+						<td class="Label">Please complete to create your account.</td>
+					</tr>
+					<tr>
+						<td class = "Label">First Name:</td>
+						<td><input type ="Text" name="email" size="12" value="${firstname}">
+					</tr>
+					<tr>
+						<td class = "Label">Last Name:</td>
+						<td><input type = "Text" name="password" size="12" value="${lastname}">
+					</tr>	
+					<tr>
+						<td class = "Label">YCP Email:</td>
+						<td><input type ="Text" name="email" size="12" value="${email}">
+					</tr>
+					<tr>
+						<td class = "Label">Student ID Number:</td>
+						<td><input type = "Text" name="password" size="12" value="${studentID}">
+					</tr>	
+					<tr>
+						<td class = "Label">Password:</td>
+						<td><input type ="Password" name="email" size="12" value="${password}">
+					</tr>
+					<tr>
+						<td class = "Label">Password Confirmation:</td>
+						<td><input type = "Password" name="password" size="12" value="${passwordConfirm}">
+					</tr>				
+				</table>
+				<input type="submit" name="signUp" value="Create Account" />
+				<input type="submit" name="forgotPassword" value="Forgot Password" />
+			</c:if>
+			
+	<!---reprompt for incorrect information--->
+			<c:if test="${! empty model}">	
+				<h3>Invalid Email or Password!</h3>
+				<table>
+					<tr>
+						<td class="Label"> Please Enter Email/Password</td>
+					</tr>
+					<tr>
+						<td class = "Label">Email</td>
+						<td><input type ="Text" name="email" size="12" value="${email}">
+					</tr>
+					<tr>
+						<td class = "Label">Password</td>
+						<td><input type = "Text" name="password" size="12" value="${password}">
+					</tr>				
+				</table>
+				<input type="submit" name="signIn" value="Log In" />
+				<input type="submit" name="forgotPassword" value="Forgot Password" />
+			</c:if>
 		</form>
 	</body>
 </html>

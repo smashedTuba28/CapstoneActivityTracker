@@ -48,15 +48,15 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ForgotPasswordServlet</servlet-name>
-    <url-pattern>/signUp</url-pattern>
+    <url-pattern>/forgotPassword</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>SudentMainServlet</servlet-name>
-    <url-pattern>/signUp</url-pattern>
+    <url-pattern>/studentMain</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AdminMainServlet</servlet-name>
-    <url-pattern>/signUp</url-pattern>
+    <url-pattern>/adminMain</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>

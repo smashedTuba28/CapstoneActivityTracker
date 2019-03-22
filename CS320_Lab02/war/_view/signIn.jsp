@@ -22,7 +22,7 @@
 					</tr>
 					<tr>
 						<td class = "Label">Password</td>
-						<td><input type = "Text" name="password" size="12" value="${password}">
+						<td><input type = "Password" name="password" size="12" value="${password}">
 					</tr>				
 				</table>
 				<input type="submit" name="signIn" value="Log In" />
@@ -42,7 +42,7 @@
 					</tr>
 					<tr>
 						<td class = "Label">Password</td>
-						<td><input type = "Text" name="password" size="12" value="${password}">
+						<td><input type = "Password" name="password" size="12" value="${password}">
 					</tr>				
 				</table>
 				<input type="submit" name="signIn" value="Log In" />
