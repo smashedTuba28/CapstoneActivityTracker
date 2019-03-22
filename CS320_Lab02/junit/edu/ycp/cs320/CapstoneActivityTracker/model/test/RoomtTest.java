@@ -24,9 +24,10 @@ public class RoomtTest {
 	}
 
 	@Test
-	public void testRoomString() {
+	public void testRoomStringInt() {
 		String name = "Robotics Lab";
-		Room room = new Room(name);
+		int number = 121;
+		Room room = new Room(name, number);
 		assertTrue(room.getRoomName().equals("Robotics Lab"));
 	}
 	
