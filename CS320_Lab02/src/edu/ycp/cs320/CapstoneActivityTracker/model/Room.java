@@ -10,8 +10,9 @@ public class Room {
 	public Room() {
 	}
 	
-	public Room(String roomname){
+	public Room(String roomname, int number){
 		this.name = roomname;
+		this.number = number;
 	}
 	
 	public String getRoomName() {

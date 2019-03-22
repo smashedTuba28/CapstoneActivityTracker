@@ -1,19 +1,21 @@
 package edu.ycp.cs320.CapstoneActivityTracker.model;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import edu.ycp.cs320.CapstoneActivityTracker.model.Team;
 import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 
-public class AdminAccount {
+public class AdminAccount extends Account{
 
 	private List<Team> teams;
 	private List<Room> rooms;
 
 	public AdminAccount() {
-	
+		teams = new ArrayList<Team>();
+		rooms = new ArrayList<Room>();
 	}
 
 	public void createTeam(String teamname) {
@@ -38,14 +40,14 @@ public class AdminAccount {
 			teams.remove(team);
 		}
 	}
-
-	public void createRoom(String roomname) {
-		rooms.add(new Room(roomname));
+	
+	public void createRoom(String roomname, int number) {
+		rooms.add(new Room(roomname, number));
 	}
 
 	public Room findRoom(String roomname) {
 		for(Room room: this.rooms) {
-			if(room.getRoomname().equals(roomname)) {
+			if(room.getRoomName().equals(roomname)) {
 				return room;
 			}
 		}
@@ -71,6 +73,21 @@ public class AdminAccount {
 		else {
 			team.addRoom(room);
 		}
-		
+	}
+	
+	public void addTeam(Team team) {
+		teams.add(team);
+	}
+	
+	public List<Team> getTeams(){
+		return teams;
+	}
+	
+	public void addRoom(Room room) {
+		rooms.add(room);
+	}
+	
+	public List<Room> getRooms(){
+		return rooms;
 	}
 }
