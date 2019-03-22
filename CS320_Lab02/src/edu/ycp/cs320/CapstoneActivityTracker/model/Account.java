@@ -1,6 +1,7 @@
 package edu.ycp.cs320.CapstoneActivityTracker.model;
 
 public class Account {
+	
 	private String firstname, lastname, email, schoolID;
 	private String password; //TODO: This will be changed for encryption purposes in the future
 	private boolean faculty;
@@ -8,6 +9,16 @@ public class Account {
 	public Account() {
 		
 	}
+	
+	public Account(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.password = password;
+		this.schoolID = schoolID;
+		this.faculty = faculty;
+	}
+	
 	public Account(int var) {
 		password = "12345678";
 		if(var == 1) {
@@ -89,10 +100,6 @@ public class Account {
 	public boolean getFaculty() {
 		return faculty;
 	}
-	
-	
-	
-	
 	
 	public boolean validAccount() {//TODO: comment out once DB is implemented
 		if(this.firstname == null) {

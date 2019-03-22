@@ -14,8 +14,13 @@ public class AdminAccount extends Account{
 	private List<Room> rooms;
 
 	public AdminAccount() {
+		super();
 		teams = new ArrayList<Team>();
 		rooms = new ArrayList<Room>();
+	}
+	
+	public AdminAccount(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
+		super(firstname, lastname, email, password, schoolID, faculty);
 	}
 
 	public void createTeam(String teamname) {
@@ -90,4 +95,6 @@ public class AdminAccount extends Account{
 	public List<Room> getRooms(){
 		return rooms;
 	}
+	
+	public void addMemberToTeam()
 }
