@@ -14,6 +14,7 @@ public class StudentAccount extends Account{
 	//when account is created student is not in a room, therefore status is false
 	public StudentAccount() {
 		super();
+		events = new ArrayList<RoomEvent>();
 		status = false;
 	}
 	
@@ -21,6 +22,7 @@ public class StudentAccount extends Account{
 	//immediately initializing StudentAccount with credentials
 	public StudentAccount(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
 		super(firstname, lastname, email, password, schoolID, faculty);
+		events = new ArrayList<RoomEvent>();
 		status = false;
 	}
 	

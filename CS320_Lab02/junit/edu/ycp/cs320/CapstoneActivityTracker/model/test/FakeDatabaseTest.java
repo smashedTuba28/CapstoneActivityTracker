@@ -248,8 +248,6 @@ public class FakeDatabaseTest {
 		assertTrue(top.getTeamname().equals("Drone Team"));
 		
 	
-		
-		
 		//return null for one that doesnt exist 
 		top = fakedb.findTopTeam("Scranton Stranglers");
 		assertTrue(top==null);

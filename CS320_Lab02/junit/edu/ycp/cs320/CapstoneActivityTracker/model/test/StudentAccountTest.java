@@ -85,7 +85,6 @@ public class StudentAccountTest {
 
 	@Test
 	public void testCreateRoomEvent() {
-		
 		//no idea why this fails either
 		event = student.createRoomEvent(start);
 		assertTrue(student.getStatus());
@@ -95,7 +94,20 @@ public class StudentAccountTest {
 	}
 
 	@Test
-	public void testFindRoomEvents() {
+	public void testFindRoomEvent() {
+		//enter false values knowing they would fail
+		RoomEvent fake = student.findRoomEvent(5);
+		assertTrue(fake == null);
+		
+		//create a room event 
+		
+		
+		//check for that event
+		//fake = ....
+		
+		//!=
+		
+		//check start == start
 		
 		event = student.createRoomEvent(time1);
 		event2 = student.createRoomEvent(time2);
@@ -119,7 +131,7 @@ public class StudentAccountTest {
 	}
 
 	@Test
-	public void testFindRoomEvent() {
+	public void testFindRoomEvents() {
 		fail("Not yet implemented");
 	}
 
