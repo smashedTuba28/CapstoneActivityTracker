@@ -7,16 +7,18 @@ import java.util.NoSuchElementException;
 import edu.ycp.cs320.CapstoneActivityTracker.model.*;
 
 public class FakeDatabase {
-	List<AdminAccount> adminList;
-	List<StudentAccount> studentList;
-	List<TopTeam> topTeamList;
-	List<Room> roomList;
-	List<Account> accountList;
+	private List<AdminAccount> adminList;
+	private List<StudentAccount> studentList;
+	private List<TopTeam> topTeamList;
+	private List<Room> roomList;
+	private List<Account> accountList;
 	//List<SubTeam> subTeamList;
 	//List<RoomEvent> roomEventList;
 	
-
 	public FakeDatabase() {
+	}
+
+	public void init() {
 		//initialize hard coded models
 		accountList = new ArrayList<Account>();
 		adminList = new ArrayList<AdminAccount>();
@@ -27,8 +29,8 @@ public class FakeDatabase {
 		//roomEventList = new ArrayList<RoomEvent>();		
 		
 		//create fake data for hard coded examples
-		adminList.add(new AdminAccount("John", "Doe", "Jdoe@ycp.edu", "password" , "900000000", true ));
-		studentList.add(new StudentAccount("Jason", "Steinberg", "jsteinerg@ycp.edu", "password", "900000001", false));
+		adminList.add(new AdminAccount("John", "Doe", "jdoe@ycp.edu", "password" , "900000000", true ));
+		studentList.add(new StudentAccount("Jason", "Steinberg", "jsteinberg@ycp.edu", "password", "900000001", false));
 		studentList.add(new StudentAccount("Travis", "Wetzel", "twetzel1@ycp.edu", "password", "900000002", false));
 		studentList.add(new StudentAccount("William", "Taylor", "wtaylor1@ycp.edu", "password", "900000003", false));
 		studentList.add(new StudentAccount("Robert", "California", "lizardking@ycp.edu", "password", "900000004", false));
@@ -55,7 +57,7 @@ public class FakeDatabase {
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(0), "Controls");
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(1), "Controls");
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(2), "Aircraft Design");
-		topTeamList.get(0).addMemberToSubTeam(studentList.get(4), "AirCraftDesign");
+		topTeamList.get(0).addMemberToSubTeam(studentList.get(3), "AirCraftDesign");
 	}
 	
 	//verifies an account exists with given credentials 
@@ -208,6 +210,30 @@ public class FakeDatabase {
 			roomList.remove(room);
 		}
 	}
+	
+	public List<Account> getAllAccounts(){
+		return accountList;
+	}
+	
+	public List<AdminAccount> getAllAdminAccounts(){
+		return adminList;
+	}
+	
+	public List<StudentAccount> getAllStudentAccounts(){
+		return studentList;
+	}
+	
+	public List<TopTeam> getAllTeams(){
+		return topTeamList;
+	}
+	
+	public List<Room> getAllRooms(){
+		return roomList;
+	}
+	
+	
+	
+	
 	
 	
 	
