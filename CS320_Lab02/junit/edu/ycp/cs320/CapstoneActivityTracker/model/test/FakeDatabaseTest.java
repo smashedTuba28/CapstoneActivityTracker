@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +26,7 @@ public class FakeDatabaseTest {
 	private List<SubTeam> testSubTeamList;
 	
 	private FakeDatabase fakedb;
+	
 	
 	
 	@Before
@@ -128,7 +130,7 @@ public class FakeDatabaseTest {
 	public void testGetAllTeam() {
 		assertTrue(testTopTeamList.isEmpty());
 		
-		testTopTeamList = fakedb.getAllTeams();
+		testTopTeamList = fakedb.getAllTopTeams();
 		assertFalse(testTopTeamList.isEmpty());
 	
 		assertTrue(testTopTeamList.get(0).getTeamname().equals("Drone Team"));
@@ -222,20 +224,50 @@ public class FakeDatabaseTest {
 		assertEquals(7, testAccountList.size());//previous value + 1
 		//account should now return true for valid
 		assertTrue(fakedb.verifyAccount("jhalpert@ycp.edu", "iheartbeesly"));
+
 	}
 	
+
 	@Test
 	public void testCreateTopTeam() {
-		testTopTeamList = fakedb.getAllTeams();
-		assertEquals(1, testTopTeamList.size()); //only one top team from init
-		fail("Not yet implemented");
+		testTopTeamList = fakedb.getAllTopTeams();
+		assertEquals(2, testTopTeamList.size()); //only two top teams from init
+		assertTrue(fakedb.findTopTeam("Kevin and The Zits") == null);
 		
+		fakedb.createTopTeam("Kevin and The Zits");
+		testTopTeamList = fakedb.getAllTopTeams();
+		TopTeam top = fakedb.findTopTeam("Kevin and The Zits");
+		
+		assertEquals(3, testTopTeamList.size());
+		assertTrue(top.getTeamname().equals("Kevin and The Zits"));
 		
 	}
 
 	@Test
 	public void testCreateSubTeam() {
-		fail("Not yet implemented");
+		testTopTeamList = fakedb.getAllTopTeams();
+		assertEquals(2, testTopTeamList.size());
+		assertEquals(3, testTopTeamList.get(1).getSubTeams().size());
+		
+		//make sure sub team doesnt already exist
+		SubTeam sub = fakedb.findSubTeam("Kevin and The Zits");
+		assertTrue(sub == null);
+		
+		//using existing Top Team
+		fakedb.createSubTeam("The Office", "Kevin and The Zits");
+		sub = fakedb.findSubTeam("Kevin and The Zits");
+		assertTrue(sub != null);
+		assertTrue(sub.getTeamname().equals("Kevin and The Zits"));
+		TopTeam top = fakedb.findTopTeamOfSubTeam("Kevin and The Zits");
+		assertTrue(top != null);
+		assertTrue(top.getTeamname().equals("The Office"));
+		
+		//top team doesn't exist should throw exception
+		try {
+			fakedb.createSubTeam("NOT A REAL TEAM", "Kevin and The Zits");
+			fail("Sould have thrown an exception");
+		}catch(NoSuchElementException e) {
+		}
 	}
 
 	
@@ -251,7 +283,10 @@ public class FakeDatabaseTest {
 		//return null for one that doesnt exist 
 		top = fakedb.findTopTeam("Scranton Stranglers");
 		assertTrue(top==null);
+<<<<<<< Upstream, based on origin/twetzel1_V1
 	
+=======
+>>>>>>> 03bf2cd FakeDB Test updates
 	}
 	
 	@Test
@@ -260,9 +295,6 @@ public class FakeDatabaseTest {
 		SubTeam sub = (fakedb.findSubTeam("Controls"));
 		assertTrue(sub != null);
 		assertTrue(sub.getTeamname().equals("Controls"));
-		
-		
-		
 		
 		//should return null if sub team doesnt exist
 		sub = fakedb.findSubTeam("Party Planning Comittee");
@@ -285,24 +317,60 @@ public class FakeDatabaseTest {
 	@Test
 	public void testRemoveTopTeam() {
 		//confirm that team exists with sub classes
-		
-		testTopTeamList = fakedb.getAllTeams();
-		assertEquals(1, testTopTeamList.size());
-		
-		
-		
+		testTopTeamList = fakedb.getAllTopTeams();
+		assertEquals(2, testTopTeamList.size());
+		assertEquals(3, testTopTeamList.get(1).getSubTeams().size());
+		assertTrue(fakedb.findTopTeam("The Office") != null);
+		assertTrue(fakedb.findSubTeam("Party Planning Committee") != null);
+		assertTrue(fakedb.findSubTeam("Finer Things Club") != null);
+		assertTrue(fakedb.findSubTeam("Scott's Tots") != null);
+		//delete topTeam "The Office"
+		fakedb.removeTopTeam("The Office");
+		//check that top team and sub teams are gone
+		assertTrue(fakedb.findTopTeam("The Office") == null);
+		assertTrue(fakedb.findSubTeam("Party Planning Committee") == null);
+		assertTrue(fakedb.findSubTeam("Finer Things Club") == null);
+		assertTrue(fakedb.findSubTeam("Scott's Tots") == null);
 	}
 	
 	@Test
 	public void testRemoveSubTeam() {
-		fail("Not yet implemented");
+		//confrim that top team exists and sub classes
+		testTopTeamList = fakedb.getAllTopTeams();
+		assertEquals(2, testTopTeamList.size());
+		assertEquals(3, testTopTeamList.get(1).getSubTeams().size());
+		assertTrue(fakedb.findTopTeam("The Office") != null);
+		assertTrue(fakedb.findSubTeam("Party Planning Committee") != null);
+		assertTrue(fakedb.findSubTeam("Finer Things Club") != null);
+		assertTrue(fakedb.findSubTeam("Scott's Tots") != null);
+		
+		//delete subTeam Scott's Tots
+		fakedb.removeSubTeam("Scott's Tots");
+		//check that sub team is gone but top team still exists
+		testTopTeamList = fakedb.getAllTopTeams();
+		assertEquals(2, testTopTeamList.size());//size should stay the same
+		assertEquals(2, testTopTeamList.get(1).getSubTeams().size());//size should be 1 less
+		assertTrue(fakedb.findTopTeam("The Office") != null);
+		assertTrue(fakedb.findSubTeam("Party Planning Committee") != null);
+		assertTrue(fakedb.findSubTeam("Finer Things Club") != null);
+		assertTrue(fakedb.findSubTeam("Scott's Tots") == null);//this should be null if removal success
+		
+		//should throw exception is TopTeam doesnt exist
+		try {
+			fakedb.removeSubTeam("Not A Real SubTeam");
+			fail("Should Have Caught Exception");
+		}catch(NoSuchElementException e) {
+		}
 	}
 	
-	
-
 	@Test
 	public void testAssignTeamRoom() {
-		fail("Not yet implemented");
+		
+		
+		
+		
+		
+		
 	}
 
 	@Test
@@ -324,5 +392,4 @@ public class FakeDatabaseTest {
 	public void testRemoveRoom() {
 		fail("Not yet implemented");
 	}
-
 }

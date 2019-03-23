@@ -63,6 +63,8 @@ public class FakeDatabase {
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(1), "Controls");
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(2), "Aircraft Design");
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(3), "AirCraft Design");
+		
+		
 	}
 	
 	//verifies an account exists with given credentials 
@@ -260,7 +262,7 @@ public class FakeDatabase {
 		return studentList;
 	}
 	
-	public List<TopTeam> getAllTeams(){
+	public List<TopTeam> getAllTopTeams(){
 		return topTeamList;
 	}
 	
