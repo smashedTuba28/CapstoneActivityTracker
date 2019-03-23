@@ -123,8 +123,8 @@ public class AdminAccount extends Account{
 	}
 	
 	//adding a member to a team passed through along with the student's ID
-	public void addMemberToTeam(String studentID, Team team) {
-		team.addMember(studentID);
+	public void addMemberToTeam(StudentAccount student, Team team) {
+		team.addMember(student);
 	}
 
 	

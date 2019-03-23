@@ -8,7 +8,7 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 
 public class Team {
 	
-	List<String> studentIDs;
+	List<StudentAccount> students;
 	List<Room> rooms;
 	
 	String teamname;
@@ -16,14 +16,14 @@ public class Team {
 	//initialization
 	public Team() {
 		rooms = new ArrayList<Room>();
-		studentIDs = new ArrayList<String>();
+		students = new ArrayList<StudentAccount>();
 	}
 	
 	//if a team name is input then it is set immediately
 	public Team(String teamname){
 		this.teamname = teamname;
 		rooms = new ArrayList<Room>();
-		studentIDs = new ArrayList<String>();
+		students = new ArrayList<StudentAccount>();
 	}
 	
 	public String getTeamname() {
@@ -65,9 +65,10 @@ public class Team {
 	}
 	
 	//adding a member to the team
-	public void addMember(String member) {
-		studentIDs.add(member);
+	public void addMember(StudentAccount member) {
+		students.add(member);
 	}
+		
 	/*
 	public void removeMember(String member) {
 		
