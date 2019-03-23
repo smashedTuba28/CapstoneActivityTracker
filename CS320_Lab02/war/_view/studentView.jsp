@@ -8,7 +8,7 @@
 	<head>
 		<title>Welcome to the YCP Capstone Activity Tracker</title>
 		
-		<!--- chart script from developers.google.com --->
+		<!-- chart script from developers.google.com -->
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
  			google.charts.load('current', {'packages': ['bar']});
@@ -42,6 +42,33 @@
 
 	<body>
 		<div id="columnchart_material" style="width: 800px; height: 500px"></div>
-		<div><script>document.write("I hate Javascript");</script></div>
+		<!-- field to enter a lognote -->
+		<tr>
+			<td><input type ="hidden" name="newNote" value="${newNote}">
+ 		</tr>
+ 		<input type="Submit" name="submit" value="Creat Lognote">			
+
+	<!-- Hidden fields to be used for chart creation -->
+	<!-- Duration in each day of the week -->
+		<tr>
+			<td><input type ="hidden" name="dur0" size="12" value="${week.dur0}">
+			<td><input type ="hidden" name="dur1" size="12" value="${week.dur1}">
+			<td><input type ="hidden" name="dur2" size="12" value="${week.dur2}">
+			<td><input type ="hidden" name="dur3" size="12" value="${week.dur3}">
+			<td><input type ="hidden" name="dur4" size="12" value="${week.dur4}">
+			<td><input type ="hidden" name="dur5" size="12" value="${week.dur5}">
+			<td><input type ="hidden" name="dur6" size="12" value="${week.dur6}">
+		</tr>
+	<!-- lognotes for each day -->
+		<tr>
+			<td><input type ="hidden" name="log0" size="12" value="${logs.0}">
+			<td><input type ="hidden" name="log1" size="12" value="${logs.1}">
+			<td><input type ="hidden" name="log2" size="12" value="${logs.2}">
+			<td><input type ="hidden" name="log3" size="12" value="${logs.3}">
+			<td><input type ="hidden" name="log4" size="12" value="${logs.4}">
+			<td><input type ="hidden" name="log5" size="12" value="${logs.5}">
+			<td><input type ="hidden" name="log6" size="12" value="${logs.6}">
+		</tr>
+
 	</body>
 </html>
