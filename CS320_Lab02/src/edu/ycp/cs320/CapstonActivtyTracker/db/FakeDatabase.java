@@ -48,10 +48,15 @@ public class FakeDatabase {
 		
 		//create team
 		topTeamList.add(new TopTeam("Drone Team"));
+		topTeamList.add(new TopTeam("The Office"));
 		
 		//create subTeams 
 		topTeamList.get(0).addSubTeam(new SubTeam("Controls"));
 		topTeamList.get(0).addSubTeam(new SubTeam("Aircraft Design"));
+		topTeamList.get(1).addSubTeam(new SubTeam("Party Planning Committee"));
+		topTeamList.get(1).addSubTeam(new SubTeam("Finer Things Club"));
+		topTeamList.get(1).addSubTeam(new SubTeam("Scott's Tots"));
+		
 		
 		//populate existing subTeams
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(0), "Controls");

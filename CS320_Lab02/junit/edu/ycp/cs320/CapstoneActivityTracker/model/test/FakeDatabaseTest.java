@@ -132,12 +132,17 @@ public class FakeDatabaseTest {
 		assertFalse(testTopTeamList.isEmpty());
 	
 		assertTrue(testTopTeamList.get(0).getTeamname().equals("Drone Team"));
+		assertTrue(testTopTeamList.get(1).getTeamname().equals("The Office"));
 		
 		testSubTeamList = testTopTeamList.get(0).getSubTeams();
-		
 		assertTrue(testSubTeamList.get(0).getTeamname().equals("Controls"));
 		assertTrue(testSubTeamList.get(1).getTeamname().equals("Aircraft Design"));
 
+		testSubTeamList = testTopTeamList.get(1).getSubTeams();
+		assertTrue(testSubTeamList.get(0).getTeamname().equals("Party Planning Committee"));
+		assertTrue(testSubTeamList.get(1).getTeamname().equals("Finer Things Club"));
+		assertTrue(testSubTeamList.get(2).getTeamname().equals("Scott's Tots"));
+		
 	}
 	
 	@Test
@@ -242,8 +247,11 @@ public class FakeDatabaseTest {
 		assertTrue(top!=null);
 		assertTrue(top.getTeamname().equals("Drone Team"));
 		
+	
+		
+		
 		//return null for one that doesnt exist 
-		top = fakedb.findTopTeam("Scott's Tots");
+		top = fakedb.findTopTeam("Scranton Stranglers");
 		assertTrue(top==null);
 		
 	}
@@ -254,6 +262,9 @@ public class FakeDatabaseTest {
 		SubTeam sub = (fakedb.findSubTeam("Controls"));
 		assertTrue(sub != null);
 		assertTrue(sub.getTeamname().equals("Controls"));
+		
+		
+		
 		
 		//should return null if sub team doesnt exist
 		sub = fakedb.findSubTeam("Party Planning Comittee");
@@ -273,13 +284,23 @@ public class FakeDatabaseTest {
 	}
 
 	
-	
-	
+	@Test
+	public void testRemoveTopTeam() {
+		//confirm that team exists with sub classes
+		
+		testTopTeamList = fakedb.getAllTeams();
+		assertEquals(1, testTopTeamList.size());
+		
+		
+		
+	}
 	
 	@Test
-	public void testRemoveTeam() {
+	public void testRemoveSubTeam() {
 		fail("Not yet implemented");
 	}
+	
+	
 
 	@Test
 	public void testAssignTeamRoom() {
