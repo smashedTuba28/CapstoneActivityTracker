@@ -10,7 +10,7 @@ public class StudentAccount extends Account{
 	//status refers to whether the student is currently in the room
 	private boolean status;	
 	private List<RoomEvent> events;
-	
+	private RoomEvent event;
 	//when account is created student is not in a room, therefore status is false
 	public StudentAccount() {
 		super();
@@ -36,7 +36,7 @@ public class StudentAccount extends Account{
 	
 	//creating new RoomEvent and returning the value, once the RoomEvent is created the student is now in the room
 	public RoomEvent createRoomEvent(LocalDateTime start) {
-		 RoomEvent event = new RoomEvent(start);
+		 event = new RoomEvent(start);
 		 //incrementing the number set for the room number
 		 event.setNumber(events.size()+1);
 		 status = true;

@@ -87,7 +87,7 @@ public class StudentAccountTest {
 	public void testCreateRoomEvent() {
 		
 		//no idea why this fails either
-		events.add(student.createRoomEvent(start));
+		event = student.createRoomEvent(start);
 		assertTrue(student.getStatus());
 		assertEquals(event.getStartTime(), start);
 		assertEquals(event.getNumber(), 1);
@@ -110,6 +110,7 @@ public class StudentAccountTest {
 		/*should fail due to asserting a room = a room in the list w/ same start time
 		assertTrue(student.findRoomEvent(2).equals(event2));
 		
+		fails either way due to asserting a room is equals to a different room with a different start time
 		assertFalse(student.findRoomEvent(1).equals(event2));
 		assertFalse(student.findRoomEvent(3).equals(event));
 		assertFalse(student.findRoomEvent(3).equals(event2));
