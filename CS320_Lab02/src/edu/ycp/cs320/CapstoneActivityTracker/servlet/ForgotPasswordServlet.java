@@ -72,6 +72,7 @@ public class ForgotPasswordServlet  extends HttpServlet {
 		//req.setAttribute("model", model);
 		
 		
+		
 		//set the errorMessage text to the response
 		req.setAttribute("errorMessage", errorMessage);
 		//set updateMessage text to the response
