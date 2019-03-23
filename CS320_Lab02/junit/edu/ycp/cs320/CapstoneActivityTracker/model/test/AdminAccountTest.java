@@ -11,13 +11,13 @@ import org.junit.Test;
 import edu.ycp.cs320.CapstoneActivityTracker.model.*;
 
 public class AdminAccountTest {
-	AdminAccount admin;
+	AdminAccount admin, testAdmin;
 	List<Team> teams;
 	List<Room> rooms;
 	Team ppc, ss, tein, tots;
 	Team tester;
 	Room conference, office, broom;
-	Room test;
+	Room testRoom;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -39,7 +39,7 @@ public class AdminAccountTest {
 		
 		
 	}
-
+	
 	@Test
 	public void testCreateTeam() {
 		String teamname = "Finer Things Club";
@@ -97,8 +97,8 @@ public class AdminAccountTest {
 		int number = 120;
 		admin.createRoom(roomname, number);
 		
-		test = admin.findRoom("Annex");
-		assertTrue(test.getRoomName().equals("Annex"));
+		testRoom = admin.findRoom("Annex");
+		assertTrue(testRoom.getRoomName().equals("Annex"));
 	}
 	
 	@Test
@@ -120,11 +120,11 @@ public class AdminAccountTest {
 		
 		admin.addRoom(conference);
 		
-		test = admin.findRoom(conference.getRoomName());
+		testRoom = admin.findRoom(conference.getRoomName());
 		
-		assertTrue(test != null);
-		assertTrue(test.getRoomName().equals(conference.getRoomName()));
-		assertEquals(conference.getRoomNumber(), test.getRoomNumber());
+		assertTrue(testRoom != null);
+		assertTrue(testRoom.getRoomName().equals(conference.getRoomName()));
+		assertEquals(conference.getRoomNumber(), testRoom.getRoomNumber());
 	}
 
 	@Test
@@ -136,12 +136,12 @@ public class AdminAccountTest {
 		rooms = admin.getRooms();
 		assertEquals(3,rooms.size());
 		
-		test = admin.findRoom(office.getRoomName());
-		assertTrue(test != null);
+		testRoom = admin.findRoom(office.getRoomName());
+		assertTrue(testRoom != null);
 		
 		admin.removeRoom(broom.getRoomName());
-		test = admin.findRoom(broom.getRoomName());
-		assertTrue(test == null);
+		testRoom = admin.findRoom(broom.getRoomName());
+		assertTrue(testRoom == null);
 		
 		rooms = admin.getRooms();
 		assertEquals(2, rooms.size());

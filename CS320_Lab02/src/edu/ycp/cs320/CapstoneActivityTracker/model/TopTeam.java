@@ -18,7 +18,7 @@ public class TopTeam extends Team{
 		subTeams = new ArrayList<SubTeam>();
 	}
 	
-	public List<SubTeam> getTeams() {
+	public List<SubTeam> getSubTeams() {
 		return subTeams;
 	}
 	

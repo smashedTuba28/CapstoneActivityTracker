@@ -2,6 +2,7 @@ package edu.ycp.cs320.CapstonActivtyTracker.db;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import edu.ycp.cs320.CapstoneActivityTracker.model.*;
 
@@ -57,7 +58,7 @@ public class FakeDatabase {
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(4), "AirCraftDesign");
 	}
 	
-	
+	//verifies an account exists with given credentials 
 	public boolean verifyAccount(String email, String password) {
 		for(Account a : accountList) {
 			if (a.getEmail().equals(email) && a.getPassword().equals(password)) {
@@ -67,6 +68,7 @@ public class FakeDatabase {
 		return false;
 	}
 	
+	//creates a new faculty or student account accordingly
 	public void createAccount(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
 		if (faculty) {
 			AdminAccount admin = new AdminAccount(firstname, lastname, email, password, schoolID, faculty);
@@ -80,9 +82,74 @@ public class FakeDatabase {
 		}
 	}
 	
+	//creates a new Top Team
+	public void createTopTeam(String teamname) {
+		topTeamList.add(new TopTeam(teamname));
+	}
+	
+	//looks through both subteams and topteams
+	//returns whichever is needed
+	public Team findTeam(String teamname) {
+		//iterates through top team
+		for(TopTeam team: topTeamList) {
+			if(team.getTeamname().equals(teamname)) {
+				//if top teams name matches inputname return
+				return team;
+			}
+			//for each top team check all sub teams
+			for (SubTeam sub: topTeamList.get(topTeamList.indexOf(team)).getSubTeams()){
+				if(sub.getTeamname().equals(teamname)) {
+					//if sub team name matches input name then return
+					return sub;
+				}
+			}
+		}
+		//team doesn't exist
+		return null;
+	}
 	
 	
+	public void removeTeam(String teamname){
+		Team team = findTeam(teamname);
+		if(team == null) {
+			 throw new NoSuchElementException();
+		}
+		
+	}
+	
+/*	TODO:::::::::
+	public void assignTeamRoom(String teamname, String roomname){
+		Team team = findTeam(teamname);
+		//Room room = findRoom(roomname);
+		if(room == null || team == null || teamname == null || roomname == null) {
+			throw new NoSuchElementException();
+		}
+		else {
+			team.addRoom(roomname);
+		}
+	}
+	
+	public void removeTeamRoom(String teamname, String roomname) {
+		Team team = findTeam(teamname);
+		//Room room = findRoom(roomname);
+		//checking if any inputs return a null value
+		if(teamname == null || roomname == null || room == null || team == null) {
+			throw new NoSuchElementException();
+		}
+		else{
+			team.removeRoom(roomname);
+		}
+	}
+	*/
 	
 	
 	
 }
+
+
+
+
+
+
+
+

@@ -26,11 +26,13 @@ public class AdminAccount extends Account{
 		super(firstname, lastname, email, password, schoolID, faculty);
 	}
 
+	/* method now in db
 	//creating a team and adding to the list of teams
 	public void createTeam(String teamname) {
 		teams.add(new Team(teamname));
-	}
+	}*/
 	
+	/* method now in db
 	//finding a team within the list
 	public Team findTeam(String teamname) {
 		for(Team team: this.teams) {
@@ -40,8 +42,10 @@ public class AdminAccount extends Account{
 		}
 		return null;
 	}
-
+	 */
 	//removing a team from the list of teams
+	
+	/* moved to DB
 	public void removeTeam(String teamname){
 		Team team = findTeam(teamname);
 		if(team == null) {
@@ -51,6 +55,8 @@ public class AdminAccount extends Account{
 			teams.remove(team);
 		}
 	}
+	*/
+	
 	
 	//creating a room and adding the room to the list of rooms
 	public void createRoom(String roomname, int number) {
@@ -79,6 +85,7 @@ public class AdminAccount extends Account{
 	}
 
 	//assigning a room to a team
+	/* moved to db
 	public void assignTeamRoom(String teamname, String roomname){
 		Team team = findTeam(teamname);
 		Room room = findRoom(roomname);
@@ -89,7 +96,9 @@ public class AdminAccount extends Account{
 			team.addRoom(roomname);
 		}
 	}
+	*/
 	
+	/* moved to db
 	//removing a room by finding both team in the list of teams and room in a list of rooms
 	public void removeTeamRoom(String teamname, String roomname) {
 		Team team = findTeam(teamname);
@@ -102,6 +111,7 @@ public class AdminAccount extends Account{
 			team.removeRoom(roomname);
 		}
 	}
+	*/
 	
 	//adding team to list of teams
 	public void addTeam(Team team){
