@@ -87,6 +87,18 @@ public class FakeDatabase {
 		topTeamList.add(new TopTeam(teamname));
 	}
 	
+	
+	public void createSubTeam(String topname, String subname){
+		TopTeam top = findTopTeam(topname);
+		if (top == null) {
+			throw new NoSuchElementException();
+		}
+		else {
+			topTeamList.get(topTeamList.indexOf(top)).addSubTeam(new SubTeam(subname));
+		}
+	}
+	
+	
 	//looks through both subteams and topteams
 	//returns whichever is needed
 	public Team findTeam(String teamname) {
@@ -108,20 +120,53 @@ public class FakeDatabase {
 		return null;
 	}
 	
+	public TopTeam findTopTeam(String topname) {
+		for (TopTeam top : topTeamList ) {
+			if (top.getTeamname().equals(topname)) {
+				return top;
+			}
+		}
+		return null;
+	}
 	
+	
+	//find the top team that owns the sub team
+	public TopTeam findTopTeamOfSubTeam(String subTeamName) {
+		for(TopTeam team: topTeamList) {
+			for (SubTeam sub: topTeamList.get(topTeamList.indexOf(team)).getSubTeams()){
+				if(sub.getTeamname().equals(subTeamName)) {
+					//if sub team name matches input name then return
+					return team;
+				}
+			}
+		}
+		return null;
+	}
+	
+	//handles both sub team and top team
 	public void removeTeam(String teamname){
 		Team team = findTeam(teamname);
 		if(team == null) {
 			 throw new NoSuchElementException();
 		}
-		
+		else if(team.getClass().getName().equals(TopTeam.class.getName())) {//class type is a TopTeam
+			topTeamList.remove(team);
+		}
+		else {//not null or topteam means its a subteam
+			TopTeam top = findTopTeamOfSubTeam(teamname);
+			//wont be null because subTeams already known to exist
+			//and sub teams can't exist without topTeams
+			
+			//get team using indexOf then remove subTeam from it
+			topTeamList.get(topTeamList.indexOf(top)).removeSubTeam((SubTeam)team);			
+		}
 	}
 	
-/*	TODO:::::::::
+	
 	public void assignTeamRoom(String teamname, String roomname){
 		Team team = findTeam(teamname);
-		//Room room = findRoom(roomname);
-		if(room == null || team == null || teamname == null || roomname == null) {
+		Room room = findRoom(roomname);
+		if(room == null || team == null) {
 			throw new NoSuchElementException();
 		}
 		else {
@@ -129,27 +174,42 @@ public class FakeDatabase {
 		}
 	}
 	
+	public Room findRoom(String roomname) {
+		for (Room r: roomList) {
+			if (r.getRoomName().equals(roomname)) {
+				return r;
+			}
+		}
+		return null;
+	}
+	
 	public void removeTeamRoom(String teamname, String roomname) {
 		Team team = findTeam(teamname);
-		//Room room = findRoom(roomname);
+		Room room = findRoom(roomname);
 		//checking if any inputs return a null value
-		if(teamname == null || roomname == null || room == null || team == null) {
+		if(room == null || team == null) {
 			throw new NoSuchElementException();
 		}
 		else{
 			team.removeRoom(roomname);
 		}
 	}
-	*/
+	
+	public void createRoom(String roomname, int roomNumber) {
+		roomList.add(new Room(roomname, roomNumber));
+	}
+	
+	public void removeRoom(String roomname) {
+		Room room = findRoom(roomname);
+		if(room == null) {
+			throw new NoSuchElementException();
+		}
+		else {
+			roomList.remove(room);
+		}
+	}
+	
 	
 	
 	
 }
-
-
-
-
-
-
-
-

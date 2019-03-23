@@ -11,14 +11,14 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 
 public class AdminAccount extends Account{
 
-	private List<Team> teams;
-	private List<Room> rooms;
+	//private List<Team> teams;
+	//private List<Room> rooms;
 
 	//initializing teams and rooms along with the super class to null values
 	public AdminAccount() {
 		super();
-		teams = new ArrayList<Team>();
-		rooms = new ArrayList<Room>();
+		//teams = new ArrayList<Team>();
+		//rooms = new ArrayList<Room>();
 	}
 	
 	//itializing super class with input values immediately
@@ -57,12 +57,14 @@ public class AdminAccount extends Account{
 	}
 	*/
 	
-	
+	/* moved to DB
 	//creating a room and adding the room to the list of rooms
 	public void createRoom(String roomname, int number) {
 		rooms.add(new Room(roomname, number));
 	}
-
+	 */
+	
+	/*moved to DB
 	//finding a room in the list of rooms
 	public Room findRoom(String roomname) {
 		for(Room room: this.rooms) {
@@ -72,7 +74,9 @@ public class AdminAccount extends Account{
 		}
 		return null;
 	}
-
+	 */
+	
+	/* moved to DB
 	//removing a room from the list of rooms by the room name
 	public void removeRoom(String roomname){
 		Room room = findRoom(roomname);
@@ -83,7 +87,9 @@ public class AdminAccount extends Account{
 			rooms.remove(room);
 		}
 	}
-
+	 */
+	 
+	 
 	//assigning a room to a team
 	/* moved to db
 	public void assignTeamRoom(String teamname, String roomname){
@@ -113,30 +119,36 @@ public class AdminAccount extends Account{
 	}
 	*/
 	
+	/* moved to DB
 	//adding team to list of teams
 	public void addTeam(Team team){
 		teams.add(team);
 	}
+	*/
 	
-	
+	/* not needed anymore
 	public List<Team> getTeams(){
 		return teams;
 	}
+	*/
 	
+	/*moved to db
 	//adding a room to the list of rooms
 	public void addRoom(Room room){
 		rooms.add(room);
 	}
+	*/
 	
+	/*not needed anymore
 	public List<Room> getRooms(){
 		return rooms;
 	}
+	*/
 	
+	/*moved to DB
 	//adding a member to a team passed through along with the student's ID
 	public void addMemberToTeam(StudentAccount student, Team team) {
 		team.addMember(student);
 	}
-
-	
-	
+	*/
 }
