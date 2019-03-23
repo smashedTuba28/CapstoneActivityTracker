@@ -57,7 +57,7 @@ public class FakeDatabase {
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(0), "Controls");
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(1), "Controls");
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(2), "Aircraft Design");
-		topTeamList.get(0).addMemberToSubTeam(studentList.get(3), "AirCraftDesign");
+		topTeamList.get(0).addMemberToSubTeam(studentList.get(3), "AirCraft Design");
 	}
 	
 	//verifies an account exists with given credentials 
@@ -100,7 +100,6 @@ public class FakeDatabase {
 		}
 	}
 	
-	
 	//looks through both subteams and topteams
 	//returns whichever is needed
 	public Team findTeam(String teamname) {
@@ -131,6 +130,17 @@ public class FakeDatabase {
 		return null;
 	}
 	
+	public SubTeam findSubTeam(String subTeamName) {
+		for(TopTeam team: topTeamList) {
+			for (SubTeam sub: topTeamList.get(topTeamList.indexOf(team)).getSubTeams()){
+				if(sub.getTeamname().equals(subTeamName)) {
+					//if sub team name matches input name then return
+					return sub;
+				}
+			}
+		}
+		return null;
+	}
 	
 	//find the top team that owns the sub team
 	public TopTeam findTopTeamOfSubTeam(String subTeamName) {
@@ -161,6 +171,28 @@ public class FakeDatabase {
 			
 			//get team using indexOf then remove subTeam from it
 			topTeamList.get(topTeamList.indexOf(top)).removeSubTeam((SubTeam)team);			
+		}
+	}
+	
+	public void removeTopTeam(String name) {
+		TopTeam top = findTopTeam(name);
+		if(top == null) {
+			throw new NoSuchElementException();
+		}
+		else {
+			topTeamList.remove(top);
+		}
+		
+	}
+	
+	public void removeSubTeam(String name) {
+		TopTeam top = findTopTeamOfSubTeam(name);
+		if(top == null) {
+			throw new NoSuchElementException();
+		}
+		else {
+			SubTeam sub = findSubTeam(name);
+			topTeamList.get(topTeamList.indexOf(top)).removeSubTeam(sub);
 		}
 	}
 	

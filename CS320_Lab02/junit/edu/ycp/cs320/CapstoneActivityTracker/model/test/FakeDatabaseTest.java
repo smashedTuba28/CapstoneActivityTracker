@@ -218,10 +218,14 @@ public class FakeDatabaseTest {
 		//account should now return true for valid
 		assertTrue(fakedb.verifyAccount("jhalpert@ycp.edu", "iheartbeesly"));
 	}
-
+	
 	@Test
 	public void testCreateTopTeam() {
+		testTopTeamList = fakedb.getAllTeams();
+		assertEquals(1, testTopTeamList.size()); //only one top team from init
 		fail("Not yet implemented");
+		
+		
 	}
 
 	@Test
@@ -229,21 +233,49 @@ public class FakeDatabaseTest {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	public void testFindTeam() {
-		fail("Not yet implemented");
-	}
+	
 
 	@Test
 	public void testFindTopTeam() {
-		fail("Not yet implemented");
+		//find a top team that exists	
+		TopTeam top = (fakedb.findTopTeam("Drone Team"));			
+		assertTrue(top!=null);
+		assertTrue(top.getTeamname().equals("Drone Team"));
+		
+		//return null for one that doesnt exist 
+		top = fakedb.findTopTeam("Scott's Tots");
+		assertTrue(top==null);
+		
+	}
+	
+	@Test
+	public void testFindSubTeam() {
+		//find sub team that exists
+		SubTeam sub = (fakedb.findSubTeam("Controls"));
+		assertTrue(sub != null);
+		assertTrue(sub.getTeamname().equals("Controls"));
+		
+		//should return null if sub team doesnt exist
+		sub = fakedb.findSubTeam("Party Planning Comittee");
+		assertTrue(sub == null);		
 	}
 
 	@Test
 	public void testFindTopTeamOfSubTeam() {
-		fail("Not yet implemented");
+		// find top team for existing sub team
+		TopTeam top = fakedb.findTopTeamOfSubTeam("Aircraft Design");
+		assertTrue(top != null);
+		assertTrue(top.getTeamname().equals("Drone Team"));
+		
+		//should return null if subteam doesnt exist
+		top = fakedb.findTopTeamOfSubTeam("Scranton Stranglers");
+		assertTrue(top == null);
 	}
 
+	
+	
+	
+	
 	@Test
 	public void testRemoveTeam() {
 		fail("Not yet implemented");
