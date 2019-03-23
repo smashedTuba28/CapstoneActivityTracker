@@ -22,46 +22,6 @@ public class Account {
 		this.valid = true;
 	}
 	
-	//hard coding values for the first milestone 
-	//TODO: CHANGE THIS FOR THE NEXT MILESTONE TO GO IN THE DATABASE
-	public Account(int var) {
-		valid = true;
-		password = "12345678";
-		if(var == 1) {
-			firstname = "Jason";
-			lastname = "Steinberg";
-			email = "jsteinberg@ycp.edu";
-			schoolID = "903123456";
-			faculty = false;
-		}
-		else if (var == 2) {
-			firstname = "Travis";
-			lastname = "Wetzel";
-			email = "twetzel1@ycp.edu";
-			schoolID = "903110312";
-			faculty = false;
-		}
-		else if (var == 3) {
-			firstname = "William";
-			lastname = "Taylor";
-			email = "wtaylor1@ycp.edu";
-			schoolID = "903112233";
-			faculty = false;
-		}
-		else if (var == 4) {
-			firstname = "John";
-			lastname = "Doe";
-			email = "jdoe@ycp.edu";
-			schoolID = "903123123";
-			faculty = true;
-		}
-		else {
-			//do nothing
-			valid = false;
-		}
-		
-	}
-	
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
