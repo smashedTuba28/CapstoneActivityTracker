@@ -10,12 +10,14 @@ public class FakeDatabase {
 	List<StudentAccount> studentList;
 	List<TopTeam> topTeamList;
 	List<Room> roomList;
+	List<Account> accountList;
 	//List<SubTeam> subTeamList;
 	//List<RoomEvent> roomEventList;
 	
 
 	public FakeDatabase() {
 		//initialize hard coded models
+		accountList = new ArrayList<Account>();
 		adminList = new ArrayList<AdminAccount>();
 		studentList = new ArrayList<StudentAccount>();
 		topTeamList = new ArrayList<TopTeam>();
@@ -29,6 +31,13 @@ public class FakeDatabase {
 		studentList.add(new StudentAccount("Travis", "Wetzel", "twetzel1@ycp.edu", "password", "900000002", false));
 		studentList.add(new StudentAccount("William", "Taylor", "wtaylor1@ycp.edu", "password", "900000003", false));
 		studentList.add(new StudentAccount("Robert", "California", "lizardking@ycp.edu", "password", "900000004", false));
+		
+		accountList.add(adminList.get(0));
+		accountList.add(studentList.get(0));
+		accountList.add(studentList.get(1));
+		accountList.add(studentList.get(2));
+		accountList.add(studentList.get(3));
+		
 		roomList.add(new Room("Power Systems Lab", 128));
 		roomList.add(new Room("Computer Lab", 132));
 		roomList.add(new Room("Software Engineering Lab", 119));
@@ -48,20 +57,28 @@ public class FakeDatabase {
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(4), "AirCraftDesign");
 	}
 	
-
 	
+	public boolean verifyAccount(String email, String password) {
+		for(Account a : accountList) {
+			if (a.getEmail().equals(email) && a.getPassword().equals(password)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public void createAccount(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
+		if (faculty) {
+			AdminAccount admin = new AdminAccount(firstname, lastname, email, password, schoolID, faculty);
+			adminList.add(admin);
+			accountList.add(admin);
+		}
+		else {
+			StudentAccount student = new StudentAccount(firstname, lastname, email, password, schoolID, faculty);
+			studentList.add(student);
+			accountList.add(student);
+		}
+	}
 	
 	
 	
