@@ -54,7 +54,7 @@ public class StudentAccount extends Account{
 		return list;
 	}
 	
-	//an individual RoomEvent is found with a lognote for now. TODO: might want to change this later
+	//an individual RoomEvent is found with the number associated with that RoomEvent
 	public RoomEvent findRoomEvent(int number) {
 		for(RoomEvent roomevent: events) {
 			if(roomevent.getNumber() == number) {
