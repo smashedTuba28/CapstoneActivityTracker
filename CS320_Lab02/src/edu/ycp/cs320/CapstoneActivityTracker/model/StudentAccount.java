@@ -15,6 +15,7 @@ public class StudentAccount extends Account{
 	public StudentAccount() {
 		super();
 		status = false;
+		events = new ArrayList<RoomEvent>();
 	}
 	
 	
@@ -22,6 +23,7 @@ public class StudentAccount extends Account{
 	public StudentAccount(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
 		super(firstname, lastname, email, password, schoolID, faculty);
 		status = false;
+		events = new ArrayList<RoomEvent>();
 	}
 	
 	//getting status

@@ -125,7 +125,8 @@ public class StudentAccountTest {
 
 	@Test
 	public void testUpdateRoomEventLognote() {
-		fail("Not yet implemented");
+		String newlog = 'new log note';
+		
 	}
 
 }
