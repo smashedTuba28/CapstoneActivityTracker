@@ -26,7 +26,7 @@
 					</tr>
 					<tr>
 						<td class = "Label">Last Name:</td>
-						<td><input type = "Text" name="password" size="12" value="${lastname}">
+						<td><input type = "Text" name="lastname" size="12" value="${lastname}">
 					</tr>	
 					<tr>
 						<td class = "Label">YCP Email:</td>

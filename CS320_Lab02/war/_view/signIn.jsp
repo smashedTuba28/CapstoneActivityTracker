@@ -11,7 +11,9 @@
 		<c:if test="${! empty errorMessage}">
 			<div class="error"><h3>${errorMessage}</h3></div>	
 		</c:if>
-	
+		
+		<a href = "http://localhost:8081/CapstoneActivityTracker/signUp.jsp">Create a Capstone Tracker Account!</a>
+		
 	<!---enter user credentials--->
 		<form action="${pageContext.servletContext.contextPath}/signIn" method="post">
 			<c:if test="${empty model}">
@@ -29,7 +31,7 @@
 					</tr>				
 				</table>
 				<input type="submit" name="signIn" value="Log In" />
-				<input type="submit" name="forgotPassword" value="Forgot Password" />
+				<a href = "http://localhost:8081/CapstoneActivityTracker/forgotPassword.jsp">Forgot Password</a>
 			</c:if>
 		</form>
 	</body>
