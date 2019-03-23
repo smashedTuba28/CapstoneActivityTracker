@@ -21,8 +21,7 @@ public class AdminAccountTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		admin = new AdminAccount();
-		admin.createAccount("Toby", "Flenderson", "tflenderson@ycp.edu", "iheartpam", "901234567");
+		admin = new AdminAccount("Toby", "Flenderson", "tflenderson@ycp.edu", "iheartpam", "901234567", true);
 		
 		teams = new ArrayList<Team>();
 		rooms = new ArrayList<Room>();

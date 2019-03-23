@@ -4,12 +4,14 @@ public class Account {
 	
 	private String firstname, lastname, email, schoolID;
 	private String password; //TODO: This will be changed for encryption purposes in the future
-	private boolean faculty;
+	private boolean faculty, valid;
 	
+	// setting no values, therefore the account is not yet valid
 	public Account() {
-		
+		this.valid = false;
 	}
 	
+	//setting all values in the constructor along with the valid boolean
 	public Account(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -17,9 +19,13 @@ public class Account {
 		this.password = password;
 		this.schoolID = schoolID;
 		this.faculty = faculty;
+		this.valid = true;
 	}
 	
+	//hard coding values for the first milestone 
+	//TODO: CHANGE THIS FOR THE NEXT MILESTONE TO GO IN THE DATABASE
 	public Account(int var) {
+		valid = true;
 		password = "12345678";
 		if(var == 1) {
 			firstname = "Jason";
@@ -51,8 +57,11 @@ public class Account {
 		}
 		else {
 			//do nothing
+			valid = false;
 		}
+		
 	}
+	
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
@@ -101,31 +110,10 @@ public class Account {
 		return faculty;
 	}
 	
+	//checking if the account is valid (function of the database)
 	public boolean validAccount() {//TODO: comment out once DB is implemented
-		if(this.firstname == null) {
-			return false;
-		}
-		else {
-			return true;
-		}
+		return valid;
 	}
-	
-	public boolean verifyCreation() {//TODO: comment out once DB is implemented
-		if(this.firstname == null) {
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
-	
-	public void createAccount(String firstname, String lastname, String email, String password, String schoolID) {//TODO: comment out once DB is implemented
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.email = email;
-		this.password = password;
-		this.schoolID = schoolID;
-	}
-	
+
 	
 }

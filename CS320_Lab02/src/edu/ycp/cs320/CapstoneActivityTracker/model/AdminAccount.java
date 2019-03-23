@@ -1,6 +1,7 @@
 package edu.ycp.cs320.CapstoneActivityTracker.model;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -13,20 +14,24 @@ public class AdminAccount extends Account{
 	private List<Team> teams;
 	private List<Room> rooms;
 
+	//initializing teams and rooms along with the super class to null values
 	public AdminAccount() {
 		super();
 		teams = new ArrayList<Team>();
 		rooms = new ArrayList<Room>();
 	}
 	
+	//itializing super class with input values immediately
 	public AdminAccount(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
 		super(firstname, lastname, email, password, schoolID, faculty);
 	}
 
+	//creating a team and adding to the list of teams
 	public void createTeam(String teamname) {
 		teams.add(new Team(teamname));
 	}
-
+	
+	//finding a team within the list
 	public Team findTeam(String teamname) {
 		for(Team team: this.teams) {
 			if(team.getTeamname().equals(teamname)) {
@@ -36,6 +41,7 @@ public class AdminAccount extends Account{
 		return null;
 	}
 
+	//removing a team from the list of teams
 	public void removeTeam(String teamname){
 		Team team = findTeam(teamname);
 		if(team == null) {
@@ -46,10 +52,12 @@ public class AdminAccount extends Account{
 		}
 	}
 	
+	//creating a room and adding the room to the list of rooms
 	public void createRoom(String roomname, int number) {
 		rooms.add(new Room(roomname, number));
 	}
 
+	//finding a room in the list of rooms
 	public Room findRoom(String roomname) {
 		for(Room room: this.rooms) {
 			if(room.getRoomName().equals(roomname)) {
@@ -59,6 +67,7 @@ public class AdminAccount extends Account{
 		return null;
 	}
 
+	//removing a room from the list of rooms by the room name
 	public void removeRoom(String roomname){
 		Room room = findRoom(roomname);
 		if(room == null) {
@@ -69,26 +78,43 @@ public class AdminAccount extends Account{
 		}
 	}
 
-	public void assignTeamRoom(String teamname, String roomname) {
+	//assigning a room to a team
+	public void assignTeamRoom(String teamname, String roomname){
 		Team team = findTeam(teamname);
 		Room room = findRoom(roomname);
-		if(room == null || team == null) {
+		if(room == null || team == null || teamname == null || roomname == null) {
 			throw new NoSuchElementException();
 		}
 		else {
-			team.addRoom(room);
+			team.addRoom(roomname);
 		}
 	}
 	
-	public void addTeam(Team team) {
+	//removing a room by finding both team in the list of teams and room in a list of rooms
+	public void removeTeamRoom(String teamname, String roomname) {
+		Team team = findTeam(teamname);
+		Room room = findRoom(roomname);
+		//checking if any inputs return a null value
+		if(teamname == null || roomname == null || room == null || team == null) {
+			throw new NoSuchElementException();
+		}
+		else{
+			team.removeRoom(roomname);
+		}
+	}
+	
+	//adding team to list of teams
+	public void addTeam(Team team){
 		teams.add(team);
 	}
+	
 	
 	public List<Team> getTeams(){
 		return teams;
 	}
 	
-	public void addRoom(Room room) {
+	//adding a room to the list of rooms
+	public void addRoom(Room room){
 		rooms.add(room);
 	}
 	
@@ -96,5 +122,11 @@ public class AdminAccount extends Account{
 		return rooms;
 	}
 	
-	public void addMemberToTeam()
+	//adding a member to a team passed through along with the student's ID
+	public void addMemberToTeam(String studentID, Team team) {
+		team.addMember(studentID);
+	}
+
+	
+	
 }

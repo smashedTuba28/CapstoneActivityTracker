@@ -108,7 +108,7 @@ public class AccountModelTest {
 		assertFalse(account.validAccount());
 	}
 
-	@Test
+	/*@Test
 	public void testCreateAccount() {
 		assertFalse(account.verifyCreation());
 		
@@ -120,5 +120,5 @@ public class AccountModelTest {
 	
 		account.createAccount(firstname, lastname, email, password, schoolID);
 		assertTrue(account.verifyCreation());
-	}
+	}*/
 }

@@ -1,6 +1,7 @@
 package edu.ycp.cs320.CapstoneActivityTracker.model;
 
 public class SubTeam extends Team{
+	//SubTeam has no SubTeams, this is the lowest level of Team with simple getters and setters
 
 	private SubTeam subTeam;
 	

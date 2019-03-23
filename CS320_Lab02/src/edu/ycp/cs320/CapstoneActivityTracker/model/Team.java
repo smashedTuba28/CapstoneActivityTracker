@@ -7,15 +7,19 @@ import java.util.NoSuchElementException;
 import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 
 public class Team {
+	
 	List<String> studentIDs;
 	List<Room> rooms;
+	
 	String teamname;
 	
+	//initialization
 	public Team() {
 		rooms = new ArrayList<Room>();
 		studentIDs = new ArrayList<String>();
 	}
 	
+	//if a team name is input then it is set immediately
 	public Team(String teamname){
 		this.teamname = teamname;
 		rooms = new ArrayList<Room>();
@@ -30,7 +34,8 @@ public class Team {
 		this.teamname = teamname;
 	}
 	
-	public void addRoom(Room room) {
+	public void addRoom(String roomname) {
+		Room room = findRoom(roomname);
 		rooms.add(room);
 	}
 	
@@ -38,6 +43,7 @@ public class Team {
 		return rooms;
 	}
 	
+	//removing a room from the list of rooms
 	public void removeRoom(String roomname) {
 		Room room = findRoom(roomname);
 		if(room == null) {
@@ -48,6 +54,7 @@ public class Team {
 		}
 	}
 	
+	//finding a room in the list of rooms
 	public Room findRoom(String roomname) {
 		for(Room room: this.rooms) {
 			if(room.getRoomName().equals(roomname)) {
@@ -57,11 +64,11 @@ public class Team {
 		return null;
 	}
 	
-	/*
+	//adding a member to the team
 	public void addMember(String member) {
 		studentIDs.add(member);
 	}
-	
+	/*
 	public void removeMember(String member) {
 		
 	}

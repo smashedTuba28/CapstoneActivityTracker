@@ -4,13 +4,21 @@ import java.util.Date;
 import java.time.*;
 
 public class Room {
+	
+	//number of the room
 	int number;
+	
+	//name of the room
 	String name;
-	LocalTime open, close;	//does not account for daylight savings
+	
+	//does not account for daylight savings, open time is the time that the room opens in the morning, close time is the time that the room closes
+	LocalTime open, close;
 	
 	public Room() {
+	
 	}
 	
+	//immediately intializing the room with the name and number
 	public Room(String roomname, int number){
 		this.name = roomname;
 		this.number = number;
@@ -47,6 +55,5 @@ public class Room {
 	public LocalTime getCloseTime() {
 		return close;
 	}
-	
 	
 }
