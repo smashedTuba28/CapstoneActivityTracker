@@ -1,3 +1,4 @@
+
 package edu.ycp.cs320.CapstoneActivityTracker.model;
 
 import java.time.LocalDateTime;
@@ -14,16 +15,16 @@ public class StudentAccount extends Account{
 	//when account is created student is not in a room, therefore status is false
 	public StudentAccount() {
 		super();
-		events = new ArrayList<RoomEvent>();
 		status = false;
+		events = new ArrayList<RoomEvent>();
 	}
 	
 	
 	//immediately initializing StudentAccount with credentials
 	public StudentAccount(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
 		super(firstname, lastname, email, password, schoolID, faculty);
-		events = new ArrayList<RoomEvent>();
 		status = false;
+		events = new ArrayList<RoomEvent>();
 	}
 	
 	//getting status
@@ -37,12 +38,12 @@ public class StudentAccount extends Account{
 	}
 	
 	//creating new RoomEvent and returning the value, once the RoomEvent is created the student is now in the room
-	public RoomEvent createRoomEvent(LocalDateTime start) {
+	public void createRoomEvent(LocalDateTime start) {
 		 event = new RoomEvent(start);
-		 //incrementing the number set for the room number
-		 event.setNumber(events.size()+1);
 		 status = true;
-		 return event;
+		 events.add(event);
+		 //incrementing the number set for the room number
+		 event.setNumber(events.size());
 	}
 	
 	//a list of RoomEvents is returned between the two LocalDateTime values passed in
@@ -71,5 +72,9 @@ public class StudentAccount extends Account{
 	public void updateRoomEventLognote(int number, String newLognote) {
 		RoomEvent event = findRoomEvent(number);
 		event.setLognote(newLognote);
+	}
+	
+	public List<RoomEvent> getRoomEventList(){
+		return events;
 	}
 }

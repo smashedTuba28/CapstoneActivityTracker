@@ -242,16 +242,16 @@ public class FakeDatabaseTest {
 
 	@Test
 	public void testFindTopTeam() {
+	
 		//find a top team that exists	
 		TopTeam top = (fakedb.findTopTeam("Drone Team"));			
 		assertTrue(top!=null);
 		assertTrue(top.getTeamname().equals("Drone Team"));
-		
 	
 		//return null for one that doesnt exist 
 		top = fakedb.findTopTeam("Scranton Stranglers");
 		assertTrue(top==null);
-		
+	
 	}
 	
 	@Test
