@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import edu.ycp.cs320.CapstoneActivityTracker.model.Account;
+import edu.ycp.cs320.CapstoneActivityTracker.model.AdminAccount;
+import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 
 public class AccountModelTest {
 
@@ -17,10 +19,10 @@ public class AccountModelTest {
 	@Before
 	public void setUp() throws Exception {
 		account = new Account();
-		testJason = new Account(1);
-		testTravis = new Account(2);	
-		testWill = new Account(3);	
-		testJohn = new Account(4);	
+		testJohn = new AdminAccount("John", "Doe", "Jdoe@ycp.edu", "password" , "900000000", true );
+		testJason = new StudentAccount("Jason", "Steinberg", "jsteinerg@ycp.edu", "password", "900000001", false);
+		testTravis = new StudentAccount("Travis", "Wetzel", "twetzel1@ycp.edu", "password", "900000002", false);
+		testWill = new StudentAccount("William", "Taylor", "wtaylor1@ycp.edu", "password", "900000003", false);
 	}
 
 	@Test
@@ -68,6 +70,7 @@ public class AccountModelTest {
 		assertFalse(account.getFirstname().equals(password));
 	}
 	
+	/* constructor removed from Account
 	@Test
 	public void testAccountInt() {
 		//check hard code for Jason	
@@ -98,7 +101,8 @@ public class AccountModelTest {
 		assertTrue(testJohn.getSchoolID().equals("903123123"));
 		assertTrue(testJohn.getFaculty());	
 	}
-	
+	*/
+	/* method removed from Account
 	@Test
 	public void testValidAccount() {
 		assertTrue(testJason.validAccount());
@@ -107,8 +111,8 @@ public class AccountModelTest {
 		assertTrue(testJohn.validAccount());
 		assertFalse(account.validAccount());
 	}
-
-	/*@Test
+	*/
+	/*@Test Method removed from Account
 	public void testCreateAccount() {
 		assertFalse(account.verifyCreation());
 		
@@ -121,4 +125,6 @@ public class AccountModelTest {
 		account.createAccount(firstname, lastname, email, password, schoolID);
 		assertTrue(account.verifyCreation());
 	}*/
+	
+	
 }

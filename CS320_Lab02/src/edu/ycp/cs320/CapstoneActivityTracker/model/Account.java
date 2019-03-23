@@ -4,11 +4,12 @@ public class Account {
 	
 	private String firstname, lastname, email, schoolID;
 	private String password; //TODO: This will be changed for encryption purposes in the future
-	private boolean faculty, valid;
+	private boolean faculty; 
+	//private boolean valid; from before db implemeted
 	
 	// setting no values, therefore the account is not yet valid
 	public Account() {
-		this.valid = false;
+		//this.valid = false;
 	}
 	
 	//setting all values in the constructor along with the valid boolean
@@ -19,7 +20,7 @@ public class Account {
 		this.password = password;
 		this.schoolID = schoolID;
 		this.faculty = faculty;
-		this.valid = true;
+		//this.valid = true;
 	}
 	
 	public void setFirstname(String firstname) {
@@ -70,10 +71,9 @@ public class Account {
 		return faculty;
 	}
 	
-	//checking if the account is valid (function of the database)
-	public boolean validAccount() {//TODO: comment out once DB is implemented
+	/*//checking if the account is valid (function of the database)
+	public boolean validAccount() {//comment out once DB is implemented
 		return valid;
-	}
+	}*/
 
-	
 }
