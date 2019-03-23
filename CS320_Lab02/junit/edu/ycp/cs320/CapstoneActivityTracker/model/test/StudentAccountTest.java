@@ -1,3 +1,4 @@
+
 package edu.ycp.cs320.CapstoneActivityTracker.model.test;
 
 import static org.junit.Assert.*;
