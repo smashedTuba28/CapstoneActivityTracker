@@ -58,7 +58,7 @@ public class Week {
 	}
 	
 	public void setDur4(long dur4) {
-		this.dur4 =  dur0;
+		this.dur4 =  dur4;
 	}
 	
 	public void setDur5(long dur5) {
