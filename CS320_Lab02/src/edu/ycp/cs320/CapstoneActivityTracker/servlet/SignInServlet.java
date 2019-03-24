@@ -16,9 +16,10 @@ public class SignInServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+
+		System.out.println("AddNumbers Servlet: doGet");	
 		
-		System.out.println("SignIn Servlet: doGet");
-		//call the jsp and generate empty form
+		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/signIn.jsp").forward(req, resp);
 	}
 	
@@ -75,6 +76,6 @@ public class SignInServlet extends HttpServlet {
 		req.setAttribute("errorMessage", errorMessage);
 		
 		//Forward to view to render the result in jsp
-		req.getRequestDispatcher("/view/signIn.jsp").forward(req,  resp);
+		req.getRequestDispatcher("/_view/signIn.jsp").forward(req,  resp);
 	}
 }
