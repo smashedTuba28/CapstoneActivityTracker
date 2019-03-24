@@ -7,37 +7,50 @@
 <html>
 	<head>
 		<title>Your Team View</title>
+		<script>
+		// script function for reading from text fields
+		function readText(form){
+			data = form.inputbox.value;
+		}
+		</script>
+		
+		<script>
+		//script function for writing to text fields
+		function writeText(form, var data){
+			form.inputbox.value = data;
+		}
+		</script>
 		
 		<script>
 			// week and time durations for team members
-			var wk0dur0 = '';
-			var wk0dur1 = '';
-			var wk0dur2 = '';
-			var wk0dur3 = '';
-			var wk0dur4 = '';
-			var wk0dur5 = '';
-			var wk0dur6 = '';
-			var wk1dur0 = '';
-			var wk1dur1 = '';
-			var wk1dur2 = '';
-			var wk1dur3 = '';
-			var wk1dur4 = '';
-			var wk1dur5 = '';
-			var wk1dur6 = '';
-			var wk2dur0 = '';
-			var wk2dur1 = '';
-			var wk2dur2 = '';
-			var wk2dur3 = '';
-			var wk2dur4 = '';
-			var wk2dur5 = '';
-			var wk2dur6 = '';
-			var wk3dur0 = '';
-			var wk3dur1 = '';
-			var wk3dur2 = '';
-			var wk3dur3 = '';
-			var wk3dur4 = '';
-			var wk3dur5 = '';
-			var wk3dur6 = '';
+			var wk0dur0 = document.getElementById("wk0dur0");
+			var wk0dur1 = document.getElementById("wk0dur0");
+			var wk0dur2 = document.getElementById("wk0dur0");
+			var wk0dur3 = document.getElementById("wk0dur0");
+			var wk0dur4 = document.getElementById("wk0dur0");
+			var wk0dur5 = document.getElementById("wk0dur0");
+			var wk0dur6 = document.getElementById("wk0dur0");
+			var wk1dur0 = document.getElementById("wk0dur0");
+			var wk1dur1 = document.getElementById("wk0dur0");
+			var wk1dur2 = document.getElementById("wk0dur0");
+			var wk1dur3 = document.getElementById("wk0dur0");
+			var wk1dur4 = document.getElementById("wk0dur0");
+			var wk1dur5 = document.getElementById("wk0dur0");
+			var wk1dur6 = document.getElementById("wk0dur0");
+			var wk2dur0 = document.getElementById("wk0dur0");
+			var wk2dur1 = document.getElementById("wk0dur0");
+			var wk2dur2 = document.getElementById("wk0dur0");
+			var wk2dur3 = document.getElementById("wk0dur0");
+			var wk2dur4 = document.getElementById("wk0dur0");
+			var wk2dur5 = document.getElementById("wk0dur0");
+			var wk2dur6 = document.getElementById("wk0dur0");
+			var wk3dur0 = document.getElementById("wk0dur0");
+			var wk3dur1 = document.getElementById("wk0dur0");
+			var wk3dur2 = document.getElementById("wk0dur0");
+			var wk3dur3 = document.getElementById("wk0dur0");
+			var wk3dur4 = document.getElementById("wk0dur0");
+			var wk3dur5 = document.getElementById("wk0dur0");
+			var wk3dur6 = document.getElementById("wk0dur0");
 		</script>
 		
 		<!-- chart script from developers.google.com -->
