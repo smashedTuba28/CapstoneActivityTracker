@@ -61,13 +61,13 @@
 			</tr>
 		<!-- lognotes for each day -->
 			<tr>
-				<td><input type ="hidden" name="log0" size="12" value="${logs.0}">
-				<td><input type ="hidden" name="log1" size="12" value="${logs.1}">
-				<td><input type ="hidden" name="log2" size="12" value="${logs.2}">
-				<td><input type ="hidden" name="log3" size="12" value="${logs.3}">
-				<td><input type ="hidden" name="log4" size="12" value="${logs.4}">
-				<td><input type ="hidden" name="log5" size="12" value="${logs.5}">
-				<td><input type ="hidden" name="log6" size="12" value="${logs.6}">
+				<td><input type ="hidden" name="log0" size="12" value="${logs.log0}">
+				<td><input type ="hidden" name="log1" size="12" value="${logs.log1}">
+				<td><input type ="hidden" name="log2" size="12" value="${logs.log2}">
+				<td><input type ="hidden" name="log3" size="12" value="${logs.log3}">
+				<td><input type ="hidden" name="log4" size="12" value="${logs.log4}">
+				<td><input type ="hidden" name="log5" size="12" value="${logs.log5}">
+				<td><input type ="hidden" name="log6" size="12" value="${logs.log6}">
 			</tr>
 		</table>
 	</body>
