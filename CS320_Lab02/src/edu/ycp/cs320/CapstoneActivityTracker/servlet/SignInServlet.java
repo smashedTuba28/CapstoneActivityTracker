@@ -44,7 +44,7 @@ public class SignInServlet extends HttpServlet {
 		boolean valid = false;
 		String email = null;
 		String password = null;
-		int faculty = 0;
+		int faculty = 2;
 		
 		//decode POSTed from parameters and dispatch to controller
 		try {
@@ -80,9 +80,15 @@ public class SignInServlet extends HttpServlet {
 				//get student view if successful login
 				req.getRequestDispatcher("/_view/studentView.jsp");
 			}
-			else {
+			else if( faculty == 1){
 			//get faculty view if successful login
 			req.getRequestDispatcher("/_view/adminView.jsp");
+			}
+			else {
+				//hopefully never get here
+				req.setAttribute("errorMessage", "Student/Faculty value Failure");
+				//Forward to view to render the result in jsp
+				req.getRequestDispatcher("/_view/signIn.jsp").forward(req,  resp);
 			}
 		}
 		else {
