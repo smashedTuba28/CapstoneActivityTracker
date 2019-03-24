@@ -1,10 +1,6 @@
-<<<<<<< Upstream, based on origin/twetzel1_V1
-=======
 
 package edu.ycp.cs320.CapstoneActivityTracker.model;
->>>>>>> 6b70105 Re commit updates to StudentAccount Test
 
-package edu.ycp.cs320.CapstoneActivityTracker.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

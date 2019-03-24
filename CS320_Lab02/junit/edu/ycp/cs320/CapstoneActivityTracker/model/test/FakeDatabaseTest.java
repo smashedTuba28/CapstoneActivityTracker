@@ -283,10 +283,7 @@ public class FakeDatabaseTest {
 		//return null for one that doesnt exist 
 		top = fakedb.findTopTeam("Scranton Stranglers");
 		assertTrue(top==null);
-<<<<<<< Upstream, based on origin/twetzel1_V1
-	
-=======
->>>>>>> 03bf2cd FakeDB Test updates
+
 	}
 	
 	@Test
