@@ -8,6 +8,38 @@
 	<head>
 		<title>Your Team View</title>
 		
+		<script>
+			// week and time durations for team members
+			var wk0dur0 = '';
+			var wk0dur1 = '';
+			var wk0dur2 = '';
+			var wk0dur3 = '';
+			var wk0dur4 = '';
+			var wk0dur5 = '';
+			var wk0dur6 = '';
+			var wk1dur0 = '';
+			var wk1dur1 = '';
+			var wk1dur2 = '';
+			var wk1dur3 = '';
+			var wk1dur4 = '';
+			var wk1dur5 = '';
+			var wk1dur6 = '';
+			var wk2dur0 = '';
+			var wk2dur1 = '';
+			var wk2dur2 = '';
+			var wk2dur3 = '';
+			var wk2dur4 = '';
+			var wk2dur5 = '';
+			var wk2dur6 = '';
+			var wk3dur0 = '';
+			var wk3dur1 = '';
+			var wk3dur2 = '';
+			var wk3dur3 = '';
+			var wk3dur4 = '';
+			var wk3dur5 = '';
+			var wk3dur6 = '';
+		</script>
+		
 		<!-- chart script from developers.google.com -->
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
@@ -41,7 +73,13 @@
 	</head>
 
 	<body>
+
+	
+		<!-- HTML element for google chart -->
 		<div id="columnchart_material" style="width: 800px; height: 500px"></div>
+
+		<!-- Link to subteams displayed here -->
+		<div id="subteams"></div>
 
 		<!-- Hidden fields to be used for chart creation -->
 		<!-- Duration in each day of the week -->
