@@ -278,6 +278,16 @@ public class FakeDatabase {
 		}
 	}
 	
+	public boolean isFaculty(String email) {
+		for (Account a: accountList) {
+			if (a.getEmail().equals(email)){
+				return a.getFaculty();
+			}
+		}
+		return false;
+	}
+	
+	
 	public List<Account> getAllAccounts(){
 		return accountList;
 	}
