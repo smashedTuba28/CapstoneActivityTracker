@@ -7,11 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//TODO:
-//import model
-//import controller
-import edu.ycp.cs320.CapstoneActivityTracker.model.*;
-
+import edu.ycp.cs320.CapstonActivtyTracker.db.*;
 
 public class SignInServlet extends HttpServlet {
 	
@@ -41,25 +37,21 @@ public class SignInServlet extends HttpServlet {
 		//error message String to hold message text when applicable
 		String errorMessage = null;
 		
+		//create db instance
+		FakeDatabase fake = new FakeDatabase();
+		fake.init();
 		
-		//TODO:
-		// create model
-	
-		//TODO:
-		//create controller
-		
-		//TODO:
-		//assign model reference to controller
-		//Account model = null;
 		boolean valid = false;
 		String email = null;
 		String password = null;
-		String hardCodeState = null;
+		int faculty = 0;
 		
 		//decode POSTed from parameters and dispatch to controller
 		try {
 			email = req.getParameter("email");//input from jsp under field labeled email
 			password = req.getParameter("password"); //input from jsp under field labeled password
+			faculty = getIntFromParameter(req.getParameter("faculty"));
+			
 			
 			//check if either is empty
 			if (email == null || password == null) {//either empty
@@ -75,46 +67,23 @@ public class SignInServlet extends HttpServlet {
 				errorMessage = "Password Invalid: must contain at least 8 characters";
 			}
 			//data clears initial check
-			
-			/*TODO:
-			//BEGIN HARDCODE SECTION	
-			if (email.equals("jsteinberg@ycp.edu")) {
-				model = new Account(1);
-				hardCodeState = "1";
-			}
-			
-			else if (email.equals("twetzel1@ycp.edu")) {
-				model = new Account(2);
-				hardCodeState = "2";
-			}
-			else if (email.equals("wtylor1@ycp.edu")) {
-				model = new Account(3);
-				hardCodeState = "3";
-			}
-			else if (email.equals("jdoe@ycp.edu")) {
-				model = new Account(4);
-				hardCodeState = "4";
-			}
-			else {
-				model = new Account();
-			}
-			//end hardcode section
-			*/
-			
-			//TODO: send data to controller to verify log in
-			//valid = model.verifyAccount(email, password);
-	
+			//TODO: search for only faculty or student
+			valid = fake.verifyAccount(email, password);
 		} catch (Exception e){
 			errorMessage = "Log In Failed: Recheck Email and Password and try again";
 		}
 		
 		//determine if credentials were successful
 		if (valid == true) {
-			//get student view if successful login
-			req.getRequestDispatcher("/_view/studentView.jsp");
-			//credit for session idea at top
-			//TODO: update away from hardcoded
-			req.getSession().setAttribute("userID", hardCodeState);
+			req.getSession().setAttribute("userEmail", email);
+			if (faculty == 0) {
+				//get student view if successful login
+				req.getRequestDispatcher("/_view/studentView.jsp");
+			}
+			else {
+			//get faculty view if successful login
+			req.getRequestDispatcher("/_view/adminView.jsp");
+			}
 		}
 		else {
 			//report error
@@ -122,6 +91,15 @@ public class SignInServlet extends HttpServlet {
 			req.setAttribute("errorMessage", errorMessage);
 			//Forward to view to render the result in jsp
 			req.getRequestDispatcher("/_view/signIn.jsp").forward(req,  resp);
+		}
+	}
+	
+	//code borrowed from Lab02 then modified for int
+	private Integer getIntFromParameter(String s) {
+		if (s == null || s.equals("")) {
+			return null;
+		} else {
+			return Integer.parseInt(s);
 		}
 	}
 }
