@@ -30,15 +30,23 @@
     <servlet-name>AdminMainServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.StudentMainServlet</servlet-class>
   </servlet>
-  <servlet>
+  
+  <!--  DO NOT REMOVE THIS!!!!!!!!!!! -->
+   <servlet>
     <servlet-name>AddNumbersServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.AddNumbersServlet</servlet-class>
   </servlet>
-  <servlet-mapping>
+ <!-- DON NOTE REMOVE!!!!!!!!!!!!!! -->
+ 
+  <!-- Servlet mappings -->
+  
+  <!--DO NOT REMOVE THIS SERVLET MAPPING!!!!!!!!!!!!!!!!-->
+   <servlet-mapping>
     <servlet-name>AddNumbersServlet</servlet-name>
     <url-pattern>/addNumbers</url-pattern>
   </servlet-mapping>
-  <!-- Servlet mappings -->
+  <!-- DON NOT REMOVE!!!!!!!!!!!! -->
+  
   <servlet-mapping>
     <servlet-name>IndexServlet</servlet-name>
     <url-pattern>/index</url-pattern>
