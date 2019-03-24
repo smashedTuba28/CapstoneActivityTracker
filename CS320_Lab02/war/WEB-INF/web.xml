@@ -30,9 +30,14 @@
     <servlet-name>AdminMainServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.StudentMainServlet</servlet-class>
   </servlet>
-  
-
-
+  <servlet>
+    <servlet-name>AddNumbersServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.AddNumbersServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddNumbersServlet</servlet-name>
+    <url-pattern>/addNumbers</url-pattern>
+  </servlet-mapping>
   <!-- Servlet mappings -->
   <servlet-mapping>
     <servlet-name>IndexServlet</servlet-name>
@@ -51,11 +56,11 @@
     <url-pattern>/forgotPassword</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>SudentMainServlet</servlet-name>
+    <servlet-name>SudentViewServlet</servlet-name>
     <url-pattern>/studentMain</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>AdminMainServlet</servlet-name>
+    <servlet-name>AdminViewServlet</servlet-name>
     <url-pattern>/adminMain</url-pattern>
   </servlet-mapping>
 
