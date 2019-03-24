@@ -1,4 +1,4 @@
-package edu.ycp.cs320.lab02.controller;
+package edu.ycp.cs320.CpastoneActivityTracker.controller.test;
 
 import static org.junit.Assert.assertTrue;
 
