@@ -58,7 +58,7 @@ public class Log {
 	}
 	
 	public void setLog4(String log4) {
-		this.log4 =  log0;
+		this.log4 =  log4;
 	}
 	
 	public void setLog5(String log5) {
