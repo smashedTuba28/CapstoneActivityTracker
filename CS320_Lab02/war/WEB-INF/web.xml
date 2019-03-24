@@ -18,6 +18,11 @@
     <servlet-name>GuessingGameServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.GuessingGameServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>SignInServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.SignInServlet</servlet-class>
+  </servlet>
+  
   
   <!-- AJAX servlets. -->
   <servlet>
@@ -41,6 +46,10 @@
   <servlet-mapping>
     <servlet-name>GuessingGameServlet</servlet-name>
     <url-pattern>/guessingGame</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SignInServlet</servlet-name>
+    <url-pattern>/signIn</url-pattern>
   </servlet-mapping>
   
   <!--  AJAX servlet mappings. -->
