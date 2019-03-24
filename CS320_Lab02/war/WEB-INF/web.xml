@@ -22,7 +22,10 @@
     <servlet-name>SignInServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.SignInServlet</servlet-class>
   </servlet>
-  
+   <servlet>
+    <servlet-name>SignUpServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.SignUpServlet</servlet-class>
+  </servlet>
   
   <!-- AJAX servlets. -->
   <servlet>
@@ -50,6 +53,10 @@
   <servlet-mapping>
     <servlet-name>SignInServlet</servlet-name>
     <url-pattern>/signIn</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SignUpServlet</servlet-name>
+    <url-pattern>/signUp</url-pattern>
   </servlet-mapping>
   
   <!--  AJAX servlet mappings. -->

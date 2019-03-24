@@ -96,6 +96,6 @@ public class SignUpServlet extends HttpServlet {
 		req.setAttribute("errorMessage", errorMessage);
 		
 		//forward to view to render the result in jsp
-		req.getRequestDispatcher("/view/signUp.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/signUp.jsp").forward(req, resp);
 	}
 }
