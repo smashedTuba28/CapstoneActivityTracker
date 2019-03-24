@@ -57,6 +57,12 @@ public class FakeDatabase {
 		topTeamList.get(1).addSubTeam(new SubTeam("Finer Things Club"));
 		topTeamList.get(1).addSubTeam(new SubTeam("Scott's Tots"));
 		
+		topTeamList.get(0).addRoom(roomList.get(0));//add Power Systems Lab to Drone Team
+		topTeamList.get(0).addRoom(roomList.get(1));//add Computer Lab to Drone Team
+		
+		topTeamList.get(1).addRoom(roomList.get(1));//add Computer Lab to Office
+		topTeamList.get(1).addRoom(roomList.get(2));//add Software Engineering Lab
+		topTeamList.get(1).addRoom(roomList.get(3));//add Visualization Lab 
 		
 		//populate existing subTeams
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(0), "Controls");
@@ -205,13 +211,14 @@ public class FakeDatabase {
 	
 	
 	public void assignTeamRoom(String teamname, String roomname){
-		Team team = findTeam(teamname);
+		Team team = findTopTeam(teamname);
 		Room room = findRoom(roomname);
 		if(room == null || team == null) {
 			throw new NoSuchElementException();
 		}
 		else {
-			team.addRoom(roomname);
+			team.addRoom(room);
+			team.getRooms().get(0);
 		}
 	}
 	
@@ -224,17 +231,31 @@ public class FakeDatabase {
 		return null;
 	}
 	
-	public void removeTeamRoom(String teamname, String roomname) {
-		Team team = findTeam(teamname);
+	public void removeRoomFromTeam(String teamname, String roomname) {
+		Team team = findTopTeam(teamname);
 		Room room = findRoom(roomname);
 		//checking if any inputs return a null value
 		if(room == null || team == null) {
 			throw new NoSuchElementException();
 		}
 		else{
-			team.removeRoom(roomname);
+			team.removeRoom(room);
 		}
 	}
+	
+	public List<TopTeam> findAllTeamsWithRoom(String roomname) {
+		ArrayList<TopTeam> teams = new ArrayList<TopTeam>();
+		for(TopTeam t: topTeamList) {
+			for(Room room: t.getRooms()) {
+				if (room.getRoomName().equals(roomname)) {
+					teams.add(t);
+					break;
+				}
+			}
+		}
+		return teams;
+	}
+	
 	
 	public void createRoom(String roomname, int roomNumber) {
 		roomList.add(new Room(roomname, roomNumber));
@@ -246,7 +267,14 @@ public class FakeDatabase {
 			throw new NoSuchElementException();
 		}
 		else {
+			//remove room from database
 			roomList.remove(room);
+			
+			//remove room from all teams
+			List<TopTeam> teams = findAllTeamsWithRoom(roomname);
+			for(TopTeam t: teams) {
+				t.removeRoom(room);
+			}
 		}
 	}
 	
@@ -268,13 +296,5 @@ public class FakeDatabase {
 	
 	public List<Room> getAllRooms(){
 		return roomList;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 }

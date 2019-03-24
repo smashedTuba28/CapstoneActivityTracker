@@ -34,8 +34,7 @@ public class Team {
 		this.teamname = teamname;
 	}
 	
-	public void addRoom(String roomname) {
-		Room room = findRoom(roomname);
+	public void addRoom(Room room) {
 		rooms.add(room);
 	}
 	
@@ -44,14 +43,8 @@ public class Team {
 	}
 	
 	//removing a room from the list of rooms
-	public void removeRoom(String roomname) {
-		Room room = findRoom(roomname);
-		if(room == null) {
-			 throw new NoSuchElementException();
-		}
-		else {
+	public void removeRoom(Room room) {
 			rooms.remove(room);
-		}
 	}
 	
 	//finding a room in the list of rooms
