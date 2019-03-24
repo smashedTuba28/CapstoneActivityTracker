@@ -454,4 +454,14 @@ public class FakeDatabaseTest {
 		testRoomList = fakedb.getAllTopTeams().get(1).getRooms();
 		assertEquals(2, testRoomList.size());
 	}
+	
+	@Test
+	public void testIsFaculty() {
+		//use preloaded to check faculty
+		
+		assertFalse(fakedb.isFaculty("jsteinberg@ycp.edu"));
+		assertFalse(fakedb.isFaculty("twetzel1@ycp.edu"));
+		assertFalse(fakedb.isFaculty("wtaylor1@ycp.edu"));
+		assertTrue(fakedb.isFaculty("jdoe@ycp.edu"));
+	}
 }
