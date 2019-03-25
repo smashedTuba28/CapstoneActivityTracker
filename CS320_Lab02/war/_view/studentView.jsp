@@ -3,7 +3,6 @@
 <! taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <! taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-
 <html>
 	<head>
 		<title>Welcome to the YCP Capstone Activity Tracker</title>
@@ -26,13 +25,13 @@
  			google.charts.load('current', {'packages': ['bar']});
  			google.charts.setOnLoadCallback(drawChart);
  
-  	 		var d0 = readText(dur0);
-  	 		var d1 = 2;
-  	 		var d2 = 3;
-  	 		var d3 = 0;
-  	 		var d4 = 5;
-  	 		var d5 = 8;
-  	 		var d6 = 8;
+  	 		var d0 = parseInt(${week.dur0}) / 60;
+  	 		var d1 = parseInt(${week.dur1}) / 60;
+  	 		var d2 = parseInt(${week.dur2}) / 60;
+  	 		var d3 = parseInt(${week.dur3}) / 60;
+  	 		var d4 = parseInt(${week.dur4}) / 60;
+  	 		var d5 = parseInt(${week.dur5}) / 60;
+  	 		var d6 = parseInt(${week.dur6}) / 60;
   	 		
  			function drawChart() {
   	 		// Create the data table.
@@ -43,12 +42,12 @@
         	var data = google.visualization.arrayToDataTable([
           	['Date', 'Hours'],
           	['3-19', d0],
-          	['3-20', 2],
-          	['3-21', 3],
-          	['3-22', 5],
-          	['3-23', 0],
-          	['3-24', 8],
-          	['3-25', 8],
+          	['3-20', d1],
+          	['3-21', d2],
+          	['3-22', d3],
+          	['3-23', d4],
+          	['3-24', d5],
+          	['3-25', d6],
         	]);
       	
        		// Set chart options
@@ -64,7 +63,7 @@
 	<body>
 		<!-- logout form -->
 		<div>
-			<form action="${pageContext.servletContext.contextPath}/signOut" method="get">
+			<form action="${pageContext.servletContext.contextPath}/index" method="get">
 				<input name="signOut" type="submit" value="Sign Out" />
 		</div>
 	
