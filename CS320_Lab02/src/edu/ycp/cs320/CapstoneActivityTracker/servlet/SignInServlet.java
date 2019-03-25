@@ -67,10 +67,12 @@ public class SignInServlet extends HttpServlet {
 			//check password length matches exceeds minimum length
 			else if (password.length() < 8) {
 				errorMessage = "Password Invalid: must contain at least 8 characters";
-			}
+			}else {
 			//data clears initial check
 			//TODO: search for only faculty or student
-			valid = fake.verifyAccount(email, password);
+				valid = fake.verifyAccount(email, password);
+				if(!valid) {errorMessage = "Log In Failed: unable to verify Account: Recheck Credentials and Try Again";}
+			}
 		} catch (Exception e){
 			errorMessage = "Log In Failed: Recheck Email and Password and try again";
 		}

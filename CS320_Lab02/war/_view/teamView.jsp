@@ -117,7 +117,7 @@
 	<body>
 		<!-- logout form -->
 		<div>
-			<form action="${pageContext.servletContext.contextPath}/signOut" method="get">
+			<form action="${pageContext.servletContext.contextPath}/index" method="get">
 				<input name="signOut" type="submit" value="Sign Out" />
 		</div>
 	
