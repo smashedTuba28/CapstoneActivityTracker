@@ -73,10 +73,20 @@ public class FakeDatabase {
 		
 	}
 	
-	//verifies an account exists with given credentials 
+	//verifies an account exists with email and password
 	public boolean verifyAccount(String email, String password) {
 		for(Account a : accountList) {
 			if (a.getEmail().equals(email) && a.getPassword().equals(password)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//Verifies account using email and schholID
+	public boolean verifyAccountWithEmailSchoolID(String email, String schoolID) {
+		for(Account a : accountList) {
+			if (a.getEmail().equals(email) && a.getSchoolID().equals(schoolID)) {
 				return true;
 			}
 		}
