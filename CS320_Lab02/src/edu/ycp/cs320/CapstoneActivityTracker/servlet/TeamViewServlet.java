@@ -29,6 +29,7 @@ public class TeamViewServlet extends HttpServlet {
 		//check session
 		if ( email == null) {
 			//redirect
+			System.out.println("Here");
 			resp.sendRedirect(req.getContextPath() + "/signIn");
 		}
 		else {	

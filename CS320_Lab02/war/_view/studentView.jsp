@@ -25,13 +25,13 @@
  			google.charts.load('current', {'packages': ['bar']});
  			google.charts.setOnLoadCallback(drawChart);
  
-  	 		var d0 = parseInt(${week.dur0}) / 60;
-  	 		var d1 = parseInt(${week.dur1}) / 60;
-  	 		var d2 = parseInt(${week.dur2}) / 60;
-  	 		var d3 = parseInt(${week.dur3}) / 60;
-  	 		var d4 = parseInt(${week.dur4}) / 60;
-  	 		var d5 = parseInt(${week.dur5}) / 60;
-  	 		var d6 = parseInt(${week.dur6}) / 60;
+  	 		var d0 = parseFloat(${week.dur0}) / 60;
+  	 		var d1 = parseFloat(${week.dur1}) / 60;
+  	 		var d2 = parseFloat(${week.dur2}) / 60;
+  	 		var d3 = parseFloat(${week.dur3}) / 60;
+  	 		var d4 = parseFloat(${week.dur4}) / 60;
+  	 		var d5 = parseFloat(${week.dur5}) / 60;
+  	 		var d6 = parseFloat(${week.dur6}) / 60;
   	 		
  			function drawChart() {
   	 		// Create the data table.
@@ -64,19 +64,27 @@
 		<!-- logout form -->
 		<div>
 			<form action="${pageContext.servletContext.contextPath}/index" method="get">
-				<input name="signOut" type="submit" value="Sign Out" />
+				<input name="index" type="submit" value="Sign Out" />
+		</div>
+		
+		
+		<!-- header using student name -->
+		<div>
+			<h1>${account.firstname} ${account.lastname}</h1>
 		</div>
 	
 		<!-- HTML element for google chart -->
 		<div id="columnchart_material" style="width: 800px; height: 500px"></div>
-		
-
-		
+		<div>
+		<a href = "http://localhost:8081/CapstoneActivityTracker/teamView">Team View</a>
+		</div>
 		<!-- field to enter a lognote -->
 		<tr>
 			<td><input type ="hidden" name="newNote" value="${newNote}">
  		</tr>
- 		<input type="Submit" name="submit" value="Creat Lognote">			
+ 		<input type="Submit" name="submit" value="Creat Lognote">	
+ 		
+ 				
 
 		<!-- Hidden fields to be used for chart creation -->
 		<!-- Duration in each day of the week -->

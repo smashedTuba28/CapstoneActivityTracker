@@ -76,9 +76,9 @@ public class FakeDatabase {
 		
 		//create durations for several students
 		
-		weekList.add(new Week("120", "120", "120", "360", "600", "840", "240"));
-		weekList.add(new Week("0", "0", "240", "360", "720", "720", "240"));
-		weekList.add(new Week("120", "0", "120", "360", "600", "840", "240"));
+		weekList.add(new Week("120", "140", "120", "375", "800", "840", "240"));
+		weekList.add(new Week("0", "0", "247", "390", "690", "720", "240"));
+		weekList.add(new Week("120", "30", "120", "420", "600", "840", "240"));
 		weekList.add(new Week("480", "480", "480", "480", "0", "0", "480"));
 		
 		logList.add(new Log("This is a test log for Jason",

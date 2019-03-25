@@ -12,7 +12,7 @@
 			<div class="error"><h3>${errorMessage}</h3></div>	
 		</c:if>
 		
-		<a href = "http://localhost:8081/CapstoneActivityTracker/signUp.jsp">Create a Capstone Tracker Account!</a>
+		<a href = "http://localhost:8081/CapstoneActivityTracker/signUp">Create a Capstone Tracker Account!</a>
 		
 	<!---enter user credentials--->
 		<form action="${pageContext.servletContext.contextPath}/signIn" method="post">
@@ -35,7 +35,7 @@
 					</tr>				
 				</table>
 				<input type="submit" name="signIn" value="Log In" />
-				<a href = "http://localhost:8081/CapstoneActivityTracker/forgotPassword.jsp">Forgot Password</a>
+				<a href = "http://localhost:8081/CapstoneActivityTracker/passForgot">Forgot Password</a>
 			</c:if>
 		</form>
 	</body>
