@@ -89,7 +89,7 @@
 
 	      function drawChart() {
 	        var data = google.visualization.arrayToDataTable([
-	          ['Date', 'Jason', 'Travis', 'Bill', 'Robert'],
+	          ['Date', 'Jason Steinberg', 'Travis Wetzel', 'William Taylor', 'Robert California'],
 	          ['3-19', wk0dur0, wk1dur0, wk2dur0, wk3dur0],
 	          ['3-20', wk0dur1, wk1dur1, wk2dur1, wk3dur1],
 	          ['3-21', wk0dur2, wk1dur2, wk2dur2, wk3dur2],
