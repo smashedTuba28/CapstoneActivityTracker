@@ -186,6 +186,26 @@ public class FakeDatabaseTest {
 		//neither password nor email exist in db
 		assertFalse(fakedb.verifyAccount("idontexist@ycp.edu", "asIf"));
 	}
+	
+	@Test
+	public void testVerifyAccountWithEmailSchoolID() {
+		//check all initialized accounts
+		assertTrue(fakedb.verifyAccountWithEmailSchoolID("jdoe@ycp.edu", "900000000"));
+		assertTrue(fakedb.verifyAccountWithEmailSchoolID("jsteinberg@ycp.edu", "900000001"));
+		assertTrue(fakedb.verifyAccountWithEmailSchoolID("twetzel1@ycp.edu", "900000002"));
+		assertTrue(fakedb.verifyAccountWithEmailSchoolID("wtaylor1@ycp.edu", "900000003"));
+		assertTrue(fakedb.verifyAccountWithEmailSchoolID("lizardking@ycp.edu", "900000004"));
+		
+		//existing email with wrong schoolID
+		assertFalse(fakedb.verifyAccount("jdoe@ycp.edu", "wrongID"));
+		
+		//wrong email with correct schoolID
+		assertFalse(fakedb.verifyAccount("wrongemail@ycp.edu", "900000000"));
+		
+		//neither schoolID nor email exist in db
+		assertFalse(fakedb.verifyAccount("idontexist@ycp.edu", "asIf"));
+	}
+	
 
 	@Test
 	public void testCreateAccount() {
