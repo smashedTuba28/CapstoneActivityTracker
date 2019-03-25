@@ -62,22 +62,34 @@
 	</head>
 
 	<body>
+		<!-- heading with student name -->
+		<div>
+			<p id="studentFirstname" value="${account.firstname}"></p>
+			<p id="studentLastname" value="${account.lastname }"></p>
+		</div>
 		<!-- logout form -->
 		<div>
-			<form action="${pageContext.servletContext.contextPath}/signOut" method="get">
+			<form action="${pageContext.servletContext.contextPath}/index" method="get">
 				<input name="signOut" type="submit" value="Sign Out" />
 		</div>
 	
 		<!-- HTML element for google chart -->
 		<div id="columnchart_material" style="width: 800px; height: 500px"></div>
 		
-
+		<!-- lognote to be displayed -->
+		
+		<div>
+			<form action="${pageContext.servletContext.contextPath}/teamView" method="get">
+				<input name="teamView" type="submit" value="See Your Team Progress" />
+		</div>
 		
 		<!-- field to enter a lognote -->
 		<tr>
 			<td><input type ="hidden" name="newNote" value="${newNote}">
  		</tr>
- 		<input type="Submit" name="submit" value="Creat Lognote">			
+ 		<input type="Submit" name="submit" value="Creat Lognote">
+ 		
+ 			
 
 		<!-- Hidden fields to be used for chart creation -->
 		<!-- Duration in each day of the week -->

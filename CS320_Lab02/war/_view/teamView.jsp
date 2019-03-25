@@ -115,14 +115,25 @@
 	</head>
 
 	<body>
+		<!-- heading with student name -->
+		<div>
+			<p id="studentFirstname" value="${account.firstname}"></p>
+			<p id="studentLastname" value="${account.lastname }"></p>
+		</div>
+		
 		<!-- logout form -->
 		<div>
-			<form action="${pageContext.servletContext.contextPath}/signOut" method="get">
+			<form action="${pageContext.servletContext.contextPath}/index" method="get">
 				<input name="signOut" type="submit" value="Sign Out" />
 		</div>
 	
 		<!-- HTML element for google chart -->
 		<div id="columnchart_material" style="width: 800px; height: 500px"></div>
+
+		<div>
+			<form action="${pageContext.servletContext.contextPath}/studentView" method="get">
+				<input name="studentView" type="submit" value="Go to Student View" />
+		</div>
 
 		<!-- Link to subteams displayed here -->
 		<div id="subteams"></div>
