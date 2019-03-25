@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.CapstonActivtyTracker.db.FakeDatabase;
+
 
 public class SignUpServlet extends HttpServlet {
 	
@@ -18,10 +20,30 @@ public class SignUpServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("SignUp Servlet: doGet");
+		
+		//String email = req.getSession().getAttribute("userEmail").toString();
+		
+		//check session
+		//redirect is already logged in
+		//if ( email != null) {
+			//FakeDatabase fake = new FakeDatabase();
+			//fake.init();
+			
+			//check for faculty or student
+			//if(fake.isFaculty(email)) {
+				//redirect faculty to adminView
+			//	req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
+			//}
+			//else {
+				//redirect students to studentView
+				//resp.sendRedirect(req.getContextPath() + "/studentView");
+			//}
+		//}
+		//else {
 		//call the jsp and generate empty form
 		req.getRequestDispatcher("/_view/signUp.jsp").forward(req, resp);
+		//}
 	}
-	
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -31,71 +53,92 @@ public class SignUpServlet extends HttpServlet {
 		
 		//error message String to hold message text when applicable
 		String errorMessage = null;
+		String firstname = null;
+		String lastname = null;
+		String email = null;
+		String eConfirm = null;
+		String password = null;
+		String passConfirm = null;
+		String schoolID = null;
+		String faculty = "1";
+		Boolean valid = false;
 		
-		//TODO:
-		//create model
-		
-		//TODO:
-		//create controller
-		
-		//TODO:
-		//assign model to controller
+		FakeDatabase fake = new FakeDatabase();
+		fake.init();
 		
 		//decode POSted from parameter and dispatch to controller
 		try {
-			String firstname = req.getParameter("firstname");
-			String lastname = req.getParameter("lastname");
-			String email = req.getParameter("email");
-			String password = req.getParameter("password");
-			String schoolID = req.getParameter("schoolID");
+			firstname = req.getParameter("firstname").toString();
+			lastname = req.getParameter("lastname").toString();
+			email = req.getParameter("email").toString();
+			eConfirm = req.getParameter("emailConfirm").toString();
+			password = req.getParameter("password").toString();
+			passConfirm = req.getParameter("passwordConfirm").toString();
+			schoolID = req.getParameter("schoolID").toString();
+			//faculty = req.getParameter("faculty").toString();
+			//TODO: boolean for faculaty (jsp have a check box or drop down select)
+	 
 			
-			//check that 
+			
+			
+			//check that none are empty
 			if (firstname == null || lastname == null || email == null 
-					|| password == null || schoolID == null) {
-				
-				errorMessage = "All fields required\n";
+					|| password == null || schoolID == null || eConfirm == null
+					|| passConfirm == null) {//|| faculty == null) {
+				errorMessage = "All fields required";
 			}
 			//all fields have info entered
-			if (!email.endsWith("@ycp.edu")) {
+			else if (!email.endsWith("@ycp.edu")) {
 				//if it is not a ycp email
-				errorMessage = errorMessage + "Enter a valid YCP email\n";	
+				errorMessage = errorMessage + "Enter a valid YCP email";	
 			}
-			if (password.length() < 8) {
+			else if(!email.equals(eConfirm)) {
+				errorMessage = errorMessage + "Emails Don't Match\n";
+			}
+			else if (password.length() < 8) {
 				errorMessage = errorMessage + "Password must contain at least 8 characters\n";
 			}
-			
-			/*TODO: make sure no illegal characters in password
-			if (password.contains()) {
-				errorMessage = errorMessage + "Invalid Password: Cannot Contain these Characters\n:
-									+ "\t: \n";
+		
+			else if (!password.equals(passConfirm)) {
+				errorMessage = errorMessage + "Passwords Don't Match. Recheck password and confimation password\n";
 			} 
-			*/
 			
-			/*TODO: make sure schoolID has correct basic formating
-			if (!schoolID.startsWith(prefix) || schoolID.length() != length) {
+			else if (!schoolID.startsWith("90") || schoolID.length() != 9) {
 				errorMessage = errorMessage + "Invalid School ID #\n";
-			}
-			*/
+			}	
 			
-			//data cleared all initial checks if errorMessage is still null
-			if (errorMessage == null) {
-				//TODO: send data to controller to verify SignUp
-			}
+			else{
+			//passed all error checks and data ready to be added to db	
+				if(faculty.equals("0")){//student
+					fake.createAccount(firstname, lastname, email, password, schoolID, false);
+				}
+				else {//admin
+					fake.createAccount(firstname, lastname, email, password, schoolID, true);
+				}
+			}	
+			
+			//make sure creation was successful
+			valid = fake.verifyAccount(email, password);
+
 			
 		}catch (Exception e) {
-			errorMessage = errorMessage + "\nResolve all errors before continuing\n";
+			errorMessage = errorMessage + "\nUNABLE TO CREATE ACCOUNT: CHECK CREDENTIALS AND TRY AGAIN\n";
 		}
 		
 		
-		
-		//TODO:
-		//set "model" in jsp to reference desired model class from above
+		if (valid == true) {
+			//if account was made
+			//redirect to login page
+			System.out.println("Successful Account Creation: Redirect to SignIn");
+			resp.sendRedirect(req.getContextPath() +"/signIn");
+		}
+		else {
+		//TODO:set "model" in jsp to reference desired model class from above
 		//req.setAttribute("model", model);
-		
 		//set the errorMessage text to the response
 		req.setAttribute("errorMessage", errorMessage);
-		
 		//forward to view to render the result in jsp
 		req.getRequestDispatcher("/_view/signUp.jsp").forward(req, resp);
+		}
 	}
 }
