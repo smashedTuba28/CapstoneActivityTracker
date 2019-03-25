@@ -39,30 +39,18 @@ public class TeamViewServlet extends HttpServlet {
 			List<Week> weekList = fakedb.getAllWeek();
 			List<Log> logList = fakedb.getAllLogs();
 				
-			//get appropriate week and log
-			if(email.equals("jsteinberg@ycp.edu")) {
-				req.setAttribute("week", weekList.get(0));
-				req.setAttribute("log", logList.get(0));
-			}
-			else if(email.equals("twetzel1@ycp.edu")) {
-				req.setAttribute("week", weekList.get(1));
-				req.setAttribute("log", logList.get(1));
-			}
-			else if (email.equals("wtaylor1@ycp.edu")){
-				req.setAttribute("week", weekList.get(2));
-				req.setAttribute("log", logList.get(2));
-			}
-			else if(email.equals("lizardking@ycp.edu")){
-				req.setAttribute("week", weekList.get(3));
-				req.setAttribute("log", logList.get(3));
-			}
-			else {
-				//email not from hard coded list jump back to signIn
-				resp.sendRedirect(req.getContentType() + "/signIn");
-			}
+			//get appropriate week and logs hard coded in
+				req.setAttribute("week0", weekList.get(0));
+				req.setAttribute("log0", logList.get(0));
+				req.setAttribute("week1", weekList.get(1));
+				req.setAttribute("log1", logList.get(1));
+				req.setAttribute("week2", weekList.get(2));
+				req.setAttribute("log2", logList.get(2));
+				req.setAttribute("week3", weekList.get(3));
+				req.setAttribute("log3", logList.get(3));
+		
 			//call the jsp and generate empty form
-			req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
+			req.getRequestDispatcher("/_view/teamView.jsp").forward(req, resp);
 		}
 	}		
 }
-
