@@ -115,7 +115,11 @@
 	</head>
 
 	<body>
-
+		<!-- logout form -->
+		<div>
+			<form action="${pageContext.servletContext.contextPath}/signOut" method="get">
+				<input name="signOut" type="submit" value="Sign Out" />
+		</div>
 	
 		<!-- HTML element for google chart -->
 		<div id="columnchart_material" style="width: 800px; height: 500px"></div>
