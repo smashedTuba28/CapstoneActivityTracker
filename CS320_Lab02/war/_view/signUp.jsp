@@ -30,7 +30,7 @@
 					</tr>
 					<tr>
 						<td class = "Label">Student ID Number:</td>
-						<td><input type = "Text" name="studentID" size="12" value="${studentID}">
+						<td><input type = "Text" name="schoolID" size="12" value="${schoolID}">
 					</tr>		
 					<tr>
 						<td class = "Label">YCP Email:</td>

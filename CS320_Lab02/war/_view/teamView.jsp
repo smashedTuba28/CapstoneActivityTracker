@@ -81,7 +81,7 @@
 			var wk3dur6 = 7;
 		</script>
 		
-		<!-- chart script from developers.google.com -->
+		<!-- chart script assistance from developers.google.com -->
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
 	      	google.charts.load('current', {'packages':['bar']});
@@ -89,7 +89,7 @@
 
 	      function drawChart() {
 	        var data = google.visualization.arrayToDataTable([
-	          ['Date', 'Travis', 'Jason', 'Bill', 'Roy'],
+	          ['Date', 'Travis', 'Jason', 'Bill', 'Robert'],
 	          ['3-25', wk0dur0, wk1dur0, wk2dur0, wk3dur0],
 	          ['3-24', wk0dur1, wk1dur1, wk2dur1, wk3dur1],
 	          ['3-23', wk0dur2, wk1dur2, wk2dur2, wk3dur2],
@@ -101,8 +101,8 @@
 
 	        var options = {
 	          chart: {
-	            title: 'Company Performance',
-	            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+	            title: 'Drone Team',
+	            subtitle: 'Hours worked by student',
 	          }
 	        };
 
