@@ -24,7 +24,7 @@ public class StudentViewServlet  extends HttpServlet {
 		System.out.println("StudentView Servlet: doGet");
 	
 	
-		String email = req.getSession().getAttribute("userEmail").toString();
+		String email = (String) req.getSession().getAttribute("userEmail");
 	
 			//check session
 			if ( email == null) {
@@ -32,6 +32,7 @@ public class StudentViewServlet  extends HttpServlet {
 				resp.sendRedirect(req.getContextPath() + "/signIn");
 			}
 			else {
+				
 				//create fakedb and initialze
 				FakeDatabase fakedb = new FakeDatabase();
 				fakedb.init();
@@ -49,12 +50,20 @@ public class StudentViewServlet  extends HttpServlet {
 					req.setAttribute("week", weekList.get(1));
 					req.setAttribute("log", logList.get(1));
 				}
+				else if (email.equals("wtaylor1@ycp.edu")){
+					req.setAttribute("week", weekList.get(2));
+					req.setAttribute("log", logList.get(2));
+				}
+				else if(email.equals("lizardking@ycp.edu")){
+					req.setAttribute("week", weekList.get(3));
+					req.setAttribute("log", logList.get(3));
+				}
 				else {
-					
+					//email not from hard coded list jump back to signIn
+					resp.sendRedirect(req.getContentType() + "/signIn");
 				}
 				//call the jsp and generate empty form
-				req.getRequestDispatcher("/_view/signUp.jsp").forward(req, resp);
-				
+				req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
 			}
 	}	
 
