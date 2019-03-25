@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+//TODO:
+//import model
+//import controller
+import edu.ycp.cs320.CapstonActivtyTracker.db.*;
 
 public class SignInServlet extends HttpServlet {
 	
@@ -16,11 +20,14 @@ public class SignInServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
-		System.out.println("AddNumbers Servlet: doGet");	
 		
-		// call JSP to generate empty form
+		System.out.println("SignIn Servlet: doGet");
+		//call the jsp and generate empty form
 		req.getRequestDispatcher("/_view/signIn.jsp").forward(req, resp);
+		
+		//Got idea for using sessions from Joseph Landau and Edward Nardo
+		//used tutorialspoint for understanding
+		//https://www.tutorialspoint.com/servlets/servlets-session-tracking.htm		
 	}
 	
 	
@@ -33,21 +40,21 @@ public class SignInServlet extends HttpServlet {
 		//error message String to hold message text when applicable
 		String errorMessage = null;
 		
+		//create db instance
+		FakeDatabase fake = new FakeDatabase();
+		fake.init();
 		
-		//TODO:
-		// create model
-	
-		//TODO:
-		//create controller
-		
-		//TODO:
-		//assign model reference to controller
+		boolean valid = false;
+		String email = null;
+		String password = null;
+		//String faculty[] = null;
 		
 		//decode POSTed from parameters and dispatch to controller
 		try {
-			String email = req.getParameter("email");//input from jsp under field labeled email
-			String password = req.getParameter("password"); //input from jsp under field labeled password
-	
+			email = req.getParameter("email").toString();//input from jsp under field labeled email
+			password = req.getParameter("password").toString(); //input from jsp under field labeled password
+			//faculty = req.getParameterValues("faculty");
+			
 			//check if either is empty
 			if (email == null || password == null) {//either empty
 				errorMessage = "Please Enter Both your YCP Email and Password";
@@ -62,20 +69,46 @@ public class SignInServlet extends HttpServlet {
 				errorMessage = "Password Invalid: must contain at least 8 characters";
 			}
 			//data clears initial check
-			//TODO: send data to controller to verify log in
-			//model should have a boolean attribute called loggedIn
+			//TODO: search for only faculty or student
+			valid = fake.verifyAccount(email, password);
 		} catch (Exception e){
 			errorMessage = "Log In Failed: Recheck Email and Password and try again";
 		}
 		
-		//TODO:
-		//set "model" in jsp to reference desired model class from above
-		//req.setAttribute("model", model);
-		
-		//set the errorMessage text to the response
-		req.setAttribute("errorMessage", errorMessage);
-		
-		//Forward to view to render the result in jsp
-		req.getRequestDispatcher("/_view/signIn.jsp").forward(req,  resp);
+		//determine if credentials were successful
+		if (valid == true) {
+			req.getSession().setAttribute("userEmail", email);//citation at top 
+			if (true) {
+				//get student view if successful login
+				resp.sendRedirect(req.getContextPath() + "/studentView");
+			}
+			//TODO: fix to use checkbox input
+			else if(false){
+				//get faculty view if successful login
+				resp.sendRedirect(req.getContextPath() + "/adminView");
+			}
+			else {
+				//hopefully never get here
+				req.setAttribute("errorMessage", "Student/Faculty value Failure");
+				//Forward to view to render the result in jsp
+				req.getRequestDispatcher("/_view/signIn.jsp").forward(req,  resp);
+			}
+		}
+		else {
+			//report error
+			//set the errorMessage text to the response
+			req.setAttribute("errorMessage", errorMessage);
+			//Forward to view to render the result in jsp
+			req.getRequestDispatcher("/_view/signIn.jsp").forward(req,  resp);
+		}
+	}
+	
+	//code borrowed from Lab02 then modified for int
+	private Integer getIntFromParameter(String s) {
+		if (s == null || s.equals("")) {
+			return null;
+		} else {
+			return Integer.parseInt(s);
+		}
 	}
 }
