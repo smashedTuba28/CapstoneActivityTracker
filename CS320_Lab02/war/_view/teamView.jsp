@@ -23,7 +23,7 @@
 		
 		<script>
 			// week and time durations for team members
-			var wk0dur0 = document.getElementById("wk0dur0");
+			/*var wk0dur0 = document.getElementById("wk0dur0");
 			var wk0dur1 = document.getElementById("wk0dur0");
 			var wk0dur2 = document.getElementById("wk0dur0");
 			var wk0dur3 = document.getElementById("wk0dur0");
@@ -50,37 +50,67 @@
 			var wk3dur3 = document.getElementById("wk0dur0");
 			var wk3dur4 = document.getElementById("wk0dur0");
 			var wk3dur5 = document.getElementById("wk0dur0");
-			var wk3dur6 = document.getElementById("wk0dur0");
+			var wk3dur6 = document.getElementById("wk0dur0");*/
+			var wk0dur0 = 0;
+			var wk0dur1 = 1;
+			var wk0dur2 = 1;
+			var wk0dur3 = 0;
+			var wk0dur4 = 2;
+			var wk0dur5 = 8;
+			var wk0dur6 = 8;
+			var wk1dur0 = 2;
+			var wk1dur1 = 2;
+			var wk1dur2 = 2;
+			var wk1dur3 = 2;
+			var wk1dur4 = 6;
+			var wk1dur5 = 6;
+			var wk1dur6 = 6;
+			var wk2dur0 = 0;
+			var wk2dur1 = 0;
+			var wk2dur2 = 2;
+			var wk2dur3 = 2;
+			var wk2dur4 = 0;
+			var wk2dur5 = 8;
+			var wk2dur6 = 8;
+			var wk3dur0 = 1;
+			var wk3dur1 = 0;
+			var wk3dur2 = 0;
+			var wk3dur3 = 8;
+			var wk3dur4 = 3;
+			var wk3dur5 = 0;
+			var wk3dur6 = 7;
 		</script>
 		
 		<!-- chart script from developers.google.com -->
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
- 			google.charts.load('current', {'packages': ['bar']});
- 			google.charts.setOnLoadCallback(drawChart);
- 		
- 		function drawChart() {
-  	 	// Create the data table.
-  	 	var d = new Date();
-  	 	var date;
-        var data = google.visualization.arrayToDataTable([
-          ['Date', 'Hours'],
-          ['3-19', 3],
-          ['3-20', 2],
-          ['3-21', 4],
-          ['3-22', 0],
-          ['3-23', 0],
-          ['3-24', 8],
-          ['3-25', 2],
-        ]);
-      	
-        // Set chart options
-        var options = {'title':'Weekly Activity'};
-        
-        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
-        
-        chart.draw(data, google.charts.Bar.convertOptions(options));
- 		}
+	      	google.charts.load('current', {'packages':['bar']});
+	      	google.charts.setOnLoadCallback(drawChart);
+
+	      function drawChart() {
+	        var data = google.visualization.arrayToDataTable([
+	          ['Date', 'Travis', 'Jason', 'Bill', 'Roy'],
+	          ['3-25', wk0dur0, wk1dur0, wk2dur0, wk3dur0],
+	          ['3-24', wk0dur1, wk1dur1, wk2dur1, wk3dur1],
+	          ['3-23', wk0dur2, wk1dur2, wk2dur2, wk3dur2],
+	          ['3-22', wk0dur3, wk1dur3, wk2dur3, wk3dur3],
+	          ['3-21', wk0dur4, wk1dur4, wk2dur4, wk3dur4],
+	          ['3-20', wk0dur5, wk1dur5, wk2dur5, wk3dur5],
+	          ['3-19', wk0dur6, wk1dur6, wk2dur6, wk3dur6],
+	        ]);
+
+	        var options = {
+	          chart: {
+	            title: 'Company Performance',
+	            subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+	          }
+	        };
+
+	        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+	        chart.draw(data, google.charts.Bar.convertOptions(options));
+	      }
+
 		</script>
 	</head>
 
