@@ -20,3 +20,5 @@ public class IndexServlet extends HttpServlet {
 		resp.sendRedirect(req.getContextPath() + "/signIn");
 	}
 }
+
+
