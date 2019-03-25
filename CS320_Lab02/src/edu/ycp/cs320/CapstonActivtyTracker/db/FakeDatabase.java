@@ -345,4 +345,13 @@ public class FakeDatabase {
 	public List<Room> getAllRooms(){
 		return roomList;
 	}	
+	
+	public List<Log> getAllLogs(){
+		return logList;
+	}
+	
+	public List<Week> getAllWeek(){
+		return weekList;
+	}
+	
 }
