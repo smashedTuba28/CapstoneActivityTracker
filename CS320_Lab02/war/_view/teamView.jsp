@@ -117,8 +117,8 @@
 	<body>
 		<!-- heading with student name -->
 		<div>
-			<p id="studentFirstname" value="${account.firstname}"></p>
-			<p id="studentLastname" value="${account.lastname }"></p>
+			<p id="studentFirstname" value="${account.firstname}">${account.firstname}</p>
+			<p id="studentLastname" value="${account.lastname }"> ${account.lastname }</p>
 		</div>
 		
 		<!-- logout form -->
