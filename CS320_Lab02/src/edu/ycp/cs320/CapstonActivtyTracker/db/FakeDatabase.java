@@ -12,6 +12,8 @@ public class FakeDatabase {
 	private List<TopTeam> topTeamList;
 	private List<Room> roomList;
 	private List<Account> accountList;
+	private List<Week> weekList;
+	private List<Log> logList;
 	//List<SubTeam> subTeamList;
 	//List<RoomEvent> roomEventList;
 	
@@ -26,7 +28,9 @@ public class FakeDatabase {
 		topTeamList = new ArrayList<TopTeam>();
 		//subTeamList = new ArrayList<SubTeam>();
 		roomList = new ArrayList<Room>();
-		//roomEventList = new ArrayList<RoomEvent>();		
+		//roomEventList = new ArrayList<RoomEvent>();	
+		weekList = new ArrayList<Week>();
+		logList = new ArrayList<Log>();
 		
 		//create fake data for hard coded examples
 		adminList.add(new AdminAccount("John", "Doe", "jdoe@ycp.edu", "password" , "900000000", true ));
@@ -70,13 +74,57 @@ public class FakeDatabase {
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(2), "Aircraft Design");
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(3), "AirCraft Design");
 		
+		//create durations for several students
 		
+		weekList.add(new Week("120", "140", "120", "375", "800", "840", "240"));
+		weekList.add(new Week("0", "65", "247", "398", "690", "720", "240"));
+		weekList.add(new Week("120", "30", "120", "420", "600", "840", "240"));
+		weekList.add(new Week("480", "480", "480", "480", "0", "0", "480"));
+		
+		logList.add(new Log("This is a test log for Jason",
+				"This is a second test log for Jason",
+				"This is a third.. yada yada",
+				"We need a fake database???????",
+				"Creating fake database",
+				"testing fake database",
+				"nailed fake database"));
+		logList.add(new Log("This is a test log for Travis",
+				"This is a second test log for Travis",
+				"creating lots of models and lots of tests",
+				"We need a fake database???????",
+				"Creating lots more tests and polishing models",
+				"Creating Slides and Schema",
+				""));
+		logList.add(new Log("This is a test log for Bill",
+				"This is a second test log for Bill",
+				"Making some JSPs",
+				"We need a fake database???????",
+				"Using JavaScript to make hardcoded graphs",
+				"Using JavaScript to use models for graph data",
+				"Proving I nailed it with demo"));
+		logList.add(new Log("Fear Plays an interestinf rle in our lives",
+				"How dare we let it motivate us?",
+				"How dare we let it into our decision making",
+				"We need a fake database???????",
+				"into our livelihoods, into our relationships",
+				"it's funny isn't it",
+				"we take a day a year to dress up in costume and celebrate fear"));
 	}
 	
-	//verifies an account exists with given credentials 
+	//verifies an account exists with email and password
 	public boolean verifyAccount(String email, String password) {
 		for(Account a : accountList) {
 			if (a.getEmail().equals(email) && a.getPassword().equals(password)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//Verifies account using email and schholID
+	public boolean verifyAccountWithEmailSchoolID(String email, String schoolID) {
+		for(Account a : accountList) {
+			if (a.getEmail().equals(email) && a.getSchoolID().equals(schoolID)) {
 				return true;
 			}
 		}
@@ -297,4 +345,13 @@ public class FakeDatabase {
 	public List<Room> getAllRooms(){
 		return roomList;
 	}	
+	
+	public List<Log> getAllLogs(){
+		return logList;
+	}
+	
+	public List<Week> getAllWeek(){
+		return weekList;
+	}
+	
 }
