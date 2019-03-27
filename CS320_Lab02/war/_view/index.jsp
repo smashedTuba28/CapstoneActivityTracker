@@ -2,10 +2,12 @@
 
 <html>
 	<head>
-		<title>Index view</title>
+		<title>Welcome to the YCP Capstone Activity Tracker</title>
 	</head>
 
 	<body>
-		This is the index view jsp
+		<div>
+		Menu
+		</div>
 	</body>
 </html>
