@@ -2,19 +2,20 @@ package edu.ycp.cs320.CapstoneActivityTracker.model;
 
 public class Week {
 
-	long dur0, dur1, dur2, dur3, dur4, dur5;
+	long dur0, dur1, dur2, dur3, dur4, dur5, dur6;
 	
 	public Week() {
 		
 	}
 	
-	public Week(long dur0, long dur1, long dur2, long dur3, long dur4, long dur5) {
+	public Week(long dur0, long dur1, long dur2, long dur3, long dur4, long dur5, long dur6) {
 		this.dur0 = dur0;
 		this.dur1 = dur1;
 		this.dur2 = dur2;
 		this.dur3 = dur3;
 		this.dur4 = dur4;
 		this.dur5 = dur5;
+		this.dur6 = dur6;
 	}
 	
 	public long getDur0() {
@@ -41,6 +42,10 @@ public class Week {
 		return dur5;
 	}
 	
+	public long getDur6() {
+		return dur6;
+	}
+	
 	public void setDur0(long dur0) {
 		this.dur0 =  dur0;
 	}
@@ -63,6 +68,10 @@ public class Week {
 	
 	public void setDur5(long dur5) {
 		this.dur5 =  dur5;
+	}
+	
+	public void setDur6(long dur6) {
+		this.dur6 =  dur6;
 	}
 	
 }

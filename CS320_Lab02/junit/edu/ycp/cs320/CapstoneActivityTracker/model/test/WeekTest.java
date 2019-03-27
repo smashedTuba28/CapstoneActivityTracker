@@ -30,8 +30,9 @@ public class WeekTest extends Week {
 		one.setDur3(3);
 		one.setDur4(4);
 		one.setDur5(5);
+		one.setDur6(6);
 		
-		two = new Week(0,1,2,3,4,5);
+		two = new Week(0,1,2,3,4,5,6);
 	}
 
 	/**
@@ -45,6 +46,7 @@ public class WeekTest extends Week {
 		assertFalse (one.getDur0() == 3);
 		assertFalse (one.getDur0() == 4);
 		assertFalse (one.getDur0() == 5);
+		assertFalse (one.getDur0() == 6);
 		
 
 		assertTrue(two.getDur0() == 0);
@@ -53,6 +55,7 @@ public class WeekTest extends Week {
 		assertFalse (two.getDur0() == 3);
 		assertFalse (two.getDur0() == 4);
 		assertFalse (two.getDur0() == 5);
+		assertFalse (two.getDur0() == 6);
 	}
 
 	/**
@@ -66,6 +69,7 @@ public class WeekTest extends Week {
 		assertFalse (one.getDur1() == 3);
 		assertFalse (one.getDur1() == 4);
 		assertFalse (one.getDur1() == 5);
+		assertFalse (one.getDur1() == 6);
 		
 
 		assertFalse(two.getDur1() == 0);
@@ -74,6 +78,7 @@ public class WeekTest extends Week {
 		assertFalse (two.getDur1() == 3);
 		assertFalse (two.getDur1() == 4);
 		assertFalse (two.getDur1() == 5);
+		assertFalse (two.getDur1() == 6);
 	}
 
 	/**
@@ -87,6 +92,7 @@ public class WeekTest extends Week {
 		assertFalse (one.getDur2() == 3);
 		assertFalse (one.getDur2() == 4);
 		assertFalse (one.getDur2() == 5);
+		assertFalse (one.getDur2() == 6);
 		
 
 		assertFalse(two.getDur2() == 0);
@@ -95,6 +101,7 @@ public class WeekTest extends Week {
 		assertFalse (two.getDur2() == 3);
 		assertFalse (two.getDur2() == 4);
 		assertFalse (two.getDur2() == 5);
+		assertFalse (two.getDur2() == 6);
 	}
 
 	/**
@@ -108,6 +115,7 @@ public class WeekTest extends Week {
 		assertTrue (one.getDur3() == 3);
 		assertFalse (one.getDur3() == 4);
 		assertFalse (one.getDur3() == 5);
+		assertFalse (one.getDur3() == 6);
 		
 
 		assertFalse(two.getDur3() == 0);
@@ -116,6 +124,7 @@ public class WeekTest extends Week {
 		assertTrue (two.getDur3() == 3);
 		assertFalse (two.getDur3() == 4);
 		assertFalse (two.getDur3() == 5);
+		assertFalse (two.getDur3() == 6);
 	}
 
 	/**
@@ -129,6 +138,7 @@ public class WeekTest extends Week {
 		assertFalse (one.getDur4() == 3);
 		assertTrue (one.getDur4() == 4);
 		assertFalse (one.getDur4() == 5);
+		assertFalse (one.getDur4() == 6);
 		
 
 		assertFalse(two.getDur4() == 0);
@@ -137,6 +147,7 @@ public class WeekTest extends Week {
 		assertFalse (two.getDur4() == 3);
 		assertTrue (two.getDur4() == 4);
 		assertFalse (two.getDur4() == 5);
+		assertFalse (two.getDur4() == 6);
 	}
 
 	/**
@@ -150,6 +161,7 @@ public class WeekTest extends Week {
 		assertFalse (one.getDur5() == 3);
 		assertFalse (one.getDur5() == 4);
 		assertTrue (one.getDur5() == 5);
+		assertFalse (one.getDur5() == 6);
 		
 
 		assertFalse(two.getDur5() == 0);
@@ -158,6 +170,26 @@ public class WeekTest extends Week {
 		assertFalse (two.getDur5() == 3);
 		assertFalse (two.getDur5() == 4);
 		assertTrue (two.getDur5() == 5);
+		assertFalse (two.getDur5() == 6);
 	}
 
+	@Test
+	public void testSetDur6() {
+		assertFalse(one.getDur6() == 0);
+		assertFalse (one.getDur6() == 1);
+		assertFalse (one.getDur6() == 2);
+		assertFalse (one.getDur6() == 3);
+		assertFalse (one.getDur6() == 4);
+		assertFalse (one.getDur6() == 5);
+		assertTrue (one.getDur6() == 6);
+		
+
+		assertFalse(two.getDur6() == 0);
+		assertFalse (two.getDur6() == 1);
+		assertFalse (two.getDur6() == 2);
+		assertFalse (two.getDur6() == 3);
+		assertFalse (two.getDur6() == 4);
+		assertFalse (two.getDur6() == 5);
+		assertTrue (two.getDur6() == 6);
+	}
 }

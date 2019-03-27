@@ -2,19 +2,20 @@ package edu.ycp.cs320.CapstoneActivityTracker.model;
 
 public class Log {
 
-	String log0, log1, log2, log3, log4, log5;
+	String log0, log1, log2, log3, log4, log5, log6;
 	
 	public Log() {
 		
 	}
 	
-	public Log(String log0, String log1, String log2, String log3, String log4, String log5) {
+	public Log(String log0, String log1, String log2, String log3, String log4, String log5, String log6) {
 		this.log0 = log0;
 		this.log1 = log1;
 		this.log2 = log2;
 		this.log3 = log3;
 		this.log4 = log4;
 		this.log5 = log5;
+		this.log6 = log6;
 	}
 	
 	public String getLog0() {
@@ -41,6 +42,10 @@ public class Log {
 		return log5;
 	}
 	
+	public String getLog6() {
+		return log6;
+	}
+	
 	public void setLog0(String log0) {
 		this.log0 =  log0;
 	}
@@ -63,6 +68,10 @@ public class Log {
 	
 	public void setLog5(String log5) {
 		this.log5 =  log5;
+	}
+	
+	public void setLog6(String log6) {
+		this.log6 =  log6;
 	}
 	
 }
