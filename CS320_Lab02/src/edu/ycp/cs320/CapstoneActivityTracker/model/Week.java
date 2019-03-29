@@ -73,3 +73,4 @@ public class Week {
 	public void setDur6(long dur6) {
 		this.dur6 =  dur6;
 	}
+}
