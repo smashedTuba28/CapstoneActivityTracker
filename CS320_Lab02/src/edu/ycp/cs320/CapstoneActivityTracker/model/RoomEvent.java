@@ -1,12 +1,12 @@
 package edu.ycp.cs320.CapstoneActivityTracker.model;
 
-import java.time.LocalDateTime;
-import java.time.temporal.*;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 public class RoomEvent {
 	
 	//start time and end time of the room event
-	private LocalDateTime start, end;
+	private Date start, end;
 	
 	//duration of the time in roomevent
 	private long duration;
@@ -26,24 +26,24 @@ public class RoomEvent {
 	}
 	
 	//RoomEvent starts immediately when this constructor is called
-	public RoomEvent(LocalDateTime start) {
+	public RoomEvent(Date start) {
 		this.start = start;
 		flag = false;
 	}
 	
-	public LocalDateTime getEndTime() {
+	public Date getEndTime() {
 		return end;
 	}
 	
-	public void setEndTime(LocalDateTime end) {
+	public void setEndTime(Date end) {
 		this.end = end;
 	}
 	
-	public LocalDateTime getStartTime() {
+	public Date getStartTime() {
 		return start;
 	}
 	
-	public void setStartTime(LocalDateTime start) {
+	public void setStartTime(Date start) {
 		this.start = start;
 	}
 
@@ -60,7 +60,7 @@ public class RoomEvent {
 	}
 	
 	public void setDuration() {
-		this.duration = ChronoUnit.MINUTES.between(start, end);
+		this.duration =  (end.getTime() - start.getTime()) / 60000 ; // duration = milliseconds / (60000 ms/min)
 	}
 	
 	public String getLognote() {
