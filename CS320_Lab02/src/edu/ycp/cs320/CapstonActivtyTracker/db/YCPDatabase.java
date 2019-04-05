@@ -2,6 +2,15 @@ package edu.ycp.cs320.CapstonActivtyTracker.db;
 
 public class YCPDatabase {
 
+	public YCPDatabase() {
+		
+	}
+	public YCPDatabase() {
+		
+	}
+	
+	
+	
 }
 /*
  * TODO:  
