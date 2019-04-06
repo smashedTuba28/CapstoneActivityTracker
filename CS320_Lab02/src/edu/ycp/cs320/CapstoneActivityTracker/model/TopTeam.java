@@ -36,4 +36,11 @@ public class TopTeam extends Team{
 	public void removeSubTeam(SubTeam subteam) {
 		subTeams.remove(subteam);
 	}
+	
+	public void addRoomToAllSubTeams(Room room) {
+		for(SubTeam s: subTeams) {//run through loop to add room to all subTeams
+			s.addRoom(room);
+		}
+	}
+	
 }

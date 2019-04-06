@@ -385,28 +385,31 @@ public class FakeDatabaseTest {
 		//assign existing room to existing team
 		TopTeam top = fakedb.findTopTeam("The Office");
 		assertTrue(top != null);
-		testRoomList = top.getRooms();
+		
+		for(SubTeam s : top.getSubTeams()) {
+			for(Room r : s.getRooms()) {
+				if (!testRoomList.contains(r)) {
+					testRoomList.add(r);
+				}
+			}
+		}
+		
 		assertEquals(3, testRoomList.size());//default size after initalization
 		
-		fakedb.assignTeamRoom("The Office", "Computer Lab");
+		fakedb.assignTeamRoom(top, new Room("Test Room", 2000));//add a new room to the team
 		top = fakedb.findTopTeam("The Office");
-		testRoomList = fakedb.findTopTeam("The Office").getRooms();
+		
+		for(SubTeam s : top.getSubTeams()) {
+			for(Room r : s.getRooms()) {
+				if (!testRoomList.contains(r)) {
+					testRoomList.add(r);
+				}
+			}
+		}
+		
 		assertEquals(4, testRoomList.size());//room assigned
-		assertTrue(testRoomList.get(0).getRoomName().equals("Computer Lab"));
+		assertTrue(testRoomList.get(3).getRoomName().equals("Test Room"));
 		
-		//assign existing team team to no existent room should throw exception
-		try {
-			fakedb.assignTeamRoom("The Office", "Not a Real Room");
-			fail("Should have thrown NoSuchElementException");
-		}catch(NoSuchElementException e) {
-		}
-		
-		//assign non existent team to existing room
-		try {
-			fakedb.assignTeamRoom("Not a Real Team", "Computer Lab");
-			fail("Should have thrown NoSuchElementException");
-		}catch(NoSuchElementException e) {
-		}
 	}
 
 	@Test
@@ -425,7 +428,11 @@ public class FakeDatabaseTest {
 	@Test
 	public void testRemoveRoomFromTeam() {
 		//confirm that team exists with rooms
-		testRoomList = fakedb.getAllTopTeams().get(1).getRooms();
+		testRoomList = fakedb.getAllTopTeams().get(1);
+		
+		
+		
+		
 		assertEquals(3, testRoomList.size());
 		assertTrue(fakedb.findRoom("Computer Lab") != null);
 		assertTrue(fakedb.findRoom("Software Engineering Lab") != null);
@@ -474,4 +481,15 @@ public class FakeDatabaseTest {
 		testRoomList = fakedb.getAllTopTeams().get(1).getRooms();
 		assertEquals(2, testRoomList.size());
 	}
+	
+	@Test
+	public void testGetTopTeamWithStudentEmail() {
+		TopTeam test = fakedb.getTopTeamWithStudentEmail("jsteinberg@ycp.edu");
+		assertTrue(test.getTeamname().equals("Drone Team"));
+		test = fakedb.getTopTeamWithStudentEmail("lizardking@ycp.edu");
+		assertTrue(test.getTeamname().equals("The Office"));
+	}
+	
+	
+	
 }

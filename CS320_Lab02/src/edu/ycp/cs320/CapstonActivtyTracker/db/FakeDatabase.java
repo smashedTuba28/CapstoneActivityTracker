@@ -62,18 +62,18 @@ public class FakeDatabase {
 		topTeamList.get(1).addSubTeam(new SubTeam("Finer Things Club"));
 		topTeamList.get(1).addSubTeam(new SubTeam("Scott's Tots"));
 		
-		topTeamList.get(0).addRoom(roomList.get(0));//add Power Systems Lab to Drone Team
-		topTeamList.get(0).addRoom(roomList.get(1));//add Computer Lab to Drone Team
+		topTeamList.get(0).getSubTeams().get(0).addRoom(roomList.get(0));//add Power Systems Lab to Drone Team
+		topTeamList.get(0).addRoomToAllSubTeams(roomList.get(1));//add Computer Lab to Drone Team
 		
-		topTeamList.get(1).addRoom(roomList.get(1));//add Computer Lab to Office
-		topTeamList.get(1).addRoom(roomList.get(2));//add Software Engineering Lab
-		topTeamList.get(1).addRoom(roomList.get(3));//add Visualization Lab 
+		topTeamList.get(1).addRoomToAllSubTeams(roomList.get(1));//add Computer Lab to Office
+		topTeamList.get(1).getSubTeams().get(2).addRoom(roomList.get(2));//add Software Engineering Lab to Scott's Tots 
+		topTeamList.get(1).getSubTeams().get(0).addRoom(roomList.get(3));//add Visualization Lab to Party Planning Committee 
 		
 		//populate existing subTeams
-		topTeamList.get(0).addMemberToSubTeam(studentList.get(0), "Controls");
-		topTeamList.get(0).addMemberToSubTeam(studentList.get(1), "Controls");
-		topTeamList.get(0).addMemberToSubTeam(studentList.get(2), "Aircraft Design");
-		topTeamList.get(0).addMemberToSubTeam(studentList.get(3), "AirCraft Design");
+		topTeamList.get(0).getSubTeams().get(0).addStudent(studentList.get(0));//jason to controls
+		topTeamList.get(0).getSubTeams().get(0).addStudent(studentList.get(1));//travis to controls
+		topTeamList.get(0).getSubTeams().get(1).addStudent(studentList.get(2));//bill to aircraft design
+		topTeamList.get(1).getSubTeams().get(0).addStudent(studentList.get(3));//robert to Party Planning Committee
 		
 		//create fake Room Event for students
 		try {
@@ -215,6 +215,19 @@ public class FakeDatabase {
 		return null;
 	}
 	
+	public TopTeam getTopTeamWithStudentEmail(String email) {
+		for (TopTeam t : topTeamList) {
+			for(SubTeam s : t.getSubTeams()) {
+				for (StudentAccount st : s.getStudents()){
+					if(st.getEmail().equals(email)) {
+						return t;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
 	//creates a new faculty or student account accordingly
 	public void createAccount(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
 		if (faculty) {
@@ -342,17 +355,14 @@ public class FakeDatabase {
 	}
 	
 	
-	public void assignTeamRoom(String teamname, String roomname){
-		Team team = findTopTeam(teamname);
-		Room room = findRoom(roomname);
-		if(room == null || team == null) {
-			throw new NoSuchElementException();
-		}
-		else {
-			team.addRoom(room);
-			team.getRooms().get(0);
+	public void assignTeamRoom(TopTeam team, Room room){	
+		for(SubTeam s : team.getSubTeams()) {
+			if (!s.getRooms().contains(room)) {
+				s.addRoom(room);
+			}
 		}
 	}
+	
 	
 	public Room findRoom(String roomname) {
 		for (Room r: roomList) {
@@ -363,25 +373,19 @@ public class FakeDatabase {
 		return null;
 	}
 	
-	public void removeRoomFromTeam(String teamname, String roomname) {
-		Team team = findTopTeam(teamname);
-		Room room = findRoom(roomname);
-		//checking if any inputs return a null value
-		if(room == null || team == null) {
-			throw new NoSuchElementException();
-		}
-		else{
-			team.removeRoom(room);
+	public void removeRoomFromSubTeam(SubTeam team, Room room) {
+		if(team.getRooms().contains(room)) {
+			team.getRooms().remove(room);
 		}
 	}
 	
-	public List<TopTeam> findAllTeamsWithRoom(String roomname) {
+	public List<TopTeam> findAllTeamsWithRoom(Room room) {
 		ArrayList<TopTeam> teams = new ArrayList<TopTeam>();
 		for(TopTeam t: topTeamList) {
-			for(Room room: t.getRooms()) {
-				if (room.getRoomName().equals(roomname)) {
+			for(SubTeam s: t.getSubTeams()) {
+				if(s.getRooms().contains(room)) {
 					teams.add(t);
-					break;
+					break;//break out of subTeamLoop
 				}
 			}
 		}
@@ -393,19 +397,15 @@ public class FakeDatabase {
 		roomList.add(new Room(roomname, roomNumber));
 	}
 	
-	public void removeRoom(String roomname) {
-		Room room = findRoom(roomname);
-		if(room == null) {
-			throw new NoSuchElementException();
-		}
-		else {
-			//remove room from database
-			roomList.remove(room);
+	public void removeRoom(Room room) {
+		//remove room from database
+		roomList.remove(room);
 			
-			//remove room from all teams
-			List<TopTeam> teams = findAllTeamsWithRoom(roomname);
-			for(TopTeam t: teams) {
-				t.removeRoom(room);
+		//remove room from all teams
+		List<TopTeam> teams = findAllTeamsWithRoom(room);
+		for(TopTeam t: teams) {
+			for(SubTeam s: t.getSubTeams()) {
+				removeRoomFromSubTeam(s, room);
 			}
 		}
 	}
