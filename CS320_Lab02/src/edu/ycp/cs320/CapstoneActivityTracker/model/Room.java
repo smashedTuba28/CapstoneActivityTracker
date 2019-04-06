@@ -1,7 +1,5 @@
 package edu.ycp.cs320.CapstoneActivityTracker.model;
 
-import java.util.Date;
-import java.time.*;
 
 public class Room {
 	
@@ -10,9 +8,6 @@ public class Room {
 	
 	//name of the room
 	String name;
-	
-	//does not account for daylight savings, open time is the time that the room opens in the morning, close time is the time that the room closes
-	LocalTime open, close;
 	
 	public Room() {
 	
@@ -39,21 +34,5 @@ public class Room {
 	public void setRoomNumber(int number) {
 		this.number = number;
 	}	
-	
-	public void setOpenTime(LocalTime open) {
-		this.open = open;
-	}
-	
-	public LocalTime getOpenTime() {
-		return open;
-	}
-	
-	public void setCloseTime(LocalTime close) {
-		this.close = close;
-	}
-	
-	public LocalTime getCloseTime() {
-		return close;
-	}
 	
 }

@@ -39,14 +39,4 @@ public class RoomTest {
 		testRoom.setRoomNumber(128);
 		assertNotEquals(roomNumber, testRoom.getRoomNumber());
 	}
-	
-	@Test
-	public void testSetOpenTime() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testSetCloseTime() {
-		fail("Not yet implemented");
-	}
 }
