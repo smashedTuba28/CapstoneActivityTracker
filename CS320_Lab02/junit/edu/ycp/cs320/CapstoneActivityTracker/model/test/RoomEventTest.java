@@ -12,8 +12,8 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 
 public class RoomEventTest {
 	
-	Date start, time1, time2, time3;
-	Date end1, end2, end3, end4;
+	Date start, time1, time2, time3, weekStart;
+	Date end1, end2, end3, end4, weekEnd;
 	
 	RoomEvent event, fakeevent;
 	
@@ -24,6 +24,10 @@ public class RoomEventTest {
 		time1 = new Date(2000, 3, 20, 10, 30, 0);
 		time2 = new Date(2000, 7, 20, 11, 30, 0);
 		time3 = new Date(2000, 12, 22, 11, 33, 0);
+		
+		weekStart = new Date(2019, 2, 31, 00, 00, 00);
+		weekEnd = new Date(2019, 3, 6, 24, 00, 00);
+		
 		
 		end1 = new Date(2000, 0, 20, 11, 33, 0);
 		end2 = new Date(2000, 3, 20, 11, 33, 0);
@@ -64,25 +68,21 @@ public class RoomEventTest {
 	public void testGetDuration() {
 		event.setStartTime(start);
 		event.setEndTime(end1);
-		event.setDuration();
 		long var = event.getDuration();
 		assertEquals(63, var);
 		
 		event.setStartTime(time1);
 		event.setEndTime(end2);
-		event.setDuration();
 		var = event.getDuration();
 		assertEquals(63, var);
 		
 		event.setStartTime(time2);
 		event.setEndTime(end3);
-		event.setDuration();
 		var = event.getDuration();
 		assertEquals(3, var);
 		
 		event.setStartTime(time3);
 		event.setEndTime(end4);
-		event.setDuration();
 		var = event.getDuration();
 		assertEquals(17, var);
 	}
@@ -94,5 +94,12 @@ public class RoomEventTest {
 		assertTrue(event.getLognote().equals("I am very tired"));
 		event.setLognote("Still tired");
 		assertFalse(event.getLognote().equals("I am very tired"));
+	}
+	
+	@Test
+	public void testWeekDuration() {
+		event.setStartTime(weekStart);
+		event.setEndTime(weekEnd);
+		assertEquals(10080, event.getDuration());
 	}
 }
