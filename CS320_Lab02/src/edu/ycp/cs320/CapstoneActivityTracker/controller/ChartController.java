@@ -41,8 +41,7 @@ public class ChartController {
 		Calendar c = Calendar.getInstance();//create a calendar instance/reference
 		
 		String data = "[['Date', 'Hours']";
-		
-		
+			
 		for(int i = 0; i < 7; i++) {
 				c.setTimeInMillis(dateDuration[1][i]); //sets c to reference the given day
 				//creates data chart using month, day, and dur value
@@ -55,8 +54,6 @@ public class ChartController {
 		model.setStudent(student.getFirstname() + " " + student.getLastname());
 		model.setTitle(title);
 	}
-	
-	
 	
 	public long[][] getWeekfromRoomEvents(Date start, Date end, StudentAccount student) {
 		
@@ -128,11 +125,4 @@ public class ChartController {
 		//Finished going through all room events and adding durations 
 		return durations;
 	}
-	
-	
-	
-	
-	
-	
-	
 }
