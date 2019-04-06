@@ -1,6 +1,7 @@
 package edu.ycp.cs320.CapstonActivtyTracker.db;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -74,8 +75,73 @@ public class FakeDatabase {
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(2), "Aircraft Design");
 		topTeamList.get(0).addMemberToSubTeam(studentList.get(3), "AirCraft Design");
 		
-		//create durations for several students
+		//create fake Room Event for students
+		try {
+			
+		//Jason HOURS
+		studentList.get(0).createRoomEvent(new Date(119,2,31,10,00,0));
+		studentList.get(0).closeRoomEvent(new Date(119,2,31,14,30,0));
+		studentList.get(0).createRoomEvent(new Date(119,3,1,15,00,0));
+		studentList.get(0).closeRoomEvent(new Date(119,3,1,20,00,0));
+		studentList.get(0).createRoomEvent(new Date(119,3,2,22,13,0));
+		studentList.get(0).closeRoomEvent(new Date(119,3,3,2,30,0));
+		studentList.get(0).createRoomEvent(new Date(119,3,3,14,00,0));
+		studentList.get(0).closeRoomEvent(new Date(119,3,3,14,30,0));
+		studentList.get(0).createRoomEvent(new Date(119,3,4,9,23,0));
+		studentList.get(0).closeRoomEvent(new Date(119,3,4,14,12,0));
+		studentList.get(0).createRoomEvent(new Date(119,3,4,22,00,0));
+		studentList.get(0).closeRoomEvent(new Date(119,3,5,2,30,0));
+		studentList.get(0).createRoomEvent(new Date(119,3,5,17,00,0));
+		studentList.get(0).closeRoomEvent(new Date(119,3,5,22,00,0));
 		
+		//TRAVIS HOURS
+		studentList.get(1).createRoomEvent(new Date(119,2,31,9,00,0));
+		studentList.get(1).closeRoomEvent(new Date(119,2,31,11,30,0));
+		studentList.get(1).createRoomEvent(new Date(119,3,1,15,00,0));
+		studentList.get(1).closeRoomEvent(new Date(119,3,1,20,00,0));
+		studentList.get(1).createRoomEvent(new Date(119,3,2,22,10,0));
+		studentList.get(1).closeRoomEvent(new Date(119,3,3,1,30,0));
+		studentList.get(1).createRoomEvent(new Date(119,3,3,10,00,0));
+		studentList.get(1).closeRoomEvent(new Date(119,3,3,14,30,0));
+		studentList.get(1).createRoomEvent(new Date(119,3,4,9,23,0));
+		studentList.get(1).closeRoomEvent(new Date(119,3,4,16,12,0));
+		studentList.get(1).createRoomEvent(new Date(119,3,4,12,00,0));
+		studentList.get(1).closeRoomEvent(new Date(119,3,4,19,30,0));
+		studentList.get(1).createRoomEvent(new Date(119,3,5,13,00,0));
+		studentList.get(1).closeRoomEvent(new Date(119,3,5,17,00,0));
+		
+		//Bill Hours
+		studentList.get(2).createRoomEvent(new Date(119,2,31,10,00,0));
+		studentList.get(2).closeRoomEvent(new Date(119,2,31,11,30,0));
+		studentList.get(2).createRoomEvent(new Date(119,3,1,14,00,0));
+		studentList.get(2).closeRoomEvent(new Date(119,3,1,15,00,0));
+		studentList.get(2).createRoomEvent(new Date(119,3,3,14,00,0));
+		studentList.get(2).closeRoomEvent(new Date(119,3,3,14,30,0));
+		studentList.get(2).createRoomEvent(new Date(119,3,4,9,23,0));
+		studentList.get(2).closeRoomEvent(new Date(119,3,4,14,12,0));
+		studentList.get(2).createRoomEvent(new Date(119,3,4,22,00,0));
+		studentList.get(2).closeRoomEvent(new Date(119,3,5,2,30,0));
+		studentList.get(2).createRoomEvent(new Date(119,3,5,15,00,0));
+		studentList.get(2).closeRoomEvent(new Date(119,3,5,16,26,0));
+
+		//Robert California Hours
+		studentList.get(3).createRoomEvent(new Date(119,3,1,9,00,0));
+		studentList.get(3).closeRoomEvent(new Date(119,3,1,17,00,0));
+		studentList.get(3).createRoomEvent(new Date(119,3,2,9,00,0));
+		studentList.get(3).closeRoomEvent(new Date(119,3,2,17,00,0));
+		studentList.get(3).createRoomEvent(new Date(119,3,3,9,00,0));
+		studentList.get(3).closeRoomEvent(new Date(119,3,3,17,00,0));
+		studentList.get(3).createRoomEvent(new Date(119,3,4,9,00,0));
+		studentList.get(3).closeRoomEvent(new Date(119,3,4,17,00,0));
+		studentList.get(3).createRoomEvent(new Date(119,3,5,9,00,0));
+		studentList.get(3).closeRoomEvent(new Date(119,3,5,17,00,0));
+		
+		}
+		catch(Exception e){
+			System.err.println("What Have You Done!!!!!!");
+		}
+		
+		//create durations for several students
 		weekList.add(new Week(120, 140, 120, 375, 800, 840, 240));
 		weekList.add(new Week(0, 65, 247, 398, 690, 720, 240));
 		weekList.add(new Week(120, 30, 120, 420, 600, 840, 240));
@@ -129,6 +195,24 @@ public class FakeDatabase {
 			}
 		}
 		return false;
+	}
+	
+	public StudentAccount getStudentAccountWithID(String id) {
+		for (StudentAccount s: studentList) {
+			if(s.getSchoolID().equals(id)) {
+				return s;
+			}
+		}
+		return null;
+	}
+	
+	public StudentAccount getStudentAccountWithEmail(String email) {
+		for (StudentAccount s: studentList) {
+			if(s.getEmail().equals(email)) {
+				return s;
+			}
+		}
+		return null;
 	}
 	
 	//creates a new faculty or student account accordingly

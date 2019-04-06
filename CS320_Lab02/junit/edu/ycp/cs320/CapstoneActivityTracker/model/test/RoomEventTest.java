@@ -3,6 +3,7 @@ package edu.ycp.cs320.CapstoneActivityTracker.model.test;
 import static org.junit.Assert.*;
 
 import java.time.*;
+import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,22 +12,27 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 
 public class RoomEventTest {
 	
-	LocalDateTime start, time1, time2, time3;
-	LocalDateTime end1, end2, end3, end4;
+	Date start, time1, time2, time3, weekStart;
+	Date end1, end2, end3, end4, weekEnd;
 	
 	RoomEvent event, fakeevent;
 	
+	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
-		start = LocalDateTime.of(2000, Month.JANUARY, 22, 10, 30, 0);
-		time1 = LocalDateTime.of(2000, Month.MARCH, 20, 10, 30, 0);
-		time2 = LocalDateTime.of(2000, Month.JULY, 20, 11, 30, 0);
-		time3 = LocalDateTime.of(2000, Month.DECEMBER, 22, 11, 33, 0);
+		start = new Date(2000,0,20,10,30,0);
+		time1 = new Date(2000, 3, 20, 10, 30, 0);
+		time2 = new Date(2000, 7, 20, 11, 30, 0);
+		time3 = new Date(2000, 12, 22, 11, 33, 0);
 		
-		end1 = LocalDateTime.of(2000, Month.JANUARY, 22, 11, 33, 0);
-		end2 = LocalDateTime.of(2000, Month.MARCH, 20, 11, 33, 0);
-		end3 = LocalDateTime.of(2000, Month.JULY, 20, 11, 33, 0);
-		end4 = LocalDateTime.of(2000, Month.DECEMBER, 22, 11, 50, 0);
+		weekStart = new Date(2019, 2, 31, 00, 00, 00);
+		weekEnd = new Date(2019, 3, 6, 24, 00, 00);
+		
+		
+		end1 = new Date(2000, 0, 20, 11, 33, 0);
+		end2 = new Date(2000, 3, 20, 11, 33, 0);
+		end3 = new Date(2000, 7, 20, 11, 33, 0);
+		end4 = new Date(2000, 12, 22, 11, 50, 0);
 		
 		event = new RoomEvent();
 	}
@@ -62,27 +68,23 @@ public class RoomEventTest {
 	public void testGetDuration() {
 		event.setStartTime(start);
 		event.setEndTime(end1);
-		event.setDuration();
 		long var = event.getDuration();
-		assertEquals((long)63, var);
+		assertEquals(63, var);
 		
 		event.setStartTime(time1);
 		event.setEndTime(end2);
-		event.setDuration();
 		var = event.getDuration();
-		assertEquals((long)63, var);
+		assertEquals(63, var);
 		
 		event.setStartTime(time2);
 		event.setEndTime(end3);
-		event.setDuration();
 		var = event.getDuration();
-		assertEquals((long)3, var);
+		assertEquals(3, var);
 		
 		event.setStartTime(time3);
 		event.setEndTime(end4);
-		event.setDuration();
 		var = event.getDuration();
-		assertEquals((long)17, var);
+		assertEquals(17, var);
 	}
 	
 	@Test
@@ -92,5 +94,12 @@ public class RoomEventTest {
 		assertTrue(event.getLognote().equals("I am very tired"));
 		event.setLognote("Still tired");
 		assertFalse(event.getLognote().equals("I am very tired"));
+	}
+	
+	@Test
+	public void testWeekDuration() {
+		event.setStartTime(weekStart);
+		event.setEndTime(weekEnd);
+		assertEquals(10080, event.getDuration());
 	}
 }

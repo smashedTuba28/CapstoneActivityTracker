@@ -4,6 +4,7 @@ package edu.ycp.cs320.CapstoneActivityTracker.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class StudentAccount extends Account{
@@ -39,7 +40,7 @@ public class StudentAccount extends Account{
 	}
 	
 	//creating new RoomEvent and returning the value, once the RoomEvent is created the student is now in the room
-	public void createRoomEvent(LocalDateTime start) {
+	public void createRoomEvent(Date start) {
 		 event = new RoomEvent(start);
 		 status = true;
 		 events.add(event);
@@ -47,8 +48,15 @@ public class StudentAccount extends Account{
 		 event.setNumber(events.size());
 	}
 	
+	public void closeRoomEvent(Date end) throws Exception {
+		if (status){
+			events.get(events.size()-1).setEndTime(end);
+		}
+		else{throw new Exception("No open RoomEvent");}
+	}
+	
 	//a list of RoomEvents is returned between the two LocalDateTime values passed in
-	public List<RoomEvent> findRoomEvents(LocalDateTime start, LocalDateTime end) {
+	public List<RoomEvent> findRoomEvents(Date start, Date end) {
 		ArrayList<RoomEvent> list = new ArrayList<RoomEvent>();
 		for(RoomEvent roomevent: events) {
 			if(roomevent.getStartTime().compareTo(start) >= 0 && roomevent.getEndTime().compareTo(end) <= 0) {

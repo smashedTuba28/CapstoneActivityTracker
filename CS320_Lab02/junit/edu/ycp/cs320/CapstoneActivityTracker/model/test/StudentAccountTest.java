@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import edu.ycp.cs320.CapstoneActivityTracker.model.*;
 import java.time.*;
@@ -15,10 +16,10 @@ public class StudentAccountTest {
 	
 	StudentAccount student;
 	//List<RoomEvent> createevents;
-	LocalDateTime start, time1, time2, time3;
-	LocalDateTime end1, end2, end3, end4;
-	LocalDateTime testend1, testend2, testend3, testend4;
-	LocalDateTime teststart1, teststart2, teststart3, teststart4;
+	Date start, time1, time2, time3;
+	Date end1, end2, end3, end4;
+	Date testend1, testend2, testend3, testend4;
+	Date teststart1, teststart2, teststart3, teststart4;
 	RoomEvent event, fakeevent;
 	String oldLogNote, newLogNote;
 	
@@ -27,25 +28,25 @@ public class StudentAccountTest {
 		
 		student = new StudentAccount();
 		//createevents = new ArrayList<RoomEvent>();
-		start = LocalDateTime.of(2000, Month.JANUARY, 22, 10, 30, 0);
-		time1 = LocalDateTime.of(2000, Month.MARCH, 20, 10, 30, 0);
-		time2 = LocalDateTime.of(2000, Month.JULY, 20, 11, 30, 0);
-		time3 = LocalDateTime.of(2000, Month.DECEMBER, 22, 11, 33, 0);
+		start = new Date(2000, 0, 22, 10, 30, 0);
+		time1 = new Date(2000, 2, 20, 10, 30, 0);
+		time2 = new Date(2000, 6, 20, 11, 30, 0);
+		time3 = new Date(2000, 11, 22, 11, 33, 0);
 		
-		end1 = LocalDateTime.of(2000, Month.JANUARY, 22, 11, 33, 0);
-		end2 = LocalDateTime.of(2000, Month.MARCH, 20, 11, 33, 0);
-		end3 = LocalDateTime.of(2000, Month.JULY, 20, 11, 33, 0);
-		end4 = LocalDateTime.of(2000, Month.DECEMBER, 22, 11, 50, 0);
+		end1 = new Date(2000, 0, 22, 11, 33, 0);
+		end2 = new Date(2000, 2, 20, 11, 33, 0);
+		end3 = new Date(2000, 6, 20, 11, 33, 0);
+		end4 = new Date(2000, 11, 22, 11, 50, 0);
 
-		teststart1 = LocalDateTime.of(1999, Month.DECEMBER, 30, 11, 33, 0);
-		teststart2 = LocalDateTime.of(2000, Month.FEBRUARY, 26, 11, 33, 0);
-		teststart3 = LocalDateTime.of(2000, Month.AUGUST, 30, 11, 33, 0);
-		teststart4 = LocalDateTime.of(2000, Month.DECEMBER, 30, 12, 33, 0);
+		teststart1 = new Date(1999, 11, 30, 11, 33, 0);
+		teststart2 = new Date(2000, 1, 26, 11, 33, 0);
+		teststart3 = new Date(2000, 7, 30, 11, 33, 0);
+		teststart4 = new Date(2000, 11, 30, 12, 33, 0);
 		
-		testend1 = LocalDateTime.of(2000, Month.JANUARY, 30, 11, 33, 0);
-		testend2 = LocalDateTime.of(2000, Month.MARCH, 30, 11, 33, 0);
-		testend3 = LocalDateTime.of(2000, Month.JULY, 30, 11, 33, 0);
-		testend4 = LocalDateTime.of(2000, Month.DECEMBER, 30, 11, 33, 0);
+		testend1 = new Date(2000, 0, 30, 11, 33, 0);
+		testend2 = new Date(2000, 2, 30, 11, 33, 0);
+		testend3 = new Date(2000, 6, 30, 11, 33, 0);
+		testend4 = new Date(2000, 11, 30, 11, 33, 0);
 		
 		oldLogNote = "oldlog";
 		newLogNote = "newlog";
@@ -282,5 +283,4 @@ public class StudentAccountTest {
 		assertFalse(student.findRoomEvent(1).getLognote().equals(oldLogNote));
 	
 	}
-
 }
