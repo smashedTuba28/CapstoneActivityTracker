@@ -7,55 +7,26 @@
 	<head>
 		<title>Welcome to the YCP Capstone Activity Tracker</title>
 		
-		<!-- getters/setters for Javascript -->
-		<script>
-			function readText (id) {	
-   		 		var data = document.getElementById('id').value;
-   		 		return data;
-			}
-
-			function writeText (id, data) {
-    			id.inputbox.value = data;
-			}
-		</script>
-		
 		<!-- chart script from developers.google.com -->
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
  			google.charts.load('current', {'packages': ['bar']});
  			google.charts.setOnLoadCallback(drawChart);
- 
-  	 		var d0 = parseFloat(${week.dur0}) / 60;
-  	 		var d1 = parseFloat(${week.dur1}) / 60;
-  	 		var d2 = parseFloat(${week.dur2}) / 60;
-  	 		var d3 = parseFloat(${week.dur3}) / 60;
-  	 		var d4 = parseFloat(${week.dur4}) / 60;
-  	 		var d5 = parseFloat(${week.dur5}) / 60;
-  	 		var d6 = parseFloat(${week.dur6}) / 60;
-  	 		
+ 			
  			function drawChart() {
-  	 		// Create the data table.
-  	 		var date1 = new Date();
-  	 		var date2 = new Date();
-  	
-
-        	var data = google.visualization.arrayToDataTable([
-          	['Date', 'Hours'],
-          	['3-19', d0],
-          	['3-20', d1],
-          	['3-21', d2],
-          	['3-22', d3],
-          	['3-23', d4],
-          	['3-24', d5],
-          	['3-25', d6],
-        	]);
-      	
-       		// Set chart options
-        	var options = {'title':'Weekly Activity'};
+  	 		// Create the data table.			
+  	 		
+  	 		
+        	var data = google.visualization.arrayToDataTable(${model.data});
+        	
         
-        	var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+       		// Set chart options
+        	var options = {'title': ' ${model.title} '};
+        
+        	var chart = new google.charts.Bar(document.getElementById('columnchart_hours'));
         
         	chart.draw(data, google.charts.Bar.convertOptions(options));
+
  		}
 		</script>
 	</head>
@@ -65,53 +36,18 @@
 		<div>
 			<form action="${pageContext.servletContext.contextPath}/index" method="get">
 				<input name="index" type="submit" value="Sign Out" />
+			</form>
 		</div>
-		
 		
 		<!-- header using student name -->
 		<div>
-			<h1>${account.firstname} ${account.lastname}</h1>
+			<h1> ${model.student} </h1>
 		</div>
 	
 		<!-- HTML element for google chart -->
-		<div id="columnchart_material" style="width: 800px; height: 500px"></div>
+		<div id="columnchart_hours" style="width: 800px; height: 500px"></div>
 		<div>
-		<a href = "http://localhost:8081/CapstoneActivityTracker/teamView">Team View</a>
+			<a href = "http://localhost:8081/CapstoneActivityTracker/teamView">Team View</a>
 		</div>
-		<!-- field to enter a lognote -->
-		<tr>
-			<td><input type ="hidden" name="newNote" value="${newNote}">
- 		</tr>
- 		<input type="Submit" name="submit" value="Creat Lognote">	
- 		
- 				
-
-		<!-- Hidden fields to be used for chart creation -->
-		<!-- Duration in each day of the week -->
-		
-		<form name="servletData">
-			<table>
-				<tr>
-					<!--  \${week.dur0} -->
-					<td><input type ="hidden" id="dur0" name="dur0" size="12" value="2">
-					<td><input type ="hidden" id="dur1" name="dur1" size="12" value=2>
-					<td><input type ="hidden" id="dur2" name="dur2" size="12" value=2>
-					<td><input type ="hidden" id="dur3" name="dur3" size="12" value=2>
-					<td><input type ="hidden" id="dur4" name="dur4" size="12" value=2>
-					<td><input type ="hidden" id="dur5" name="dur5" size="12" value=2>
-					<td><input type ="hidden" id="dur6" name="dur6" size="12" value=2>
-				</tr>
-				<!-- lognotes for each day -->
-				<tr>
-					<td><input type ="hidden" id="log0" name="log0" size="12" value="${logs.log0}">
-					<td><input type ="hidden" id="log1" name="log1" size="12" value="${logs.log1}">
-					<td><input type ="hidden" id="log2" name="log2" size="12" value="${logs.log2}">
-					<td><input type ="hidden" id="log3" name="log3" size="12" value="${logs.log3}">
-					<td><input type ="hidden" id="log4" name="log4" size="12" value="${logs.log4}">
-					<td><input type ="hidden" id="log5" name="log5" size="12" value="${logs.log5}">
-					<td><input type ="hidden" id="log6" name="log6" size="12" value="${logs.log6}">
-				</tr>
-			</table>
-		</form>
 	</body>
 </html>
