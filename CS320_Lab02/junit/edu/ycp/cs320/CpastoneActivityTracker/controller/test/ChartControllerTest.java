@@ -61,11 +61,37 @@ public class ChartControllerTest {
 	@Test
 	public void testPopulateStudentWeek() {
 		assertTrue(model.getData() == null);//data should be empty
+		String email = "jsteinberg@ycp.edu";
+		Date start = new Date(119, 2, 31, 0,0,0);
+		Date end = new Date(119,3,6,24,0,0);
 		
 		
+		controller.populateStudentWeek(email, start, end);
+		//expecting model to be populated with data for Jason Steinberg
+		assertTrue(model.getTitle().equals("Individual Hours"));
+		assertTrue(model.getStudent().equals("Jason Steinberg"));
+		assertTrue(model.getData().equals("[['Date', 'Hours'],"
+				+ "['3-31', 4.5],"
+				+ "['4-1', 5.0],"
+				+ "['4-2', 1.7833333333333334],"
+				+ "['4-3', 3.0],"
+				+ "['4-4', 6.816666666666666],"
+				+ "['4-5', 7.5],"
+				+ "['4-6', 0.0]]"));
 		
-		fail("Not Implemented");
-		
+		//expecting model to be populated with data fro Travis Wetezel
+		email = "twetzel1@ycp.edu";
+		controller.populateStudentWeek(email, start, end);
+		assertTrue(model.getTitle().equals("Individual Hours"));
+		assertTrue(model.getStudent().equals("Travis Wetzel"));
+		assertTrue(model.getData().equals("[['Date', 'Hours'],"
+				+ "['3-31', 2.5],"
+				+ "['4-1', 5.0],"
+				+ "['4-2', 1.8333333333333333],"
+				+ "['4-3', 6.0],"
+				+ "['4-4', 14.316666666666666],"
+				+ "['4-5', 4.0],"
+				+ "['4-6', 0.0]]"));	
 	}
 
 	@Test
@@ -141,5 +167,4 @@ public class ChartControllerTest {
 		assertEquals(0, c.get(Calendar.HOUR_OF_DAY));
 		assertEquals(0, c.get(Calendar.MINUTE));
 	}
-
 }

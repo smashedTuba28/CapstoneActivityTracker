@@ -45,7 +45,7 @@ public class ChartController {
 		for(int i = 0; i < 7; i++) {
 				c.setTimeInMillis(dateDuration[1][i]);
 				//creates data chart using month, day, and dur value
-				data += ",['" + c.get(Calendar.MONTH)  + "-" + c.get(Calendar.DAY_OF_MONTH) + "', " + dateDuration[0][i] / 60 + "]";
+				data += ",['" + (c.get(Calendar.MONTH)+1)  + "-" + c.get(Calendar.DAY_OF_MONTH) + "', " + dateDuration[0][i] / 60. + "]";
 		}			
 		//finalize data string by closing bracket
 		data += "]";
@@ -65,8 +65,8 @@ public class ChartController {
 		long dur = 0;//initialize current duration to 0
 		
 		for(RoomEvent e: student.getRoomEventList()) {//populate the events list with all applicable RoomEvents
-			if (e.getStartTime().after(start) && e.getStartTime().before(end) //if it start in the time frame or
-				|| e.getEndTime().before(end) && e.getEndTime().after(start)) { //it ends in the time frame	
+			if ((e.getStartTime().after(start) || e.getStartTime().equals(start)) && e.getStartTime().before(end) //if it start in the time frame or
+			  ||(e.getEndTime().before(end) || e.getEndTime().equals(end)) && e.getEndTime().after(start)) { //it ends in the time frame	
 					events.add(e);
 			}
 		}
@@ -78,20 +78,21 @@ public class ChartController {
 			
 			for (RoomEvent e: events) {
 				
-				//System.out.println("Begining Check on Room Event " + e.getNumber());
+				//System.out.println("Beginning Check on Room Event " + e.getNumber());
 				
-				//TODO: make bounds inclusive for particular cases
-				
-				if(e.getStartTime().after(start) && e.getEndTime().before(temp)) {//if it happens all in one day add the complete duration to dur
+				if((e.getStartTime().after(start) ||e.getStartTime().equals(start)) 
+				  && (e.getEndTime().before(temp) || e.getEndTime().equals(temp))) {//if it happens all in one day add the complete duration to dur
 					dur += e.getDuration();
 					//System.out.println("All in one day::: " + dur);
 					//events.remove(e);//remove since all of time has been accounted for
 				}
-				else if(e.getStartTime().before(temp) && e.getEndTime().after(temp) && e.getStartTime().after(start)) {//starts in current timeframe continues into next
+				else if(e.getStartTime().before(temp) && e.getEndTime().after(temp) 
+				  && (e.getStartTime().after(start) || e.getStartTime().equals(start))) {//starts in current timeframe continues into next
 					dur += (temp.getTime() - e.getStartTime().getTime()) / 60000; //find duration in minutes that belongs to current time frame 
 					//System.out.println("Start in current time frame, end later::: " + dur);	
 				}
-				else if(e.getStartTime().before(start) && e.getEndTime().before(temp) && e.getEndTime().after(start)) {//started on a previous timeframe and ends during current
+				else if(e.getStartTime().before(start) && e.getEndTime().after(start)
+				  && (e.getEndTime().before(temp) || e.getEndTime().equals(temp))) {//started on a previous timeframe and ends during current
 					dur += (e.getEndTime().getTime() - start.getTime()) / 60000;//finds duration in minutes that belongs to current timeframe
 					//events.remove(e);//remove since all time will have been accounted for in previous iterations and this one
 					//System.out.println("Ends in Current Time Frame, started prior::: " + dur);
