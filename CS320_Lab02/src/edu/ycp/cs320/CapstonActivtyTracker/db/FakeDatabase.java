@@ -131,6 +131,17 @@ public class FakeDatabase {
 		return false;
 	}
 	
+	public StudentAccount getStudentAccountWithID(String id) {
+		for (StudentAccount s: studentList) {
+			if(s.getSchoolID().equals(id)) {
+				return s;
+			}
+		}
+		return null;
+	}
+	
+	
+	
 	//creates a new faculty or student account accordingly
 	public void createAccount(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
 		if (faculty) {
