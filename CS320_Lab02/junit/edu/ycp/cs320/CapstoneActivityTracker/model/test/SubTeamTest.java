@@ -31,9 +31,6 @@ public class SubTeamTest extends SubTeam {
 		
 	}
 
-	/**
-	 * Test method for SetSubTeam(). This test does not seem to make sense to me to have within subTeam. It seems like it shoud be an attribute of Team instead 
-	 */
 	@Test
 	public void testSetSubTeam() {
 		subTeam.setSubTeam(testSubTeam);
