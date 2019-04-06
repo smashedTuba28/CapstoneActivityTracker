@@ -1,6 +1,8 @@
 package edu.ycp.cs320.CapstoneActivityTracker.servlet;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -8,10 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.CapstonActivtyTracker.db.FakeDatabase;
-import edu.ycp.cs320.CapstoneActivityTracker.model.Log;
-import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
-import edu.ycp.cs320.CapstoneActivityTracker.model.Week;
+import edu.ycp.cs320.CapstoneActivityTracker.model.ChartModel;
+import edu.ycp.cs320.CapstoneActivityTracker.controller.ChartController;;
 
 public class StudentViewServlet  extends HttpServlet {
 	
@@ -26,46 +26,31 @@ public class StudentViewServlet  extends HttpServlet {
 	
 	
 		String email = (String) req.getSession().getAttribute("userEmail");
-	
+		
 		//check session
 		if ( email == null) {
 			//redirect
 			resp.sendRedirect(req.getContextPath() + "/signIn");
 		}
 		else {	
-			//create fakedb and initialze
-			FakeDatabase fakedb = new FakeDatabase();
-			fakedb.init();
+			ChartController controller = new ChartController();//create controller
+			ChartModel model = new ChartModel();//create model
+			controller.setModel(model);//populate model
 				
-			List<Week> weekList = fakedb.getAllWeek();
-			List<Log> logList = fakedb.getAllLogs();
-			List<StudentAccount> students = fakedb.getAllStudentAccounts();	
+			Date end = new Date();
+			end.setHours(24);
+			end.setMinutes(0);
+			end.setSeconds(0);
+			Date start = new Date(end.getTime() - 604800000);
 			
-			//get appropriate week and log
-			if(email.equals("jsteinberg@ycp.edu")) {
-				req.setAttribute("week", weekList.get(0));
-				req.setAttribute("log", logList.get(0));
-				req.setAttribute("account", students.get(0));
-			}
-			else if(email.equals("twetzel1@ycp.edu")) {
-				req.setAttribute("week", weekList.get(1));
-				req.setAttribute("log", logList.get(1));
-				req.setAttribute("account", students.get(1));
-			}
-			else if (email.equals("wtaylor1@ycp.edu")){
-				req.setAttribute("week", weekList.get(2));
-				req.setAttribute("log", logList.get(2));
-				req.setAttribute("account", students.get(2));
-			}
-			else if(email.equals("lizardking@ycp.edu")){
-				req.setAttribute("week", weekList.get(3));
-				req.setAttribute("log", logList.get(3));
-				req.setAttribute("account", students.get(3));
-			}
-			else {
-				//email not from hard coded list jump back to signIn
-				resp.sendRedirect(req.getContentType() + "/signIn");
-			}
+			//System.out.println("Start Time: " + start.toString());
+			//System.out.println("End Time: " + end.toString());
+			
+			//populates model with needed information for jsp
+			controller.populateStudentWeek(email, start, end);
+			
+			req.setAttribute("model", model);
+			
 			//call the jsp and generate empty form
 			req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
 		}
