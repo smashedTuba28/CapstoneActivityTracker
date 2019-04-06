@@ -8,9 +8,6 @@ public class RoomEvent {
 	//start time and end time of the room event
 	private Date start, end;
 	
-	//duration of the time in roomevent
-	private long duration;
-	
 	//each room event is numbers incrementally
 	private int number;
 	
@@ -56,11 +53,7 @@ public class RoomEvent {
 	}
 	
 	public long getDuration() {
-		return duration;
-	}
-	
-	public void setDuration() {
-		this.duration =  (end.getTime() - start.getTime()) / 60000 ; // duration = milliseconds / (60000 ms/min)
+		return (end.getTime() - start.getTime()) / 60000 ; // duration = milliseconds / (60000 ms/min)
 	}
 	
 	public String getLognote() {
