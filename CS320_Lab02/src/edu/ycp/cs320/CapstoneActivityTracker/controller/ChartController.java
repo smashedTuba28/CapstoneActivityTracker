@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.google.gson.*;
 
 import edu.ycp.cs320.CapstoneActivityTracker.model.ChartModel;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
@@ -17,13 +16,11 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Week;
 import edu.ycp.cs320.CapstonActivtyTracker.db.*;
 
 public class ChartController {
-	private Gson gson;
 	private FakeDatabase fdb;
 	private ChartModel model;
 	
 	
 	public ChartController(){
-		gson = new Gson();
 		fdb = new FakeDatabase();
 		fdb.init();
 	}
