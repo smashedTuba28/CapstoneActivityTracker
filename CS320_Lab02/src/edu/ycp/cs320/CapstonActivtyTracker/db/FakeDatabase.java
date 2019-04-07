@@ -21,6 +21,7 @@ public class FakeDatabase {
 	public FakeDatabase() {
 	}
 
+	@SuppressWarnings("deprecation")
 	public void init() {
 		//initialize hard coded models
 		accountList = new ArrayList<Account>();
@@ -73,6 +74,7 @@ public class FakeDatabase {
 		topTeamList.get(0).getSubTeams().get(0).addStudent(studentList.get(0));//jason to controls
 		topTeamList.get(0).getSubTeams().get(0).addStudent(studentList.get(1));//travis to controls
 		topTeamList.get(0).getSubTeams().get(1).addStudent(studentList.get(2));//bill to aircraft design
+		topTeamList.get(0).getSubTeams().get(1).addStudent(studentList.get(0));//jason to aircraft design
 		topTeamList.get(1).getSubTeams().get(0).addStudent(studentList.get(3));//robert to Party Planning Committee
 		
 		//create fake Room Event for students
@@ -410,7 +412,7 @@ public class FakeDatabase {
 		}
 	}
 	
-	public List<StudentAccount> getallStudentsInTopTeam(TopTeam top){
+	public List<StudentAccount> getAllStudentsInTopTeam(TopTeam top){
 		ArrayList<StudentAccount> students = new ArrayList<StudentAccount>();
 		for(SubTeam s : top.getSubTeams()) {
 			for(StudentAccount student: s.getStudents()) {
