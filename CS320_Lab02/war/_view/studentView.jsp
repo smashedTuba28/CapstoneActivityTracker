@@ -19,14 +19,11 @@
   	 		
         	var data = google.visualization.arrayToDataTable(${model.data});
         	
-        
        		// Set chart options
         	var options = {'title': ' ${model.title} '};
         
         	var chart = new google.charts.Bar(document.getElementById('columnchart_hours'));
-        
         	chart.draw(data, google.charts.Bar.convertOptions(options));
-
  		}
 		</script>
 	</head>

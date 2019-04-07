@@ -62,8 +62,8 @@ public class FakeDatabase {
 		topTeamList.get(1).addSubTeam(new SubTeam("Finer Things Club"));
 		topTeamList.get(1).addSubTeam(new SubTeam("Scott's Tots"));
 		
-		topTeamList.get(0).getSubTeams().get(0).addRoom(roomList.get(0));//add Power Systems Lab to Drone Team
-		topTeamList.get(0).addRoomToAllSubTeams(roomList.get(1));//add Computer Lab to Drone Team
+		topTeamList.get(0).getSubTeams().get(0).addRoom(roomList.get(0));//add Power Systems Lab to Controls
+		topTeamList.get(0).addRoomToAllSubTeams(roomList.get(1));//add Computer Lab to all of Drone Team
 		
 		topTeamList.get(1).addRoomToAllSubTeams(roomList.get(1));//add Computer Lab to Office
 		topTeamList.get(1).getSubTeams().get(2).addRoom(roomList.get(2));//add Software Engineering Lab to Scott's Tots 
