@@ -2,19 +2,15 @@ package edu.ycp.cs320.CapstoneActivityTracker.servlet;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
-import com.google.gson.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.CapstonActivtyTracker.db.FakeDatabase;
 import edu.ycp.cs320.CapstoneActivityTracker.controller.ChartController;
 import edu.ycp.cs320.CapstoneActivityTracker.model.ChartModel;
-import edu.ycp.cs320.CapstoneActivityTracker.model.Log;
-import edu.ycp.cs320.CapstoneActivityTracker.model.Week;
+
 
 public class TeamViewServlet extends HttpServlet {
 	
