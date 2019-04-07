@@ -385,28 +385,31 @@ public class FakeDatabaseTest {
 		//assign existing room to existing team
 		TopTeam top = fakedb.findTopTeam("The Office");
 		assertTrue(top != null);
-		testRoomList = top.getRooms();
+		
+		for(SubTeam s : top.getSubTeams()) {
+			for(Room r : s.getRooms()) {
+				if (!testRoomList.contains(r)) {
+					testRoomList.add(r);
+				}
+			}
+		}
+		
 		assertEquals(3, testRoomList.size());//default size after initalization
 		
-		fakedb.assignTeamRoom("The Office", "Computer Lab");
+		fakedb.assignTeamRoom(top, new Room("Test Room", 2000));//add a new room to the team
 		top = fakedb.findTopTeam("The Office");
-		testRoomList = fakedb.findTopTeam("The Office").getRooms();
+		
+		for(SubTeam s : top.getSubTeams()) {
+			for(Room r : s.getRooms()) {
+				if (!testRoomList.contains(r)) {
+					testRoomList.add(r);
+				}
+			}
+		}
+		
 		assertEquals(4, testRoomList.size());//room assigned
-		assertTrue(testRoomList.get(0).getRoomName().equals("Computer Lab"));
+		assertTrue(testRoomList.get(3).getRoomName().equals("Test Room"));
 		
-		//assign existing team team to no existent room should throw exception
-		try {
-			fakedb.assignTeamRoom("The Office", "Not a Real Room");
-			fail("Should have thrown NoSuchElementException");
-		}catch(NoSuchElementException e) {
-		}
-		
-		//assign non existent team to existing room
-		try {
-			fakedb.assignTeamRoom("Not a Real Team", "Computer Lab");
-			fail("Should have thrown NoSuchElementException");
-		}catch(NoSuchElementException e) {
-		}
 	}
 
 	@Test
@@ -423,22 +426,26 @@ public class FakeDatabaseTest {
 	}
 
 	@Test
-	public void testRemoveRoomFromTeam() {
+	public void testRemoveRoomFromSubTeam() {
 		//confirm that team exists with rooms
-		testRoomList = fakedb.getAllTopTeams().get(1).getRooms();
-		assertEquals(3, testRoomList.size());
-		assertTrue(fakedb.findRoom("Computer Lab") != null);
-		assertTrue(fakedb.findRoom("Software Engineering Lab") != null);
-		assertTrue(fakedb.findRoom("Visualization Lab") != null);
-		//delete topTeam "The Office"
-		fakedb.removeRoomFromTeam("The Office", "Visualization Lab");
+		testRoomList = fakedb.getAllTopTeams().get(0).getSubTeams().get(0).getRooms();//Controls room list
+		
+		assertEquals(2, testRoomList.size());//should start with two rooms
+		assertTrue(fakedb.findRoom("Computer Lab") != null);//exists within controls
+		assertTrue(fakedb.findRoom("Power Systems Lab") != null);//exists within controls
+		//delete from subTeam "Controls"
+		fakedb.removeRoomFromSubTeam(fakedb.getAllTopTeams().get(0).getSubTeams().get(0), fakedb.findRoom("Power Systems Lab"));//remove room from controls
 		//check to find rooms
-		assertTrue(fakedb.findRoom("Computer Lab") != null);
-		assertTrue(fakedb.findRoom("Software Engineering Lab") != null);
-		assertTrue(fakedb.findRoom("Visualization Lab") != null);//room should still exist
+		assertTrue(fakedb.findRoom("Computer Lab") != null);//exists as a room in the database
+		assertTrue(fakedb.findRoom("Power Systems Lab") != null);//should still exist as a Room in the database
 		//check that roomList of The office is now size-1
-		testRoomList = fakedb.getAllTopTeams().get(1).getRooms();
-		assertEquals(2, testRoomList.size());
+		testRoomList = fakedb.getAllTopTeams().get(0).getSubTeams().get(0).getRooms();
+		assertEquals(1, testRoomList.size());
+		
+		for (Room test: testRoomList) {//given room should no longer be inside of the roomList for the SubTeam
+			assertFalse(test.getRoomName().equals("Power Systems Lab"));
+		}
+		
 	}
 
 	@Test
@@ -456,22 +463,35 @@ public class FakeDatabaseTest {
 
 	@Test
 	public void testRemoveRoom() {
-		//confirm that team room exsists within a team
-		testRoomList = fakedb.getAllTopTeams().get(1).getRooms();
-		assertEquals(3, testRoomList.size());
+		//confirm that room exsists within a team
+		testRoomList = fakedb.getAllTopTeams().get(0).getSubTeams().get(0).getRooms();
+		assertEquals(2, testRoomList.size());
 		assertTrue(fakedb.findRoom("Computer Lab") != null);
 		assertTrue(fakedb.findRoom("Software Engineering Lab") != null);
 		assertTrue(fakedb.findRoom("Visualization Lab") != null);
+		
 		//delete room Visualization Lab from db
-		fakedb.removeRoom("Visualization Lab");
+		fakedb.removeRoom(fakedb.findRoom("Visualization Lab"));
+		
 		//check to find rooms
 		assertTrue(fakedb.findRoom("Visualization Lab") == null);
+		
 		//check that room also doesnt exist in Team
-		assertTrue(fakedb.findRoom("Computer Lab") != null);
-		assertTrue(fakedb.findRoom("Software Engineering Lab") != null);
-		assertTrue(fakedb.findRoom("Visualization Lab") == null);//room should still exist
-		//check that roomList of The office is now size-1
-		testRoomList = fakedb.getAllTopTeams().get(1).getRooms();
-		assertEquals(2, testRoomList.size());
+		testRoomList = fakedb.getAllTopTeams().get(0).getSubTeams().get(0).getRooms();
+		
+		for (Room test: testRoomList) {
+			assertFalse(test.getRoomName().equals("Visualization Lab"));
+		}
 	}
+	
+	@Test
+	public void testGetTopTeamWithStudentEmail() {
+		TopTeam test = fakedb.getTopTeamWithStudentEmail("jsteinberg@ycp.edu");
+		assertTrue(test.getTeamname().equals("Drone Team"));
+		test = fakedb.getTopTeamWithStudentEmail("lizardking@ycp.edu");
+		assertTrue(test.getTeamname().equals("The Office"));
+	}
+	
+	
+	
 }
