@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 import edu.ycp.db.InitYCPDB;
 import edu.ycp.model.YCPPersonnel;
 
@@ -15,6 +16,7 @@ public class InitYCPDBTest {
 	//creating admin and student lists
 	private static List<YCPPersonnel> adminList;
 	private static List<YCPPersonnel> studentList;
+	private static List<Room> roomList;
 
 	@Before
 	public void setUp() throws Exception {
@@ -22,11 +24,14 @@ public class InitYCPDBTest {
 		//setting lists to new lists
 		adminList = new ArrayList<YCPPersonnel>();
 		studentList = new ArrayList<YCPPersonnel>();
+		roomList = new ArrayList<Room>();
 
 		//adding all admin to the adminList
 		adminList.addAll(InitYCPDB.getAdmins());
 		//adding all students to the studentList in the same order
 		studentList.addAll(InitYCPDB.getStudents());
+		//adding all students to the studentList in the same order
+		roomList.addAll(InitYCPDB.getRooms());
 	}
 
 	@Test
@@ -59,6 +64,18 @@ public class InitYCPDBTest {
 		assertTrue(studentList.get(2).getEmail().equals("wtaylor1@ycp.edu"));
 		assertTrue(studentList.get(2).getSchoolID().equals("900000003"));
 		assertFalse(studentList.get(2).getFaculty());
+	}
+	@Test
+	public void testGetRooms() {
+		//testing first room Shop, 100
+		assertTrue(roomList.get(0).getRoomName().equals("Shop"));
+		assertTrue(roomList.get(0).getRoomNumber() == 100);
+		
+		//testing all room's name and number in a for loop
+		for(int i = 101; i < 130; i++) {
+			assertTrue(roomList.get(i-100).getRoomName().equals("KEC"));
+			assertTrue(roomList.get(i-100).getRoomNumber() == i);
+		}
 	}
 
 }
