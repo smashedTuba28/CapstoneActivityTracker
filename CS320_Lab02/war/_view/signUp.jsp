@@ -21,14 +21,6 @@
 						<td class="Label">Please complete to create your account.</td>
 					</tr>
 					<tr>
-						<td class = "Label">First Name:</td>
-						<td><input type ="Text" name="firstname" size="12" value="${firstname}">
-					</tr>
-					<tr>
-						<td class = "Label">Last Name:</td>
-						<td><input type = "Text" name="lastname" size="12" value="${lastname}">
-					</tr>
-					<tr>
 						<td class = "Label">Student ID Number:</td>
 						<td><input type = "Text" name="schoolID" size="12" value="${schoolID}">
 					</tr>		
@@ -37,17 +29,13 @@
 						<td><input type ="Text" name="email" size="12" value="${email}">
 					</tr>
 					<tr>
-						<td class = "Label">YCP Email:</td>
-						<td><input type ="Text" name="emailConfirm" size="12" value="${emailConfirm}">
-					</tr>
-					<tr>
 						<td class = "Label">Password:</td>
 						<td><input type ="Password" name="password" size="12" value="${password}">
 					</tr>
 					<tr>
 						<td class = "Label">Password Confirmation:</td>
 						<td><input type = "Password" name="passwordConfirm" size="12" value="${passwordConfirm}">
-					</tr>				
+					</tr>		
 				</table>
 				<input type="submit" name="signUp" value="Create Account" />
 			</c:if>	
