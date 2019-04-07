@@ -28,10 +28,6 @@
 					<tr>
 						<td class = "Label">Password:</td>
 						<td><input type = "Password" name="password" size="12" value="${password}">
-					</tr>
-					<tr>
-						<td class = "Label">Please check if you are a faculty/admin:</td>
-						<td><input type = "checkbox" name="faculty" size="12" value="${faculty}">
 					</tr>				
 				</table>
 				<input type="submit" name="signIn" value="Log In" />

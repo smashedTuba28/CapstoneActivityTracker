@@ -199,6 +199,15 @@ public class FakeDatabase {
 		return false;
 	}
 	
+	public Account getAccountWithEmail(String email) {
+		for(Account a: accountList) {
+			if(a.getEmail().equals(email)) {
+				return a;
+			}
+		}
+		return null;
+	}
+	
 	public StudentAccount getStudentAccountWithID(String id) {
 		for (StudentAccount s: studentList) {
 			if(s.getSchoolID().equals(id)) {
@@ -451,5 +460,4 @@ public class FakeDatabase {
 	public List<Week> getAllWeek(){
 		return weekList;
 	}
-	
 }

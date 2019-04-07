@@ -1,7 +1,5 @@
 package edu.ycp.cs320.CapstoneActivityTracker.controller;
 
-
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,7 +22,6 @@ public class ChartController {
 		fdb = new FakeDatabase();
 		fdb.init();
 	}
-	
 	
 	public void setModel(ChartModel model) {
 		this.model = model;
