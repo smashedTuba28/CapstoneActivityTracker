@@ -96,9 +96,9 @@ public class ChartControllerTest {
 
 	@Test
 	public void testGetWeekfromRoomEvents() {
-		long[][] result = new long[2][7];//know that method will return [2][7] array of long references
+		long[] result = new long[7];//know that method will return [2][7] array of long references
 		
-		result = controller.getWeekfromRoomEvents(start, end, tester);
+		result = controller.getWeekFromRoomEvents(start, end, tester);
 		
 		/*
 		 * BREAK DOWN OF EXPECTED VALUES
@@ -114,57 +114,41 @@ public class ChartControllerTest {
 		 */
 		
 		//test all duration values result[0][x]
-		assertEquals((long)  543, result[0][0]);
-		assertEquals((long)   60, result[0][1]);
-		assertEquals((long)  180, result[0][2]);
-		assertEquals((long)  720, result[0][3]);
-		assertEquals((long) 1440, result[0][4]);
-		assertEquals((long)  720, result[0][5]);
-		assertEquals((long)   90, result[0][6]);
+		assertEquals((long)  543, result[0]);
+		assertEquals((long)   60, result[1]);
+		assertEquals((long)  180, result[2]);
+		assertEquals((long)  720, result[3]);
+		assertEquals((long) 1440, result[4]);
+		assertEquals((long)  720, result[5]);
+		assertEquals((long)   90, result[6]);
+	}
+	
+	@Test
+	public void testPopulateTopTeamWeek() {
+		assertTrue(model.getData() == null);
+		String email = "jsteinberg@ycp.edu";
+		Date start = new Date(119, 2, 31, 0,0,0);//March31st 2019
+		Date end = new Date(119,3,6,24,0,0);//April6th 2019
 		
-		//test that all date values are as expected
-		Calendar c = Calendar.getInstance();//create calendar instance
+		controller.populateTopTeamWeek(email, start, end);
 		
-		c.setTimeInMillis(result[1][0]);
-		assertEquals(2, c.get(Calendar.MONTH));//March expected
-		assertEquals(31, c.get(Calendar.DAY_OF_MONTH));//31st expected
-		assertEquals(0, c.get(Calendar.HOUR_OF_DAY));
-		assertEquals(0, c.get(Calendar.MINUTE));
+		assertTrue(model.getTitle().equals("Drone Team Hours"));
+		assertTrue(model.getData().equals("[['Date','Jason Steinberg','Travis Wetzel','William Taylor'],"
+		                                 +"['3-31', 4.5, 2.5, 1.5],['4-1', 5.0, 5.0, 1.0],"
+		                                 + "['4-2', 1.7833333333333334, 1.8333333333333333, 0.0],"
+		                                 + "['4-3', 3.0, 6.0, 0.5],"
+		                                 + "['4-4', 6.816666666666666, 14.316666666666666, 6.816666666666666],"
+		                                 + "['4-5', 7.5, 4.0, 3.933333333333333],"
+		                                 + "['4-6', 0.0, 0.0, 0.0]]"));
+
 		
-		c.setTimeInMillis(result[1][1]);
-		assertEquals(3, c.get(Calendar.MONTH));//April expected
-		assertEquals(1, c.get(Calendar.DAY_OF_MONTH));//1st expected
-		assertEquals(0, c.get(Calendar.HOUR_OF_DAY));
-		assertEquals(0, c.get(Calendar.MINUTE));
 		
-		c.setTimeInMillis(result[1][2]);
-		assertEquals(3, c.get(Calendar.MONTH));//April expected
-		assertEquals(2, c.get(Calendar.DAY_OF_MONTH));//2nd expected
-		assertEquals(0, c.get(Calendar.HOUR_OF_DAY));
-		assertEquals(0, c.get(Calendar.MINUTE));
 		
-		c.setTimeInMillis(result[1][3]);
-		assertEquals(3, c.get(Calendar.MONTH));//April expected
-		assertEquals(3, c.get(Calendar.DAY_OF_MONTH));//3rd expected
-		assertEquals(0, c.get(Calendar.HOUR_OF_DAY));
-		assertEquals(0, c.get(Calendar.MINUTE));
 		
-		c.setTimeInMillis(result[1][4]);
-		assertEquals(3, c.get(Calendar.MONTH));//April expected
-		assertEquals(4, c.get(Calendar.DAY_OF_MONTH));//4th expected
-		assertEquals(0, c.get(Calendar.HOUR_OF_DAY));
-		assertEquals(0, c.get(Calendar.MINUTE));
 		
-		c.setTimeInMillis(result[1][5]);
-		assertEquals(3, c.get(Calendar.MONTH));//April expected
-		assertEquals(5, c.get(Calendar.DAY_OF_MONTH));//5th expected
-		assertEquals(0, c.get(Calendar.HOUR_OF_DAY));
-		assertEquals(0, c.get(Calendar.MINUTE));
 		
-		c.setTimeInMillis(result[1][6]);
-		assertEquals(3, c.get(Calendar.MONTH));//April expected
-		assertEquals(6, c.get(Calendar.DAY_OF_MONTH));//6th expected
-		assertEquals(0, c.get(Calendar.HOUR_OF_DAY));
-		assertEquals(0, c.get(Calendar.MINUTE));
+		
+		
+		
 	}
 }
