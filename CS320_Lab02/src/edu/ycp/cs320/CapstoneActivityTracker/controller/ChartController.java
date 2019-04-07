@@ -12,6 +12,7 @@ import com.google.gson.*;
 import edu.ycp.cs320.CapstoneActivityTracker.model.ChartModel;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
+import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
 import edu.ycp.cs320.CapstoneActivityTracker.model.Week;
 import edu.ycp.cs320.CapstonActivtyTracker.db.*;
 
@@ -55,6 +56,18 @@ public class ChartController {
 		model.setTitle(title);
 	}
 	
+	public void populateTopTeamWeek(String email, Date start, Date end) {
+		
+		TopTeam topTeam = fdb.getTopTeamWithStudentEmail(email);
+		String title = topTeam.getTeamname() + "Hours";
+		ArrayList<long[][]> weekList = new ArrayList<long[][]>();
+		
+		//get all students in the Team
+		
+		
+		
+	}
+
 	public long[][] getWeekfromRoomEvents(Date start, Date end, StudentAccount student) {
 		
 		ArrayList<RoomEvent> events = new ArrayList<RoomEvent>();//list for all events within timeframe

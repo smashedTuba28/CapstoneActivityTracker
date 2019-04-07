@@ -410,6 +410,18 @@ public class FakeDatabase {
 		}
 	}
 	
+	public List<StudentAccount> getallStudentsInTopTeam(TopTeam top){
+		ArrayList<StudentAccount> students = new ArrayList<StudentAccount>();
+		for(SubTeam s : top.getSubTeams()) {
+			for(StudentAccount student: s.getStudents()) {
+				if (!students.contains(student)) {
+					students.add(student);
+				}
+			}
+		}
+		return students;
+	}
+	
 	public List<Account> getAllAccounts(){
 		return accountList;
 	}
