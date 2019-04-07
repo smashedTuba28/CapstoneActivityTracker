@@ -33,7 +33,7 @@ public class ChartController {
 	public void populateStudentWeek(String email, Date start, Date end){
 		
 		StudentAccount student = fdb.getStudentAccountWithEmail(email);//get student from DB
-		long[][] dateDuration = getWeekfromRoomEvents(start, end, student);//get durations and dates from 
+		long[] dateDuration = getWeekFromRoomEvents(start, end, student);//get durations and dates from 
 		String title = "Individual Hours";
 		
 		Calendar c = Calendar.getInstance();//create a calendar instance/reference
@@ -41,9 +41,9 @@ public class ChartController {
 		String data = "[['Date', 'Hours']";
 			
 		for(int i = 0; i < 7; i++) {
-				c.setTimeInMillis(dateDuration[1][i]);
+				c.setTimeInMillis(start.getTime() + i*86400000);
 				//creates data chart using month, day, and dur value
-				data += ",['" + (c.get(Calendar.MONTH)+1)  + "-" + c.get(Calendar.DAY_OF_MONTH) + "', " + dateDuration[0][i] / 60. + "]";
+				data += ",['" + (c.get(Calendar.MONTH)+1)  + "-" + c.get(Calendar.DAY_OF_MONTH) + "', " + dateDuration[i] / 60. + "]";
 		}			
 		//finalize data string by closing bracket
 		data += "]";
@@ -56,19 +56,40 @@ public class ChartController {
 	public void populateTopTeamWeek(String email, Date start, Date end) {
 		
 		TopTeam topTeam = fdb.getTopTeamWithStudentEmail(email);
-		String title = topTeam.getTeamname() + "Hours";
-		ArrayList<long[][]> weekList = new ArrayList<long[][]>();
+		String title = topTeam.getTeamname() + " Hours";
+		ArrayList<long[]> weekList = new ArrayList<long[]>();
+		String data = "[['Date'";
 		
 		//get all students in the Team
+		List<StudentAccount> students = fdb.getAllStudentsInTopTeam(topTeam);
 		
+		for(StudentAccount s: students) {//get each students week events
+			weekList.add(getWeekFromRoomEvents(start, end,s));
+			data += ",'" + s.getFirstname() + " " + s.getLastname() + "'";
+		}
+		data += "]";
+
+		Calendar c = Calendar.getInstance();//create a calendar instance/reference
 		
+		for (int i=0; i<7; i++) {
+			c.setTimeInMillis(start.getTime() + i*86400000);
+			
+			data += ",['" + (c.get(Calendar.MONTH)+1)  + "-" + c.get(Calendar.DAY_OF_MONTH) + "'";
+			for(int j=0; j < weekList.size(); j++) {
+				data += ", " + weekList.get(j)[i] / 60.;
+			}
+			data += "]";
+		}
+		data += "]";
 		
+		model.setData(data);
+		model.setTitle(title);
 	}
 
-	public long[][] getWeekfromRoomEvents(Date start, Date end, StudentAccount student) {
+	public long[] getWeekFromRoomEvents(Date start, Date end, StudentAccount student) {
 		
 		ArrayList<RoomEvent> events = new ArrayList<RoomEvent>();//list for all events within timeframe
-		long durations[][] = new long[2][7];
+		long durations[] = new long[7];
 	
 		long delta = (end.getTime()-start.getTime()) / 7;//splitting period into 7 portions (7 days)
 		Date temp =  new Date(start.getTime() + delta);//temp date for start + 1
@@ -120,8 +141,8 @@ public class ChartController {
 			System.out.println("total duration sum for time frame: " + dur);
 			System.out.println("\n\n");
 		*/
-			durations[0][i] = dur;//save total time into duration array
-			durations[1][i] = start.getTime();
+			durations[i] = dur;//save total time into duration array
+			//durations[1][i] = start.getTime();
 			start = new Date(temp.getTime());	//move start position to current end position
 			temp.setTime(temp.getTime() + delta);//advance temp to next position == current start + 1
 		/*	
