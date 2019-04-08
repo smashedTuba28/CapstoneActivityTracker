@@ -11,7 +11,9 @@ public class SignUpController {
 	public SignUpController() {
 		//initialize databases
 		fdb = new FakeDatabase();
+		fdb.init();
 		ycpdb = new YCPFakeDatabase();
+
 	}
 	
 	public boolean createAccount(String email, String password, String schoolID) {
