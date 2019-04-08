@@ -27,7 +27,7 @@ public class YCPFakeDatabaseTest {
 	
 	@Test
 	public void testFindStudentByEmail() {
-		assertTrue(ycpfdb.findStudentByEmail("jsteinerg@ycp.edu").equals(ycpfdb.getAllStudents().get(0)));
+		assertTrue(ycpfdb.findStudentByEmail("jsteinberg@ycp.edu").equals(ycpfdb.getAllStudents().get(0)));
 		assertTrue(ycpfdb.findStudentByEmail("twetzel1@ycp.edu").equals(ycpfdb.getAllStudents().get(1)));
 		assertTrue(ycpfdb.findStudentByEmail("wtaylor1@ycp.edu").equals(ycpfdb.getAllStudents().get(2)));
 		
@@ -52,7 +52,7 @@ public class YCPFakeDatabaseTest {
 
 	@Test
 	public void testVerifyStudent() {
-		assertTrue(ycpfdb.verifyStudent("jsteinerg@ycp.edu", "900000001"));
+		assertTrue(ycpfdb.verifyStudent("jsteinberg@ycp.edu", "900000001"));
 		assertTrue(ycpfdb.verifyStudent("twetzel1@ycp.edu", "900000002"));
 		assertTrue(ycpfdb.verifyStudent("wtaylor1@ycp.edu", "900000003"));
 		
@@ -78,7 +78,7 @@ public class YCPFakeDatabaseTest {
 	@Test
 	public void testVerifyPersonnel() {
 
-		assertTrue(ycpfdb.verifyPersonnel("jsteinerg@ycp.edu", "900000001"));
+		assertTrue(ycpfdb.verifyPersonnel("jsteinberg@ycp.edu", "900000001"));
 		assertTrue(ycpfdb.verifyPersonnel("twetzel1@ycp.edu", "900000002"));
 		assertTrue(ycpfdb.verifyPersonnel("wtaylor1@ycp.edu", "900000003"));
 		assertTrue(ycpfdb.verifyPersonnel("jdoe@ycp.edu", "900000000"));

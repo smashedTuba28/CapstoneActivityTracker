@@ -27,9 +27,6 @@ public class SignInControllerTest {
 
 	@Test
 	public void testValidateCredentials() {
-		
-		
-		
-		
+		fail("Not yet implemented");
 	}
 }

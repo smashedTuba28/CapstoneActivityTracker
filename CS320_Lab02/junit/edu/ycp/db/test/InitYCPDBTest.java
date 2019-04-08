@@ -49,7 +49,7 @@ public class InitYCPDBTest {
 		//checking jason (first student in the list) for correct information
 		assertTrue(studentList.get(0).getFirstname().equals("Jason"));
 		assertTrue(studentList.get(0).getLastname().equals("Steinberg"));
-		assertTrue(studentList.get(0).getEmail().equals("jsteinerg@ycp.edu"));
+		assertTrue(studentList.get(0).getEmail().equals("jsteinberg@ycp.edu"));
 		assertTrue(studentList.get(0).getSchoolID().equals("900000001"));
 		assertFalse(studentList.get(0).getFaculty());
 		//checking Travis (second student in the list) for correct information
