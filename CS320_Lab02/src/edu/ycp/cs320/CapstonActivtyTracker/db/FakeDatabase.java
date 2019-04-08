@@ -96,6 +96,15 @@ public class FakeDatabase {
 		studentList.get(0).closeRoomEvent(new Date(119,3,5,2,30,0));
 		studentList.get(0).createRoomEvent(new Date(119,3,5,17,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,5,22,00,0));
+		studentList.get(0).createRoomEvent(new Date(119,3,6,12,00,0));
+		studentList.get(0).closeRoomEvent(new Date(119,3,6,22,00,0));
+		studentList.get(0).createRoomEvent(new Date(119,3,7,10,00,0));
+		studentList.get(0).closeRoomEvent(new Date(119,3,7,21,00,0));
+		studentList.get(2).createRoomEvent(new Date(119,3,8,10,00,0));
+		studentList.get(2).closeRoomEvent(new Date(119,3,8,10,45,0));
+		studentList.get(2).createRoomEvent(new Date(119,3,8,1,00,0));
+		studentList.get(2).closeRoomEvent(new Date(119,3,8,1,30,0));
+		
 		
 		//TRAVIS HOURS
 		studentList.get(1).createRoomEvent(new Date(119,2,31,9,00,0));
@@ -112,6 +121,12 @@ public class FakeDatabase {
 		studentList.get(1).closeRoomEvent(new Date(119,3,4,19,30,0));
 		studentList.get(1).createRoomEvent(new Date(119,3,5,13,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,5,17,00,0));
+		studentList.get(1).createRoomEvent(new Date(119,3,6,12,00,0));
+		studentList.get(1).closeRoomEvent(new Date(119,3,6,22,00,0));
+		studentList.get(1).createRoomEvent(new Date(119,3,7,10,00,0));
+		studentList.get(1).closeRoomEvent(new Date(119,3,7,21,00,0));
+		studentList.get(2).createRoomEvent(new Date(119,3,8,1,00,0));
+		studentList.get(2).closeRoomEvent(new Date(119,3,8,1,30,0));
 		
 		//Bill Hours
 		studentList.get(2).createRoomEvent(new Date(119,2,31,10,00,0));
@@ -126,6 +141,7 @@ public class FakeDatabase {
 		studentList.get(2).closeRoomEvent(new Date(119,3,5,2,30,0));
 		studentList.get(2).createRoomEvent(new Date(119,3,5,15,00,0));
 		studentList.get(2).closeRoomEvent(new Date(119,3,5,16,26,0));
+
 
 		//Robert California Hours
 		studentList.get(3).createRoomEvent(new Date(119,3,1,9,00,0));
@@ -249,6 +265,13 @@ public class FakeDatabase {
 		}
 		else {
 			StudentAccount student = new StudentAccount(firstname, lastname, email, password, schoolID, faculty);
+			System.out.println(student.getEmail());
+			System.out.println(student.getFirstname());
+			System.out.println(student.getLastname());
+			System.out.println(student.getPassword());
+			System.out.println(student.getSchoolID());
+			System.out.println(student.getFaculty());
+			
 			studentList.add(student);
 			accountList.add(student);
 		}
