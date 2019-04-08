@@ -2,6 +2,7 @@ package edu.ycp.cs320.CapstoneActivityTracker.controller;
 
 import edu.ycp.cs320.CapstonActivtyTracker.db.*;
 import edu.ycp.db.*;
+import edu.ycp.model.YCPPersonnel;
 
 public class SignUpController {
 	FakeDatabase fdb;
