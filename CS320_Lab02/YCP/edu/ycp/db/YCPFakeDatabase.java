@@ -24,11 +24,12 @@ public class YCPFakeDatabase {
 		System.out.println(adminList.size() + " admins");
 		System.out.println(studentList.size() + " students");
 	}
-	
+
 	//Initialization of YCPFakeDB through InitYCPDB Methods
 	public void readInitialData() {
 			adminList.addAll(InitYCPDB.getAdmins());
 			studentList.addAll(InitYCPDB.getStudents());
+			roomList.addAll(InitYCPDB.getRooms());
 	}
 
 	//finding student YCPPersonnel by their email
@@ -90,7 +91,17 @@ public class YCPFakeDatabase {
 		}
 		return false;
 	}
-	
+	//runs through both admin and student to see if the personnel exists, this may not get used
+	public boolean verifyPersonnel(String email, String schoolID) {
+		if(verifyAdmin(email,schoolID)) {
+			return true;
+		}
+		else if(verifyStudent(email,schoolID)) {
+			return true;
+		}
+		else
+		return false;
+	}
 	//returns a room from a room number given
 	public Room findRoomByNumber(int number) {
 		for(Room room: roomList) {
@@ -101,6 +112,17 @@ public class YCPFakeDatabase {
 		return null;
 	}
 	
+	public List<YCPPersonnel> getAllAdmin(){
+		return adminList;
+	}
+	
+	public List<YCPPersonnel> getAllStudents(){
+		return studentList;
+	}
+	
+	public List<Room> getAllRooms(){
+		return roomList;
+	}
 }
 
 /*
