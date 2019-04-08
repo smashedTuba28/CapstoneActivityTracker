@@ -15,7 +15,6 @@
 			
 	<!---enter user credentials--->
 		<form action="${pageContext.servletContext.contextPath}/signUp" method="post">
-			<c:if test="${empty model}">
 				<table>
 					<tr>
 						<td class="Label">Please complete to create your account.</td>
@@ -38,7 +37,6 @@
 					</tr>		
 				</table>
 				<input type="submit" name="signUp" value="Create Account" />
-			</c:if>	
 		</form>
 	</body>
 </html>

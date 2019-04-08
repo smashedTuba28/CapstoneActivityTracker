@@ -24,7 +24,7 @@ public class InitYCPDB {
 		studentList = new ArrayList<YCPPersonnel>();
 		
 		//adding all student YCPPersonnel to the list of students
-		studentList.add(new YCPPersonnel("Jason", "Steinberg", "jsteinerg@ycp.edu", "900000001", false));
+		studentList.add(new YCPPersonnel("Jason", "Steinberg", "jsteinberg@ycp.edu", "900000001", false));
 		studentList.add(new YCPPersonnel("Travis", "Wetzel", "twetzel1@ycp.edu", "900000002", false));
 		studentList.add(new YCPPersonnel("William", "Taylor", "wtaylor1@ycp.edu", "900000003", false));
 		

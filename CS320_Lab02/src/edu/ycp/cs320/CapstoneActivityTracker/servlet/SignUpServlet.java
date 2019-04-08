@@ -77,7 +77,9 @@ public class SignUpServlet extends HttpServlet {
 		}	
 		else{
 		//passed all error checks and data ready to be added to db
+			System.out.println("Starting here");
 			valid = controller.createAccount(email, password, schoolID);
+			System.out.println("Exiting here");
 			if (!valid){
 				errorMessage = "Personnel Not Resgistered at York College of Pennsylvania";
 			}

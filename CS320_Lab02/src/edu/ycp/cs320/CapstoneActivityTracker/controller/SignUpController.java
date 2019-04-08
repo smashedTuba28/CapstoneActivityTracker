@@ -10,10 +10,14 @@ public class SignUpController {
 	public SignUpController() {
 		//initialize databases
 		fdb = new FakeDatabase();
+		fdb.init();
 		ycpdb = new YCPFakeDatabase();
 	}
 	
 	public boolean createAccount(String email, String password, String schoolID) {
+		
+		System.out.println("In Controller");
+		
 		//checking if personnel is within the YCPDB as an admin
 		if(ycpdb.verifyAdmin(email, schoolID)) {
 			fdb.createAccount(ycpdb.findAdminByEmail(email).getFirstname(), ycpdb.findAdminByEmail(email).getLastname(), email, password, schoolID, true);
@@ -21,6 +25,7 @@ public class SignUpController {
 		}
 		//checking if personnel is within the YCPDB as a student
 		else if(ycpdb.verifyStudent(email, schoolID)) {
+			System.out.println("Student Exsisted");
 			fdb.createAccount(ycpdb.findStudentByEmail(email).getFirstname(), ycpdb.findStudentByEmail(email).getLastname(), email, password, schoolID, false);
 			return true;
 		}
