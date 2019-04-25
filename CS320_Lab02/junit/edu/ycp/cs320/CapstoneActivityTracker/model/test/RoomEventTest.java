@@ -2,9 +2,9 @@ package edu.ycp.cs320.CapstoneActivityTracker.model.test;
 
 import static org.junit.Assert.*;
 
+import java.sql.Timestamp;
 import java.time.*;
 import java.util.Date;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,6 +35,10 @@ public class RoomEventTest {
 		end4 = new Date(2000, 12, 22, 11, 50, 0);
 		
 		event = new RoomEvent();
+		//System.out.println(end4);
+		//Timestamp stamp = new Timestamp(end4.getTime());
+		//System.out.println(stamp);
+		
 	}
 
 	@Test
