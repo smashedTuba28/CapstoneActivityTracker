@@ -5,6 +5,7 @@ public class Account {
 	private String firstname, lastname, email, schoolID;
 	private String password; //TODO: This will be changed for encryption purposes in the future
 	private boolean faculty; 
+	private Integer accountID;
 	//private boolean valid; from before db implemeted
 	
 	// setting no values, therefore the account is not yet valid
@@ -70,6 +71,15 @@ public class Account {
 	public boolean getFaculty() {
 		return faculty;
 	}
+	
+	public void setAccountID(Integer accountID) {
+		this.accountID = accountID;
+	}
+	
+	public int getAccountID() {
+		return accountID;
+	}
+	
 	
 	/*//checking if the account is valid (function of the database)
 	public boolean validAccount() {//comment out once DB is implemented
