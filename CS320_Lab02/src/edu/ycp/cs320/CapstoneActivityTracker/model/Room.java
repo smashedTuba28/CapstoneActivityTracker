@@ -4,10 +4,12 @@ package edu.ycp.cs320.CapstoneActivityTracker.model;
 public class Room {
 	
 	//number of the room
-	int number;
+	private int number, roomID, subTeamID;
 	
 	//name of the room
 	String name;
+	
+	
 	
 	public Room() {
 	
@@ -33,6 +35,19 @@ public class Room {
 	
 	public void setRoomNumber(int number) {
 		this.number = number;
+	}
+
+	public void setRoomID(Integer roomID) {
+		this.roomID = roomID;
 	}	
-	
+	public int getRoomID() {
+		return roomID;
+	}
+
+	public void setSubTeamID(Integer subTeamID) {
+		this.subTeamID = subTeamID;
+	}
+	public int subTeamID() {
+		return subTeamID;
+	}
 }

@@ -8,7 +8,8 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 
 public class Team {
 
-	String teamname;
+	private String teamname;
+	private int teamID;
 	
 	//initialization
 	public Team() {
@@ -25,5 +26,12 @@ public class Team {
 	
 	public void setTeamname(String teamname) {
 		this.teamname = teamname;
+	}
+	
+	public void setTeamID(Integer teamID) {
+		this.teamID = teamID;
+	}
+	public int getTeamID() {
+		return teamID;
 	}
 }

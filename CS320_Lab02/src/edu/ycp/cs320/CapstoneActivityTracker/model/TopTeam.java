@@ -41,6 +41,5 @@ public class TopTeam extends Team{
 		for(SubTeam s: subTeams) {//run through loop to add room to all subTeams
 			s.addRoom(room);
 		}
-	}
-	
+	}	
 }

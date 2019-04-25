@@ -10,6 +10,9 @@ public class SubTeam extends Team{
 	List<StudentAccount> students;
 	List<Room> rooms;
 	
+	
+	private int topTeamID, accountID;
+	
 	public SubTeam() {
 		super();
 		rooms = new ArrayList<Room>();
@@ -40,5 +43,21 @@ public class SubTeam extends Team{
 	}
 	public void addRoom(Room room) {
 		this.rooms.add(room);
+	}
+	
+	
+	
+	public void setTopTeamID(int topTeamID) {
+		this.topTeamID = topTeamID;
+	}
+	public void setAccountID(int accountID) {
+		this.accountID = accountID;
+	}
+	
+	public int getTopTeamID() {
+		return topTeamID;
+	}
+	public int getAccountID() {
+		return accountID;
 	}
 }
