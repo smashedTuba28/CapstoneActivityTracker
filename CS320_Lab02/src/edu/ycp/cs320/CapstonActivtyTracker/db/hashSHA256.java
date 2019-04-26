@@ -14,7 +14,7 @@ public class hashSHA256 {
 	
 	public static String getHash(String password)  {
 		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA3_256");
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
 			byte[] hashbytes = digest.digest(password.getBytes(StandardCharsets.UTF_8));
 			return bytesToHex(hashbytes);
 		}catch (NoSuchAlgorithmException e) {
