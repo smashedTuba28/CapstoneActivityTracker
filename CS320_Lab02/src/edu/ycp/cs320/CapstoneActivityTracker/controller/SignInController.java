@@ -6,12 +6,12 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 
 
 public class SignInController {
-	private FakeDatabase fdb;
+	private IDatabase db;
 	private Account model;
 	
 	public SignInController() {
-		fdb = new FakeDatabase();
-		fdb.init();
+		DatabaseProvider.setInstance(new DerbyDatabase());
+		db = DatabaseProvider.getInstance();
 	}
 	
 	public Account getModel() {
@@ -19,8 +19,8 @@ public class SignInController {
 	}
 	
 	public boolean validateCredentials(String email, String password) {
-		if(fdb.verifyAccount(email, password)) {
-			this.model = fdb.getAccountWithEmail(email);
+		if(db.verifyAccount(email, password)) {
+			//this.model = db.getAccountWithEmail(email);
 			return true;
 		}
 		return false;

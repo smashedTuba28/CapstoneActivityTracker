@@ -14,6 +14,7 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
+import edu.ycp.cs320.CapstoneActivityTracker.model.TeamRoom;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
 
 public class InitialData {
@@ -132,7 +133,6 @@ public class InitialData {
 
 				// auto-generate room ID
 				room.setRoomID(roomID++);	
-				room.setSubTeamID(Integer.parseInt(i.next()));
 				room.setRoomNumber(Integer.parseInt(i.next()));
 				room.setRoomName(i.next());
 				roomList.add(room);
@@ -195,6 +195,28 @@ public class InitialData {
 			return subTeamList;
 		}finally {
 			readSubTeams.close();
+		}
+	}
+	
+	public static List<TeamRoom> getTeamRooms() throws IOException{
+		List<TeamRoom> teamRoomList = new ArrayList<TeamRoom>();
+		ReadCSV readTeamRooms = new ReadCSV("teamRooms.csv");
+		try {
+			while(true) {
+				List<String> tuple = readTeamRooms.next();
+				if (tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				TeamRoom tr = new TeamRoom();
+				tr.setRoomID(Integer.parseInt(i.next()));
+				tr.setTeamID(Integer.parseInt(i.next()));
+				teamRoomList.add(tr);
+			}
+			System.out.println("teamRoomList loaded from CSV file");
+			return teamRoomList;
+		}finally {
+			readTeamRooms.close();
 		}
 	}
 }

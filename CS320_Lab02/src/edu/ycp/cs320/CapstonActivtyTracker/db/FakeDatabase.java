@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 
 import edu.ycp.cs320.CapstoneActivityTracker.model.*;
 
-public class FakeDatabase {
+public class FakeDatabase implements IDatabase{
 	private List<AdminAccount> adminList;
 	private List<StudentAccount> studentList;
 	private List<TopTeam> topTeamList;

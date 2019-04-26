@@ -16,6 +16,7 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
+import edu.ycp.cs320.CapstoneActivityTracker.model.TeamRoom;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
 
 
@@ -126,6 +127,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt3 = null;
 				PreparedStatement stmt4 = null;
 				PreparedStatement stmt5 = null;
+				PreparedStatement stmt6 = null;
 				
 				try {
 					//room table
@@ -134,8 +136,7 @@ public class DerbyDatabase implements IDatabase {
 						"	room_id integer primary key " +
 						"		generated always as identity (start with 1, increment by 1), " +									
 						"	number integer," +
-						"	name varchar(70)," +
-						"   subTeam_id integer constraint subTeam_id references subTeams" +
+						"	name varchar(70)" +
 						")"
 					);	
 					stmt1.executeUpdate();
@@ -160,11 +161,11 @@ public class DerbyDatabase implements IDatabase {
 					//room events table
 					stmt3 = conn.prepareStatement(
 							"create table roomEvents (" +
-							"	account_id integer constraint account_id references accounts," +
+							"	account_id integer constraint account_id references studentAccounts," +
 							"	room_id integer constraint room_id references rooms," + 
 							"	startTime timestamp," + 
 							"	endTime timestamp," +
-							"	lognote longtext" +
+							"	lognote varchar(400)" +
 							")"
 					);
 					stmt3.executeUpdate();
@@ -189,7 +190,7 @@ public class DerbyDatabase implements IDatabase {
 							"		generated always as identity (start with 1, increment by 1), " +									
 							"	teamname varchar(40)," +
 							" 	topTeam_id integer constraint topTeam_id references topTeams," +
-							" 	account_id integer constraint account_id references accounts" +
+							" 	account_id integer constraint studentAccount_id references studentAccounts" +
 							")"
 					);
 					stmt4.executeUpdate();
@@ -210,6 +211,16 @@ public class DerbyDatabase implements IDatabase {
 					stmt5.executeUpdate();
 					System.out.println("adminAccount table created");
 					
+				/*	//teamRooms
+					stmt6 = conn.prepareStatement(
+							"create table teamRooms (" +
+									"	team_id   integer constraint team_id references subTeams, " +
+									"	room_id integer constraint room_id references rooms " +
+									")"
+					);
+					stmt6.executeUpdate();
+					System.out.println("teamRooms table created");
+					*/
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt1);
@@ -224,34 +235,38 @@ public class DerbyDatabase implements IDatabase {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
-				List<RoomEvent> roomEventList;
-				List<StudentAccount> studentList;
-				List<AdminAccount> adminList;
+			//	List<RoomEvent> roomEventList;
+			//	List<StudentAccount> studentList;
+			//	List<AdminAccount> adminList;
 				List<Room> roomList;
-				List<TopTeam> topTeamList;
-				List<SubTeam> subTeamList;
+			//	List<TopTeam> topTeamList;
+			//	List<SubTeam> subTeamList;
+				
+			//	List<TeamRoom> teamRoomList;
 				
 				
 				try {
-					roomEventList     	= InitialData.getRoomEvents();
-					studentList       	= InitialData.getStudentAccounts();
-					adminList 			= InitialData.getAdminAccounts();
+			//		roomEventList     	= InitialData.getRoomEvents();
+			//		studentList       	= InitialData.getStudentAccounts();
+			//		adminList 			= InitialData.getAdminAccounts();
 					roomList			= InitialData.getRooms();
-					topTeamList			= InitialData.getTopTeams();
-					subTeamList			= InitialData.getSubTeams();
+			//		topTeamList			= InitialData.getTopTeams();
+			//		subTeamList			= InitialData.getSubTeams();
+			//		teamRoomList		= InitialData.getTeamRooms();
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
-				} catch (ParseException e) {
-					throw new SQLException("Couldn't parse initial data", e);
+			//	} catch (ParseException e) {
+			//		throw new SQLException("Couldn't parse initial data", e);
 				}
 
-				PreparedStatement insertRoomEvent     	= null;
-				PreparedStatement insertStudent       	= null;
-				PreparedStatement insertAdmin 			= null;
+			//	PreparedStatement insertRoomEvent     	= null;
+			//	PreparedStatement insertStudent       	= null;
+			//	PreparedStatement insertAdmin 			= null;
 				PreparedStatement insertRoom			= null;
-				PreparedStatement insertTopTeam			= null;
-				PreparedStatement insertSubTeam			= null;
-
+			//	PreparedStatement insertTopTeam			= null;
+			//	PreparedStatement insertSubTeam			= null;
+			//	PreparedStatement insertTeamRoom		= null;
+				
 				try {
 					
 					insertRoom = conn.prepareStatement("insert into rooms (number, name) values (?, ?)");
@@ -263,7 +278,7 @@ public class DerbyDatabase implements IDatabase {
 					insertRoom.executeBatch();
 					System.out.println("Rooms table populated");
 					
-					
+		/*			
 					insertStudent = conn.prepareStatement("insert into studentAccounts (firstname, lastname, email, password, schoolID) values (?, ?, ?, ?, ?)");
 					for (StudentAccount student : studentList) {
 						insertStudent.setString(1, student.getFirstname());
@@ -323,14 +338,24 @@ public class DerbyDatabase implements IDatabase {
 					insertSubTeam.executeBatch();
 					System.out.println("SubTeams Table populated");
 					
+					insertTeamRoom = conn.prepareStatement("insert into teamRooms (teamID, roomID) values (?,?)");
+					for (TeamRoom tr : teamRoomList) {
+						insertTeamRoom.setInt(1, tr.getTeamID());
+						insertTeamRoom.setInt(2, tr.getRoomID());
+						insertTeamRoom.addBatch();
+					}
+					insertTeamRoom.executeBatch();
+					System.out.println("TeamRooms table populated");
+			*/		
 					return true;
 				} finally {
-					DBUtil.closeQuietly(insertStudent);
-					DBUtil.closeQuietly(insertAdmin);
+				//	DBUtil.closeQuietly(insertStudent);
+				//	DBUtil.closeQuietly(insertAdmin);
 					DBUtil.closeQuietly(insertRoom);
-					DBUtil.closeQuietly(insertRoomEvent);
-					DBUtil.closeQuietly(insertTopTeam);
-					DBUtil.closeQuietly(insertSubTeam);
+				//	DBUtil.closeQuietly(insertRoomEvent);
+				//	DBUtil.closeQuietly(insertTopTeam);
+				//	DBUtil.closeQuietly(insertSubTeam);
+				//	DBUtil.closeQuietly(insertTeamRoom);
 				}
 			}
 		});
@@ -346,5 +371,44 @@ public class DerbyDatabase implements IDatabase {
 		db.loadInitialData();
 		
 		System.out.println("Library DB successfully initialized!");
+	}
+
+	@Override
+	public boolean verifyAccount(String email, String password) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				
+				Boolean found = false;
+				try {
+					stmt = conn.prepareStatement(
+						"select studentAccounts.email, studentAccounts.password "
+						+ "	from studentAccounts "
+						+ " where studentAccounts.email = ?"
+						+ " and studentAccounts.password = ?"
+					);
+					
+					stmt.setString(1, email);
+					stmt.setString(2, password);
+					resultSet = stmt.executeQuery();
+					
+					if(resultSet.next()) {
+						found = true;
+					}
+					return found;
+				}finally {
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSet);
+				}
+			}
+		});
+		
+		
+		
+		
+		
+		
 	}
 }
