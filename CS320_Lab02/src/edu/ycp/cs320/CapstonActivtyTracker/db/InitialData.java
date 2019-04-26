@@ -72,9 +72,9 @@ public class InitialData {
 				student.setAccountID(account_id++);
 				student.setFirstname(i.next());
 				student.setLastname(i.next());
-				student.setSchoolID(i.next());
 				student.setEmail(i.next());
 				student.setPassword(hashSHA256.getHash(i.next()));
+				student.setSchoolID(i.next());
 				student.setStatus(Boolean.FALSE);
 				studentList.add(student);
 			}
@@ -104,9 +104,9 @@ public class InitialData {
 				admin.setAccountID(account_id++);
 				admin.setFirstname(i.next());
 				admin.setLastname(i.next());
-				admin.setSchoolID(i.next());
 				admin.setEmail(i.next());
 				admin.setPassword(hashSHA256.getHash(i.next()));
+				admin.setSchoolID(i.next());
 				adminList.add(admin);
 			}
 			System.out.println("adminList loaded from CSV file");
@@ -186,8 +186,8 @@ public class InitialData {
 				
 				//auto-generated subTeamID
 				sub.setTeamID(subTeamID++);
-				sub.setTopTeamID(Integer.parseInt(i.next()));
-				sub.setAccountID(Integer.parseInt(i.next()));
+			//	sub.setTopTeamID(Integer.parseInt(i.next()));
+			//	sub.setAccountID(Integer.parseInt(i.next()));
 				sub.setTeamname(i.next());
 				subTeamList.add(sub);
 			}
@@ -209,8 +209,8 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 				TeamRoom tr = new TeamRoom();
-				tr.setRoomID(Integer.parseInt(i.next()));
 				tr.setTeamID(Integer.parseInt(i.next()));
+				tr.setRoomID(Integer.parseInt(i.next()));
 				teamRoomList.add(tr);
 			}
 			System.out.println("teamRoomList loaded from CSV file");

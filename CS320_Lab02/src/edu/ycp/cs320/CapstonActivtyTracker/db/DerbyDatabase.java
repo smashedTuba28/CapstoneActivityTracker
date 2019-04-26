@@ -133,8 +133,9 @@ public class DerbyDatabase implements IDatabase {
 					//room table
 					stmt1 = conn.prepareStatement(
 						"create table rooms (" +
-						"	room_id integer primary key " +
-						"		generated always as identity (start with 1, increment by 1), " +									
+						"	room_id_1 integer primary key " +
+						"		generated always as identity (start with 1, increment by 1), " +
+						"   room_id_2 integer," +
 						"	number integer," +
 						"	name varchar(70)" +
 						")"
@@ -145,19 +146,21 @@ public class DerbyDatabase implements IDatabase {
 					// student accounts table
 					stmt2 = conn.prepareStatement(
 							"create table studentAccounts(" +
-							"	account_id integer primary key " +
+							"	account_id_1 integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
+							"   account_id_2 integer," +
 							"	firstname varchar(20)," +
 							"	lastname varchar(20)," +
 							"   email varchar(35)," + 
 							" 	password varchar(100)," +
-							"	schoolID varchar(9)" +
+							"	schoolID varchar(9)," +
+							"   status boolean" +
 							")"
 					);
 					stmt2.executeUpdate();
 					System.out.println("studentAccounts table created");					
 					
-					
+			/*		
 					//room events table
 					stmt3 = conn.prepareStatement(
 							"create table roomEvents (" +
@@ -171,7 +174,7 @@ public class DerbyDatabase implements IDatabase {
 					stmt3.executeUpdate();
 					System.out.println("roomEvents table created");					
 							
-					
+			*/		
 					//Top teams table
 					stmt4 = conn.prepareStatement(
 							"create table topTeams (" +
@@ -186,11 +189,12 @@ public class DerbyDatabase implements IDatabase {
 					//Sub teams table
 					stmt4 = conn.prepareStatement(
 							"create table subTeams (" +
-							"	subTeam_id integer primary key " +
-							"		generated always as identity (start with 1, increment by 1), " +									
-							"	teamname varchar(40)," +
-							" 	topTeam_id integer constraint topTeam_id references topTeams," +
-							" 	account_id integer constraint studentAccount_id references studentAccounts" +
+							"	subTeam_id_1 integer primary key " +
+							"		generated always as identity (start with 1, increment by 1), " +
+							"   subTeam_id_2 integer," +
+							"	teamname varchar(40)" +
+						//	" 	topTeam_id integer constraint topTeam_id references topTeams," +
+						//	" 	account_id integer constraint studentAccount_id references studentAccounts" +
 							")"
 					);
 					stmt4.executeUpdate();
@@ -211,16 +215,16 @@ public class DerbyDatabase implements IDatabase {
 					stmt5.executeUpdate();
 					System.out.println("adminAccount table created");
 					
-				/*	//teamRooms
+					//teamRooms
 					stmt6 = conn.prepareStatement(
 							"create table teamRooms (" +
-									"	team_id   integer constraint team_id references subTeams, " +
-									"	room_id integer constraint room_id references rooms " +
+									"	subTeam_id_1 integer constraint subTeam_id_1 references subTeams, " +
+									"	room_id_1 integer constraint room_id_1 references rooms " +
 									")"
 					);
 					stmt6.executeUpdate();
 					System.out.println("teamRooms table created");
-					*/
+					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt1);
@@ -236,23 +240,23 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 			//	List<RoomEvent> roomEventList;
-			//	List<StudentAccount> studentList;
-			//	List<AdminAccount> adminList;
+				List<StudentAccount> studentList;
+				List<AdminAccount> adminList;
 				List<Room> roomList;
-			//	List<TopTeam> topTeamList;
-			//	List<SubTeam> subTeamList;
+				List<TopTeam> topTeamList;
+				List<SubTeam> subTeamList;
 				
-			//	List<TeamRoom> teamRoomList;
+				List<TeamRoom> teamRoomList;
 				
 				
 				try {
 			//		roomEventList     	= InitialData.getRoomEvents();
-			//		studentList       	= InitialData.getStudentAccounts();
-			//		adminList 			= InitialData.getAdminAccounts();
+					studentList       	= InitialData.getStudentAccounts();
+					adminList 			= InitialData.getAdminAccounts();
 					roomList			= InitialData.getRooms();
-			//		topTeamList			= InitialData.getTopTeams();
-			//		subTeamList			= InitialData.getSubTeams();
-			//		teamRoomList		= InitialData.getTeamRooms();
+					topTeamList			= InitialData.getTopTeams();
+					subTeamList			= InitialData.getSubTeams();
+					teamRoomList		= InitialData.getTeamRooms();
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
 			//	} catch (ParseException e) {
@@ -260,32 +264,35 @@ public class DerbyDatabase implements IDatabase {
 				}
 
 			//	PreparedStatement insertRoomEvent     	= null;
-			//	PreparedStatement insertStudent       	= null;
-			//	PreparedStatement insertAdmin 			= null;
+				PreparedStatement insertStudent       	= null;
+				PreparedStatement insertAdmin 			= null;
 				PreparedStatement insertRoom			= null;
-			//	PreparedStatement insertTopTeam			= null;
-			//	PreparedStatement insertSubTeam			= null;
-			//	PreparedStatement insertTeamRoom		= null;
+				PreparedStatement insertTopTeam			= null;
+				PreparedStatement insertSubTeam			= null;
+				PreparedStatement insertTeamRoom		= null;
 				
 				try {
 					
-					insertRoom = conn.prepareStatement("insert into rooms (number, name) values (?, ?)");
+					insertRoom = conn.prepareStatement("insert into rooms (room_id_2, number, name) values (?, ?, ?)");
 					for (Room room : roomList) {
-						insertRoom.setInt(1, room.getRoomNumber());
-						insertRoom.setString(2, room.getRoomName());
+						insertRoom.setInt(1, room.getRoomID());//second id just copying from primary key to use as a second foreign key
+						insertRoom.setInt(2, room.getRoomNumber());
+						insertRoom.setString(3, room.getRoomName());
 						insertRoom.addBatch();
 					}
 					insertRoom.executeBatch();
 					System.out.println("Rooms table populated");
 					
-		/*			
-					insertStudent = conn.prepareStatement("insert into studentAccounts (firstname, lastname, email, password, schoolID) values (?, ?, ?, ?, ?)");
+					
+					insertStudent = conn.prepareStatement("insert into studentAccounts (firstname, lastname, email, password, schoolID, status, account_id_2) values (?,?,?,?,?,?,?)");
 					for (StudentAccount student : studentList) {
 						insertStudent.setString(1, student.getFirstname());
 						insertStudent.setString(2, student.getLastname());
 						insertStudent.setString(3, student.getEmail());
 						insertStudent.setString(4, student.getPassword());
 						insertStudent.setString(5, student.getSchoolID());
+						insertStudent.setBoolean(6, student.getStatus());
+						insertStudent.setInt(7, student.getAccountID());
 						insertStudent.addBatch();
 					}
 					insertStudent.executeBatch();
@@ -314,7 +321,7 @@ public class DerbyDatabase implements IDatabase {
 					System.out.println("TopTeam table populated");
 					
 					
-					
+		/*			
 					insertRoomEvent = conn.prepareStatement("insert into roomEvents (account_id, room_id, startTime, endTime, lognote) values (?,?,?,?,?) ");
 					for (RoomEvent event : roomEventList) {
 						insertRoomEvent.setInt(1, event.getAccountID());
@@ -327,18 +334,17 @@ public class DerbyDatabase implements IDatabase {
 					insertRoomEvent.executeBatch();
 					System.out.println("RoomEvents Table populated");
 					
-										
-					insertSubTeam = conn.prepareStatement("insert into subTeams (teamname, topTeam_id, account_id) values (?,?,?)");
+			*/							
+					insertSubTeam = conn.prepareStatement("insert into subTeams (subTeam_id_2, teamname) values (?,?)");
 					for (SubTeam sub : subTeamList) {
-						insertSubTeam.setString(1, sub.getTeamname());
-						insertSubTeam.setInt(2, sub.getTopTeamID());
-						insertSubTeam.setInt(3, sub.getAccountID());
+						insertSubTeam.setInt(1, sub.getTeamID());
+						insertSubTeam.setString(2, sub.getTeamname());
 						insertSubTeam.addBatch();
 					}
 					insertSubTeam.executeBatch();
 					System.out.println("SubTeams Table populated");
-					
-					insertTeamRoom = conn.prepareStatement("insert into teamRooms (teamID, roomID) values (?,?)");
+				
+					insertTeamRoom = conn.prepareStatement("insert into teamRooms (subTeam_id_1, room_id_1) values (?,?)");
 					for (TeamRoom tr : teamRoomList) {
 						insertTeamRoom.setInt(1, tr.getTeamID());
 						insertTeamRoom.setInt(2, tr.getRoomID());
@@ -346,15 +352,15 @@ public class DerbyDatabase implements IDatabase {
 					}
 					insertTeamRoom.executeBatch();
 					System.out.println("TeamRooms table populated");
-			*/		
+					
 					return true;
 				} finally {
-				//	DBUtil.closeQuietly(insertStudent);
+					DBUtil.closeQuietly(insertStudent);
 				//	DBUtil.closeQuietly(insertAdmin);
 					DBUtil.closeQuietly(insertRoom);
 				//	DBUtil.closeQuietly(insertRoomEvent);
-				//	DBUtil.closeQuietly(insertTopTeam);
-				//	DBUtil.closeQuietly(insertSubTeam);
+					DBUtil.closeQuietly(insertTopTeam);
+					DBUtil.closeQuietly(insertSubTeam);
 				//	DBUtil.closeQuietly(insertTeamRoom);
 				}
 			}
@@ -403,12 +409,6 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(resultSet);
 				}
 			}
-		});
-		
-		
-		
-		
-		
-		
+		});	
 	}
 }
