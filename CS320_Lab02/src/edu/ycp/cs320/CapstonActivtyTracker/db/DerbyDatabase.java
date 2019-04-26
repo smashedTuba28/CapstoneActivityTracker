@@ -380,8 +380,8 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public boolean verifyAccount(String email, String password) {
-		return executeTransaction(new Transaction<Boolean>() {
+	public StudentAccount verifyAccount(String email, String password) {
+		return executeTransaction(new Transaction<BooleanStudentAccount>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
