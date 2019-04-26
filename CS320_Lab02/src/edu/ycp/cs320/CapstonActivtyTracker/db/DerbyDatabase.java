@@ -1,4 +1,4 @@
-package edu.ycp.cs320.booksdb.persist;
+package edu.ycp.cs320.CapstonActivtyTracker.db;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,8 +11,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ycp.cs320.CapstonActivtyTracker.db.IDatabase;
-import edu.ycp.cs320.CapstonActivtyTracker.db.InitialData;
 import edu.ycp.cs320.CapstoneActivityTracker.model.AdminAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;

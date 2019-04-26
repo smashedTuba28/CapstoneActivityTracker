@@ -1,6 +1,4 @@
-package edu.ycp.cs320.booksdb.persist;
-
-import edu.ycp.cs320.CapstonActivtyTracker.db.IDatabase;
+package edu.ycp.cs320.CapstonActivtyTracker.db;
 
 public class DatabaseProvider {
 	private static IDatabase theInstance;

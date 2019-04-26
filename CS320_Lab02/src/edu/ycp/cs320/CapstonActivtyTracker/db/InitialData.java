@@ -15,7 +15,6 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
-import edu.ycp.cs320.booksdb.persist.ReadCSV;
 
 public class InitialData {
 
