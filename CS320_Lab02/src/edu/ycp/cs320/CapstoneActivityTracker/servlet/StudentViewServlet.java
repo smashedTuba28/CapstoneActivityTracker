@@ -25,10 +25,10 @@ public class StudentViewServlet  extends HttpServlet {
 		System.out.println("StudentView Servlet: doGet");
 	
 	
-		String email = (String) req.getSession().getAttribute("userEmail");
+		String account_id = req.getSession().getAttribute("account_id").toString();
 		
 		//check session
-		if ( email == null) {
+		if ( account_id == null) {
 			//redirect
 			resp.sendRedirect(req.getContextPath() + "/signIn");
 		}
@@ -47,10 +47,10 @@ public class StudentViewServlet  extends HttpServlet {
 			//System.out.println("End Time: " + end.toString());
 			
 			//populates model with needed information for jsp
-			controller.populateStudentWeek(email, start, end);
+			//controller.populateStudentWeek(email, start, end);
 			
 			req.setAttribute("model", model);
-			
+			System.out.println("Made IT");
 			//call the jsp and generate empty form
 			req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
 		}

@@ -379,18 +379,20 @@ public class DerbyDatabase implements IDatabase {
 		System.out.println("Library DB successfully initialized!");
 	}
 
+	
+	//Finds and returns studentAccount for login
 	@Override
-	public StudentAccount verifyAccount(String email, String password) {
-		return executeTransaction(new Transaction<BooleanStudentAccount>() {
+	public StudentAccount verifyStudentAccount(String email, String password) {
+		return executeTransaction(new Transaction<StudentAccount>() {
 			@Override
-			public Boolean execute(Connection conn) throws SQLException {
+			public StudentAccount execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
 				ResultSet resultSet = null;
+				StudentAccount studentAccount =  null;
 				
-				Boolean found = false;
 				try {
 					stmt = conn.prepareStatement(
-						"select studentAccounts.email, studentAccounts.password "
+						"select studentAccounts.* "
 						+ "	from studentAccounts "
 						+ " where studentAccounts.email = ?"
 						+ " and studentAccounts.password = ?"
@@ -400,15 +402,96 @@ public class DerbyDatabase implements IDatabase {
 					stmt.setString(2, password);
 					resultSet = stmt.executeQuery();
 					
-					if(resultSet.next()) {
-						found = true;
+					if(resultSet.next()) {		
+						studentAccount = new StudentAccount();//create new model
+						// result set to populate model
+						studentAccount.setAccountID(Integer.parseInt(resultSet.getObject(1).toString()));
+						studentAccount.setFirstname(resultSet.getObject(3).toString());
+						studentAccount.setLastname(resultSet.getObject(4).toString());
+						studentAccount.setEmail(resultSet.getString(5));
+						studentAccount.setPassword(resultSet.getString(6));
+						studentAccount.setSchoolID(resultSet.getString(7));
+						studentAccount.setStatus(resultSet.getBoolean(8));
 					}
-					return found;
+					
+					return studentAccount;//return either null or populated model
 				}finally {
 					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(resultSet);
 				}
 			}
 		});	
+	}
+
+	@Override
+	public boolean createStudentAccount() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean creatAdminAccount() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public StudentAccount getStudentAccountWithID(Integer account_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StudentAccount getStudentAccountWithFirstandLastname(String firstname, String lastname) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<StudentAccount> getStudentsInSubTeam(Integer subTeam_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AdminAccount getAdminAccountWithID(Integer adminAccount_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AdminAccount verifyAdminAccount(String email, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Room> getRoomsForASubTeam(Integer subTeam_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RoomEvent> getRoomEventsForStudentWithDates(Integer account_id, Timestamp start, Timestamp end) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SubTeam> getSubTeamsInTopTeam(String topTeamname) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean creatSubTeam() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean createTopTeam() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

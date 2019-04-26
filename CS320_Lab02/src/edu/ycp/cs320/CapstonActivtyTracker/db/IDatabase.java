@@ -37,9 +37,4 @@ public interface IDatabase {
 	
 	public Boolean createTopTeam();//insert
 	
-	
-
-	
-	
-	
 }

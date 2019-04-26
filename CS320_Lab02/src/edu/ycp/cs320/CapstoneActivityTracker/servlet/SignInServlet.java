@@ -46,16 +46,18 @@ public class SignInServlet extends HttpServlet {
 		boolean valid = false;
 		String email = null;
 		String password = null;
-		
+		String accountType = null;
 		SignInController controller = new SignInController();
-		Account model;
+		Account model = null;
+		controller.setModel(model);
+		
 		
 		//decode POSTed from parameters and dispatch to controller
 		
 		email = req.getParameter("email").toString();//input from jsp under field labeled email
-		password = req.getParameter("password").toString(); //input from jsp under field labeled password
-			
-	
+		password = req.getParameter("password").toString();
+		accountType = req.getParameter("accountType").toString();
+		
 		//check if either is empty
 		if (email == null || password == null) {//either empty
 			errorMessage = "Please Enter Both your YCP Email and Password";
@@ -66,20 +68,25 @@ public class SignInServlet extends HttpServlet {
 			errorMessage = errorMessage + "Please Enter your YCP email";
 		}
 		//check password length matches exceeds minimum length
-		else if (password.length() < 8) {
-			errorMessage = "Password Invalid: must contain at least 8 characters";
-		}
+		//else if (password.length() < 8) {
+		//	errorMessage = "Password Invalid: must contain at least 8 characters";
+		//}
 		else {
 		//data clears initial check
 			 
-			if(!controller.validateCredentials(email, password)) {
-				errorMessage = "Log In Failed: unable to verify Account: Recheck Credentials and Try Again";
-			}
-			else {
-				req.getSession().setAttribute("userEmail", email);//citation at top 
-				model = controller.getModel();
+			//encrypt password
+			password = hashSHA256.getHash(password);
+			
+			//verify account 
+			if(controller.validateCredentials(email, password, accountType)) {
+				//add account_id to session
 				
-				if(model.getFaculty()) {
+		
+				model = controller.getModel();
+				req.getSession().setAttribute("account_id", String.valueOf(model.getAccountID()));//citation at top 
+				req.getSession().setAttribute("accountType", accountType);
+				
+				if(accountType.equals("admin")) {
 					//get faculty view if successful login
 					resp.sendRedirect(req.getContextPath() + "/adminView");
 				}
@@ -87,6 +94,10 @@ public class SignInServlet extends HttpServlet {
 					//get student view if successful login
 					resp.sendRedirect(req.getContextPath() + "/studentView");
 				}
+				
+			}
+			else {
+				errorMessage = "Log In Failed: unable to verify Account: Recheck Credentials and Try Again";
 			}
 		}
 		
