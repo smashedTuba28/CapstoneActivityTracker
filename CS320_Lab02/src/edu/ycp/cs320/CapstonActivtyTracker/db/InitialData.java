@@ -39,13 +39,15 @@ public class InitialData {
 				}
 				Iterator<String> i = tuple.iterator();
 				RoomEvent event = new RoomEvent();
+				
 				event.setAccountID(Integer.parseInt(i.next()));
 				event.setRoomID(Integer.parseInt(i.next()));
 				event.setStartTime(format.parse(i.next()));
 				event.setEndTime(format.parse(i.next()));
-				event.setFlag(Boolean.parseBoolean(i.next()));
+				event.setFlag(Boolean.FALSE);
 				event.setLognote(i.next());
 				eventList.add(event);
+			
 			}
 			System.out.println("roomEventList loaded from CSV file");
 			return eventList;

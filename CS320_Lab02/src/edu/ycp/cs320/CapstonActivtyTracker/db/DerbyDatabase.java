@@ -162,12 +162,14 @@ public class DerbyDatabase implements IDatabase {
 					stmt2.executeUpdate();
 					System.out.println("studentAccounts table created");					
 					
-			/*		
+					
 					//room events table
 					stmt3 = conn.prepareStatement(
 							"create table roomEvents (" +
-							"	account_id integer constraint account_id references studentAccounts," +
-							"	room_id integer constraint room_id references rooms," + 
+							"   roomEvent_id integer primary key " +
+							"      	generated always as identity (start with 1, increment by 1)," +
+							"	account_id_1 integer constraint account_id_1 references studentAccounts," +
+							"	room_id_2 integer constraint room_id_2 references rooms," + 
 							"	startTime timestamp," + 
 							"	endTime timestamp," +
 							"	lognote varchar(400)" +
@@ -176,7 +178,7 @@ public class DerbyDatabase implements IDatabase {
 					stmt3.executeUpdate();
 					System.out.println("roomEvents table created");					
 							
-			*/		
+					
 					//Top teams table
 					stmt4 = conn.prepareStatement(
 							"create table topTeams (" +
@@ -230,13 +232,13 @@ public class DerbyDatabase implements IDatabase {
 					
 					
 					//topSub
-					stmt6 = conn.prepareStatement(
+					stmt7 = conn.prepareStatement(
 							"create table subTeamStudents (" +
 									"	subTeam_id_2 integer constraint subTeam_id_2 references subTeams, " +
 									"	account_id_2 integer constraint account_id_2 references studentAccounts " +
 									")"
 					);
-					stmt6.executeUpdate();
+					stmt7.executeUpdate();
 					System.out.println("subTeamStudents table created");
 					
 					
@@ -255,7 +257,7 @@ public class DerbyDatabase implements IDatabase {
 		executeTransaction(new Transaction<Boolean>() {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
-			//	List<RoomEvent> roomEventList;
+				List<RoomEvent> roomEventList;
 				List<StudentAccount> studentList;
 				List<AdminAccount> adminList;
 				List<Room> roomList;
@@ -267,7 +269,7 @@ public class DerbyDatabase implements IDatabase {
 				
 				
 				try {
-			//		roomEventList     	= InitialData.getRoomEvents();
+					roomEventList     	= InitialData.getRoomEvents();
 					studentList       	= InitialData.getStudentAccounts();
 					adminList 			= InitialData.getAdminAccounts();
 					roomList			= InitialData.getRooms();
@@ -277,11 +279,11 @@ public class DerbyDatabase implements IDatabase {
 					subTeamStudentsList	= InitialData.getTopSub();
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
-			//	} catch (ParseException e) {
-			//		throw new SQLException("Couldn't parse initial data", e);
+				} catch (ParseException e) {
+					throw new SQLException("Couldn't parse initial data", e);
 				}
 
-			//	PreparedStatement insertRoomEvent     	= null;
+				PreparedStatement insertRoomEvent     	= null;
 				PreparedStatement insertStudent       	= null;
 				PreparedStatement insertAdmin 			= null;
 				PreparedStatement insertRoom			= null;
@@ -340,20 +342,20 @@ public class DerbyDatabase implements IDatabase {
 					System.out.println("TopTeam table populated");
 					
 					
-		/*			
-					insertRoomEvent = conn.prepareStatement("insert into roomEvents (account_id, room_id, startTime, endTime, lognote) values (?,?,?,?,?) ");
+					
+					insertRoomEvent = conn.prepareStatement("insert into roomEvents (account_id_1, room_id_2, startTime, endTime, lognote) values (?,?,?,?,?) ");
 					for (RoomEvent event : roomEventList) {
 						insertRoomEvent.setInt(1, event.getAccountID());
 						insertRoomEvent.setInt(2, event.getRoomID());
 						insertRoomEvent.setTimestamp(3, new Timestamp(event.getStartTime().getTime()));
 						insertRoomEvent.setTimestamp(4, new Timestamp(event.getEndTime().getTime()));
-						insertRoomEvent.setString(5,  event.getLognote());
+						insertRoomEvent.setString(5, event.getLognote());
 						insertRoomEvent.addBatch();
 					}
 					insertRoomEvent.executeBatch();
 					System.out.println("RoomEvents Table populated");
 					
-			*/							
+									
 					insertSubTeam = conn.prepareStatement("insert into subTeams (subTeam_id_2, subTeam_id_3, teamname) values (?,?,?)");
 					for (SubTeam sub : subTeamList) {
 						insertSubTeam.setInt(1, sub.getTeamID());
