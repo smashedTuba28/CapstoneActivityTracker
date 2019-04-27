@@ -456,8 +456,43 @@ public class DerbyDatabase implements IDatabase {
 
 	@Override
 	public StudentAccount getStudentAccountWithID(Integer account_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return executeTransaction(new Transaction<StudentAccount>() {
+			@Override
+			public StudentAccount execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				StudentAccount studentAccount =  null;
+				
+				try {
+					stmt = conn.prepareStatement(
+						"select studentAccounts.* "
+						+ "	from studentAccounts "
+						+ " where studentAccounts.account_id_1 = ?"
+					);
+					
+					stmt.setInt(1, account_id);
+					resultSet = stmt.executeQuery();
+					
+					if(resultSet.next()) {		
+						studentAccount = new StudentAccount();//create new model
+						// result set to populate model
+						studentAccount = new StudentAccount();//new account
+						studentAccount.setAccountID(resultSet.getInt(1));//column 1 = account_id_1
+																			//column 2 = account_id_2 : unused outside of schema and always equals account_id_1
+						studentAccount.setFirstname(resultSet.getString(3));//column 3 = firstname
+						studentAccount.setLastname(resultSet.getString(4));//column 4 = lastname
+						studentAccount.setEmail(resultSet.getString(5));//column 5 = email
+						studentAccount.setPassword(resultSet.getString(6));//column 6 = password
+						studentAccount.setSchoolID(resultSet.getString(7));//column 7 = schoolID
+						studentAccount.setStatus(resultSet.getBoolean(8));//column 8 = status
+					}
+					return studentAccount;//return either null or populated model
+				}finally {
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSet);
+				}
+			}
+		});	
 	}
 
 	@Override
