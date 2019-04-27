@@ -196,7 +196,6 @@ public class DerbyDatabase implements IDatabase {
 							"	subTeam_id_1 integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
 							"   subTeam_id_2 integer," +
-							"   subTeam_id_3 integer," +
 							"	teamname varchar(40)" +
 						//	" 	topTeam_id integer constraint topTeam_id references topTeams," +
 						//	" 	account_id integer constraint studentAccount_id references studentAccounts" +
@@ -342,7 +341,6 @@ public class DerbyDatabase implements IDatabase {
 					System.out.println("TopTeam table populated");
 					
 					
-					
 					insertRoomEvent = conn.prepareStatement("insert into roomEvents (account_id_1, room_id_2, startTime, endTime, lognote) values (?,?,?,?,?) ");
 					for (RoomEvent event : roomEventList) {
 						insertRoomEvent.setInt(1, event.getAccountID());
@@ -356,11 +354,10 @@ public class DerbyDatabase implements IDatabase {
 					System.out.println("RoomEvents Table populated");
 					
 									
-					insertSubTeam = conn.prepareStatement("insert into subTeams (subTeam_id_2, subTeam_id_3, teamname) values (?,?,?)");
+					insertSubTeam = conn.prepareStatement("insert into subTeams (subTeam_id_2, teamname) values (?,?)");
 					for (SubTeam sub : subTeamList) {
 						insertSubTeam.setInt(1, sub.getTeamID());
-						insertSubTeam.setInt(2, sub.getTeamID());
-						insertSubTeam.setString(3, sub.getTeamname());
+						insertSubTeam.setString(2, sub.getTeamname());
 						insertSubTeam.addBatch();
 					}
 					insertSubTeam.executeBatch();
