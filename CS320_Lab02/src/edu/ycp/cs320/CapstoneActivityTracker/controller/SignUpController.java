@@ -14,9 +14,34 @@ public class SignUpController {
 		ycpdb = new YCPFakeDatabase();
 	}
 	
-	public boolean createAccount(String email, String password, String schoolID) {
+	public boolean createAccount(String email, String password, String schoolID, String accountType) {
 		
-		System.out.println("In Controller");
+		if(accountType.equals("admin")) {
+			//if trying to create an admin account
+			//verify that they are a YCP faculty member
+			if(ycpdb.verifyAdmin(email, schoolID)) {
+				//ycp faculty exists
+				
+				
+				
+			}
+			else {
+				//not found as a ycp faculty member
+				return false;
+			}
+		}
+		else if(accountType.equals("student")) {
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		//checking if personnel is within the YCPDB as an admin
 		if(ycpdb.verifyAdmin(email, schoolID)) {

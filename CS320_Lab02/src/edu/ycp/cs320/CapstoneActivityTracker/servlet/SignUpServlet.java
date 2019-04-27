@@ -36,10 +36,7 @@ public class SignUpServlet extends HttpServlet {
 		
 		//create controller
 		SignUpController controller = new SignUpController();
-		//create model
-		Account account;
-		
-		
+			
 		//error message String to hold message text when applicable
 		String errorMessage = null;
 		String email = null;
