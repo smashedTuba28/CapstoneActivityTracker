@@ -554,8 +554,43 @@ public class DerbyDatabase implements IDatabase {
 
 	@Override
 	public AdminAccount verifyAdminAccount(String email, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		return executeTransaction(new Transaction<AdminAccount>() {
+			@Override
+			public AdminAccount execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				AdminAccount adminAccount =  null;
+				
+				try {
+					stmt = conn.prepareStatement(
+						"select adminAccounts.* "
+						+ "	from adminAccounts "
+						+ " where adminAccounts.email = ?"
+						+ " and adminAccounts.password = ?"
+					);
+					
+					stmt.setString(1, email);
+					stmt.setString(2, password);
+					resultSet = stmt.executeQuery();
+					
+					if(resultSet.next()) {		
+						adminAccount = new AdminAccount();//create new model
+						// result set to populate model
+						adminAccount.setAccountID(resultSet.getInt(1));
+						adminAccount.setFirstname(resultSet.getString(2));
+						adminAccount.setLastname(resultSet.getString(3));
+						adminAccount.setEmail(resultSet.getString(4));
+						adminAccount.setPassword(resultSet.getString(5));
+						adminAccount.setSchoolID(resultSet.getString(6));
+					}
+					
+					return adminAccount;//return either null or populated model
+				}finally {
+					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(resultSet);
+				}
+			}
+		});	
 	}
 
 	@Override
