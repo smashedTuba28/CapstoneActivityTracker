@@ -452,17 +452,7 @@ public class DerbyDatabase implements IDatabase {
 		});	
 	}
 
-	@Override
-	public boolean createStudentAccount() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean creatAdminAccount() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	@Override
 	public StudentAccount getStudentAccountWithID(Integer account_id) {
@@ -522,5 +512,97 @@ public class DerbyDatabase implements IDatabase {
 	public Boolean createTopTeam() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	
+	//insert a new studentAccount into the studentAccount table
+	@Override
+	public Boolean createStudentAccount(String firstname, String lastname, String email, String password, String schoolID) {
+		return executeTransaction(new Transaction<Boolean>() {
+
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;//for inserting
+				PreparedStatement stmt2 = null;//for getting studentAccount back
+				PreparedStatement stmt3 = null;//for updating
+				
+				ResultSet resultSet1 = null;//resultset for stmt2
+				
+				Integer account_id = -1;
+				
+				try {
+					conn.setAutoCommit(false);
+					//prepare SQL statement to insert a new studentAccount
+					stmt1 = conn.prepareStatement(
+							"insert into studentAccounts " +
+							"  (account_id_2, firstname, lastname, email, password, schoolID, stauts) "	+	
+							"  values(?,?,?,?,?,?,?) "
+					);
+					
+					stmt1.setInt(1, -1);//use a dud value until update stage
+					stmt1.setString(2, firstname);
+					stmt1.setString(3, lastname);
+					stmt1.setString(4, email);
+					stmt1.setString(5, password);
+					stmt1.setString(6, schoolID);
+					stmt1.setBoolean(7, Boolean.FALSE);//auto false upon creation
+					
+					stmt1.executeUpdate();//execute the update
+					System.out.println("new account created with dud_id");
+					
+					//Retrieve the newly inserted student's account_id_1
+					stmt2 = conn.prepareStatement(
+						"select account_id_1 " +
+						" 	from studentAccounts " +	
+						" 	where schoolID = ? " +
+						"   and firstname = ? " +
+						"   and lastname = ?"
+					);
+					stmt2.setString(1, schoolID);
+					stmt2.setString(2, firstname);
+					stmt2.setString(3, lastname);
+					
+					//execute the query
+					resultSet1 = stmt2.executeQuery();
+					
+					//get the result
+					if (resultSet1.next()) {
+						account_id = resultSet1.getInt(1);
+					}
+					else {
+						System.out.println("cant find studentAccount");
+						return false;
+					}
+					
+					//prepare update to studentAccount's account_id_2
+					stmt3 = conn.prepareStatement( 
+						"update studentAccounts"
+						+ " set account_id_2 = ? "
+						+ " account_id_1 = ? "	
+					);
+					stmt3.setInt(1, account_id);
+					stmt3.setInt(2, account_id);
+					
+					//execute update
+					stmt3.executeUpdate();
+					
+					System.out.println("Account for <" + firstname + "> created");
+					
+					conn.commit();
+					return true;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt3);
+					DBUtil.closeQuietly(resultSet1);
+				}				
+			}
+		});
+	}
+
+	@Override
+	public Boolean creatAdminAccount(String firstname, String lastname, String email, String password, String schoolID) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

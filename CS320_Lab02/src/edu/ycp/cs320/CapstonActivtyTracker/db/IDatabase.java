@@ -12,8 +12,8 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
 public interface IDatabase {
 	
 	
-	public boolean createStudentAccount();//insert
-	public boolean creatAdminAccount();//insert
+	public Boolean createStudentAccount(String firstname, String lastname, String email, String password, String schoolID);//insert
+	public Boolean creatAdminAccount(String firstname, String lastname, String email, String password, String schoolID);//insert
 	
 	public StudentAccount getStudentAccountWithID(Integer account_id);//select
 	public StudentAccount getStudentAccountWithFirstandLastname(String firstname, String lastname);//select

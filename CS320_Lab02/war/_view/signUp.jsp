@@ -4,7 +4,7 @@
 
 <html>
 	<head>
-		<title>Log In to the Capstone Tracker</title>
+		<title>Account SignUp</title>
 	</head>
 
 	<body>
