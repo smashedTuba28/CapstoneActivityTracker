@@ -26,7 +26,26 @@ public class InitYCPDB {
 		//adding all student YCPPersonnel to the list of students
 		studentList.add(new YCPPersonnel("Jason", "Steinberg", "jsteinberg@ycp.edu", "900000001", false));
 		studentList.add(new YCPPersonnel("Travis", "Wetzel", "twetzel1@ycp.edu", "900000002", false));
-		studentList.add(new YCPPersonnel("William", "Taylor", "wtaylor1@ycp.edu", "900000003", false));
+		studentList.add(new YCPPersonnel("Dwight", "Schrute" , "dschrute@ycp.edu "," 900000002", false));
+		studentList.add(new YCPPersonnel("Pam","Beesly","pbeesly@ycp.edu","900000003", false));
+		studentList.add(new YCPPersonnel("Jim","Halpert","jhalpert@ycp.edu","900000004", false));
+		studentList.add(new YCPPersonnel("Kevin","Malone","kmalone@ycp.edu","900000005", false));
+		studentList.add(new YCPPersonnel("Angela","Martin","amartin@ycp.edu","900000006", false));
+		studentList.add(new YCPPersonnel("Oscar","Martinez","omartinez@ycp.edu","900000007", false));
+		studentList.add(new YCPPersonnel("Meredith","Palmer","mpalmer@ycp.edu","900000008", false));
+		studentList.add(new YCPPersonnel("Creed","Bratton","cbratton@ycp.edu","900000009", false));
+		studentList.add(new YCPPersonnel("Darryl","Philbin","dphilbin@ycp.edu","900000010", false));
+		studentList.add(new YCPPersonnel("Phyllis","Vance","pvance1@ycp.edu","900000011", false));
+		studentList.add(new YCPPersonnel("Stanley","Hudson","shudson@ycp.edu","900000012", false));
+		studentList.add(new YCPPersonnel("Andy","Bernard","abernard@ycp.edu","900000013", false));
+		studentList.add(new YCPPersonnel("Ryan","Howard","rhoward@ycp.edu","900000014", false));
+		studentList.add(new YCPPersonnel("Kelly","Kapoor","kkapoor@ycp.edu","900000015", false));
+		studentList.add(new YCPPersonnel("Gabe", "Lewis", "glewis@ycp.edu", "900000016", false));
+		studentList.add(new YCPPersonnel("Erin", "Hannon",  "ehannon@ycp.edu", "900000017", false));
+		studentList.add(new YCPPersonnel("Nellie", "Bertram", "nbertram@ycp.edu", "900000018", false));
+		studentList.add(new YCPPersonnel("Pete", "Miller", "pmiller@ycp.edu", "900000019", false));
+		studentList.add(new YCPPersonnel("Clark", "Green", "cgreen@ycp.edu", "900000020", false));
+		
 		
 		return studentList;
 	}
