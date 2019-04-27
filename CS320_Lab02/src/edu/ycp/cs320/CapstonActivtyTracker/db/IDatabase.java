@@ -18,15 +18,18 @@ public interface IDatabase {
 	public StudentAccount getStudentAccountWithID(Integer account_id);//select
 	public StudentAccount getStudentAccountWithEmailandSchoolID(String email, String schoolID);//select
 	public StudentAccount verifyStudentAccount(String email, String password);//select
-	public List<StudentAccount> getStudentsInSubTeam(Integer subTeam_id);
-	
+	public List<StudentAccount> getStudentsInSubTeam(Integer subTeam_id);//select
+	public Boolean deleteStudentAccount(Integer account_id);
 	
 	
 	public AdminAccount getAdminAccountWithEmailandSchoolID(String email, String schoolID);
 	public AdminAccount getAdminAccountWithID(Integer adminAccount_id);//select
 	public AdminAccount verifyAdminAccount(String email, String password);//select
-
-	public List<Room> getRoomsForASubTeam(Integer subTeam_id);
+	public Boolean deleteAdminAccount(Integer adminAccount_id);//delete
+	
+	
+	public List<Room> getRoomsForASubTeam(Integer subTeam_id);//select
+	
 	
 	public List<RoomEvent> getRoomEventsForStudentWithDates(Integer account_id, Timestamp start, Timestamp end);//select
 	

@@ -137,12 +137,72 @@ public class DerbyDatabaseTest {
 
 	@Test
 	public void testCreatAdminAccount() {
-		fail("Not yet implemented");
-	}
+		String firstname = "Test";
+		String lastname = "Tester";
+		String email = "ttester@ycp.edu";
+		String password = hashSHA256.getHash("testpassword");
+		String schoolID = "999999999";
+		
+		//check that account does not already exist
+		admin = db.getAdminAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(admin == null);
+		
+		//create a new admin
+		db.creatAdminAccount(firstname, lastname, email, password, schoolID);
+		
+		//verify that account now exists in DB
+		admin = db.getAdminAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(admin != null);
+		assertTrue(admin.getFirstname().equals("Test"));
+		
+		//delete from table as to not cause issues every time this runs
+		db.deleteAdminAccount(admin.getAccountID());
+	}  
 
 	@Test
 	public void testGetAdminAccountWithEmailandSchoolID() {
-		fail("Not yet implemented");
+		assertTrue(admin == null);
+		
+		//get an existing adminAccount
+		admin = db.getAdminAccountWithEmailandSchoolID("mscott@ycp.edu", "910000000");
+		assertTrue(admin.getFirstname().equals("Michael"));
+		assertTrue(admin.getLastname().equals("Scott"));
+		assertEquals(1,admin.getAccountID());
+		
+		//attempt to get account with email that doesn't exist
+		admin = db.getAdminAccountWithEmailandSchoolID("wrong", "910000000");
+		assertTrue(admin == null);
+		 
+		//attempt to get account with schoolID that doesn't exist
+		admin = db.getAdminAccountWithEmailandSchoolID("mscott@ycp.edu", "wrong");
+		assertTrue(admin == null);
 	}
-
+	
+	@Test
+	public void testDeleteAdminAccount() {
+		String firstname = "Mike";
+		String lastname = "Wazowski";
+		String email = "mwazowski@ycp.edu";
+		String password = hashSHA256.getHash("moster");
+		String schoolID = "666666666";
+		
+		//check that it doesnt exist
+		admin = db.getAdminAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(admin == null);
+		
+		//insert a new admin
+		db.creatAdminAccount(firstname, lastname, email, password, schoolID);
+		
+		//verify that it now exists and retrieve account
+		admin = db.getAdminAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(admin != null);
+		
+		//delete adminAccount
+		db.deleteAdminAccount(admin.getAccountID());
+		
+		//verify that it can no longer be found
+		admin = db.getAdminAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(admin == null);
+	}
+	
 }

@@ -725,7 +725,7 @@ public class DerbyDatabase implements IDatabase {
 							"  (firstname, lastname, email, password, schoolID) "	+	
 							"  values(?,?,?,?,?) "
 					);
-					
+					 
 					stmt1.setString(1, firstname);
 					stmt1.setString(2, lastname);
 					stmt1.setString(3, email);
@@ -787,5 +787,37 @@ public class DerbyDatabase implements IDatabase {
 				}
 			}
 		});
+	}
+
+	@Override
+	public Boolean deleteStudentAccount(Integer account_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Boolean deleteAdminAccount(Integer adminAccount_id) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+			
+				try {
+					//prepare SQL statement to delete 
+					stmt1 = conn.prepareStatement(
+						"delete"
+						+ " from adminAccounts "
+						+ " where adminAccounts.adminAccount_id = ?"
+					);
+					
+					stmt1.setInt(1, adminAccount_id);
+					stmt1.executeUpdate();
+					
+					return true;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+				}		
+			}
+		});	
 	}
 }
