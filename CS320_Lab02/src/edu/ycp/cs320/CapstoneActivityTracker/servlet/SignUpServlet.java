@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CapstonActivtyTracker.db.FakeDatabase;
+import edu.ycp.cs320.CapstonActivtyTracker.db.hashSHA256;
 import edu.ycp.cs320.CapstoneActivityTracker.controller.SignUpController;
 import edu.ycp.cs320.CapstoneActivityTracker.model.Account;
 
@@ -43,14 +44,16 @@ public class SignUpServlet extends HttpServlet {
 		String password = null;
 		String passConfirm = null;
 		String schoolID = null;
-		boolean valid;
+		String accountType = null;
 		
 		//decode POSted from parameter and dispatch to controller
 		email = req.getParameter("email").toString();
 		password = req.getParameter("password").toString();
 		passConfirm = req.getParameter("passwordConfirm").toString();
 		schoolID = req.getParameter("schoolID").toString();
-				
+		accountType = req.getParameter("accountType").toString();
+		
+		
 		//check that none are empty
 		if (email == null || password == null || schoolID == null
 				|| passConfirm == null) {
@@ -62,23 +65,23 @@ public class SignUpServlet extends HttpServlet {
 			errorMessage = "Enter a valid YCP email";	
 		}
 		else if (password.length() < 8) {
-			errorMessage = "Password must contain at least 8 characters\n";
+			errorMessage = "Password must contain at least 8 characters";
 		}
-		
 		else if (!password.equals(passConfirm)) {
-			errorMessage = "Passwords Don't Match. Recheck password and confimation password\n";
+			errorMessage = "Passwords Don't Match. Recheck password and confimation password";
 		} 
-			
 		else if (!schoolID.startsWith("90") || schoolID.length() != 9) {
-			errorMessage = "Invalid School ID #\n";
-		}	
+			errorMessage = "Invalid School ID";
+		}
+		else if (!accountType.equals("admin") || !accountType.equals("student")) {
+			errorMessage = "Select an Account Type";
+		}
 		else{
 		//passed all error checks and data ready to be added to db
-			System.out.println("Starting here");
-			valid = controller.createAccount(email, password, schoolID);
-			System.out.println("Exiting here");
-			if (!valid){
-				errorMessage = "Personnel Not Resgistered at York College of Pennsylvania";
+			password = hashSHA256.getHash(password);
+			if(!controller.createAccount(email, password, schoolID, accountType)) {
+				//account creation failed
+				errorMessage = controller.getErrorMessage();
 			}
 		}	
 			

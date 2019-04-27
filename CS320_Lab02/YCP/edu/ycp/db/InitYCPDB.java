@@ -16,7 +16,12 @@ public class InitYCPDB {
 		adminList = new ArrayList<YCPPersonnel>();
 		
 		//adding all admin YCPPersonnel to the list of admins
-		adminList.add(new YCPPersonnel("John", "Doe", "jdoe@ycp.edu", "900000000", true));
+		adminList.add(new YCPPersonnel("Michael","Scott","mscott@ycp.edu","910000000", true));
+		adminList.add(new YCPPersonnel("Toby","Flenderson","tflenderson@ycp.edu","910000001", true));
+		adminList.add(new YCPPersonnel("Jan","Levinson","jlevinson@ycp.edu","910000002", true));
+		adminList.add(new YCPPersonnel("Robert","California","lizardking@ycp.edu","910000003", true));
+		adminList.add(new YCPPersonnel("David","Wallace","dwallace@ycp.edu","910000004", true));
+		adminList.add(new YCPPersonnel("John", "Doe", "jdoe@ycp.edu", "910000005", true));
 		
 		return adminList;
 	}

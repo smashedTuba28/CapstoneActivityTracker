@@ -16,13 +16,13 @@ public interface IDatabase {
 	public Boolean creatAdminAccount(String firstname, String lastname, String email, String password, String schoolID);//insert
 	
 	public StudentAccount getStudentAccountWithID(Integer account_id);//select
-	public StudentAccount getStudentAccountWithFirstandLastname(String firstname, String lastname);//select
+	public StudentAccount getStudentAccountWithEmailandSchoolID(String email, String schoolID);//select
 	public StudentAccount verifyStudentAccount(String email, String password);//select
 	public List<StudentAccount> getStudentsInSubTeam(Integer subTeam_id);
 	
 	
 	
-
+	public AdminAccount getAdminAccountWithEmailandSchoolID(String email, String schoolID);
 	public AdminAccount getAdminAccountWithID(Integer adminAccount_id);//select
 	public AdminAccount verifyAdminAccount(String email, String password);//select
 
@@ -36,5 +36,6 @@ public interface IDatabase {
 	
 	
 	public Boolean createTopTeam();//insert
+	
 	
 }

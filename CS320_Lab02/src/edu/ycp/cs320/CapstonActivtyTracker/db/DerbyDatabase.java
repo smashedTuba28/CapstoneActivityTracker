@@ -461,7 +461,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public StudentAccount getStudentAccountWithFirstandLastname(String firstname, String lastname) {
+	public StudentAccount getStudentAccountWithEmailandSchoolID(String email, String schoolID) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -535,7 +535,7 @@ public class DerbyDatabase implements IDatabase {
 					//prepare SQL statement to insert a new studentAccount
 					stmt1 = conn.prepareStatement(
 							"insert into studentAccounts " +
-							"  (account_id_2, firstname, lastname, email, password, schoolID, stauts) "	+	
+							"  (account_id_2, firstname, lastname, email, password, schoolID, status) "	+	
 							"  values(?,?,?,?,?,?,?) "
 					);
 					
@@ -578,7 +578,7 @@ public class DerbyDatabase implements IDatabase {
 					stmt3 = conn.prepareStatement( 
 						"update studentAccounts"
 						+ " set account_id_2 = ? "
-						+ " account_id_1 = ? "	
+						+ " where account_id_1 = ? "	
 					);
 					stmt3.setInt(1, account_id);
 					stmt3.setInt(2, account_id);
@@ -634,5 +634,11 @@ public class DerbyDatabase implements IDatabase {
 				}				
 			}
 		});
+	}
+
+	@Override
+	public AdminAccount getAdminAccountWithEmailandSchoolID(String email, String schoolID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

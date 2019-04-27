@@ -73,30 +73,30 @@ public class YCPFakeDatabase {
 	}
 	
 	//used to check if student exists within the YCPDB
-	public boolean verifyStudent(String email, String schoolID) {
+	public YCPPersonnel verifyStudent(String email, String schoolID) {
 		for(YCPPersonnel student: studentList) {
 			if(student.getEmail().equals(email) && student.getSchoolID().equals(schoolID)) {
-				return true;
+				return student;
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	//used to check if admin exists within the YCPDB
-	public boolean verifyAdmin(String email, String schoolID) {
+	public YCPPersonnel verifyAdmin(String email, String schoolID) {
 		for(YCPPersonnel admin: adminList) {
 			if(admin.getEmail().equals(email) && admin.getSchoolID().equals(schoolID)) {
-				return true;
+				return admin;
 			}
 		}
-		return false;
+		return null;
 	}
 	//runs through both admin and student to see if the personnel exists, this may not get used
 	public boolean verifyPersonnel(String email, String schoolID) {
-		if(verifyAdmin(email,schoolID)) {
+		if(verifyAdmin(email,schoolID)!= null) {
 			return true;
 		}
-		else if(verifyStudent(email,schoolID)) {
+		else if(verifyStudent(email,schoolID) != null) {
 			return true;
 		}
 		else

@@ -36,6 +36,13 @@
 						<td><input type = "Password" name="passwordConfirm" size="12" value="${passwordConfirm}">
 					</tr>		
 				</table>
+					
+				<select size="1" name="accountType" required= "required">
+						<option>Select-One</option>
+        				<option value ="admin">Administrator</option>
+        				<option value ="student">Student</option>
+				</select>
+				
 				<input type="submit" name="signUp" value="Create Account" />
 		</form>
 	</body>
