@@ -17,6 +17,7 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TeamRoom;
+import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeamStudents;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
 
 
@@ -128,6 +129,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt4 = null;
 				PreparedStatement stmt5 = null;
 				PreparedStatement stmt6 = null;
+				PreparedStatement stmt7 = null;
 				
 				try {
 					//room table
@@ -192,6 +194,7 @@ public class DerbyDatabase implements IDatabase {
 							"	subTeam_id_1 integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
 							"   subTeam_id_2 integer," +
+							"   subTeam_id_3 integer," +
 							"	teamname varchar(40)" +
 						//	" 	topTeam_id integer constraint topTeam_id references topTeams," +
 						//	" 	account_id integer constraint studentAccount_id references studentAccounts" +
@@ -225,6 +228,19 @@ public class DerbyDatabase implements IDatabase {
 					stmt6.executeUpdate();
 					System.out.println("teamRooms table created");
 					
+					
+					//topSub
+					stmt6 = conn.prepareStatement(
+							"create table subTeamStudents (" +
+									"	subTeam_id_2 integer constraint subTeam_id_2 references subTeams, " +
+									"	account_id_2 integer constraint account_id_2 references studentAccounts " +
+									")"
+					);
+					stmt6.executeUpdate();
+					System.out.println("subTeamStudents table created");
+					
+					
+					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(stmt1);
@@ -247,6 +263,7 @@ public class DerbyDatabase implements IDatabase {
 				List<SubTeam> subTeamList;
 				
 				List<TeamRoom> teamRoomList;
+				List<SubTeamStudents> subTeamStudentsList;
 				
 				
 				try {
@@ -257,6 +274,7 @@ public class DerbyDatabase implements IDatabase {
 					topTeamList			= InitialData.getTopTeams();
 					subTeamList			= InitialData.getSubTeams();
 					teamRoomList		= InitialData.getTeamRooms();
+					subTeamStudentsList	= InitialData.getTopSub();
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
 			//	} catch (ParseException e) {
@@ -270,6 +288,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement insertTopTeam			= null;
 				PreparedStatement insertSubTeam			= null;
 				PreparedStatement insertTeamRoom		= null;
+				PreparedStatement insertSubTeamStudents	= null;
 				
 				try {
 					
@@ -335,10 +354,11 @@ public class DerbyDatabase implements IDatabase {
 					System.out.println("RoomEvents Table populated");
 					
 			*/							
-					insertSubTeam = conn.prepareStatement("insert into subTeams (subTeam_id_2, teamname) values (?,?)");
+					insertSubTeam = conn.prepareStatement("insert into subTeams (subTeam_id_2, subTeam_id_3, teamname) values (?,?,?)");
 					for (SubTeam sub : subTeamList) {
 						insertSubTeam.setInt(1, sub.getTeamID());
-						insertSubTeam.setString(2, sub.getTeamname());
+						insertSubTeam.setInt(2, sub.getTeamID());
+						insertSubTeam.setString(3, sub.getTeamname());
 						insertSubTeam.addBatch();
 					}
 					insertSubTeam.executeBatch();
@@ -353,15 +373,25 @@ public class DerbyDatabase implements IDatabase {
 					insertTeamRoom.executeBatch();
 					System.out.println("TeamRooms table populated");
 					
+					insertSubTeamStudents = conn.prepareStatement("insert into subTeamStudents (account_id_2, subTeam_id_2) values (?,?)");
+					for(SubTeamStudents subStudent : subTeamStudentsList) {
+						insertSubTeamStudents.setInt(1, subStudent.getStudentAccountID());
+						insertSubTeamStudents.setInt(2, subStudent.getSubTeamID());
+						insertSubTeamStudents.addBatch();
+					}
+					insertSubTeamStudents.executeBatch();
+					System.out.println("subTeamStudents table populated");
+					
 					return true;
 				} finally {
 					DBUtil.closeQuietly(insertStudent);
-				//	DBUtil.closeQuietly(insertAdmin);
+					DBUtil.closeQuietly(insertAdmin);
 					DBUtil.closeQuietly(insertRoom);
 				//	DBUtil.closeQuietly(insertRoomEvent);
 					DBUtil.closeQuietly(insertTopTeam);
 					DBUtil.closeQuietly(insertSubTeam);
-				//	DBUtil.closeQuietly(insertTeamRoom);
+					DBUtil.closeQuietly(insertTeamRoom);
+					DBUtil.closeQuietly(insertSubTeamStudents);
 				}
 			}
 		});
