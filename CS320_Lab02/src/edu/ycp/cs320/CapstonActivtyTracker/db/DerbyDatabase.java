@@ -602,7 +602,37 @@ public class DerbyDatabase implements IDatabase {
 
 	@Override
 	public Boolean creatAdminAccount(String firstname, String lastname, String email, String password, String schoolID) {
-		// TODO Auto-generated method stub
-		return false;
+		return executeTransaction(new Transaction<Boolean>() {
+
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;//for inserting
+			
+				try {
+					conn.setAutoCommit(false);
+					//prepare SQL statement to insert a new adminAccount
+					stmt1 = conn.prepareStatement(
+							"insert into adminAccounts " +
+							"  (firstname, lastname, email, password, schoolID) "	+	
+							"  values(?,?,?,?,?) "
+					);
+					
+					stmt1.setString(1, firstname);
+					stmt1.setString(2, lastname);
+					stmt1.setString(3, email);
+					stmt1.setString(4, password);
+					stmt1.setString(5, schoolID);
+					
+					stmt1.executeUpdate();//execute the update
+					
+					System.out.println("AdminAccount for <" + firstname + "> created");
+					
+					conn.commit();
+					return true;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+				}				
+			}
+		});
 	}
 }
