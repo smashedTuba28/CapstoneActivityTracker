@@ -434,9 +434,9 @@ public class DerbyDatabase implements IDatabase {
 					if(resultSet.next()) {		
 						studentAccount = new StudentAccount();//create new model
 						// result set to populate model
-						studentAccount.setAccountID(Integer.parseInt(resultSet.getObject(1).toString()));
-						studentAccount.setFirstname(resultSet.getObject(3).toString());
-						studentAccount.setLastname(resultSet.getObject(4).toString());
+						studentAccount.setAccountID(resultSet.getInt(1));
+						studentAccount.setFirstname(resultSet.getString(3));
+						studentAccount.setLastname(resultSet.getString(4));
 						studentAccount.setEmail(resultSet.getString(5));
 						studentAccount.setPassword(resultSet.getString(6));
 						studentAccount.setSchoolID(resultSet.getString(7));
@@ -462,8 +462,48 @@ public class DerbyDatabase implements IDatabase {
 
 	@Override
 	public StudentAccount getStudentAccountWithEmailandSchoolID(String email, String schoolID) {
-		// TODO Auto-generated method stub
-		return null;
+		return executeTransaction(new Transaction<StudentAccount>() {
+			@Override
+			public StudentAccount execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;//for select
+				ResultSet	resultSet1 = null;//result from select
+				StudentAccount studentAccount = null;//for return
+				
+				try {
+					//prepare SQL statement to select
+					stmt1 = conn.prepareStatement(
+						"select studentAccounts.* "
+						+ "  from studentAccounts"
+						+ "  where studentAccounts.email = ?"
+						+ "  and studentAccounts.schoolID = ?"
+					);
+							
+					//insert values into prepared statement
+					stmt1.setString(1, email);
+					stmt1.setString(2, schoolID);
+					
+					//execute query and get result set
+					resultSet1 = stmt1.executeQuery();
+					
+					if(resultSet1.next()) {//resultSet not empty
+						//populate return model
+						studentAccount = new StudentAccount();//new account
+						studentAccount.setAccountID(resultSet1.getInt(1));//column 1 = account_id_1
+																			//column 2 = account_id_2 : unused outside of schema and always equals account_id_1
+						studentAccount.setFirstname(resultSet1.getString(3));//column 3 = firstname
+						studentAccount.setLastname(resultSet1.getString(4));//column 4 = lastname
+						studentAccount.setEmail(resultSet1.getString(5));//column 5 = email
+						studentAccount.setPassword(resultSet1.getString(6));//column 6 = password
+						studentAccount.setSchoolID(resultSet1.getString(7));//column 7 = schoolID
+						studentAccount.setStatus(resultSet1.getBoolean(8));//column 8 = status
+					}
+					return studentAccount; //will either be fully populated or null
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet1);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -638,7 +678,45 @@ public class DerbyDatabase implements IDatabase {
 
 	@Override
 	public AdminAccount getAdminAccountWithEmailandSchoolID(String email, String schoolID) {
-		// TODO Auto-generated method stub
-		return null;
+		return executeTransaction(new Transaction<AdminAccount>() {
+			@Override
+			public AdminAccount execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;//for select
+				ResultSet	resultSet1 = null;//result from select
+				AdminAccount adminAccount = null;//for return
+				
+				try {
+					//prepare SQL statement to select
+					stmt1 = conn.prepareStatement(
+						"select adminAccounts.* "
+						+ "  from adminAccounts"
+						+ "  where adminAccounts.email = ?"
+						+ "  and adminAccounts.schoolID = ?"
+					);
+							
+					//insert values into prepared statement
+					stmt1.setString(1, email);
+					stmt1.setString(2, schoolID);
+					
+					//execute query and get result set
+					resultSet1 = stmt1.executeQuery();
+					
+					if(resultSet1.next()) {//resultSet not empty
+						//populate return model
+						adminAccount = new AdminAccount();//new account
+						adminAccount.setAccountID(resultSet1.getInt(1));//column 1 = account_id_1
+						adminAccount.setFirstname(resultSet1.getString(2));//column 2 = firstname
+						adminAccount.setLastname(resultSet1.getString(3));//column 3 = lastname
+						adminAccount.setEmail(resultSet1.getString(4));//column 4 = email
+						adminAccount.setPassword(resultSet1.getString(5));//column 5 = password
+						adminAccount.setSchoolID(resultSet1.getString(6));//column 6 = schoolID
+					}
+					return adminAccount; //will either be fully populated or null
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet1);
+				}
+			}
+		});
 	}
 }
