@@ -79,11 +79,4 @@ public class Account {
 	public int getAccountID() {
 		return accountID;
 	}
-	
-	
-	/*//checking if the account is valid (function of the database)
-	public boolean validAccount() {//comment out once DB is implemented
-		return valid;
-	}*/
-
 }

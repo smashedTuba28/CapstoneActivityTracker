@@ -11,8 +11,6 @@ public class StudentAccount extends Account{
 
 	
 	//status refers to whether the student is currently in the room
-	
-	private int accountID2;
 	private boolean status;	
 	private List<RoomEvent> events;
 	private RoomEvent event;
