@@ -1,11 +1,11 @@
 package edu.ycp.cs320.CapstoneActivityTracker.model;
 
-public class TeamStudents {
+public class SubTeamStudent {
 
 	private int teamID;
 	private int studentID;
 	
-	public TeamStudents() {
+	public SubTeamStudent() {
 	}
 	
 	public void setTeamID(int teamID) {
@@ -18,7 +18,7 @@ public class TeamStudents {
 	public void setStudentID(int studentID) {
 		this.studentID = studentID;
 	}
-	public int getRoomID() {
+	public int getStudentID() {
 		return studentID;
 	}
 }

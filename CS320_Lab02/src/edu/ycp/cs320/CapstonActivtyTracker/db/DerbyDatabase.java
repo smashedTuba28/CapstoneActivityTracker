@@ -16,8 +16,8 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
+import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeamStudent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TeamRoom;
-import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeamStudents;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
 
 
@@ -35,7 +35,6 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	private static final int MAX_ATTEMPTS = 10;
-	
 	
 	// wrapper SQL transaction function that calls actual transaction function (which has retries)
 	public<ResultType> ResultType executeTransaction(Transaction<ResultType> txn) {
@@ -264,7 +263,7 @@ public class DerbyDatabase implements IDatabase {
 				List<SubTeam> subTeamList;
 				
 				List<TeamRoom> teamRoomList;
-				List<SubTeamStudents> subTeamStudentsList;
+				List<SubTeamStudent> subTeamStudentsList;
 				
 				
 				try {
@@ -275,7 +274,7 @@ public class DerbyDatabase implements IDatabase {
 					topTeamList			= InitialData.getTopTeams();
 					subTeamList			= InitialData.getSubTeams();
 					teamRoomList		= InitialData.getTeamRooms();
-					subTeamStudentsList	= InitialData.getTopSub();
+					subTeamStudentsList	= InitialData.getSubTeamStudents();
 				} catch (IOException e) {
 					throw new SQLException("Couldn't read initial data", e);
 				} catch (ParseException e) {
@@ -373,9 +372,9 @@ public class DerbyDatabase implements IDatabase {
 					System.out.println("TeamRooms table populated");
 					
 					insertSubTeamStudents = conn.prepareStatement("insert into subTeamStudents (account_id_2, subTeam_id_2) values (?,?)");
-					for(SubTeamStudents subStudent : subTeamStudentsList) {
-						insertSubTeamStudents.setInt(1, subStudent.getStudentAccountID());
-						insertSubTeamStudents.setInt(2, subStudent.getSubTeamID());
+					for(SubTeamStudent subStudent : subTeamStudentsList) {
+						insertSubTeamStudents.setInt(1, subStudent.getStudentID());
+						insertSubTeamStudents.setInt(2, subStudent.getTeamID());
 						insertSubTeamStudents.addBatch();
 					}
 					insertSubTeamStudents.executeBatch();

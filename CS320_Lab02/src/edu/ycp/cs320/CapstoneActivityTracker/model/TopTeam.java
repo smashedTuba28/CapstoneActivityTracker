@@ -6,7 +6,7 @@ public class TopTeam extends Team{
 	public TopTeam() {
 	}
 	
-	public TopTeam(String name) {
-		super(name);
+	public TopTeam(String name, int teamID) {
+		super(name, teamID);
 	}
 }

@@ -23,14 +23,18 @@ public class SignInController {
 	}
 	
 	public boolean validateCredentials(String email, String password, String accountType) {
-		if (accountType.equals("admin")) {
-			model = db.verifyAdminAccount(email, password);
-			return true;
+		if (accountType.equals("admin")) {//admin attempting to login
+			model = db.verifyAdminAccount(email, password);//db query for admin login
+			if(model!=null) {//if an account was returned
+				return true;//successful login
+			}
 		}
-		else if (accountType.equals("student")) {
-			System.out.println(password);
-			return true;
+		else if (accountType.equals("student")) {//student attempting to login
+			model = db.verifyStudentAccount(email,  password);//db query for student login
+			if(model!=null) {//if an account was returned
+				return true;//successful login
+			}
 		}
-		return false;
+		return false;//unsuccessful login
 	}
 }

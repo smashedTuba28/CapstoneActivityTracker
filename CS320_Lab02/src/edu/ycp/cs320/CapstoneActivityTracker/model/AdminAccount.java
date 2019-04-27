@@ -9,7 +9,7 @@ public class AdminAccount extends Account{
 	}
 	
 	//itializing super class with input values immediately
-	public AdminAccount(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
-		super(firstname, lastname, email, password, schoolID, faculty);
+	public AdminAccount(String firstname, String lastname, String email, String password, String schoolID) {
+		super(firstname, lastname, email, password, schoolID);
 	}
 }

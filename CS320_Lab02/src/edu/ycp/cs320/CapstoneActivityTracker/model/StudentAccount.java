@@ -1,8 +1,6 @@
 
 package edu.ycp.cs320.CapstoneActivityTracker.model;
 
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,8 +21,8 @@ public class StudentAccount extends Account{
 	
 	
 	//immediately initializing StudentAccount with credentials
-	public StudentAccount(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
-		super(firstname, lastname, email, password, schoolID, faculty);
+	public StudentAccount(String firstname, String lastname, String email, String password, String schoolID) {
+		super(firstname, lastname, email, password, schoolID);
 		status = false;
 		events = new ArrayList<RoomEvent>();
 	}

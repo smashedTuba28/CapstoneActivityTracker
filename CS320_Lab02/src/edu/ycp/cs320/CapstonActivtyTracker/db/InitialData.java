@@ -14,8 +14,8 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
+import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeamStudent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TeamRoom;
-import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeamStudents;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
 
 public class InitialData {
@@ -224,8 +224,8 @@ public class InitialData {
 	}
 	
 	
-	public static List<SubTeamStudents> getTopSub() throws IOException{
-		List<SubTeamStudents> subTeamStudentsList = new ArrayList<SubTeamStudents>();
+	public static List<SubTeamStudent> getSubTeamStudents() throws IOException{
+		List<SubTeamStudent> subTeamStudentsList = new ArrayList<SubTeamStudent>();
 		ReadCSV readSubTeamStudents = new ReadCSV("subTeamStudents.csv");
 		try {
 			while(true) {
@@ -234,9 +234,9 @@ public class InitialData {
 					break;
 				}
 				Iterator<String> i = tuple.iterator();
-				SubTeamStudents ss = new SubTeamStudents();
-				ss.setSubTeamID(Integer.parseInt(i.next()));
-				ss.setStudentAccountID(Integer.parseInt(i.next()));
+				SubTeamStudent ss = new SubTeamStudent();
+				ss.setTeamID(Integer.parseInt(i.next()));
+				ss.setStudentID(Integer.parseInt(i.next()));
 				subTeamStudentsList.add(ss);
 			}
 			System.out.println("subTeamStudentsList loaded from CSV file");

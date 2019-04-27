@@ -16,8 +16,9 @@ public class Team {
 	}
 	
 	//if a team name is input then it is set immediately
-	public Team(String teamname){
+	public Team(String teamname, int teamID){
 		this.teamname = teamname;
+		this.teamID = teamID;
 	}
 	
 	public String getTeamname() {

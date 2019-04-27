@@ -37,11 +37,11 @@ public class InitYCPDBTest {
 	@Test
 	public void testGetAdmins() {
 		//checking john doe (first and only person in the list) for correct information
-		assertTrue(adminList.get(0).getFirstname().equals("John"));
-		assertTrue(adminList.get(0).getLastname().equals("Doe"));
-		assertTrue(adminList.get(0).getEmail().equals("jdoe@ycp.edu"));
-		assertTrue(adminList.get(0).getSchoolID().equals("900000000"));
-		assertTrue(adminList.get(0).getFaculty());
+		assertTrue(adminList.get(5).getFirstname().equals("John"));
+		assertTrue(adminList.get(5).getLastname().equals("Doe"));
+		assertTrue(adminList.get(5).getEmail().equals("jdoe@ycp.edu"));
+		assertTrue(adminList.get(5).getSchoolID().equals("910000005"));
+		assertTrue(adminList.get(5).getFaculty());
 	}
 
 	@Test
@@ -58,12 +58,7 @@ public class InitYCPDBTest {
 		assertTrue(studentList.get(1).getEmail().equals("twetzel1@ycp.edu"));
 		assertTrue(studentList.get(1).getSchoolID().equals("900000002"));
 		assertFalse(studentList.get(1).getFaculty());
-		//checking william (third student in the list) for correct information
-		assertTrue(studentList.get(2).getFirstname().equals("William"));
-		assertTrue(studentList.get(2).getLastname().equals("Taylor"));
-		assertTrue(studentList.get(2).getEmail().equals("wtaylor1@ycp.edu"));
-		assertTrue(studentList.get(2).getSchoolID().equals("900000003"));
-		assertFalse(studentList.get(2).getFaculty());
+		
 	}
 	@Test
 	public void testGetRooms() {
