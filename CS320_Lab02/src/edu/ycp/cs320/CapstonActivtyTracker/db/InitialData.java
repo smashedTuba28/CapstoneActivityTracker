@@ -18,7 +18,7 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeamStudent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TeamRoom;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
 
-public class InitialData {
+public class InitialData { 
 
 	
 	// reads initial RoomEvent data from CSV file and returns a List of RoomEvents
@@ -44,7 +44,7 @@ public class InitialData {
 				event.setRoomID(Integer.parseInt(i.next()));
 				event.setStartTime(format.parse(i.next()));
 				event.setEndTime(format.parse(i.next()));
-				event.setFlag(Boolean.FALSE);
+				event.setFlag(Boolean.parseBoolean(i.next()));
 				event.setLognote(i.next());
 				eventList.add(event);
 			

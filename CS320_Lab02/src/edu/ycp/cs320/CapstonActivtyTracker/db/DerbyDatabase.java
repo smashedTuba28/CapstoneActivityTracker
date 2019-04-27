@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import edu.ycp.cs320.CapstoneActivityTracker.model.AdminAccount;
@@ -94,22 +95,24 @@ public class DerbyDatabase implements IDatabase {
 		return conn;
 	}
 	
-/*	// retrieves Author information from query result set
-	private void loadAuthor(Author author, ResultSet resultSet, int index) throws SQLException {
-		author.setAuthorId(resultSet.getInt(index++));
-		author.setLastname(resultSet.getString(index++));
-		author.setFirstname(resultSet.getString(index++));
+	// retrieves Roomevent information from query result set modified from lab06
+	private void loadRoomEvent(RoomEvent event, ResultSet resultSet, int index) throws SQLException {
+		event.setRoomEventID(resultSet.getInt(index++));
+		event.setAccountID(resultSet.getInt(index++));
+		event.setRoomID(resultSet.getInt(index++));
+		event.setStartTime(new Date(resultSet.getTimestamp(index++).getTime()));
+		event.setEndTime(new Date(resultSet.getTimestamp(index++).getTime()));
+		event.setFlag(resultSet.getBoolean(index++));
+		event.setLognote(resultSet.getString(index++));
+		
 	}
 	
-	// retrieves Book information from query result set
-	private void loadBook(Book book, ResultSet resultSet, int index) throws SQLException {
-		book.setBookId(resultSet.getInt(index++));
-//		book.setAuthorId(resultSet.getInt(index++));  // no longer used
-		book.setTitle(resultSet.getString(index++));
-		book.setIsbn(resultSet.getString(index++));
-		book.setPublished(resultSet.getInt(index++));
+	//retrieves subTeamStudent information from query result set
+	private void loadSubTeamStudent(SubTeamStudent st, ResultSet resultSet, int index) throws SQLException {
+		st.setTeamID(resultSet.getInt(index++));
+		st.setStudentID(resultSet.getInt(index++));
 	}
-	
+/*	
 	// retrieves WrittenBy information from query result set
 	private void loadBookAuthors(BookAuthor bookAuthor, ResultSet resultSet, int index) throws SQLException {
 		bookAuthor.setBookId(resultSet.getInt(index++));
@@ -171,6 +174,7 @@ public class DerbyDatabase implements IDatabase {
 							"	room_id_2 integer constraint room_id_2 references rooms," + 
 							"	startTime timestamp," + 
 							"	endTime timestamp," +
+							"   flag boolean," +
 							"	lognote varchar(400)" +
 							")"
 					);
@@ -340,13 +344,14 @@ public class DerbyDatabase implements IDatabase {
 					System.out.println("TopTeam table populated");
 					
 					
-					insertRoomEvent = conn.prepareStatement("insert into roomEvents (account_id_1, room_id_2, startTime, endTime, lognote) values (?,?,?,?,?) ");
+					insertRoomEvent = conn.prepareStatement("insert into roomEvents (account_id_1, room_id_2, startTime, endTime, lognote, flag) values (?,?,?,?,?,?) ");
 					for (RoomEvent event : roomEventList) {
 						insertRoomEvent.setInt(1, event.getAccountID());
 						insertRoomEvent.setInt(2, event.getRoomID());
 						insertRoomEvent.setTimestamp(3, new Timestamp(event.getStartTime().getTime()));
 						insertRoomEvent.setTimestamp(4, new Timestamp(event.getEndTime().getTime()));
 						insertRoomEvent.setString(5, event.getLognote());
+						insertRoomEvent.setBoolean(6, Boolean.FALSE);
 						insertRoomEvent.addBatch();
 					}
 					insertRoomEvent.executeBatch();
@@ -791,8 +796,133 @@ public class DerbyDatabase implements IDatabase {
 
 	@Override
 	public Boolean deleteStudentAccount(Integer account_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return executeTransaction(new Transaction<Boolean>() {
+
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				PreparedStatement stmt4 = null;
+				PreparedStatement stmt5 = null;
+				PreparedStatement stmt6 = null;
+				
+				ResultSet resultSet1 = null;
+				ResultSet resultSet2 = null;
+				ResultSet resultSet4 = null;
+				
+				
+				StudentAccount student = null;
+				
+				try {
+					//first get studentAccount that needs to be deleted
+					stmt1 = conn.prepareStatement( 
+							"select studentAccounts.* "
+							+ " from studentAccounts"
+							+ " where studentAccounts.account_id_1 = ?"
+					); 
+					
+					stmt1.setInt(1, account_id);
+					resultSet1 = stmt1.executeQuery();
+		
+					//make sure something was returned
+					if(!resultSet1.next()) {
+						//wasn't found
+						System.out.println("StudentAccount <" + account_id + "> wasn't found");
+						return false;
+					}
+					
+					//at this point the studentAccount was found to exist
+					
+					//now get all the roomEvents associated with the student
+					stmt2 = conn.prepareStatement(
+						"select roomEvents.roomEvent_id "
+						+ " from roomEvents, studentAccounts "
+						+ " where roomEvents.account_id_1 = studentAccounts.account_id_1"
+						+ " and studentAccounts.account_id_1 = ?"	
+					);
+					stmt2.setInt(1, account_id);
+					resultSet2 = stmt2.executeQuery();
+		
+					//assemble list of roomEvents
+					List<RoomEvent> events = new ArrayList<RoomEvent>();
+					
+					while(resultSet2.next()) {
+						RoomEvent event = new RoomEvent();
+						loadRoomEvent(event, resultSet2, 1);
+						events.add(event);
+					}
+		
+					//delete roomEvents from list
+					for (int i = 0; i < events.size(); i++) {
+						stmt3 = conn.prepareStatement(
+								" delete from roomEvents "
+								+ "where roomEvents.roomEvent_id = ?"	
+						);	
+						
+						stmt3.setInt(1, events.get(i).getRoomEventID());
+						stmt3.executeUpdate();
+						
+						DBUtil.closeQuietly(stmt3);//close so loop can reopen if needed
+					}
+					
+					//get entries in all join tables
+					//because derby can't delete something with active foreign key
+					stmt4 = conn.prepareStatement(
+						" select subTeamStudents.* "
+						+ " from subTeamStudents, studentAccounts"
+						+ " where subTeamStudents.account_id_2 = studentAccounts.account_id_2 "
+						+ " where studentAccounts.account_id_1 = ?"				
+					);
+					stmt4.setInt(1, account_id);
+					resultSet4 = stmt4.executeQuery();
+					
+					//assemble list of join table entries 
+					List<SubTeamStudent> stList = new ArrayList<SubTeamStudent>();
+					
+					while(resultSet4.next()) {
+						SubTeamStudent st = new SubTeamStudent();
+						loadSubTeamStudent(st, resultSet4, 1);
+						stList.add(st);
+					}
+					
+					for(int i = 0; i<stList.size(); i++) {
+						//prepare to delete SubTeamStudents entires
+						stmt5 = conn.prepareStatement(
+							" delete from subTeamStudents "
+							+ " where subTeam_id_2 = ?"
+							+ " and account_id_2 = ?"	
+						);		
+						stmt5.setInt(1, stList.get(i).getTeamID());
+						stmt5.setInt(2, stList.get(i).getStudentID());
+						stmt5.executeUpdate();
+						
+						DBUtil.closeQuietly(stmt5);
+						
+					}
+					
+					//now delete the studentAccount
+					stmt6 = conn.prepareStatement(
+						" delete from studentAccounts "
+						+ " where studentAccounts.account_id_1 = ?"	
+					);
+					stmt6.setInt(1, account_id);
+					stmt6.executeUpdate();
+					
+					System.out.println("Student Account <" + account_id + "> deleted from Database");
+		
+					return true;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt4);
+					DBUtil.closeQuietly(stmt6);
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(resultSet2);
+					DBUtil.closeQuietly(resultSet4);
+				}
+			}
+		});
 	}
 
 	@Override

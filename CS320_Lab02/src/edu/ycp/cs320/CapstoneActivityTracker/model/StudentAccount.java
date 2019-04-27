@@ -43,7 +43,7 @@ public class StudentAccount extends Account{
 		 status = true;
 		 events.add(event);
 		 //incrementing the number set for the room number
-		 event.setNumber(events.size());
+		 event.setRoomEventID(events.size());
 	}
 	
 	public void closeRoomEvent(Date end) throws Exception {
@@ -67,7 +67,7 @@ public class StudentAccount extends Account{
 	//an individual RoomEvent is found with the number associated with that RoomEvent
 	public RoomEvent findRoomEvent(int number) {
 		for(RoomEvent roomevent: events) {
-			if(roomevent.getNumber() == number) {
+			if(roomevent.getRoomEventID() == number) {
 				return roomevent;
 			}
 		}
