@@ -12,8 +12,8 @@ public class SubTeam extends Team{
 		super();
 	}
 	
-	public SubTeam(String subteamName) {
-		super(subteamName);
+	public SubTeam(String subteamName, Integer topTeamID, Integer subTeamID) {
+		super(subteamName, subTeamID);
 	}
 	
 	public void setTopTeamID(int topTeamID) {

@@ -70,8 +70,6 @@ public class DerbyDatabaseTest {
 		//check a nonexistent id
 		student = db.getStudentAccountWithID(-1);//should return null
 		assertTrue(student == null);
-		
-		
 	}
 
 	@Test
@@ -132,7 +130,27 @@ public class DerbyDatabaseTest {
 
 	@Test
 	public void testCreateStudentAccount() {
-		fail("Not yet implemented");
+		String firstname = "Test";
+		String lastname = "Tester";
+		String email = "ttester@ycp.edu";
+		String password = hashSHA256.getHash("testpassword");
+		String schoolID = "999999999";
+		
+		//check that account does not already exist
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(student == null);
+		
+		//create the student account
+		db.createStudentAccount(firstname, lastname, email, password, schoolID);
+		
+		//find and veirfy new student exists
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(student != null);
+		assertTrue(student.getFirstname().equals("Test"));
+		assertEquals(17, student.getAccountID());
+	
+		//delete the account after testing checks out
+		db.deleteStudentAccount(student.getAccountID());
 	}
 
 	@Test
@@ -205,4 +223,14 @@ public class DerbyDatabaseTest {
 		assertTrue(admin == null);
 	}
 	
+	@Test
+	public void testDeleteStudentAccount() {
+		String firstname = "Test";
+		String lastname = "Tester";
+		String email = "ttester@ycp.edu";
+		String password = hashSHA256.getHash("testpassword");
+		String schoolID = "999999999";
+	
+		//TODO: will need to add a room event to the account too
+	}
 }

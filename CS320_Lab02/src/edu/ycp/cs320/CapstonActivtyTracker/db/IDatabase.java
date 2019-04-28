@@ -32,6 +32,8 @@ public interface IDatabase {
 	
 	
 	public List<RoomEvent> getRoomEventsForStudentWithDates(Integer account_id, Timestamp start, Timestamp end);//select
+	public boolean createRoomEventForStudentAccountWithID(Integer account_id, Integer room_id, Timestamp start);//insert
+	public boolean updateRoomEventForStudentAccountWithAccountIDandEventID(Integer account_id, Integer roomEvent_id, Timestamp end, Boolean flag);
 	
 	
 	public List<SubTeam> getSubTeamsInTopTeam(String topTeamname);//select

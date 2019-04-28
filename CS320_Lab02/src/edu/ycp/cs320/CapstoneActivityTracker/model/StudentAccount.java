@@ -13,6 +13,7 @@ public class StudentAccount extends Account{
 	private List<RoomEvent> events;
 	private RoomEvent event;
 	//when account is created student is not in a room, therefore status is false
+	
 	public StudentAccount() {
 		super();
 		status = false;
@@ -84,4 +85,5 @@ public class StudentAccount extends Account{
 	public List<RoomEvent> getRoomEventList(){
 		return events;
 	}
+
 }
