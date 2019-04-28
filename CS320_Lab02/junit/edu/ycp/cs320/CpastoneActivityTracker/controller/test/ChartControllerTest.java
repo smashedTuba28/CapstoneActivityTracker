@@ -32,7 +32,7 @@ public class ChartControllerTest {
 		start = new Date(2019, 2, 31, 0, 0, 0);
 		end = new Date(2019, 3, 6, 24, 0, 0);
 		
-		tester = new StudentAccount("Test", "Tester", "ttester@ycp.edu", "password", "900000005", false);
+		tester = new StudentAccount("Test", "Tester", "ttester@ycp.edu", "password", "900000005");
 		
 		//ROOM EVENT 1
 		tester.createRoomEvent(new Date(2019,2,17,10,00,0));//create and close a room event
@@ -66,7 +66,7 @@ public class ChartControllerTest {
 		Date end = new Date(119,3,6,24,0,0);
 		
 		
-		controller.populateStudentWeek(email, start, end);
+		controller.populateStudentWeek(1, start, end);
 		//expecting model to be populated with data for Jason Steinberg
 		assertTrue(model.getTitle().equals("Individual Hours"));
 		assertTrue(model.getStudent().equals("Jason Steinberg"));
@@ -81,7 +81,7 @@ public class ChartControllerTest {
 		
 		//expecting model to be populated with data fro Travis Wetezel
 		email = "twetzel1@ycp.edu";
-		controller.populateStudentWeek(email, start, end);
+		controller.populateStudentWeek(2, start, end);
 		assertTrue(model.getTitle().equals("Individual Hours"));
 		assertTrue(model.getStudent().equals("Travis Wetzel"));
 		assertTrue(model.getData().equals("[['Date', 'Hours'],"

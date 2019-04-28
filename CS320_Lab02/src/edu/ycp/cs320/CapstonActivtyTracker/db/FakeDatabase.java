@@ -84,24 +84,34 @@ public class FakeDatabase implements IDatabase{
 		//Jason HOURS
 		studentList.get(0).createRoomEvent(new Date(119,2,31,10,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,2,31,14,30,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,1,15,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,1,20,00,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,2,22,13,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,3,2,30,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,3,14,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,3,14,30,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,4,9,23,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,4,14,12,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,4,22,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,5,2,30,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,5,17,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,5,22,00,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,6,12,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,6,22,00,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,7,10,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,7,21,00,0));
+		
 		studentList.get(2).createRoomEvent(new Date(119,3,8,10,00,0));
 		studentList.get(2).closeRoomEvent(new Date(119,3,8,10,45,0));
+		
 		studentList.get(2).createRoomEvent(new Date(119,3,8,1,00,0));
 		studentList.get(2).closeRoomEvent(new Date(119,3,8,1,30,0));
 		
@@ -109,22 +119,31 @@ public class FakeDatabase implements IDatabase{
 		//TRAVIS HOURS
 		studentList.get(1).createRoomEvent(new Date(119,2,31,9,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,2,31,11,30,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,1,15,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,1,20,00,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,2,22,10,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,3,1,30,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,3,10,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,3,14,30,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,4,9,23,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,4,16,12,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,4,12,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,4,19,30,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,5,13,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,5,17,00,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,6,12,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,6,22,00,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,7,10,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,7,21,00,0));
+		
 		studentList.get(2).createRoomEvent(new Date(119,3,8,1,00,0));
 		studentList.get(2).closeRoomEvent(new Date(119,3,8,1,30,0));
 		
