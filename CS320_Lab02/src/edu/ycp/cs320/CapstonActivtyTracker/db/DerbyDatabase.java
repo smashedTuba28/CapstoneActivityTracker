@@ -119,7 +119,19 @@ public class DerbyDatabase implements IDatabase {
 		subTeam.setTeamname(resultSet.getString(index++));
 		subTeam.setTopTeamID(resultSet.getInt(index++));
 	}
-/*	
+	
+	//retrieves adminAccount information from query result set
+	private void loadAdminAccount(AdminAccount admin, ResultSet resultSet, int index) throws SQLException{
+		admin.setAccountID(resultSet.getInt(index++));
+		admin.setFirstname(resultSet.getString(index++));
+		admin.setLastname(resultSet.getString(index++));
+		admin.setEmail(resultSet.getString(index++));
+		admin.setPassword(resultSet.getString(index++));
+		admin.setSchoolID(resultSet.getString(index++));
+	}
+	
+	
+ /* 
 	// retrieves WrittenBy information from query result set
 	private void loadBookAuthors(BookAuthor bookAuthor, ResultSet resultSet, int index) throws SQLException {
 		bookAuthor.setBookId(resultSet.getInt(index++));
