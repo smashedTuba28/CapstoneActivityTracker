@@ -21,6 +21,7 @@ public class DerbyDatabaseTest {
 	private DerbyDatabase db;
 	private AdminAccount admin = null;
 	private StudentAccount student = null;
+	private List<StudentAccount> students = null;
 	private List<RoomEvent> roomEventList; 
 	private SubTeam subTeam = null;
 	
@@ -149,7 +150,7 @@ public class DerbyDatabaseTest {
 	}
 
 	@Test
-	public void testCreateSubTeam() {
+	public void testCreateAndDeleteSubTeam() {
 		String teamname = "Test";
 		Integer topTeamID = 1;
 		
@@ -164,16 +165,35 @@ public class DerbyDatabaseTest {
 		subTeam = db.getSubTeamWithTeamname(teamname);
 		assertTrue(subTeam != null);
 		assertTrue(subTeam.getTeamname().equals("Test"));
-		assertEquals(17, subTeam.getTopTeamID());
+		assertEquals(1, subTeam.getTopTeamID());
 	
-		//delete the account after testing checks out
-		db.deleteSubTeam(subTeam.getTeamID());
+		/////////////TESTING DELETION/////////////
+		//delete subTeam with subTeamID
+		System.out.println(subTeam.getTeamID());
+		assertTrue(db.deleteSubTeam(subTeam.getTeamID()));
+		
+		//ensuring subTeam does not exist now (redundant)
+		assertTrue(subTeam == null);
 	}
 	
+	/*
 	@Test
 	public void testDeleteSubTeam() {
-		fail("Not yet implemented");
+		String teamname = "Test";
+		
+		//temp test to delete account from csv load
+		assertTrue(db.deleteSubTeam(3));
+		
+		//check that the account doesn't exists
+		subTeam = db.getSubTeamWithTeamname(teamname);
+		assertTrue(student == null);
+		
+		//TODO: need to implement getallstudentsfromsubteam() to test this
+		//check that all roomEvents are also gone
+		students = db.getStudentsInSubTeam(3);			
+		
 	}
+	*/
 
 	@Test
 	public void testCreateTopTeam() {

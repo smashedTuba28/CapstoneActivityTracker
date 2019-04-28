@@ -39,7 +39,7 @@ public interface IDatabase {
 	public List<SubTeam> getSubTeamsInTopTeam(String topTeamname);//select
 	public SubTeam getSubTeamWithTeamname(String teamname);//select
 	public Boolean createSubTeam(String name, Integer topTeamID);//insert
-	public Boolean deleteSubTeam(Integer subTeamID);
+	public Boolean deleteSubTeam(Integer subTeamID);//delete
 	
 	
 	public Boolean createTopTeam(String topTeamname);//insert

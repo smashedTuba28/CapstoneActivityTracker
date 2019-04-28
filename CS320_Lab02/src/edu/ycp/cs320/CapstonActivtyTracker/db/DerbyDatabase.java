@@ -642,6 +642,7 @@ public class DerbyDatabase implements IDatabase {
 		return null;
 	}
 
+	@Override
 	public SubTeam getSubTeamWithTeamname(String teamname) {
 		return executeTransaction(new Transaction<SubTeam>() {
 			@Override
@@ -667,7 +668,7 @@ public class DerbyDatabase implements IDatabase {
 					if(resultSet1.next()) {//resultSet not empty
 						//populate return model
 						subTeam = new SubTeam();//new account
-						loadSubTeam(subTeam, resultSet1, 1);
+						loadSubTeam(subTeam, resultSet1, 2);
 					}
 					//will either be fully populated or null
 					return subTeam;
@@ -682,85 +683,167 @@ public class DerbyDatabase implements IDatabase {
 	@Override
 	public Boolean createSubTeam(String name, Integer topTeamID) {		
 		return executeTransaction(new Transaction<Boolean>() {
-
-		@Override
-		public Boolean execute(Connection conn) throws SQLException {
-			PreparedStatement stmt1 = null;//for inserting
-			PreparedStatement stmt2 = null;//for getting subTeam back
-			PreparedStatement stmt3 = null;//for updating
-			
-			ResultSet resultSet1 = null;//resultset for stmt2
-			
-			Integer subTeam_id = -1;
-			
-			try {
-				conn.setAutoCommit(false);
-				//prepare SQL statement to insert a new subTeam
-				stmt1 = conn.prepareStatement(
-						"insert into subTeams " +
-						"  (subTeam_id_2, teamname, topTeam_id) "	+	
-						"  values(?,?,?) "
-				);
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;//for inserting
+				PreparedStatement stmt2 = null;//for getting subTeam back
+				PreparedStatement stmt3 = null;//for updating
 				
-				stmt1.setInt(1, -1);//use a dud value until update stage
-				stmt1.setString(2, name);
-				stmt1.setInt(3, topTeamID);
+				ResultSet resultSet1 = null;//resultset for stmt2
 				
-				stmt1.executeUpdate();//execute the update
-				System.out.println("new subTeam created with dud_id");
+				Integer subTeam_id = -1;
 				
-				//Retrieve the newly inserted student's subTeam_id_1
-				stmt2 = conn.prepareStatement(
-					"select subTeam_id_1 " +
-					" 	from subTeams " +	
-					" 	where teamname = ? " +
-					"   and topTeam_id = ? " 
-				);
-				stmt2.setString(1, name);
-				stmt2.setInt(2, topTeamID);
-				
-				//execute the query
-				resultSet1 = stmt2.executeQuery();
-				
-				//get the result
-				if (resultSet1.next()) {
-					//getting subTeam_ID from the resultSet
-					subTeam_id = resultSet1.getInt(1);
-				}
-				else {
-					System.out.println("cant find subTeam");
-					return false;
-				}
-				
-				//prepare update to subTeam's subTeam_id_2 from subTeam_id_1
-				stmt3 = conn.prepareStatement( 
-					"update studentAccounts"
-					+ " set subTeam_id_2 = ? "
-					+ " where subTeam_id_1 = ? "	
-				);
-				stmt3.setInt(1, subTeam_id);
-				stmt3.setInt(2, subTeam_id);
-				
-				//execute update
-				stmt3.executeUpdate();
-				
-				System.out.println("subTeam named <" + name + "> created");
-				
-				conn.commit();
-				return true;
-			}finally {
-				DBUtil.closeQuietly(stmt1);
-				DBUtil.closeQuietly(stmt2);
-				DBUtil.closeQuietly(stmt3);
-				DBUtil.closeQuietly(resultSet1);
-			}				
-		}
-	});
+				try {
+					conn.setAutoCommit(false);
+					//prepare SQL statement to insert a new subTeam
+					stmt1 = conn.prepareStatement(
+							"insert into subTeams " +
+							"  (subTeam_id_2, teamname, topTeam_id) "	+	
+							"  values(?,?,?) "
+					);
+					
+					stmt1.setInt(1, -1);//use a dud value until update stage
+					stmt1.setString(2, name);
+					stmt1.setInt(3, topTeamID);
+					
+					stmt1.executeUpdate();//execute the update
+					System.out.println("new subTeam created with dud_id");
+					
+					//Retrieve the newly inserted student's subTeam_id_1
+					stmt2 = conn.prepareStatement(
+						"select subTeam_id_1 " +
+						" 	from subTeams " +	
+						" 	where teamname = ? " +
+						"   and topTeam_id = ? " 
+					);
+					stmt2.setString(1, name);
+					stmt2.setInt(2, topTeamID);
+					
+					//execute the query
+					resultSet1 = stmt2.executeQuery();
+					
+					//get the result
+					if (resultSet1.next()) {
+						//getting subTeam_ID from the resultSet
+						subTeam_id = resultSet1.getInt(1);
+					}
+					else {
+						System.out.println("cant find subTeam");
+						return false;
+					}
+					
+					//prepare update to subTeam's subTeam_id_2 from subTeam_id_1
+					stmt3 = conn.prepareStatement( 
+						"update subTeams"
+						+ " set subTeam_id_2 = ? "
+						+ " where subTeam_id_1 = ? "	
+					);
+					stmt3.setInt(1, subTeam_id);
+					stmt3.setInt(2, subTeam_id);
+					
+					//execute update
+					stmt3.executeUpdate();
+					
+					System.out.println("subTeam named <" + name + "> created");
+					
+					conn.commit();
+					return true;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt3);
+					DBUtil.closeQuietly(resultSet1);
+				}				
+			}
+		});
 	}
 	
 	@Override
-	public Boolean deleteSubTeam(Integer subTeamID) {		
+	public Boolean deleteSubTeam(Integer subTeam_id) {
 		return executeTransaction(new Transaction<Boolean>() {
+			/*
+			 * get rid of subTeam
+			 * keep students, lognotes should stay with students
+			 * delete entry in subTeamStudents
+			 * delete entry in subTeams
+			 */
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				PreparedStatement stmt4 = null;
+				
+				ResultSet resultSet1 = null;
+				ResultSet resultSet2 = null;
+				
+				try {
+					//first verify subTeam that needs to be deleted
+					stmt1 = conn.prepareStatement( 
+							"select subTeams.* "
+							+ " from subTeams"
+							+ " where subTeams.account_id_1 = ?"
+					); 
+					
+					stmt1.setInt(1, subTeam_id);
+					resultSet1 = stmt1.executeQuery();
+		
+					//make sure something was returned
+					if(!resultSet1.next()) {
+						//wasn't found
+						System.out.println("SubTeam <" + subTeam_id + "> wasn't found");
+						return false;
+					}
+					//at this point the subTeam was found to exist
+					
+					//now get all the students associated with the subTeam
+					stmt2 = conn.prepareStatement(
+						"select subTeamStudents.account_id_2 "
+						+ " from subTeamStudents,subTeams"
+						+ " where subTeamStudents.subTeam_id_2 = subTeam_id_1"
+						+ " and subTeams.subTeam_id_1 = ?"	
+					);
+					stmt2.setInt(1, subTeam_id);
+					resultSet2 = stmt2.executeQuery();
+		
+					//assemble list of account_id_2's from the join table
+					List<Integer> ids = new ArrayList<Integer>();
+					while(resultSet2.next()) {
+						ids.add(resultSet2.getInt(1));
+					}
+		
+					//delete relation entry between students and subTeam from table in subTeamStudents
+					for (int i = 0; i < ids.size(); i++) {
+						stmt3 = conn.prepareStatement(
+								" delete from subTeamStudents "
+								+ "where subTeamStudents.account_id_2 = ?"	
+						);	
+						
+						stmt3.setInt(1, ids.get(i));
+						stmt3.executeUpdate();
+						
+						DBUtil.closeQuietly(stmt3);//close so loop can reopen if needed
+					}
+					
+					//now delete the subTeam
+					stmt4 = conn.prepareStatement(
+						" delete from subTeams "
+						+ " where subTeams.subTeam_id_1 = ?"	
+					);
+					stmt4.setInt(1, subTeam_id);
+					stmt4.executeUpdate();
+					
+					System.out.println("SubTeam <" + subTeam_id + "> deleted from Database");
+		
+					return true;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt4);
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(resultSet2);
+				}
+			}
 	});
 	}
 
