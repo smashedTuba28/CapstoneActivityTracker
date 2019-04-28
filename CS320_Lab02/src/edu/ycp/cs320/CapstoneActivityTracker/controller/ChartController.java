@@ -14,24 +14,30 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Week;
 import edu.ycp.cs320.CapstonActivtyTracker.db.*;
 
 public class ChartController {
-	private FakeDatabase fdb;
+	private IDatabase db;
 	private ChartModel model;
 	
 	
 	public ChartController(){
-		fdb = new FakeDatabase();
-		fdb.init();
+		DatabaseProvider.setInstance(new DerbyDatabase());
+		db = DatabaseProvider.getInstance();
 	}
 	
 	public void setModel(ChartModel model) {
 		this.model = model;
 	}
 	
-	public void populateStudentWeek(String email, Date start, Date end){
+	public void populateStudentWeek(Integer studentAccountID, Date start, Date end){
 		
-		StudentAccount student = fdb.getStudentAccountWithEmail(email);//get student from DB
-		long[] dateDuration = getWeekFromRoomEvents(start, end, student);//get durations and dates from 
-		String title = "Individual Hours";
+		StudentAccount student = db.getStudentAccountWithID(studentAccountID);//get student from DB
+		
+		//get all room events for student
+		List<RoomEvent> eventList = db.getAllRoomEventForStudentAccountWithAccountID(student.getAccountID());
+		
+		long[] dateDuration = getWeekFromRoomEvents(start, end, eventList);//get durations and dates from 
+		
+		String title = "Individual Work Hours";
+		
 		
 		Calendar c = Calendar.getInstance();//create a calendar instance/reference
 		
@@ -83,7 +89,7 @@ public class ChartController {
 		model.setTitle(title);
 	}
 
-	public long[] getWeekFromRoomEvents(Date start, Date end, StudentAccount student) {
+	public long[] getWeekFromRoomEvents(Date start, Date end, List<RoomEvent> eventList) {
 		
 		ArrayList<RoomEvent> events = new ArrayList<RoomEvent>();//list for all events within timeframe
 		long durations[] = new long[7];
@@ -92,7 +98,7 @@ public class ChartController {
 		Date temp =  new Date(start.getTime() + delta);//temp date for start + 1
 		long dur = 0;//initialize current duration to 0
 		
-		for(RoomEvent e: student.getRoomEventList()) {//populate the events list with all applicable RoomEvents
+		for(RoomEvent e: eventList) {//populate the events list with all applicable RoomEvents
 			if ((e.getStartTime().after(start) || e.getStartTime().equals(start)) && e.getStartTime().before(end) //if it start in the time frame or
 			  ||(e.getEndTime().before(end) || e.getEndTime().equals(end)) && e.getEndTime().after(start)) { //it ends in the time frame	
 					events.add(e);
@@ -154,3 +160,4 @@ public class ChartController {
 		return durations;
 	}
 }
+

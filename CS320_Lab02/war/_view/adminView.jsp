@@ -6,25 +6,8 @@
 
 <html>
 	<head>
-		<title>Your Team View</title>	
-		<!-- chart script assistance from developers.google.com -->
-		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-		<script type="text/javascript">
-	      	google.charts.load('current', {'packages':['bar']});
-	      	google.charts.setOnLoadCallback(drawChart);
-
-	      function drawChart() {
-	        var data = google.visualization.arrayToDataTable(${model.data});
-
-	        var options = {
-	            title: '${model.title}'
-	        };
-
-	        var chart = new google.charts.Bar(document.getElementById('columnchart_hours'));
-	        chart.draw(data, google.charts.Bar.convertOptions(options));
-	      }
-
-		</script>
+		<title>Admin Home</title>	
+		
 	</head>
 
 	<body>
@@ -34,6 +17,15 @@
 				<input name="signOut" type="submit" value="Sign Out">
 			</form>
 		</div>
+	
+		<div>
+			
+		
+		</div> 
+		
+	
+	
+	
 	
 		<!-- HTML element for google chart -->
 		<div id="columnchart_hours" style="width: 800px; height: 500px"></div>
