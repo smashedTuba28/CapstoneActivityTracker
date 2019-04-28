@@ -1,6 +1,8 @@
 package edu.ycp.cs320.CapstoneActivityTracker.servlet;
 
 import java.io.IOException;
+import java.time.Month;
+import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -41,13 +43,16 @@ public class StudentViewServlet  extends HttpServlet {
 			end.setHours(24);
 			end.setMinutes(0);
 			end.setSeconds(0);
+			
 			Date start = new Date(end.getTime() - 604800000);
 			
-			//System.out.println("Start Time: " + start.toString());
-			//System.out.println("End Time: " + end.toString());
+			
+			
+			System.out.println("Start Time: " + start.toString());
+			System.out.println("End Time: " + end.toString());
 			
 			//populates model with needed information for jsp
-			//controller.populateStudentWeek(email, start, end);
+			controller.populateStudentWeek(Integer.parseInt(account_id), start, end);
 			
 			req.setAttribute("model", model);
 			System.out.println("Made IT");
