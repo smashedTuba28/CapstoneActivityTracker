@@ -198,40 +198,26 @@ public class DerbyDatabase implements IDatabase {
 					);
 					stmt4.executeUpdate();
 					System.out.println("topTeams table created");	
-<<<<<<< Upstream, based on origin/DBUpdates_twetzel1
 					
-					//Sub teams table
-=======
-			
 			/////////////////////////////////////		
 			/////////subTeams table//////////////
 			/////////////////////////////////////
->>>>>>> e69b085 Derby DB table fix
 					stmt5 = conn.prepareStatement(
 							"create table subTeams (" +
 							"	subTeam_id_1 integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
 							"   subTeam_id_2 integer," +
-<<<<<<< Upstream, based on origin/DBUpdates_twetzel1
-							"	teamname varchar(40)" +
-							" 	topTeam_id integer constraint topTeam_id references topTeams," +
-=======
 							"	teamname varchar(40)," +
 							" 	topTeam_id integer constraint topTeam_id references topTeams" +
->>>>>>> e69b085 Derby DB table fix
 						//	" 	account_id integer constraint studentAccount_id references studentAccounts" +
 							")"
 					);
 					stmt5.executeUpdate();
 					System.out.println("topTeam table created");
 					
-<<<<<<< Upstream, based on origin/DBUpdates_twetzel1
-					//admin acccounts table
-=======
 			/////////////////////////////////////////	
 			///////////adminAcccounts table//////////
 			/////////////////////////////////////////		
->>>>>>> e69b085 Derby DB table fix
 					stmt6 = conn.prepareStatement(
 							"create table adminAccounts(" +
 							"	adminAccount_id integer primary key " +
@@ -246,13 +232,10 @@ public class DerbyDatabase implements IDatabase {
 					stmt6.executeUpdate();
 					System.out.println("adminAccount table created");
 					
-<<<<<<< Upstream, based on origin/DBUpdates_twetzel1
-					//teamRooms
-=======
+				
 			//////////////////////////////////////		
 			////////////////teamRooms/////////////
 			//////////////////////////////////////		
->>>>>>> e69b085 Derby DB table fix
 					stmt7 = conn.prepareStatement(
 							"create table teamRooms (" +
 									"	subTeam_id_1 integer constraint subTeam_id_1 references subTeams, " +
@@ -262,14 +245,10 @@ public class DerbyDatabase implements IDatabase {
 					stmt7.executeUpdate();
 					System.out.println("teamRooms table created");
 					
-<<<<<<< Upstream, based on origin/DBUpdates_twetzel1
-					
-					//topSub
-=======
+		
 			//////////////////////////////////////		
 			//////////subTeamStudents Table///////
 			//////////////////////////////////////		
->>>>>>> e69b085 Derby DB table fix
 					stmt8 = conn.prepareStatement(
 							"create table subTeamStudents (" +
 									"	subTeam_id_2 integer constraint subTeam_id_2 references subTeams, " +
@@ -1110,7 +1089,7 @@ public class DerbyDatabase implements IDatabase {
 				
 				ResultSet resultSet1 = null;
 				
-				List<RoomEvent> roomEventList = new ArrayList<roomEvent>();
+				List<RoomEvent> roomEventList = new ArrayList<RoomEvent>();
 				
 				try {//prepare SQL 
 					stmt1 = conn.prepareStatement(
