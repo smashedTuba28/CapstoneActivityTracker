@@ -15,12 +15,14 @@ import edu.ycp.cs320.CapstonActivtyTracker.db.hashSHA256;
 import edu.ycp.cs320.CapstoneActivityTracker.model.AdminAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
+import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
 
 public class DerbyDatabaseTest {
 	private DerbyDatabase db;
 	private AdminAccount admin = null;
 	private StudentAccount student = null;
 	private List<RoomEvent> roomEventList; 
+	private SubTeam subTeam = null;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -125,9 +127,51 @@ public class DerbyDatabaseTest {
 	public void testGetSubTeamsInTopTeam() {
 		fail("Not yet implemented");
 	}
+	
+	@Test
+	public void testGetSubTeamWithTeamname() {
+		//assuming subTeam initialized but not populated
+		assertTrue(subTeam == null);
+		
+		//get an existing subTeam
+		subTeam = db.getSubTeamWithTeamname("Sales");
+		
+		//something was returned
+		assertTrue(subTeam != null);
+		assertTrue(subTeam.getTeamname().equals("Sales"));
+		assertEquals(1, subTeam.getTeamID());
+		assertEquals(1, subTeam.getTopTeamID());
+		
+		//attempt to get a subTeam with teamname that doesn't exist
+		subTeam = db.getSubTeamWithTeamname("wrong");
+		//subTeam not found
+		assertTrue(subTeam == null);
+	}
 
 	@Test
-	public void testCreatSubTeam() {
+	public void testCreateSubTeam() {
+		String teamname = "Test";
+		Integer topTeamID = 1;
+		
+		//check that account does not already exist
+		subTeam = db.getSubTeamWithTeamname(teamname);
+		assertTrue(subTeam == null);
+		
+		//create the subTeam account
+		db.createSubTeam(teamname, topTeamID);
+		
+		//find and veirfy new subTeam exists
+		subTeam = db.getSubTeamWithTeamname(teamname);
+		assertTrue(subTeam != null);
+		assertTrue(subTeam.getTeamname().equals("Test"));
+		assertEquals(17, subTeam.getTopTeamID());
+	
+		//delete the account after testing checks out
+		db.deleteSubTeam(subTeam.getTeamID());
+	}
+	
+	@Test
+	public void testDeleteSubTeam() {
 		fail("Not yet implemented");
 	}
 
