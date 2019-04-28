@@ -135,7 +135,9 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt8 = null;
 				
 				try {
-					//room table
+		///////////////////////////////////////////////
+		//////////////rooms table creation//////////////
+		///////////////////////////////////////////////			
 					stmt1 = conn.prepareStatement(
 						"create table rooms (" +
 						"	room_id_1 integer primary key " +
@@ -147,8 +149,9 @@ public class DerbyDatabase implements IDatabase {
 					);	
 					stmt1.executeUpdate();
 					System.out.println("Rooms table created");
-					
-					// student accounts table
+		/////////////////////////////////////////////
+		//////////// studentAccounts table//////////
+		/////////////////////////////////////////////
 					stmt2 = conn.prepareStatement(
 							"create table studentAccounts(" +
 							"	account_id_1 integer primary key " +
@@ -165,8 +168,9 @@ public class DerbyDatabase implements IDatabase {
 					stmt2.executeUpdate();
 					System.out.println("studentAccounts table created");					
 					
-					
-					//room events table
+			////////////////////////////////////////		
+			///////////roomEvents table////////////
+			////////////////////////////////////////		
 					stmt3 = conn.prepareStatement(
 							"create table roomEvents (" +
 							"   roomEvent_id integer primary key " +
@@ -182,8 +186,9 @@ public class DerbyDatabase implements IDatabase {
 					stmt3.executeUpdate();
 					System.out.println("roomEvents table created");					
 							
-					
-					//Top teams table
+			////////////////////////////////////		
+			//////////topTeams table///////////
+			////////////////////////////////////		
 					stmt4 = conn.prepareStatement(
 							"create table topTeams (" +
 							"	topTeam_id integer primary key " +
@@ -193,22 +198,40 @@ public class DerbyDatabase implements IDatabase {
 					);
 					stmt4.executeUpdate();
 					System.out.println("topTeams table created");	
+<<<<<<< Upstream, based on origin/DBUpdates_twetzel1
 					
 					//Sub teams table
+=======
+			
+			/////////////////////////////////////		
+			/////////subTeams table//////////////
+			/////////////////////////////////////
+>>>>>>> e69b085 Derby DB table fix
 					stmt5 = conn.prepareStatement(
 							"create table subTeams (" +
 							"	subTeam_id_1 integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
 							"   subTeam_id_2 integer," +
+<<<<<<< Upstream, based on origin/DBUpdates_twetzel1
 							"	teamname varchar(40)" +
 							" 	topTeam_id integer constraint topTeam_id references topTeams," +
+=======
+							"	teamname varchar(40)," +
+							" 	topTeam_id integer constraint topTeam_id references topTeams" +
+>>>>>>> e69b085 Derby DB table fix
 						//	" 	account_id integer constraint studentAccount_id references studentAccounts" +
 							")"
 					);
 					stmt5.executeUpdate();
 					System.out.println("topTeam table created");
 					
+<<<<<<< Upstream, based on origin/DBUpdates_twetzel1
 					//admin acccounts table
+=======
+			/////////////////////////////////////////	
+			///////////adminAcccounts table//////////
+			/////////////////////////////////////////		
+>>>>>>> e69b085 Derby DB table fix
 					stmt6 = conn.prepareStatement(
 							"create table adminAccounts(" +
 							"	adminAccount_id integer primary key " +
@@ -223,7 +246,13 @@ public class DerbyDatabase implements IDatabase {
 					stmt6.executeUpdate();
 					System.out.println("adminAccount table created");
 					
+<<<<<<< Upstream, based on origin/DBUpdates_twetzel1
 					//teamRooms
+=======
+			//////////////////////////////////////		
+			////////////////teamRooms/////////////
+			//////////////////////////////////////		
+>>>>>>> e69b085 Derby DB table fix
 					stmt7 = conn.prepareStatement(
 							"create table teamRooms (" +
 									"	subTeam_id_1 integer constraint subTeam_id_1 references subTeams, " +
@@ -233,8 +262,14 @@ public class DerbyDatabase implements IDatabase {
 					stmt7.executeUpdate();
 					System.out.println("teamRooms table created");
 					
+<<<<<<< Upstream, based on origin/DBUpdates_twetzel1
 					
 					//topSub
+=======
+			//////////////////////////////////////		
+			//////////subTeamStudents Table///////
+			//////////////////////////////////////		
+>>>>>>> e69b085 Derby DB table fix
 					stmt8 = conn.prepareStatement(
 							"create table subTeamStudents (" +
 									"	subTeam_id_2 integer constraint subTeam_id_2 references subTeams, " +
@@ -243,8 +278,6 @@ public class DerbyDatabase implements IDatabase {
 					);
 					stmt8.executeUpdate();
 					System.out.println("subTeamStudents table created");
-					
-					
 					
 					return true;
 				} finally {
@@ -365,10 +398,11 @@ public class DerbyDatabase implements IDatabase {
 					System.out.println("RoomEvents Table populated");
 					
 									
-					insertSubTeam = conn.prepareStatement("insert into subTeams (subTeam_id_2, teamname) values (?,?)");
+					insertSubTeam = conn.prepareStatement("insert into subTeams (subTeam_id_2, teamname, topTeam_id) values (?,?,?)");
 					for (SubTeam sub : subTeamList) {
 						insertSubTeam.setInt(1, sub.getTeamID());
 						insertSubTeam.setString(2, sub.getTeamname());
+						insertSubTeam.setInt(3, sub.getTopTeamID());
 						insertSubTeam.addBatch();
 					}
 					insertSubTeam.executeBatch();
@@ -1046,22 +1080,14 @@ public class DerbyDatabase implements IDatabase {
 					stmt1.setTimestamp(3,  start);
 					stmt1.setTimestamp(4, new Timestamp(0));
 					stmt1.setBoolean(5, Boolean.TRUE);
-					stmt1.setString();
+					stmt1.setString(6, "");
 					
-					
+					stmt1.executeUpdate();
 					
 					return true;
 				}finally {
-					
+					DBUtil.closeQuietly(stmt1);
 				}
-				
-				
-				
-				
-				
-				
-				
-				
 			}
 		});
 	}
@@ -1075,7 +1101,48 @@ public class DerbyDatabase implements IDatabase {
 
 	@Override
 	public List<RoomEvent> getAllRoomEventForStudentAccountWithAccountID(Integer account_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return executeTransaction(new Transaction<List<RoomEvent>>() {
+
+			@Override
+			public List<RoomEvent> execute(Connection conn) throws SQLException {
+		
+				PreparedStatement stmt1 = null;
+				
+				ResultSet resultSet1 = null;
+				
+				List<RoomEvent> roomEventList = new ArrayList<roomEvent>();
+				
+				try {//prepare SQL 
+					stmt1 = conn.prepareStatement(
+							" select roomEvents.* "
+							+ " from roomEvents, studentAccounts "
+							+ " where studentAccounts.account_id_1 = roomEvents.account_id_1"
+							+ " and studentAccounts.account_id_1 = ?"		
+					);		
+					stmt1.setInt(1, account_id);
+					resultSet1 = stmt1.executeQuery();
+					
+					//verify a returned result
+					while(resultSet1.next()) {
+						
+						RoomEvent event = new RoomEvent();
+						loadRoomEvent(event, resultSet1, 1);
+						
+						
+					}
+					
+					
+				}finally {
+					
+				}
+				
+				
+				
+				
+				
+				
+				
+			}
+		});
 	}
 }

@@ -2,7 +2,9 @@ package edu.ycp.cs320.CapstoneActivityTracker.db.test;
 
 import static org.junit.Assert.*;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -250,4 +252,37 @@ public class DerbyDatabaseTest {
 		roomEventList = db.getAllRoomEventForStudentAccountWithAccountID(3);		
 		
 	}
+	
+	@Test
+	public void createRoomEventForStudentAccountWithID() {
+		String firstname = "Test";
+		String lastname = "Tester";
+		String email = "ttester@ycp.edu";
+		String password = hashSHA256.getHash("testpassword");
+		String schoolID = "999999999";
+		
+		Integer account_id;
+		Integer room_id = 19;
+		Date start = new Date();
+		
+		//make sure student doesn't exist
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(student == null);
+		
+		//create new student for fresh slate
+		assertTrue(db.createStudentAccount(firstname, lastname, email, password, schoolID));
+		
+		//get studentAccountID
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(student != null);
+		account_id = student.getAccountID();
+		
+		//attempt to create a room event
+		assertTrue(db.createRoomEventForStudentAccountWithID(account_id, room_id, new Timestamp(start.getTime())));
+		
+		//TODO: finish
+		
+		
+	}
+	
 }
