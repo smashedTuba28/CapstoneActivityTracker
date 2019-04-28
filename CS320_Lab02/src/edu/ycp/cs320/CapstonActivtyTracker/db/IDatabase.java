@@ -20,7 +20,7 @@ public interface IDatabase {
 	public StudentAccount getStudentAccountWithEmailandSchoolID(String email, String schoolID);//select
 	public StudentAccount verifyStudentAccount(String email, String password);//select
 	public List<StudentAccount> getStudentsInSubTeam(Integer subTeam_id);//select
-	public Boolean deleteStudentAccount(Integer account_id);
+	public Boolean deleteStudentAccount(Integer account_id);//delete
 	
 	
 	public AdminAccount getAdminAccountWithEmailandSchoolID(String email, String schoolID);

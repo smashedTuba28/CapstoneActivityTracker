@@ -112,9 +112,19 @@ public class DerbyDatabaseTest {
 
 	@Test
 	public void testGetAdminAccountWithID() {
-		fail("Not yet implemented");
+		assertTrue(admin == null);
+		
+		//get an existing admin
+		admin = db.getAdminAccountWithID(1);//should return Michael Scott
+		assertTrue(admin != null);//something was returned
+		assertTrue(admin.getFirstname().equals("Michael"));
+		assertTrue(admin.getLastname().equals("Scott"));
+		assertEquals(1, admin.getAccountID());
+		
+		//check a nonexistent id
+		admin = db.getAdminAccountWithID(-1);//should return null
+		assertTrue(admin == null);
 	}
-
 
 	@Test
 	public void testGetRoomsForASubTeam() {
@@ -266,7 +276,7 @@ public class DerbyDatabaseTest {
 		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
 		assertTrue(student != null);
 		assertTrue(student.getFirstname().equals("Test"));
-		assertEquals(17, student.getAccountID());
+		assertTrue(student.getLastname().equals("Tester"));
 	
 		//delete the account after testing checks out
 		db.deleteStudentAccount(student.getAccountID());
@@ -350,18 +360,42 @@ public class DerbyDatabaseTest {
 		String password = hashSHA256.getHash("testpassword");
 		String schoolID = "999999999";
 	
-		//TODO: will need to add a room event to the account too
+		//will need to add a room event to the account too
+		Integer account_id;
+		Integer room_id = 19;
+		Date start = new Date();
 		
-		//temp test to delete account from csv load
-		assertTrue(db.deleteStudentAccount(3));
+		//clean slate make sure student doesn't exist
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(student == null);
+		
+		//create the studentAccount
+		db.createStudentAccount(firstname, lastname, email, password, schoolID);
+		
+		//get studentAccountID
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(student != null);
+		account_id = student.getAccountID();
+		
+		//attempt to create a room event
+		assertTrue(db.createRoomEventForStudentAccountWithID(account_id, room_id, new Timestamp(start.getTime())));
+		
+		//check that a roomEvent has been added
+		List<RoomEvent> events = db.getAllRoomEventForStudentAccountWithAccountID(account_id);
+		assertTrue(events != null);
+		assertNotEquals(0, events.size());
+		
+		//delete the student Account
+		assertTrue(db.deleteStudentAccount(account_id));
 		
 		//check that the account doesnt exists
-		student = db.getStudentAccountWithID(3);
+		student = db.getStudentAccountWithID(account_id);
 		assertTrue(student == null);
 		
 		//check that all roomEvents are also gone
-		roomEventList = db.getAllRoomEventForStudentAccountWithAccountID(3);		
-		
+		roomEventList = db.getAllRoomEventForStudentAccountWithAccountID(account_id);		
+		assertTrue(roomEventList != null);
+		assertEquals(0, roomEventList.size());
 	}
 	
 	@Test
@@ -391,9 +425,28 @@ public class DerbyDatabaseTest {
 		//attempt to create a room event
 		assertTrue(db.createRoomEventForStudentAccountWithID(account_id, room_id, new Timestamp(start.getTime())));
 		
-		//TODO: finish
-		
-		
+		//check that a roomEvent has been added
+		List<RoomEvent> events = db.getAllRoomEventForStudentAccountWithAccountID(account_id);
+		assertTrue(events != null);
+		assertNotEquals(0, events.size());
+
+		//cleanup after test
+		db.deleteStudentAccount(account_id);
 	}
 	
+	@Test
+	public void testGetAllRoomEventsForStudentAccountWithAccountID() {
+		Integer account_id = 3; //Jim from CSV
+		List<RoomEvent> events = null;
+		
+		//get all room events for existing account
+		events = db.getAllRoomEventForStudentAccountWithAccountID(account_id);
+		
+		//should not be empty
+		assertTrue(events != null);
+		assertNotEquals(0, events.size());
+		
+		//should have 8 events
+		assertEquals(8, events.size());
+	}
 }

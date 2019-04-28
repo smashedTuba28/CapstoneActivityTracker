@@ -416,7 +416,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(insertStudent);
 					DBUtil.closeQuietly(insertAdmin);
 					DBUtil.closeQuietly(insertRoom);
-				//	DBUtil.closeQuietly(insertRoomEvent);
+					DBUtil.closeQuietly(insertRoomEvent);
 					DBUtil.closeQuietly(insertTopTeam);
 					DBUtil.closeQuietly(insertSubTeam);
 					DBUtil.closeQuietly(insertTeamRoom);
@@ -506,7 +506,6 @@ public class DerbyDatabase implements IDatabase {
 					if(resultSet.next()) {		
 						studentAccount = new StudentAccount();//create new model
 						// result set to populate model
-						studentAccount = new StudentAccount();//new account
 						studentAccount.setAccountID(resultSet.getInt(1));//column 1 = account_id_1
 																			//column 2 = account_id_2 : unused outside of schema and always equals account_id_1
 						studentAccount.setFirstname(resultSet.getString(3));//column 3 = firstname
@@ -579,8 +578,36 @@ public class DerbyDatabase implements IDatabase {
 
 	@Override
 	public AdminAccount getAdminAccountWithID(Integer adminAccount_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return executeTransaction(new Transaction<AdminAccount>() {
+			@Override
+			public AdminAccount execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+					
+				ResultSet resultSet1 = null;
+					
+				AdminAccount admin = null;
+					
+				try {
+					//prepare SQL select
+					stmt1 = conn.prepareStatement(
+						" select adminAccounts.* "
+						+ " from adminAccounts "
+						+ " where adminAccounts.adminAccount_id = ?"	
+					);
+					stmt1.setInt(1, adminAccount_id);
+					resultSet1 = stmt1.executeQuery();
+					
+					if(resultSet1.next()) {
+						admin = new AdminAccount();
+						loadAdminAccount(admin, resultSet1, 1);
+					}
+					return admin;
+				}finally {
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(stmt1);
+				}
+			}
+		});
 	}
 
 	@Override
@@ -1247,22 +1274,21 @@ public class DerbyDatabase implements IDatabase {
 					resultSet2 = stmt2.executeQuery();
 		
 					//assemble list of roomEvents
-					List<RoomEvent> events = new ArrayList<RoomEvent>();
+					List<Integer> eventIDList = new ArrayList<Integer>();
 					
 					while(resultSet2.next()) {
-						RoomEvent event = new RoomEvent();
-						loadRoomEvent(event, resultSet2, 1);
-						events.add(event);
+						Integer id = resultSet2.getInt(1);
+						eventIDList.add(id);
 					}
 		
 					//delete roomEvents from list
-					for (int i = 0; i < events.size(); i++) {
+					for (int i = 0; i < eventIDList.size(); i++) {
 						stmt3 = conn.prepareStatement(
 								" delete from roomEvents "
 								+ "where roomEvents.roomEvent_id = ?"	
 						);	
 						
-						stmt3.setInt(1, events.get(i).getRoomEventID());
+						stmt3.setInt(1, eventIDList.get(i));
 						stmt3.executeUpdate();
 						
 						DBUtil.closeQuietly(stmt3);//close so loop can reopen if needed
@@ -1274,7 +1300,7 @@ public class DerbyDatabase implements IDatabase {
 						" select subTeamStudents.* "
 						+ " from subTeamStudents, studentAccounts"
 						+ " where subTeamStudents.account_id_2 = studentAccounts.account_id_2 "
-						+ " where studentAccounts.account_id_1 = ?"				
+						+ " and studentAccounts.account_id_1 = ?"				
 					);
 					stmt4.setInt(1, account_id);
 					resultSet4 = stmt4.executeQuery();
@@ -1292,7 +1318,7 @@ public class DerbyDatabase implements IDatabase {
 						//prepare to delete SubTeamStudents entires
 						stmt5 = conn.prepareStatement(
 							" delete from subTeamStudents "
-							+ " where topTeam_id_2 = ?"
+							+ " where subTeam_id_2 = ?"
 							+ " and account_id_2 = ?"	
 						);		
 						stmt5.setInt(1, stList.get(i).getTeamID());
@@ -1366,7 +1392,7 @@ public class DerbyDatabase implements IDatabase {
 					//prepare SQL statement to create new RoomEvent
 					stmt1 = conn.prepareStatement(
 						" insert into roomEvents "
-						+ " (account_id, room_id, start, end, flag, lognote) "
+						+ " (account_id_1, room_id_2, startTime, endTime, flag, lognote) "
 						+ " values (?,?,?,?,?,?) "	
 					);
 					stmt1.setInt(1, account_id);
@@ -1421,21 +1447,15 @@ public class DerbyDatabase implements IDatabase {
 						
 						RoomEvent event = new RoomEvent();
 						loadRoomEvent(event, resultSet1, 1);
-						
-						
+						roomEventList.add(event);
 					}
 					
 					
+					return roomEventList;
 				}finally {
-					
-				}
-				
-				
-				
-				
-				
-				
-				
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet1);
+				}				
 			}
 		});
 	}
