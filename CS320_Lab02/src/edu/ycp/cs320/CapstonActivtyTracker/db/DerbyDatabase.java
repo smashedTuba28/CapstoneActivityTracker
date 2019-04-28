@@ -723,7 +723,6 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt1 = null;//for inserting
 			
 				try {
-					conn.setAutoCommit(false);
 					//prepare SQL statement to insert a new adminAccount
 					stmt1 = conn.prepareStatement(
 							"insert into adminAccounts " +
@@ -741,7 +740,6 @@ public class DerbyDatabase implements IDatabase {
 					
 					System.out.println("AdminAccount for <" + firstname + "> created");
 					
-					conn.commit();
 					return true;
 				}finally {
 					DBUtil.closeQuietly(stmt1);
@@ -811,11 +809,8 @@ public class DerbyDatabase implements IDatabase {
 				ResultSet resultSet2 = null;
 				ResultSet resultSet4 = null;
 				
-				
-				StudentAccount student = null;
-				
 				try {
-					//first get studentAccount that needs to be deleted
+					//first verify studentAccount that needs to be deleted
 					stmt1 = conn.prepareStatement( 
 							"select studentAccounts.* "
 							+ " from studentAccounts"
@@ -831,7 +826,6 @@ public class DerbyDatabase implements IDatabase {
 						System.out.println("StudentAccount <" + account_id + "> wasn't found");
 						return false;
 					}
-					
 					//at this point the studentAccount was found to exist
 					
 					//now get all the roomEvents associated with the student
@@ -949,5 +943,59 @@ public class DerbyDatabase implements IDatabase {
 				}		
 			}
 		});	
+	}
+
+	@Override
+	public boolean createRoomEventForStudentAccountWithID(Integer account_id, Integer room_id, Timestamp start) {
+		return executeTransaction(new Transaction<Boolean>() {
+
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				
+				PreparedStatement stmt1 = null;
+				
+				try {
+					//prepare SQL statement to create new RoomEvent
+					stmt1 = conn.prepareStatement(
+						" insert into roomEvents "
+						+ " (account_id, room_id, start, end, flag, lognote) "
+						+ " values (?,?,?,?,?,?) "	
+					);
+					stmt1.setInt(1, account_id);
+					stmt1.setInt(2, room_id);
+					stmt1.setTimestamp(3,  start);
+					stmt1.setTimestamp(4, new Timestamp(0));
+					stmt1.setBoolean(5, Boolean.TRUE);
+					stmt1.setString();
+					
+					
+					
+					return true;
+				}finally {
+					
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+			}
+		});
+	}
+
+	@Override
+	public boolean updateRoomEventForStudentAccountWithAccountIDandEventID(Integer account_id, Integer roomEvent_id,
+			Timestamp end, Boolean flag) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<RoomEvent> getAllRoomEventForStudentAccountWithAccountID(Integer account_id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

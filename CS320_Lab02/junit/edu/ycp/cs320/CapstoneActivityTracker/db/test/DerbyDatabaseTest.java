@@ -2,22 +2,28 @@ package edu.ycp.cs320.CapstoneActivityTracker.db.test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.CapstonActivtyTracker.db.DerbyDatabase;
 import edu.ycp.cs320.CapstonActivtyTracker.db.hashSHA256;
 import edu.ycp.cs320.CapstoneActivityTracker.model.AdminAccount;
+import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 
 public class DerbyDatabaseTest {
-	DerbyDatabase db;
-	AdminAccount admin = null;
-	StudentAccount student = null;
+	private DerbyDatabase db;
+	private AdminAccount admin = null;
+	private StudentAccount student = null;
+	private List<RoomEvent> roomEventList; 
 	
 	@Before
 	public void setUp() throws Exception {
 		db = new DerbyDatabase();
+		roomEventList = new ArrayList<RoomEvent>();
 	}
 
 	@Test
@@ -232,5 +238,16 @@ public class DerbyDatabaseTest {
 		String schoolID = "999999999";
 	
 		//TODO: will need to add a room event to the account too
+		
+		//temp test to delete account from csv load
+		assertTrue(db.deleteStudentAccount(3));
+		
+		//check that the account doesnt exists
+		student = db.getStudentAccountWithID(3);
+		assertTrue(student == null);
+		
+		//check that all roomEvents are also gone
+		roomEventList = db.getAllRoomEventForStudentAccountWithAccountID(3);		
+		
 	}
 }
