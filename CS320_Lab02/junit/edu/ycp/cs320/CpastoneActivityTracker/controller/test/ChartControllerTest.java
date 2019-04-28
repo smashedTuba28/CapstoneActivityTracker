@@ -61,14 +61,14 @@ public class ChartControllerTest {
 	@Test
 	public void testPopulateStudentWeek() {
 		assertTrue(model.getData() == null);//data should be empty
-		String email = "jsteinberg@ycp.edu";
+		Integer account_id = 1;
 		Date start = new Date(119, 2, 31, 0,0,0);
 		Date end = new Date(119,3,6,24,0,0);
 		
 		
-		controller.populateStudentWeek(1, start, end);
+		controller.populateStudentWeek(account_id, start, end);
 		//expecting model to be populated with data for Jason Steinberg
-		assertTrue(model.getTitle().equals("Individual Hours"));
+		assertTrue(model.getTitle().equals("Individual Work Hours"));
 		assertTrue(model.getStudent().equals("Jason Steinberg"));
 		assertTrue(model.getData().equals("[['Date', 'Hours'],"
 				+ "['3-31', 4.5],"
@@ -80,10 +80,11 @@ public class ChartControllerTest {
 				+ "['4-6', 10.0]]"));
 		
 		//expecting model to be populated with data fro Travis Wetezel
-		email = "twetzel1@ycp.edu";
-		controller.populateStudentWeek(2, start, end);
-		assertTrue(model.getTitle().equals("Individual Hours"));
+		account_id = 2;
+		controller.populateStudentWeek(account_id, start, end);
+		assertTrue(model.getTitle().equals("Individual Work Hours"));
 		assertTrue(model.getStudent().equals("Travis Wetzel"));
+		System.out.println(model.getData());
 		assertTrue(model.getData().equals("[['Date', 'Hours'],"
 				+ "['3-31', 2.5],"
 				+ "['4-1', 5.0],"
@@ -98,8 +99,7 @@ public class ChartControllerTest {
 	public void testGetWeekfromRoomEvents() {
 		long[] result = new long[7];//know that method will return [2][7] array of long references
 		
-		result = controller.getWeekFromRoomEvents(start, end, tester);
-		
+		result = controller.getWeekFromRoomEvents(start, end, tester.getRoomEventList());
 		/*
 		 * BREAK DOWN OF EXPECTED VALUES
 		 * March 17th has a total of 4 hours and 30 minutes	that will be excluded for being before the start date
@@ -112,7 +112,6 @@ public class ChartControllerTest {
 		 * April 6th has a total of 1 hour and 30 minutes		=> 0090 minutes
 		 * April 7th has a total of 4 hours and 30 minutes that will be excluded for being past the end date
 		 */
-		
 		//test all duration values result[0][x]
 		assertEquals((long)  543, result[0]);
 		assertEquals((long)   60, result[1]);
