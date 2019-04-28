@@ -132,6 +132,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt5 = null;
 				PreparedStatement stmt6 = null;
 				PreparedStatement stmt7 = null;
+				PreparedStatement stmt8 = null;
 				
 				try {
 					//room table
@@ -194,21 +195,21 @@ public class DerbyDatabase implements IDatabase {
 					System.out.println("topTeams table created");	
 					
 					//Sub teams table
-					stmt4 = conn.prepareStatement(
+					stmt5 = conn.prepareStatement(
 							"create table subTeams (" +
 							"	subTeam_id_1 integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
 							"   subTeam_id_2 integer," +
 							"	teamname varchar(40)" +
-						//	" 	topTeam_id integer constraint topTeam_id references topTeams," +
+							" 	topTeam_id integer constraint topTeam_id references topTeams," +
 						//	" 	account_id integer constraint studentAccount_id references studentAccounts" +
 							")"
 					);
-					stmt4.executeUpdate();
+					stmt5.executeUpdate();
 					System.out.println("topTeam table created");
 					
 					//admin acccounts table
-					stmt5 = conn.prepareStatement(
+					stmt6 = conn.prepareStatement(
 							"create table adminAccounts(" +
 							"	adminAccount_id integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
@@ -219,28 +220,28 @@ public class DerbyDatabase implements IDatabase {
 							"	schoolID varchar(9)" +
 							")"
 					);
-					stmt5.executeUpdate();
+					stmt6.executeUpdate();
 					System.out.println("adminAccount table created");
 					
 					//teamRooms
-					stmt6 = conn.prepareStatement(
+					stmt7 = conn.prepareStatement(
 							"create table teamRooms (" +
 									"	subTeam_id_1 integer constraint subTeam_id_1 references subTeams, " +
 									"	room_id_1 integer constraint room_id_1 references rooms " +
 									")"
 					);
-					stmt6.executeUpdate();
+					stmt7.executeUpdate();
 					System.out.println("teamRooms table created");
 					
 					
 					//topSub
-					stmt7 = conn.prepareStatement(
+					stmt8 = conn.prepareStatement(
 							"create table subTeamStudents (" +
 									"	subTeam_id_2 integer constraint subTeam_id_2 references subTeams, " +
 									"	account_id_2 integer constraint account_id_2 references studentAccounts " +
 									")"
 					);
-					stmt7.executeUpdate();
+					stmt8.executeUpdate();
 					System.out.println("subTeamStudents table created");
 					
 					
@@ -249,6 +250,12 @@ public class DerbyDatabase implements IDatabase {
 				} finally {
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt3);
+					DBUtil.closeQuietly(stmt4);
+					DBUtil.closeQuietly(stmt5);
+					DBUtil.closeQuietly(stmt6);
+					DBUtil.closeQuietly(stmt7);
+					DBUtil.closeQuietly(stmt8);
 				}
 			}
 		});
@@ -617,9 +624,82 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public Boolean creatSubTeam() {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean createSubTeam(String name, Integer topTeamID) {		
+		return executeTransaction(new Transaction<Boolean>() {
+
+		@Override
+		public Boolean execute(Connection conn) throws SQLException {
+			PreparedStatement stmt1 = null;//for inserting
+			PreparedStatement stmt2 = null;//for getting subTeam back
+			PreparedStatement stmt3 = null;//for updating
+			
+			ResultSet resultSet1 = null;//resultset for stmt2
+			
+			Integer subTeam_id = -1;
+			
+			try {
+				conn.setAutoCommit(false);
+				//prepare SQL statement to insert a new studentAccount
+				stmt1 = conn.prepareStatement(
+						"insert into subTeams " +
+						"  (subTeam_id_2, teamname, topTeam_ID) "	+	
+						"  values(?,?,?) "
+				);
+				
+				stmt1.setInt(1, -1);//use a dud value until update stage
+				stmt1.setString(2, name);
+				stmt1.setInt(3, topTeamID);
+				
+				stmt1.executeUpdate();//execute the update
+				System.out.println("new subTeam created with dud_id");
+				
+				//Retrieve the newly inserted student's subTeam_id_1
+				stmt2 = conn.prepareStatement(
+					"select subTeam_id_1 " +
+					" 	from subTeams " +	
+					" 	where teamname = ? " +
+					"   and topTeamID = ? " 
+				);
+				stmt2.setString(1, name);
+				stmt2.setInt(2, topTeamID);
+				
+				//execute the query
+				resultSet1 = stmt2.executeQuery();
+				
+				//get the result
+				if (resultSet1.next()) {
+					//getting subTeam_ID from the resultSet
+					subTeam_id = resultSet1.getInt(1);
+				}
+				else {
+					System.out.println("cant find subTeam");
+					return false;
+				}
+				
+				//prepare update to subTeam's subTeam_id_2 from subTeam_id_1
+				stmt3 = conn.prepareStatement( 
+					"update studentAccounts"
+					+ " set subTeam_id_2 = ? "
+					+ " where subTeam_id_1 = ? "	
+				);
+				stmt3.setInt(1, subTeam_id);
+				stmt3.setInt(2, subTeam_id);
+				
+				//execute update
+				stmt3.executeUpdate();
+				
+				System.out.println("subTeam named <" + name + "> created");
+				
+				conn.commit();
+				return true;
+			}finally {
+				DBUtil.closeQuietly(stmt1);
+				DBUtil.closeQuietly(stmt2);
+				DBUtil.closeQuietly(stmt3);
+				DBUtil.closeQuietly(resultSet1);
+			}				
+		}
+	});
 	}
 
 	@Override
