@@ -50,7 +50,7 @@ public class DerbyDatabaseTest {
 		student = db.verifyStudentAccount("wrong", hashSHA256.getHash("password"));
 		assertTrue(student == null);
 	}
-	
+	 
 	@Test
 	public void testVerifyAdminAccount() {
 		assertTrue(admin == null);

@@ -26,7 +26,7 @@ public class SubTeamTest extends SubTeam {
 		subTeam = new SubTeam();
 		testSubTeam = new SubTeam();
 		
-		testSubTeam.setTeamname("testing SubTeam");
+		testSubTeam.setTeamname("testing SubTeam"); 
 		subTeam.setSubTeam(subTeam);
 		
 	}

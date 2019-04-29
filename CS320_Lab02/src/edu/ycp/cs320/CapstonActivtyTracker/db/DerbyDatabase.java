@@ -465,7 +465,7 @@ public class DerbyDatabase implements IDatabase {
 	//Finds and returns studentAccount for login
 	@Override
 	public StudentAccount verifyStudentAccount(String email, String password) {
-		return executeTransaction(new Transaction<StudentAccount>() {
+		return executeTransaction(new Transaction<StudentAccount>() { 
 			@Override
 			public StudentAccount execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;

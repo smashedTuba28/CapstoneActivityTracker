@@ -36,7 +36,6 @@ public interface IDatabase {
 	public boolean createRoomEventForStudentAccountWithID(Integer account_id, Integer room_id, Timestamp start);//insert
 	public boolean updateRoomEventForStudentAccountWithAccountIDandEventID(Integer account_id, Integer roomEvent_id, Timestamp end, Boolean flag);
 	
-	
 	public List<SubTeam> getSubTeamsInTopTeam(String topTeamname);//select
 	public TopTeam getTopTeamWithTeamname(String topTeamname);
 	public Boolean deleteTopTeam(Integer topTeam_id);
@@ -46,10 +45,5 @@ public interface IDatabase {
 	public Boolean deleteSubTeam(Integer subTeamID);//delete
 	
 	
-	
 	public Boolean createTopTeam(String topTeamname);//insert
-	
-	
-	
-	
 }
