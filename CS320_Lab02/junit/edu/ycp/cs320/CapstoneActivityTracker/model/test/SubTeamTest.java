@@ -9,12 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
+import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
 
 /**
  * @author TravisWetzel
  *
  */
 public class SubTeamTest extends SubTeam {
+	int topID;
 	SubTeam subTeam;
 	SubTeam testSubTeam;
 	/**
@@ -25,15 +27,15 @@ public class SubTeamTest extends SubTeam {
 		
 		subTeam = new SubTeam();
 		testSubTeam = new SubTeam();
+		topID = 11;
 		
 		testSubTeam.setTeamname("testing SubTeam");
-		subTeam.setSubTeam(subTeam);
 		
 	}
 
 	@Test
-	public void testSetSubTeam() {
-		subTeam.setSubTeam(testSubTeam);
-		assertTrue(subTeam.getSubTeam().equals(testSubTeam));
+	public void testSetTopTeam() {
+		subTeam.setTopTeamID(topID);
+		assertTrue(subTeam.getTopTeamID() == 11);
 	}
 }
