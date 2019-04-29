@@ -19,22 +19,25 @@
 		</div>
 	
 		<div>
-			
-		
+			<select size="1" name="topTeam" required= "required">
+						<option>Capstone Team</option>
+        				<option value ="admin"></option>
+        				<option value ="student"></option>
+			</select>
 		</div> 
-		
-	
-	
-	
-	
-		<!-- HTML element for google chart -->
-		<div id="columnchart_hours" style="width: 800px; height: 500px"></div>
-
-		<!-- Link to subteams displayed here -->
-		<div id="subteams"></div>
-		
-		<a href = "http://localhost:8081/CapstoneActivityTracker/studentView">Student View</a>
-		
-		
+		<div>
+			<select size="1" name="subTeam" required= "required">
+						<option>Sub-Team</option>
+        				<option value ="admin"></option>
+        				<option value ="student"></option>
+			</select>
+		</div> 
+		<div>
+			<select size="1" name="accountType" required= "required">
+						<option>Student</option>
+        				<option value ="admin"></option>
+        				<option value ="student"></option>
+			</select>
+		</div> 
 	</body>
 </html>

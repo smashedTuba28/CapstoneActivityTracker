@@ -14,7 +14,7 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Account;
 
 
 public class SignUpServlet extends HttpServlet {
-	
+	 
 	private static final long serialVersionUID = 1L;
 	
 	//retrieve jsp for SignUp
@@ -52,7 +52,7 @@ public class SignUpServlet extends HttpServlet {
 		passConfirm = req.getParameter("passwordConfirm").toString();
 		schoolID = req.getParameter("schoolID").toString();
 		accountType = req.getParameter("accountType").toString();
-		
+		System.out.println(accountType);
 		
 		//check that none are empty
 		if (email == null || password == null || schoolID == null
@@ -70,10 +70,10 @@ public class SignUpServlet extends HttpServlet {
 		else if (!password.equals(passConfirm)) {
 			errorMessage = "Passwords Don't Match. Recheck password and confimation password";
 		} 
-		else if (!schoolID.startsWith("90") || schoolID.length() != 9) {
+		else if (!schoolID.startsWith("9") || schoolID.length() != 9) {
 			errorMessage = "Invalid School ID";
 		}
-		else if (!accountType.equals("admin") || !accountType.equals("student")) {
+		else if (!(accountType.equals("admin") || accountType.equals("student"))) {
 			errorMessage = "Select an Account Type";
 		}
 		else{

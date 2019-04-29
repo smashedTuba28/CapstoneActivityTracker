@@ -38,6 +38,10 @@
     <servlet-name>TeamViewServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.TeamViewServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AdminViewServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.AdminViewServlet</servlet-class>
+  </servlet>
   
   <!-- AJAX servlets. -->
   <servlet>
@@ -78,11 +82,14 @@
     <servlet-name>StudentViewServlet</servlet-name>
     <url-pattern>/studentView</url-pattern>
   </servlet-mapping>
-    <servlet-mapping>
+   <servlet-mapping>
     <servlet-name>TeamViewServlet</servlet-name>
     <url-pattern>/teamView</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+    <servlet-name>AdminViewServlet</servlet-name>
+    <url-pattern>/adminView</url-pattern>
+  </servlet-mapping>
   
   <!--  AJAX servlet mappings. -->
   <servlet-mapping>
