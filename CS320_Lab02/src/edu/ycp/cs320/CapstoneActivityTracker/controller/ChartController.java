@@ -17,7 +17,7 @@ public class ChartController {
 	private IDatabase db;
 	private ChartModel model;
 	
-	
+	 
 	public ChartController(){
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		db = DatabaseProvider.getInstance();
