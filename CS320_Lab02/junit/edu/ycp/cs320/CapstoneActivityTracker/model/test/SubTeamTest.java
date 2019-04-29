@@ -15,25 +15,23 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
  *
  */
 public class SubTeamTest extends SubTeam {
-	SubTeam subTeam;
+	int 	topTeam_id;
 	SubTeam testSubTeam;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		
-		subTeam = new SubTeam();
+		topTeam_id = 5;
 		testSubTeam = new SubTeam();
-		
-		testSubTeam.setTeamname("testing SubTeam"); 
-		subTeam.setSubTeam(subTeam);
-		
 	}
 
 	@Test
-	public void testSetSubTeam() {
-		subTeam.setSubTeam(testSubTeam);
-		assertTrue(subTeam.getSubTeam().equals(testSubTeam));
+	public void testSetTopTeamID() {
+		testSubTeam.setTopTeamID(topTeam_id); 
+		assertEquals(5, testSubTeam.getTopTeamID());
+		testSubTeam.setTopTeamID(1);
+		assertNotEquals(topTeam_id, testSubTeam.getTopTeamID());
 	}
 }

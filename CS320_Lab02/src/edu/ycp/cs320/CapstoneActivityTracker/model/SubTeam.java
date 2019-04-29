@@ -14,9 +14,10 @@ public class SubTeam extends Team{
 	
 	public SubTeam(String subteamName, Integer topTeamID, Integer subTeamID) {
 		super(subteamName, subTeamID);
+		this.topTeamID = topTeamID;
 	}
 	
-	public void setTopTeamID(int topTeamID) {
+	public void setTopTeamID(int topTeamID) { 
 		this.topTeamID = topTeamID;
 	}
 	public int getTopTeamID() {
