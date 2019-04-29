@@ -53,31 +53,26 @@ public class FakeDatabaseTest {
 		assertTrue(testAccountList.get(0).getLastname().equals("Doe"));
 		assertTrue(testAccountList.get(0).getEmail().equals("jdoe@ycp.edu"));
 		assertTrue(testAccountList.get(0).getSchoolID().equals("900000000"));
-		assertTrue(testAccountList.get(0).getFaculty());
 	
 		assertTrue(testAccountList.get(1).getFirstname().equals("Jason"));
 		assertTrue(testAccountList.get(1).getLastname().equals("Steinberg"));
 		assertTrue(testAccountList.get(1).getEmail().equals("jsteinberg@ycp.edu"));
 		assertTrue(testAccountList.get(1).getSchoolID().equals("900000001"));
-		assertFalse(testAccountList.get(1).getFaculty());
 		
 		assertTrue(testAccountList.get(2).getFirstname().equals("Travis"));
 		assertTrue(testAccountList.get(2).getLastname().equals("Wetzel"));
 		assertTrue(testAccountList.get(2).getEmail().equals("twetzel1@ycp.edu"));
 		assertTrue(testAccountList.get(2).getSchoolID().equals("900000002"));
-		assertFalse(testAccountList.get(2).getFaculty());
 		
 		assertTrue(testAccountList.get(3).getFirstname().equals("William"));
 		assertTrue(testAccountList.get(3).getLastname().equals("Taylor"));
 		assertTrue(testAccountList.get(3).getEmail().equals("wtaylor1@ycp.edu"));
 		assertTrue(testAccountList.get(3).getSchoolID().equals("900000003"));
-		assertFalse(testAccountList.get(3).getFaculty());
 		
 		assertTrue(testAccountList.get(4).getFirstname().equals("Robert"));
 		assertTrue(testAccountList.get(4).getLastname().equals("California"));
 		assertTrue(testAccountList.get(4).getEmail().equals("lizardking@ycp.edu"));
 		assertTrue(testAccountList.get(4).getSchoolID().equals("900000004"));
-		assertFalse(testAccountList.get(4).getFaculty());
 	}
 	
 	@Test
@@ -91,7 +86,6 @@ public class FakeDatabaseTest {
 		assertTrue(testAdminList.get(0).getLastname().equals("Doe"));
 		assertTrue(testAdminList.get(0).getEmail().equals("jdoe@ycp.edu"));
 		assertTrue(testAdminList.get(0).getSchoolID().equals("900000000"));
-		assertTrue(testAdminList.get(0).getFaculty());
 	}
 	
 	@Test
@@ -105,25 +99,21 @@ public class FakeDatabaseTest {
 		assertTrue(testStudentList.get(0).getLastname().equals("Steinberg"));
 		assertTrue(testStudentList.get(0).getEmail().equals("jsteinberg@ycp.edu"));
 		assertTrue(testStudentList.get(0).getSchoolID().equals("900000001"));
-		assertFalse(testStudentList.get(0).getFaculty());
 		
 		assertTrue(testStudentList.get(1).getFirstname().equals("Travis"));
 		assertTrue(testStudentList.get(1).getLastname().equals("Wetzel"));
 		assertTrue(testStudentList.get(1).getEmail().equals("twetzel1@ycp.edu"));
 		assertTrue(testStudentList.get(1).getSchoolID().equals("900000002"));
-		assertFalse(testStudentList.get(1).getFaculty());
 		
 		assertTrue(testStudentList.get(2).getFirstname().equals("William"));
 		assertTrue(testStudentList.get(2).getLastname().equals("Taylor"));
 		assertTrue(testStudentList.get(2).getEmail().equals("wtaylor1@ycp.edu"));
 		assertTrue(testStudentList.get(2).getSchoolID().equals("900000003"));
-		assertFalse(testStudentList.get(2).getFaculty());
 		
 		assertTrue(testStudentList.get(3).getFirstname().equals("Robert"));
 		assertTrue(testStudentList.get(3).getLastname().equals("California"));
 		assertTrue(testStudentList.get(3).getEmail().equals("lizardking@ycp.edu"));
 		assertTrue(testStudentList.get(3).getSchoolID().equals("900000004"));
-		assertFalse(testStudentList.get(3).getFaculty());
 	}
 	
 	@Test
