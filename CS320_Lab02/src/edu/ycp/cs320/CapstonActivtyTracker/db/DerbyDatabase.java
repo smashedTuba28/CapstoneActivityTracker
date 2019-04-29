@@ -699,10 +699,11 @@ public class DerbyDatabase implements IDatabase {
 					stmt1.setInt(1, subTeam_id);
 					resultSet1 = stmt1.executeQuery();
 					
-					Room room = new Room();
+					
 					
 					//verify a returned result
 					while(resultSet1.next()) {
+						Room room = new Room();
 						room.setRoomID(resultSet1.getInt(1));
 						room.setRoomNumber(resultSet1.getInt(3));
 						room.setRoomName(resultSet1.getString(4));

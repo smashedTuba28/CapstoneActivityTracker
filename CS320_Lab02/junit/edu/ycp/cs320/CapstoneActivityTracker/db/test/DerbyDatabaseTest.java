@@ -13,6 +13,7 @@ import org.junit.Test;
 import edu.ycp.cs320.CapstonActivtyTracker.db.DerbyDatabase;
 import edu.ycp.cs320.CapstonActivtyTracker.db.hashSHA256;
 import edu.ycp.cs320.CapstoneActivityTracker.model.AdminAccount;
+import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
@@ -24,6 +25,7 @@ public class DerbyDatabaseTest {
 	private StudentAccount student = null;
 	private List<StudentAccount> students = null;
 	private List<RoomEvent> roomEventList; 
+	private List<Room> roomList; 
 	private SubTeam subTeam = null;
 	private TopTeam topTeam = null;
 	List<SubTeam> subTeams = null;
@@ -129,7 +131,30 @@ public class DerbyDatabaseTest {
 
 	@Test
 	public void testGetRoomsForASubTeam() {
-		fail("Not yet implemented");
+		Integer subTeam_id = 2;
+		roomList = new ArrayList<Room>();
+		
+		roomList = db.getRoomsForASubTeam(subTeam_id);
+		
+		System.out.println(roomList.get(0).getRoomID());
+		System.out.println(roomList.get(1).getRoomID());
+		System.out.println(roomList.get(2).getRoomID());
+		System.out.println(roomList.get(0).getRoomName());
+		System.out.println(roomList.get(0).getRoomNumber());
+		
+		assertTrue(roomList.get(0).getRoomID() == 19);
+		assertTrue(roomList.get(0).getRoomName().equals("Main office"));
+		assertTrue(roomList.get(0).getRoomNumber() == 300);
+		
+
+		assertTrue(roomList.get(1).getRoomID() == 25);
+		assertTrue(roomList.get(1).getRoomName().equals("Manager's Office"));
+		assertTrue(roomList.get(1).getRoomNumber() == 399);
+		
+		assertTrue(roomList.get(2).getRoomID() == 20);
+		assertTrue(roomList.get(2).getRoomName().equals("Conference room"));
+		assertTrue(roomList.get(2).getRoomNumber() == 301);
+		
 	}
 
 	@Test
