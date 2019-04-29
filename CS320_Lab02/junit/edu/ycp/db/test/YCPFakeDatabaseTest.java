@@ -29,33 +29,29 @@ public class YCPFakeDatabaseTest {
 	public void testFindStudentByEmail() {
 		assertTrue(ycpfdb.findStudentByEmail("jsteinberg@ycp.edu").equals(ycpfdb.getAllStudents().get(0)));
 		assertTrue(ycpfdb.findStudentByEmail("twetzel1@ycp.edu").equals(ycpfdb.getAllStudents().get(1)));
-		assertTrue(ycpfdb.findStudentByEmail("wtaylor1@ycp.edu").equals(ycpfdb.getAllStudents().get(2)));
 		
 	}
 
 	@Test
 	public void testFindAdminByEmail() {
-		assertTrue(ycpfdb.findAdminByEmail("jdoe@ycp.edu").equals(ycpfdb.getAllAdmin().get(0)));
+		assertTrue(ycpfdb.findAdminByEmail("jdoe@ycp.edu").equals(ycpfdb.getAllAdmin().get(5)));
 	}
 
 	@Test
 	public void testFindStudentBySchoolID() {
 		assertTrue(ycpfdb.findStudentBySchoolID("900000001").equals(ycpfdb.getAllStudents().get(0)));
 		assertTrue(ycpfdb.findStudentBySchoolID("900000002").equals(ycpfdb.getAllStudents().get(1)));
-		assertTrue(ycpfdb.findStudentBySchoolID("900000003").equals(ycpfdb.getAllStudents().get(2)));
 	}
-
+ 
 	@Test
 	public void testFindAdminBySchoolID() {
-		assertTrue(ycpfdb.findAdminBySchoolID("900000000").equals(ycpfdb.getAllAdmin().get(0)));
+		assertTrue(ycpfdb.findAdminBySchoolID("910000000").equals(ycpfdb.getAllAdmin().get(0)));
 	}
 
 	@Test
 	public void testVerifyStudent() {
 		assertTrue(ycpfdb.verifyStudent("jsteinberg@ycp.edu", "900000001")!=null);
-		assertTrue(ycpfdb.verifyStudent("twetzel1@ycp.edu", "900000002")!=null);
-		assertTrue(ycpfdb.verifyStudent("wtaylor1@ycp.edu", "900000003")!=null);
-		
+		assertTrue(ycpfdb.verifyStudent("twetzel1@ycp.edu", "900000002")!=null);	
 		assertFalse(ycpfdb.verifyStudent("jdoe@ycp.edu", "900000000")!=null);
 		assertFalse(ycpfdb.verifyStudent("twetzel1@ycp.edu", "111111111")!=null);
 		assertFalse(ycpfdb.verifyStudent("Martin4654564645644984@rocketmail.com", "9020613165")!=null);
@@ -63,7 +59,7 @@ public class YCPFakeDatabaseTest {
 
 	@Test
 	public void testVerifyAdmin() {
-		assertTrue(ycpfdb.verifyAdmin("jdoe@ycp.edu", "900000000")!=null);
+		assertTrue(ycpfdb.verifyAdmin("jdoe@ycp.edu", "910000005")!=null);
 		assertFalse(ycpfdb.verifyAdmin("twetzel1@ycp.edu", "900000002")!=null);
 	}
 
@@ -80,8 +76,7 @@ public class YCPFakeDatabaseTest {
 
 		assertTrue(ycpfdb.verifyPersonnel("jsteinberg@ycp.edu", "900000001"));
 		assertTrue(ycpfdb.verifyPersonnel("twetzel1@ycp.edu", "900000002"));
-		assertTrue(ycpfdb.verifyPersonnel("wtaylor1@ycp.edu", "900000003"));
-		assertTrue(ycpfdb.verifyPersonnel("jdoe@ycp.edu", "900000000"));
+		assertTrue(ycpfdb.verifyPersonnel("jdoe@ycp.edu", "910000005"));
 		
 		assertFalse(ycpfdb.verifyPersonnel("Martin4654564645644984@rocketmail.com", "9020613165"));
 	}
