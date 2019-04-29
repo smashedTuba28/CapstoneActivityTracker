@@ -26,6 +26,7 @@ public class DerbyDatabaseTest {
 	private List<RoomEvent> roomEventList; 
 	private SubTeam subTeam = null;
 	private TopTeam topTeam = null;
+	List<SubTeam> subTeams = null;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -138,7 +139,14 @@ public class DerbyDatabaseTest {
 
 	@Test
 	public void testGetSubTeamsInTopTeam() {
-		fail("Not yet implemented");
+		String teamname = "Dunder Mifflin";
+		subTeams = new ArrayList<SubTeam>();
+		
+		subTeams = db.getSubTeamsInTopTeam(teamname);
+		
+		assertTrue(subTeams.get(0).getTeamname().equals("Sales"));
+		assertTrue(subTeams.get(1).getTeamname().equals("Reception"));
+		
 	}
 	
 	@Test
