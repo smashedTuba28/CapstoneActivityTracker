@@ -50,7 +50,7 @@ public class ChartController {
 		
 		String title = "Individual Work Hours";
 		Calendar c = Calendar.getInstance();//create a calendar instance/reference
-		String data = "[['Date', 'Hours']";
+		String data = "[['Date', 'Hours']"; 
 		System.out.println("Date Duration count:");
 		for(int i = 0; i < 7; i++) {
 				System.out.println(i + ": " + dateDuration[i]);
@@ -70,7 +70,7 @@ public class ChartController {
 		
 		
 		
-		TopTeam topTeam = fdb.getTopTeamWithStudentEmail(email);
+		TopTeam topTeam = fdb.getTopTeamWithStudentEmail(email); 
 		String title = topTeam.getTeamname() + " Hours";
 		ArrayList<long[]> weekList = new ArrayList<long[]>();
 		String data = "[['Date'";
@@ -101,7 +101,7 @@ public class ChartController {
 		model.setTitle(title);
 	}
 
-	public long[] getWeekFromRoomEvents(Date start, Date end, List<RoomEvent> eventList) {
+public long[] getWeekFromRoomEvents(Date start, Date end, List<RoomEvent> eventList) {
 		
 		ArrayList<RoomEvent> events = new ArrayList<RoomEvent>();//list for all events within timeframe
 		long durations[] = new long[7];
@@ -111,13 +111,23 @@ public class ChartController {
 		long dur = 0;//initialize current duration to 0
 		
 		for(RoomEvent e: eventList) {//populate the events list with all applicable RoomEvents
-			if ((e.getStartTime().after(start) || e.getStartTime().equals(start)) && e.getStartTime().before(end) //if it start in the time frame or
-			  ||(e.getEndTime().before(end) || e.getEndTime().equals(end)) && e.getEndTime().after(start)) { //it ends in the time frame	
+			if (((e.getStartTime().after(start) || e.getStartTime().equals(start)) && e.getStartTime().before(end)) //if it start in the time frame or
+			  || ((e.getEndTime().before(end) || e.getEndTime().equals(end)) && e.getEndTime().after(start))) { //it ends in the time frame	
+				if(e.getStartTime().after(e.getEndTime())) {}
+				else {
 					events.add(e);
+				}
 			}
 		}
 		
 		System.out.println("SIZE AFTER CHECK: " + events.size());
+		
+		for(int i = 0; i<events.size(); i++) {
+			System.out.println("start: " + events.get(i).getStartTime() );
+			System.out.println("end: " + events.get(i).getEndTime());
+		}
+		
+		
 		
 		for(int i= 0; i < 7; i++) {//always doing 7
 			//for loop checks all applicable events to see if they transpire on a certain day
