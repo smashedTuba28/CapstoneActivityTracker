@@ -68,6 +68,8 @@ public class ChartController {
 	
 	public void populateTopTeamWeek(String email, Date start, Date end) {
 		
+		
+		
 		TopTeam topTeam = fdb.getTopTeamWithStudentEmail(email);
 		String title = topTeam.getTeamname() + " Hours";
 		ArrayList<long[]> weekList = new ArrayList<long[]>();
