@@ -8,6 +8,7 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
+import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
 
 public interface IDatabase {
 	
@@ -37,6 +38,9 @@ public interface IDatabase {
 	
 	
 	public List<SubTeam> getSubTeamsInTopTeam(String topTeamname);//select
+	public TopTeam getTopTeamWithTeamname(String topTeamname);
+	public Boolean deleteTopTeam(Integer topTeam_id);
+	
 	public SubTeam getSubTeamWithTeamname(String teamname);//select
 	public Boolean createSubTeam(String name, Integer topTeamID);//insert
 	public Boolean deleteSubTeam(Integer subTeamID);//delete

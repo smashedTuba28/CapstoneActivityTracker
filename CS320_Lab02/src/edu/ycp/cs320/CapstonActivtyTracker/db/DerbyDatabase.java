@@ -667,7 +667,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					if(resultSet1.next()) {//resultSet not empty
 						//populate return model
-						subTeam = new SubTeam();//new account
+						subTeam = new SubTeam();//new subTeam
 						loadSubTeam(subTeam, resultSet1, 2);
 					}
 					//will either be fully populated or null
@@ -769,6 +769,7 @@ public class DerbyDatabase implements IDatabase {
 			 */
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
+				
 				PreparedStatement stmt1 = null;
 				PreparedStatement stmt2 = null;
 				PreparedStatement stmt3 = null;
@@ -782,7 +783,7 @@ public class DerbyDatabase implements IDatabase {
 					stmt1 = conn.prepareStatement( 
 							"select subTeams.* "
 							+ " from subTeams"
-							+ " where subTeams.account_id_1 = ?"
+							+ " where subTeams.subTeam_id_1 = ?"
 					); 
 					
 					stmt1.setInt(1, subTeam_id);
@@ -808,33 +809,40 @@ public class DerbyDatabase implements IDatabase {
 		
 					//assemble list of account_id_2's from the join table
 					List<Integer> ids = new ArrayList<Integer>();
-					while(resultSet2.next()) {
-						ids.add(resultSet2.getInt(1));
-					}
-		
-					//delete relation entry between students and subTeam from table in subTeamStudents
-					for (int i = 0; i < ids.size(); i++) {
-						stmt3 = conn.prepareStatement(
-								" delete from subTeamStudents "
-								+ "where subTeamStudents.account_id_2 = ?"	
-						);	
-						
-						stmt3.setInt(1, ids.get(i));
-						stmt3.executeUpdate();
-						
-						DBUtil.closeQuietly(stmt3);//close so loop can reopen if needed
-					}
 					
-					//now delete the subTeam
-					stmt4 = conn.prepareStatement(
-						" delete from subTeams "
-						+ " where subTeams.subTeam_id_1 = ?"	
-					);
-					stmt4.setInt(1, subTeam_id);
-					stmt4.executeUpdate();
+					//if the resultSet does not have a first value then all statements are not necessary that follow
+					if(resultSet2.next()) {
+						ids.add(resultSet2.getInt(1));
+						
+						while(resultSet2.next()) {
+							ids.add(resultSet2.getInt(1));
+						}
+
+
+
+						//delete relation entry between students and subTeam from table in subTeamStudents
+						for (int i = 0; i < ids.size(); i++) {
+							stmt3 = conn.prepareStatement(
+									" delete from subTeamStudents "
+											+ "where subTeamStudents.account_id_2 = ?"	
+									);	
+
+							stmt3.setInt(1, ids.get(i));
+							stmt3.executeUpdate();
+
+							DBUtil.closeQuietly(stmt3);//close so loop can reopen if needed
+						}
+					}
+						//now delete the subTeam
+						stmt4 = conn.prepareStatement(
+								" delete from subTeams "
+										+ " where subTeams.subTeam_id_1 = ?"	
+								);
+						stmt4.setInt(1, subTeam_id);
+						stmt4.executeUpdate();
 					
 					System.out.println("SubTeam <" + subTeam_id + "> deleted from Database");
-		
+					
 					return true;
 				}finally {
 					DBUtil.closeQuietly(stmt1);
@@ -848,9 +856,47 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
+	public TopTeam getTopTeamWithTeamname(String topTeamname) {
+		return executeTransaction(new Transaction<TopTeam>() {
+			@Override
+			public TopTeam execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;//for select
+				ResultSet	resultSet1 = null;//result from select
+				TopTeam topTeam = null;//for return
+				
+				try {
+					//prepare SQL statement to select
+					stmt1 = conn.prepareStatement(
+						"select topTeams.* "
+						+ "  from topTeams"
+						+ "  where topTeams.teamname = ?"
+					);
+					
+					//insert values into prepared statement
+					stmt1.setString(1, topTeamname);
+					
+					//execute query and get result set
+					resultSet1 = stmt1.executeQuery();
+					
+					if(resultSet1.next()) {//resultSet not empty
+						//populate return model
+						topTeam = new TopTeam();//new topTeam
+						topTeam.setTeamID((resultSet1.getInt(1)));
+						topTeam.setTeamname(resultSet1.getString(2));
+					}
+					//will either be fully populated or null
+					return topTeam;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet1);
+				}
+			}
+	});
+	}
+	
+	@Override
 	public Boolean createTopTeam(String topTeamname) {
 		return executeTransaction(new Transaction<Boolean>() {
-
 		@Override
 		public Boolean execute(Connection conn) throws SQLException {
 			PreparedStatement stmt1 = null;//for inserting
@@ -877,6 +923,117 @@ public class DerbyDatabase implements IDatabase {
 			}				
 		}
 	});
+	}
+	
+	@Override
+	public Boolean deleteTopTeam(Integer topTeam_id) {
+		return executeTransaction(new Transaction<Boolean>() {
+
+			/*
+			 * use topTeam_id to verify if it exists
+			 * delete connections to subTeams
+			 * delete SubTeams using method call
+			 * delete TopTeam at the very end
+			 */
+
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				PreparedStatement stmt4 = null;
+				PreparedStatement stmt5 = null;
+
+				ResultSet resultSet1 = null;
+				ResultSet resultSet2 = null;
+
+				try {
+					//first verify topTeam that needs to be deleted
+					stmt1 = conn.prepareStatement( 
+							"select topTeams.* "
+									+ " from topTeams"
+									+ " where topTeams.topTeam_id = ?"
+							); 
+
+					stmt1.setInt(1, topTeam_id);
+					resultSet1 = stmt1.executeQuery();
+
+					//make sure something was returned
+					if(!resultSet1.next()) {
+						//wasn't found
+						System.out.println("SubTeam <" + topTeam_id + "> wasn't found");
+						return false;
+					}
+					//at this point the topTeam was found to exist
+
+					//now get all the students associated with the topTeam
+					stmt2 = conn.prepareStatement(
+							"select subTeamStudents.account_id_2 "
+									+ " from subTeamStudents, subTeams "
+									+ " where subTeams.topTeam_id = ? "	
+									+ " and subTeamStudents.subTeam_id_2 = subTeams.subTeam_id_1 "	
+							);
+
+					stmt2.setInt(1, topTeam_id);
+					resultSet2 = stmt2.executeQuery();
+
+					//assemble list of account_id_2's from the join table
+					List<Integer> ids = new ArrayList<Integer>();
+
+					//if the resultSet does not have a first value then all statements are not necessary that follow
+					if(resultSet2.next()) {
+						ids.add(resultSet2.getInt(1));
+
+						while(resultSet2.next()) {
+							ids.add(resultSet2.getInt(1));
+						}
+
+						//delete relation entry between students and topTeam from table in topTeamStudents
+						for (int i = 0; i < ids.size(); i++) {
+							stmt3 = conn.prepareStatement(
+									" delete from topTeamStudents "
+											+ "where topTeamStudents.account_id_2 = ?"	
+									);	
+
+							stmt3.setInt(1, ids.get(i));
+							stmt3.executeUpdate();
+
+							DBUtil.closeQuietly(stmt3);//close so loop can reopen if needed
+						}
+					}
+					
+					//now delete the subTeams
+					stmt4 = conn.prepareStatement(
+							" delete from subTeams "
+									+ " where subTeams.topTeam_id = ?"	
+							);
+					stmt4.setInt(1, topTeam_id);
+					stmt4.executeUpdate();
+					
+					DBUtil.closeQuietly(stmt4);
+
+					System.out.println("SubTeams deleted from Database");
+
+					//now delete the topTeam
+					stmt5 = conn.prepareStatement(
+							" delete from topTeams "
+									+ " where topTeams.topTeam_id = ?"	
+							);
+					stmt5.setInt(1, topTeam_id);
+					stmt5.executeUpdate();
+
+					return true;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt5);
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(resultSet2);
+				}
+			}
+
+		});
 	}
 
 	

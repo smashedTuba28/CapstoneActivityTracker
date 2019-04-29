@@ -16,6 +16,7 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.AdminAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
+import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
 
 public class DerbyDatabaseTest {
 	private DerbyDatabase db;
@@ -24,6 +25,7 @@ public class DerbyDatabaseTest {
 	private List<StudentAccount> students = null;
 	private List<RoomEvent> roomEventList; 
 	private SubTeam subTeam = null;
+	private TopTeam topTeam = null;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -154,9 +156,15 @@ public class DerbyDatabaseTest {
 		String teamname = "Test";
 		Integer topTeamID = 1;
 		
+		//initially delete just in case it was not deleted before
+		//db.deleteSubTeam(db.getSubTeamWithTeamname(teamname).getTeamID());
+		
 		//check that account does not already exist
-		subTeam = db.getSubTeamWithTeamname(teamname);
-		assertTrue(subTeam == null);
+		assertTrue(db.getSubTeamWithTeamname(teamname) == null);
+		
+		//double-checking null value
+		//System.out.println(subTeam.getTeamname());
+		//assertTrue(subTeam.getTeamname() == null);
 		
 		//create the subTeam account
 		db.createSubTeam(teamname, topTeamID);
@@ -169,11 +177,7 @@ public class DerbyDatabaseTest {
 	
 		/////////////TESTING DELETION/////////////
 		//delete subTeam with subTeamID
-		System.out.println(subTeam.getTeamID());
 		assertTrue(db.deleteSubTeam(subTeam.getTeamID()));
-		
-		//ensuring subTeam does not exist now (redundant)
-		assertTrue(subTeam == null);
 	}
 	
 	/*
@@ -194,10 +198,53 @@ public class DerbyDatabaseTest {
 		
 	}
 	*/
-
+	
 	@Test
-	public void testCreateTopTeam() {
-		fail("Not yet implemented");
+	public void testGetTopTeamWithTeamname() {
+		//assuming topTeam initialized but not populated
+		assertTrue(topTeam == null);
+		
+		//get an existing topTeam
+		topTeam = db.getTopTeamWithTeamname("Dunder Mifflin");
+		
+		//something was returned
+		assertTrue(topTeam != null);
+		assertTrue(topTeam.getTeamname().equals("Dunder Mifflin"));
+		assertEquals(1, topTeam.getTeamID());
+		
+		//attempt to get a topTeam with teamname that doesn't exist
+		topTeam = db.getTopTeamWithTeamname("wrong");
+		//topTeam not found
+		assertTrue(topTeam == null);
+	}
+	
+	
+	@Test
+	public void testCreateAndDeleteTopTeam() {
+		String teamname = "Test2";
+		
+		//initially delete just in case it was not deleted before
+		//db.deleteSubTeam(db.getSubTeamWithTeamname(teamname).getTeamID());
+		
+		//check that account does not already exist
+		assertTrue(db.getTopTeamWithTeamname(teamname) == null);
+		
+		//double-checking null value
+		//System.out.println(topTeam.getTeamname());
+		//assertTrue(topTeam.getTeamname() == null);
+		
+		//create the topTeam account
+		db.createTopTeam(teamname);
+		
+		//find and veirfy new topTeam exists
+		topTeam = db.getTopTeamWithTeamname(teamname);
+		assertTrue(topTeam != null);
+		assertTrue(topTeam.getTeamname().equals("Test2"));
+		
+		/////////////TESTING DELETION/////////////
+		//delete subTeam with subTeamID
+		assertTrue(db.deleteTopTeam(topTeam.getTeamID()));
+		
 	}
 
 	@Test
