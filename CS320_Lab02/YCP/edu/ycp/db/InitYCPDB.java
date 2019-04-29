@@ -15,7 +15,7 @@ public class InitYCPDB {
 	public static List<YCPPersonnel> getAdmins(){
 		adminList = new ArrayList<YCPPersonnel>();
 		
-		//adding all admin YCPPersonnel to the list of admins
+		//adding all admin YCPPersonnel to the list of admins 
 		adminList.add(new YCPPersonnel("Michael","Scott","mscott@ycp.edu","910000000", true));
 		adminList.add(new YCPPersonnel("Toby","Flenderson","tflenderson@ycp.edu","910000001", true));
 		adminList.add(new YCPPersonnel("Jan","Levinson","jlevinson@ycp.edu","910000002", true));

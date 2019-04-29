@@ -4,6 +4,7 @@ import edu.ycp.cs320.CapstonActivtyTracker.db.*;
 import edu.ycp.cs320.CapstoneActivityTracker.model.Account;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 
+//random
 
 public class SignInController { 
 	private IDatabase db;
@@ -14,7 +15,7 @@ public class SignInController {
 		db = DatabaseProvider.getInstance();
 	}
 	
-	public void setModel(Account model) {
+	public void setModel(Account model) { 
 		this.model = model;
 	}
 	
