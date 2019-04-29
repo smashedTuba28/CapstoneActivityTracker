@@ -449,4 +449,34 @@ public class DerbyDatabaseTest {
 		//should have 8 events
 		assertEquals(8, events.size());
 	}
+	
+	@Test
+	public void testGetAllStudentsInSubTeamWithTeamName() {
+		String teamname = "Sales";
+		
+		//make sure empty
+		assertTrue(students == null);
+		
+		//make sure subteam exists
+		assertTrue(db.getSubTeamWithTeamname(teamname) != null);
+		
+		//get all student in the subTeam
+		students = db.getAllStudentsInSubTeamWithTeamName(teamname);
+		
+		//there should be 5
+		assertTrue(students != null);
+		assertEquals(5, students.size());
+		
+		//make sure that only expectedd students are returned
+		for (StudentAccount s : students) {
+			if( s.getAccountID() == 3 || s.getAccountID() == 5
+			 || s.getAccountID() == 12 || s.getAccountID() == 13
+			 || s.getAccountID() == 14) {
+				//do nothing
+			}
+			else {
+				fail("STUDENT NOT IN THIS TEAM");
+			}
+		}
+	}
 }

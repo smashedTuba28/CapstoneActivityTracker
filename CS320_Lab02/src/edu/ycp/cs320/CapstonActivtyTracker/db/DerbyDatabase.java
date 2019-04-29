@@ -130,6 +130,17 @@ public class DerbyDatabase implements IDatabase {
 		admin.setSchoolID(resultSet.getString(index++));
 	}
 	
+	//retrives studentAccount info from query 
+	//index must start at 2
+	private void loadStudentAccount(StudentAccount student, ResultSet resultSet, int index) throws SQLException{
+		student.setAccountID(resultSet.getInt(index++));
+		student.setFirstname(resultSet.getString(index++));
+		student.setLastname(resultSet.getString(index++));
+		student.setEmail(resultSet.getString(index++));
+		student.setPassword(resultSet.getString(index++));
+		student.setSchoolID(resultSet.getString(index++));
+		student.setStatus(resultSet.getBoolean(index++));
+	}
 	
  /* 
 	// retrieves WrittenBy information from query result set
@@ -1468,6 +1479,42 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(resultSet1);
 				}				
+			}
+		});
+	}
+
+	@Override
+	public List<StudentAccount> getAllStudentsInSubTeamWithTeamName(String teamname) {
+		return executeTransaction(new Transaction<List<StudentAccount>>() {
+
+			@Override
+			public List<StudentAccount> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet1 = null;
+				List<StudentAccount> studentAccountList = new ArrayList<StudentAccount>();
+				
+				try {//prepare SQL statement
+					stmt1 = conn.prepareStatement(
+						" select studentAccounts.* "
+						+ " from studentAccounts, subTeams, subTeamStudents "
+						+ " where studentAccounts.account_id_2 = subTeamStudents.account_id_2 "
+						+ " and subTeams.subTeam_id_2 = subTeamStudents.subTeam_id_2 "
+						+ " and subTeams.teamname = ?"	
+					);
+					stmt1.setString(1, teamname);
+					resultSet1 = stmt1.executeQuery();
+					
+					while(resultSet1.next()) {
+						
+						StudentAccount student = new StudentAccount();
+						loadStudentAccount(student, resultSet1, 2);
+						studentAccountList.add(student);
+					}
+					return studentAccountList;
+				}finally {
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(stmt1);
+				}
 			}
 		});
 	}

@@ -21,7 +21,7 @@ public interface IDatabase {
 	public StudentAccount verifyStudentAccount(String email, String password);//select
 	public List<StudentAccount> getStudentsInSubTeam(Integer subTeam_id);//select
 	public Boolean deleteStudentAccount(Integer account_id);//delete
-	
+	public List<StudentAccount> getAllStudentsInSubTeamWithTeamName(String teamname);
 	
 	public AdminAccount getAdminAccountWithEmailandSchoolID(String email, String schoolID);
 	public AdminAccount getAdminAccountWithID(Integer adminAccount_id);//select
@@ -46,7 +46,10 @@ public interface IDatabase {
 	public Boolean deleteSubTeam(Integer subTeamID);//delete
 	
 	
+	
 	public Boolean createTopTeam(String topTeamname);//insert
+	
+	
 	
 	
 }
