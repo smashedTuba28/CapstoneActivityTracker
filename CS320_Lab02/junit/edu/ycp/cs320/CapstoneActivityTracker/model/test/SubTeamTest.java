@@ -34,18 +34,12 @@ public class SubTeamTest extends SubTeam {
 =======
 		topID = 11;
 		
-<<<<<<< Upstream, based on origin/master
-=======
 
->>>>>>> a43e58f Rebase
-		testSubTeam.setTeamname("testing SubTeam");
-<<<<<<< Upstream, based on origin/master
-=======
 
 		testSubTeam.setTeamname("testing SubTeam"); 
 		//subTeam.setSubTeam(subTeam);
 
->>>>>>> a43e58f Rebase
+
 		
 >>>>>>> 8be365d Random Fixes to make less JUnits fail during presentation
 	}
