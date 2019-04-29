@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import edu.ycp.cs320.CapstoneActivityTracker.model.ChartModel;
 import edu.ycp.cs320.CapstoneActivityTracker.controller.ChartController;;
 
-public class StudentViewServlet  extends HttpServlet {
+public class StudentViewServlet  extends HttpServlet { 
 	
 	private static final long serialVersionUID = 1L;
 	

@@ -21,7 +21,7 @@ public class InitYCPDB {
 		adminList.add(new YCPPersonnel("Jan","Levinson","jlevinson@ycp.edu","910000002", true));
 		adminList.add(new YCPPersonnel("Robert","California","lizardking@ycp.edu","910000003", true));
 		adminList.add(new YCPPersonnel("David","Wallace","dwallace@ycp.edu","910000004", true));
-		adminList.add(new YCPPersonnel("John", "Doe", "jdoe@ycp.edu", "910000005", true));
+		adminList.add(new YCPPersonnel("John", "Doe", "jdoe@ycp.edu", "910000005", true)); 
 		
 		return adminList;
 	}

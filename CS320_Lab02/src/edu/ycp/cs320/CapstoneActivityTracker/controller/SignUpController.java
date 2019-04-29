@@ -10,7 +10,7 @@ public class SignUpController {
 	private YCPPersonnel personnel;
 	private String errorMessage = null;
 	
-	public SignUpController() {
+	public SignUpController() { 
 		//initialize databases
 		DatabaseProvider.setInstance(new DerbyDatabase());//lab6
 		db = DatabaseProvider.getInstance();//lab6

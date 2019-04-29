@@ -25,9 +25,11 @@ public class SubTeamTest extends SubTeam {
 	public void setUp() throws Exception {
 		topTeam_id = 5;
 		testSubTeam = new SubTeam();
+
 	}
 
 	@Test
+
 	public void testSetTopTeamID() {
 		testSubTeam.setTopTeamID(topTeam_id); 
 		assertEquals(5, testSubTeam.getTopTeamID());

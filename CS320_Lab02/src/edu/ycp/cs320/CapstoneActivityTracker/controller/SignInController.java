@@ -5,7 +5,7 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Account;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 
 
-public class SignInController {
+public class SignInController { 
 	private IDatabase db;
 	private Account model = null;
 	

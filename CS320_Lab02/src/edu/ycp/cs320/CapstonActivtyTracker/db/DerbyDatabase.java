@@ -676,8 +676,47 @@ public class DerbyDatabase implements IDatabase {
 
 	@Override
 	public List<Room> getRoomsForASubTeam(Integer subTeam_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return executeTransaction(new Transaction<List<Room>>() {
+
+			@Override
+			public List<Room> execute(Connection conn) throws SQLException {
+		
+				PreparedStatement stmt1 = null;
+				
+				ResultSet resultSet1 = null;
+				
+				List<Room> roomList = new ArrayList<Room>();
+				
+				try {//prepare SQL 
+					stmt1 = conn.prepareStatement(
+							" select Rooms.* "
+							+ "		from Rooms, teamRooms, subTeams "
+							+ " 	where teamRooms.subTeam_id_1 = subTeams.subTeam_id_1 "
+							+ " 	and teamRooms.room_id_1 = Rooms.room_id_2 "
+							+ " 	and subTeam_id_2 = ? "		
+					);		
+					
+					stmt1.setInt(1, subTeam_id);
+					resultSet1 = stmt1.executeQuery();
+					
+					
+					
+					//verify a returned result
+					while(resultSet1.next()) {
+						Room room = new Room();
+						room.setRoomID(resultSet1.getInt(1));
+						room.setRoomNumber(resultSet1.getInt(3));
+						room.setRoomName(resultSet1.getString(4));
+						roomList.add(room);
+					}
+
+					return roomList;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet1);
+				}				
+			}
+		});
 	}
 
 	@Override
@@ -688,8 +727,42 @@ public class DerbyDatabase implements IDatabase {
 
 	@Override
 	public List<SubTeam> getSubTeamsInTopTeam(String topTeamname) {
-		// TODO Auto-generated method stub
-		return null;
+		return executeTransaction(new Transaction<List<SubTeam>>() {
+
+			@Override
+			public List<SubTeam> execute(Connection conn) throws SQLException {
+		
+				PreparedStatement stmt1 = null;
+				
+				ResultSet resultSet1 = null;
+				
+				List<SubTeam> subTeamList = new ArrayList<SubTeam>();
+				
+				try {//prepare SQL 
+					stmt1 = conn.prepareStatement(
+							" select subTeams.* "
+							+ "   	from subTeams, topTeams "
+							+ " 	where subTeams.topTeam_id = topTeams.topTeam_id "
+							+ " 	and topTeams.teamname = ? "		
+					);		
+					stmt1.setString(1, topTeamname);
+					resultSet1 = stmt1.executeQuery();
+					
+					//verify a returned result
+					while(resultSet1.next()) {
+						
+						SubTeam subTeam = new SubTeam();
+						loadSubTeam(subTeam, resultSet1, 2);
+						subTeamList.add(subTeam);
+					}
+
+					return subTeamList;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet1);
+				}				
+			}
+		});
 	}
 
 	@Override
