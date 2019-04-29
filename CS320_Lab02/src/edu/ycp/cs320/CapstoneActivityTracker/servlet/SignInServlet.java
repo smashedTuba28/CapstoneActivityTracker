@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 //import model
 //import controller
 import edu.ycp.cs320.CapstonActivtyTracker.db.*;
+import edu.ycp.cs320.CapstoneActivityTracker.controller.SignInController;
+import edu.ycp.cs320.CapstoneActivityTracker.model.Account;
+import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 
 public class SignInServlet extends HttpServlet {
 	
@@ -40,77 +43,69 @@ public class SignInServlet extends HttpServlet {
 		//error message String to hold message text when applicable
 		String errorMessage = null;
 		
-		//create db instance
-		FakeDatabase fake = new FakeDatabase();
-		fake.init();
-		
 		boolean valid = false;
 		String email = null;
 		String password = null;
-		//String faculty[] = null;
+		String accountType = null;
+		SignInController controller = new SignInController();
+		Account model = null;
+		controller.setModel(model);
+		
 		
 		//decode POSTed from parameters and dispatch to controller
-		try {
-			email = req.getParameter("email").toString();//input from jsp under field labeled email
-			password = req.getParameter("password").toString(); //input from jsp under field labeled password
-			//faculty = req.getParameterValues("faculty");
-			
-			//check if either is empty
-			if (email == null || password == null) {//either empty
-				errorMessage = "Please Enter Both your YCP Email and Password";
-			}
-			//check that email is from YCP
-			else if (!email.endsWith("@ycp.edu")) {
-				//if it is not a ycp email
-				errorMessage = errorMessage + "Please Enter your YCP email";
-			}
-			//check password length matches exceeds minimum length
-			else if (password.length() < 8) {
-				errorMessage = "Password Invalid: must contain at least 8 characters";
-			}else {
-			//data clears initial check
-			//TODO: search for only faculty or student
-				valid = fake.verifyAccount(email, password);
-				if(!valid) {errorMessage = "Log In Failed: unable to verify Account: Recheck Credentials and Try Again";}
-			}
-		} catch (Exception e){
-			errorMessage = "Log In Failed: Recheck Email and Password and try again";
-		}
 		
-		//determine if credentials were successful
-		if (valid == true) {
-			req.getSession().setAttribute("userEmail", email);//citation at top 
-			if (true) {
-				//get student view if successful login
-				resp.sendRedirect(req.getContextPath() + "/studentView");
-			}
-			//TODO: fix to use checkbox input
-			else if(false){
-				//get faculty view if successful login
-				resp.sendRedirect(req.getContextPath() + "/adminView");
+		email = req.getParameter("email").toString();//input from jsp under field labeled email
+		password = req.getParameter("password").toString();
+		accountType = req.getParameter("accountType").toString();
+		
+		//check if either is empty
+		if (email == null || password == null) {//either empty
+			errorMessage = "Please Enter Both your YCP Email and Password";
+		}
+		//check that email is from YCP
+		else if (!email.endsWith("@ycp.edu")) {
+			//if it is not a ycp email
+			errorMessage = errorMessage + "Please Enter your YCP email";
+		}
+		//check password length matches exceeds minimum length
+		//else if (password.length() < 8) {
+		//	errorMessage = "Password Invalid: must contain at least 8 characters";
+		//}
+		else {
+		//data clears initial check
+			 
+			//encrypt password
+			password = hashSHA256.getHash(password);
+			
+			//verify account 
+			if(controller.validateCredentials(email, password, accountType)) {
+				//add account_id to session
+				
+		
+				model = controller.getModel();
+				req.getSession().setAttribute("account_id", String.valueOf(model.getAccountID()));//citation at top 
+				req.getSession().setAttribute("accountType", accountType);
+				
+				if(accountType.equals("admin")) {
+					//get faculty view if successful login
+					resp.sendRedirect(req.getContextPath() + "/adminView");
+				}
+				else {
+					//get student view if successful login
+					resp.sendRedirect(req.getContextPath() + "/studentView");
+				}
+				
 			}
 			else {
-				//hopefully never get here
-				req.setAttribute("errorMessage", "Student/Faculty value Failure");
-				//Forward to view to render the result in jsp
-				req.getRequestDispatcher("/_view/signIn.jsp").forward(req,  resp);
+				errorMessage = "Log In Failed: unable to verify Account: Recheck Credentials and Try Again";
 			}
 		}
-		else {
-			//report error
+		
+		if(errorMessage != null) {
 			//set the errorMessage text to the response
 			req.setAttribute("errorMessage", errorMessage);
 			//Forward to view to render the result in jsp
-			req.getRequestDispatcher("/_view/signIn.jsp").forward(req,  resp);
-		}
-	}
-	
-	//code borrowed from Lab02 then modified for int
-	private Integer getIntFromParameter(String s) {
-		if (s == null || s.equals("")) {
-			return null;
-		} else {
-			return Integer.parseInt(s);
+			req.getRequestDispatcher("/_view/signIn.jsp").forward(req, resp);
 		}
 	}
 }

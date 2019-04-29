@@ -4,7 +4,7 @@ public class Account {
 	
 	private String firstname, lastname, email, schoolID;
 	private String password; //TODO: This will be changed for encryption purposes in the future
-	private boolean faculty; 
+	private Integer accountID;
 	//private boolean valid; from before db implemeted
 	
 	// setting no values, therefore the account is not yet valid
@@ -13,13 +13,12 @@ public class Account {
 	}
 	
 	//setting all values in the constructor along with the valid boolean
-	public Account(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
+	public Account(String firstname, String lastname, String email, String password, String schoolID) {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
 		this.schoolID = schoolID;
-		this.faculty = faculty;
 		//this.valid = true;
 	}
 	
@@ -63,17 +62,12 @@ public class Account {
 		return password;
 	}
 	
-	public void setFaculty(boolean faculty) {
-		this.faculty = faculty;
+	
+	public void setAccountID(Integer accountID) {
+		this.accountID = accountID;
 	}
 	
-	public boolean getFaculty() {
-		return faculty;
+	public int getAccountID() {
+		return accountID;
 	}
-	
-	/*//checking if the account is valid (function of the database)
-	public boolean validAccount() {//comment out once DB is implemented
-		return valid;
-	}*/
-
 }

@@ -2,9 +2,11 @@ package edu.ycp.cs320.CapstoneActivityTracker.model.test;
 
 import static org.junit.Assert.*;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.Date;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,6 +37,20 @@ public class RoomEventTest {
 		end4 = new Date(2000, 12, 22, 11, 50, 0);
 		
 		event = new RoomEvent();
+		//System.out.println(end4);
+		//Timestamp stamp = new Timestamp(end4.getTime());
+		//System.out.println(stamp);
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		try {
+			Timestamp stamp = new Timestamp(format.parse("20190326152000").getTime());
+			System.out.println(stamp);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	@Test

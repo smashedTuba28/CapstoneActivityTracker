@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 
 import edu.ycp.cs320.CapstoneActivityTracker.model.*;
 
-public class FakeDatabase {
+public class FakeDatabase implements IDatabase{
 	private List<AdminAccount> adminList;
 	private List<StudentAccount> studentList;
 	private List<TopTeam> topTeamList;
@@ -20,7 +20,9 @@ public class FakeDatabase {
 	
 	public FakeDatabase() {
 	}
-
+	
+	
+	@SuppressWarnings("deprecation")
 	public void init() {
 		//initialize hard coded models
 		accountList = new ArrayList<Account>();
@@ -73,6 +75,7 @@ public class FakeDatabase {
 		topTeamList.get(0).getSubTeams().get(0).addStudent(studentList.get(0));//jason to controls
 		topTeamList.get(0).getSubTeams().get(0).addStudent(studentList.get(1));//travis to controls
 		topTeamList.get(0).getSubTeams().get(1).addStudent(studentList.get(2));//bill to aircraft design
+		topTeamList.get(0).getSubTeams().get(1).addStudent(studentList.get(0));//jason to aircraft design
 		topTeamList.get(1).getSubTeams().get(0).addStudent(studentList.get(3));//robert to Party Planning Committee
 		
 		//create fake Room Event for students
@@ -81,34 +84,68 @@ public class FakeDatabase {
 		//Jason HOURS
 		studentList.get(0).createRoomEvent(new Date(119,2,31,10,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,2,31,14,30,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,1,15,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,1,20,00,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,2,22,13,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,3,2,30,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,3,14,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,3,14,30,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,4,9,23,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,4,14,12,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,4,22,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,5,2,30,0));
+		
 		studentList.get(0).createRoomEvent(new Date(119,3,5,17,00,0));
 		studentList.get(0).closeRoomEvent(new Date(119,3,5,22,00,0));
+		
+		studentList.get(0).createRoomEvent(new Date(119,3,6,12,00,0));
+		studentList.get(0).closeRoomEvent(new Date(119,3,6,22,00,0));
+		
+		studentList.get(0).createRoomEvent(new Date(119,3,7,10,00,0));
+		studentList.get(0).closeRoomEvent(new Date(119,3,7,21,00,0));
+		
+		studentList.get(2).createRoomEvent(new Date(119,3,8,10,00,0));
+		studentList.get(2).closeRoomEvent(new Date(119,3,8,10,45,0));
+		
+		studentList.get(2).createRoomEvent(new Date(119,3,8,1,00,0));
+		studentList.get(2).closeRoomEvent(new Date(119,3,8,1,30,0));
+		
 		
 		//TRAVIS HOURS
 		studentList.get(1).createRoomEvent(new Date(119,2,31,9,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,2,31,11,30,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,1,15,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,1,20,00,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,2,22,10,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,3,1,30,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,3,10,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,3,14,30,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,4,9,23,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,4,16,12,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,4,12,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,4,19,30,0));
+		
 		studentList.get(1).createRoomEvent(new Date(119,3,5,13,00,0));
 		studentList.get(1).closeRoomEvent(new Date(119,3,5,17,00,0));
+		
+		studentList.get(1).createRoomEvent(new Date(119,3,6,12,00,0));
+		studentList.get(1).closeRoomEvent(new Date(119,3,6,22,00,0));
+		
+		studentList.get(1).createRoomEvent(new Date(119,3,7,10,00,0));
+		studentList.get(1).closeRoomEvent(new Date(119,3,7,21,00,0));
+		
+		studentList.get(2).createRoomEvent(new Date(119,3,8,1,00,0));
+		studentList.get(2).closeRoomEvent(new Date(119,3,8,1,30,0));
 		
 		//Bill Hours
 		studentList.get(2).createRoomEvent(new Date(119,2,31,10,00,0));
@@ -123,6 +160,7 @@ public class FakeDatabase {
 		studentList.get(2).closeRoomEvent(new Date(119,3,5,2,30,0));
 		studentList.get(2).createRoomEvent(new Date(119,3,5,15,00,0));
 		studentList.get(2).closeRoomEvent(new Date(119,3,5,16,26,0));
+
 
 		//Robert California Hours
 		studentList.get(3).createRoomEvent(new Date(119,3,1,9,00,0));
@@ -197,6 +235,15 @@ public class FakeDatabase {
 		return false;
 	}
 	
+	public Account getAccountWithEmail(String email) {
+		for(Account a: accountList) {
+			if(a.getEmail().equals(email)) {
+				return a;
+			}
+		}
+		return null;
+	}
+	
 	public StudentAccount getStudentAccountWithID(String id) {
 		for (StudentAccount s: studentList) {
 			if(s.getSchoolID().equals(id)) {
@@ -237,6 +284,13 @@ public class FakeDatabase {
 		}
 		else {
 			StudentAccount student = new StudentAccount(firstname, lastname, email, password, schoolID, faculty);
+			System.out.println(student.getEmail());
+			System.out.println(student.getFirstname());
+			System.out.println(student.getLastname());
+			System.out.println(student.getPassword());
+			System.out.println(student.getSchoolID());
+			System.out.println(student.getFaculty());
+			
 			studentList.add(student);
 			accountList.add(student);
 		}
@@ -410,7 +464,7 @@ public class FakeDatabase {
 		}
 	}
 	
-	public List<StudentAccount> getallStudentsInTopTeam(TopTeam top){
+	public List<StudentAccount> getAllStudentsInTopTeam(TopTeam top){
 		ArrayList<StudentAccount> students = new ArrayList<StudentAccount>();
 		for(SubTeam s : top.getSubTeams()) {
 			for(StudentAccount student: s.getStudents()) {
@@ -449,5 +503,4 @@ public class FakeDatabase {
 	public List<Week> getAllWeek(){
 		return weekList;
 	}
-	
 }

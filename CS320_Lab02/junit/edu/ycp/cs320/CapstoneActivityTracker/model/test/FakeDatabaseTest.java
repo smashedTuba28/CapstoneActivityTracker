@@ -492,6 +492,16 @@ public class FakeDatabaseTest {
 		assertTrue(test.getTeamname().equals("The Office"));
 	}
 	
-	
-	
+	@Test
+	public void testGetAllStudentsInTopTeam() {
+		TopTeam testTopTeam = fakedb.getAllTopTeams().get(0); //get Drone Team
+		assertTrue(testTopTeam.getTeamname().equals("Drone Team"));//drone team		
+		List<StudentAccount> students = fakedb.getAllStudentsInTopTeam(testTopTeam);//get all students associated with Drone Team
+		
+		//check that all students are in returned list
+		assertEquals(3, students.size());//only three different people on team
+		assertTrue(students.get(0).getFirstname().equals("Jason"));//from controls and aircraft design
+		assertTrue(students.get(1).getFirstname().equals("Travis"));//from controls
+		assertTrue(students.get(2).getFirstname().equals("William"));//from aircraft design	
+	}
 }

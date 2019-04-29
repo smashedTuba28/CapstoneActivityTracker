@@ -8,15 +8,17 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 
 public class Team {
 
-	String teamname;
+	private String teamname;
+	private int teamID;
 	
 	//initialization
 	public Team() {
 	}
 	
 	//if a team name is input then it is set immediately
-	public Team(String teamname){
+	public Team(String teamname, int teamID){
 		this.teamname = teamname;
+		this.teamID = teamID;
 	}
 	
 	public String getTeamname() {
@@ -25,5 +27,12 @@ public class Team {
 	
 	public void setTeamname(String teamname) {
 		this.teamname = teamname;
+	}
+	
+	public void setTeamID(Integer teamID) {
+		this.teamID = teamID;
+	}
+	public int getTeamID() {
+		return teamID;
 	}
 }

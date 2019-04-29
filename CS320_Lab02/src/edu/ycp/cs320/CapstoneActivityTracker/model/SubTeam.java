@@ -6,39 +6,20 @@ import java.util.List;
 public class SubTeam extends Team{
 	//SubTeam has no SubTeams, this is the lowest level of Team with simple getters and setters
 
-	private SubTeam subTeam;
-	List<StudentAccount> students;
-	List<Room> rooms;
+	private int topTeamID;
 	
 	public SubTeam() {
 		super();
-		rooms = new ArrayList<Room>();
-		students = new ArrayList<StudentAccount>();
 	}
 	
-	public SubTeam(String subteamName) {
-		super(subteamName);
-		rooms = new ArrayList<Room>();
-		students = new ArrayList<StudentAccount>();
+	public SubTeam(String subteamName, Integer topTeamID, Integer subTeamID) {
+		super(subteamName, subTeamID);
 	}
 	
-	public SubTeam getSubTeam() {
-		return subTeam;
+	public void setTopTeamID(int topTeamID) {
+		this.topTeamID = topTeamID;
 	}
-	public List<StudentAccount> getStudents(){
-		return students;
-	}
-	public List<Room> getRooms(){
-		return rooms;
-	}
-	
-	public void setSubTeam(SubTeam subTeam) {
-		this.subTeam = subTeam;
-	}
-	public void addStudent(StudentAccount student) {
-		this.students.add(student);
-	}
-	public void addRoom(Room room) {
-		this.rooms.add(room);
+	public int getTopTeamID() {
+		return topTeamID;
 	}
 }

@@ -39,4 +39,13 @@ public class RoomTest {
 		testRoom.setRoomNumber(128);
 		assertNotEquals(roomNumber, testRoom.getRoomNumber());
 	}
+	
+	@Test
+	public void testSetRoomID() {
+		int id = 1;
+		testRoom.setRoomID(id);
+		assertEquals(1, testRoom.getRoomID());
+		testRoom.setRoomID(2);
+		assertNotEquals(id, testRoom.getRoomID());
+	}
 }

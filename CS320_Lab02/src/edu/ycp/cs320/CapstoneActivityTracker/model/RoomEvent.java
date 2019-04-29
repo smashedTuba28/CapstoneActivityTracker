@@ -9,7 +9,10 @@ public class RoomEvent {
 	private Date start, end;
 	
 	//each room event is numbers incrementally
-	private int number;
+	private int event_id;
+	
+	private int accountID, roomID;
+	
 	
 	//lognote for roomevent with information about the event
 	private String lognote;
@@ -64,11 +67,26 @@ public class RoomEvent {
 		this.lognote = lognote;
 	}
 	
-	public int getNumber() {
-		return number;
+	public int getRoomEventID() {
+		return event_id;
 	}
 	
-	public void setNumber(int number) {
-		this.number = number;
+	public void setRoomEventID(int number) {
+		this.event_id = number;
 	}
+	
+	
+	public void setAccountID(int accountID) {
+		this.accountID = accountID;
+	}
+	public void setRoomID(int roomID) {
+		this.roomID = roomID;
+	}
+	public int getAccountID() {
+		return accountID;
+	}
+	public int getRoomID() {
+		return roomID;
+	}
+	
 }

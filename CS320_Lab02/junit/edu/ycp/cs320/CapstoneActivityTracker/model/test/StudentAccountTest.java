@@ -130,13 +130,13 @@ public class StudentAccountTest {
 		assertTrue(student.getStatus());
 		
 		//checking if all of the numbers of the events are correct
-		assertEquals(student.findRoomEvent(1).getNumber(), 1);
-		assertEquals(student.findRoomEvent(2).getNumber(), 2);
-		assertEquals(student.findRoomEvent(3).getNumber(), 3);
-		assertEquals(student.findRoomEvent(4).getNumber(), 4);
+		assertEquals(student.findRoomEvent(1).getRoomEventID(), 1);
+		assertEquals(student.findRoomEvent(2).getRoomEventID(), 2);
+		assertEquals(student.findRoomEvent(3).getRoomEventID(), 3);
+		assertEquals(student.findRoomEvent(4).getRoomEventID(), 4);
 		
 		//there is no 5th event therefore this should the null value and return false
-		assertFalse(student.findRoomEvent(2).getNumber() == 5);
+		assertFalse(student.findRoomEvent(2).getRoomEventID() == 5);
 		
 		//the list size is 4 and our roomevents are based off of this number
 		assertEquals(student.getRoomEventList().size(), 4);

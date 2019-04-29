@@ -1,8 +1,6 @@
 
 package edu.ycp.cs320.CapstoneActivityTracker.model;
 
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +13,7 @@ public class StudentAccount extends Account{
 	private List<RoomEvent> events;
 	private RoomEvent event;
 	//when account is created student is not in a room, therefore status is false
+	
 	public StudentAccount() {
 		super();
 		status = false;
@@ -23,8 +22,8 @@ public class StudentAccount extends Account{
 	
 	
 	//immediately initializing StudentAccount with credentials
-	public StudentAccount(String firstname, String lastname, String email, String password, String schoolID, boolean faculty) {
-		super(firstname, lastname, email, password, schoolID, faculty);
+	public StudentAccount(String firstname, String lastname, String email, String password, String schoolID) {
+		super(firstname, lastname, email, password, schoolID);
 		status = false;
 		events = new ArrayList<RoomEvent>();
 	}
@@ -45,7 +44,7 @@ public class StudentAccount extends Account{
 		 status = true;
 		 events.add(event);
 		 //incrementing the number set for the room number
-		 event.setNumber(events.size());
+		 event.setRoomEventID(events.size());
 	}
 	
 	public void closeRoomEvent(Date end) throws Exception {
@@ -69,7 +68,7 @@ public class StudentAccount extends Account{
 	//an individual RoomEvent is found with the number associated with that RoomEvent
 	public RoomEvent findRoomEvent(int number) {
 		for(RoomEvent roomevent: events) {
-			if(roomevent.getNumber() == number) {
+			if(roomevent.getRoomEventID() == number) {
 				return roomevent;
 			}
 		}
@@ -86,4 +85,5 @@ public class StudentAccount extends Account{
 	public List<RoomEvent> getRoomEventList(){
 		return events;
 	}
+
 }
