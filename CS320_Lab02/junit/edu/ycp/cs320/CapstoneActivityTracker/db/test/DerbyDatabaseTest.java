@@ -136,17 +136,22 @@ public class DerbyDatabaseTest {
 	@Test
 	public void testGetAdminAccountWithID() {
 		assertTrue(admin == null);
-		
 		//get an existing admin
-		admin = db.getAdminAccountWithID(1);//should return Michael Scott
+		admin = db.getAdminAccountWithID(17);//should return Michael Scott
 		assertTrue(admin != null);//something was returned
 		assertTrue(admin.getFirstname().equals("Michael"));
 		assertTrue(admin.getLastname().equals("Scott"));
-		assertEquals(1, admin.getAccountID());
+		assertEquals(17, admin.getAccountID());
 		
 		//check a nonexistent id
 		admin = db.getAdminAccountWithID(-1);//should return null
 		assertTrue(admin == null);
+		
+		//check for student
+		try {
+			admin = db.getAdminAccountWithID(1);//jasons teinberg student
+			fail("Did not throw expected ClassFormatError");
+		}catch(ClassFormatError e) {}
 	}
 
 	@Test

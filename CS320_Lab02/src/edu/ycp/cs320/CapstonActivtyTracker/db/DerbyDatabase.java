@@ -702,24 +702,51 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public AdminAccount execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
-					
+				PreparedStatement stmt2 = null;
 				ResultSet resultSet1 = null;
-					
+				ResultSet resultSet2 = null;	
 				AdminAccount admin = null;
 					
 				try {
 					//prepare SQL select
 					stmt1 = conn.prepareStatement(
-						" select adminAccounts.* "
-						+ " from adminAccounts "
-						+ " where adminAccounts.adminAccount_id = ?"	
+						" select accounts.* "
+						+ " from accounts "
+						+ " where accounts.account_id_1 = ?"	
 					);
 					stmt1.setInt(1, adminAccount_id);
 					resultSet1 = stmt1.executeQuery();
 					
 					if(resultSet1.next()) {
 						admin = new AdminAccount();
-						loadAdminAccount(admin, resultSet1, 1);
+						
+						admin.setAccountID(resultSet1.getInt(1));//
+						admin.setFirstname(resultSet1.getString(3));
+						admin.setLastname(resultSet1.getString(4));
+						admin.setEmail(resultSet1.getString(5));
+						admin.setPassword(resultSet1.getString(6));
+						admin.setSchoolID(resultSet1.getString(7));
+						admin.setFaculty(resultSet1.getBoolean(8));
+					
+						//obtained general info
+						//now get admin ID from adminAccounts table
+						
+						stmt2 = conn.prepareStatement(
+							" select adminAccounts.* "
+							+ " from adminAccounts, accounts "
+							+ " where adminAccounts.account_id_2 = accounts.account_id_2 "
+							+ " and accounts.account_id_1 = ?"	
+						);
+					
+						stmt2.setInt(1, admin.getAccountID());
+						resultSet2 = stmt2.executeQuery();
+						
+						if(resultSet2.next()) {
+							admin.setAdminAccountID(resultSet2.getInt(1));
+						}
+						else {
+							throw new ClassFormatError("No admin data for existsing account. Unable to create adminAccount class model.");
+						}
 					}
 					return admin;
 				}finally {
@@ -741,9 +768,9 @@ public class DerbyDatabase implements IDatabase {
 				
 				try {
 					stmt = conn.prepareStatement(
-						"select adminAccounts.* "
-						+ "	from adminAccounts "
-						+ " where adminAccounts.email = ?"
+						"select accounts.* "
+						+ "	from accounts "
+						+ " where accounts.email = ?"
 						+ " and adminAccounts.password = ?"
 					);
 					
