@@ -57,8 +57,8 @@ public class DerbyDatabaseTest {
 		//existing account that has no student data aka admin account
 		try { 
 			student = db.verifyStudentAccount("mscott@ycp.edu", hashSHA256.getHash("steve"));
-			fail("Didnt catch expected VerifyError");
-		} catch (VerifyError e) {}
+			fail("Didnt catch expected ClassFormatError");
+		} catch (ClassFormatError e) {}
 	}
 	 
 	@Test
@@ -93,6 +93,13 @@ public class DerbyDatabaseTest {
 		//check a nonexistent id
 		student = db.getStudentAccountWithID(-1);//should return null
 		assertTrue(student == null);
+		
+		//check an admin account
+		try {
+			student = db.getStudentAccountWithID(17);//michael scott admin account_id
+			fail("Did not throw expected ClassFormatError");
+		}catch(ClassFormatError e) {}
+		
 	}
 
 	@Test

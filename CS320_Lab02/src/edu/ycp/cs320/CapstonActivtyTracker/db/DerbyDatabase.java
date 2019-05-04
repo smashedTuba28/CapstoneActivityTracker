@@ -544,7 +544,7 @@ public class DerbyDatabase implements IDatabase {
 							studentAccount.setStatus(resultSet2.getBoolean(4));
 						}
 						else {
-							throw new VerifyError("No Student Data for Existing Account");
+							throw new ClassFormatError("No Student Data for Existing Account. Unable to Create studentAccount class model.");
 						}
 					}
 					return studentAccount;//return either null or populated model
@@ -558,22 +558,22 @@ public class DerbyDatabase implements IDatabase {
 		});	
 	}
 
-	
-
 	@Override
 	public StudentAccount getStudentAccountWithID(Integer account_id) {
 		return executeTransaction(new Transaction<StudentAccount>() {
 			@Override
 			public StudentAccount execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
 				ResultSet resultSet = null;
+				ResultSet resultSet2 = null;
 				StudentAccount studentAccount =  null;
 				
 				try {
 					stmt = conn.prepareStatement(
-						"select studentAccounts.* "
-						+ "	from studentAccounts "
-						+ " where studentAccounts.studentAccount_id_1 = ?"
+						"select accounts.* "
+						+ "	from accounts "
+						+ " where accounts.account_id_1 = ?"
 					);
 					
 					stmt.setInt(1, account_id);
@@ -582,19 +582,42 @@ public class DerbyDatabase implements IDatabase {
 					if(resultSet.next()) {		
 						studentAccount = new StudentAccount();//create new model
 						// result set to populate model
-						studentAccount.setAccountID(resultSet.getInt(1));//column 1 = studentAccount_id_1
-																			//column 2 = studentAccount_id_2 : unused outside of schema and always equals studentAccount_id_1
+						studentAccount.setAccountID(resultSet.getInt(1));//column 1 = account_id_1
+						//column 2 = account_id_2 : unused outside of schema and always equals account_id_1
 						studentAccount.setFirstname(resultSet.getString(3));//column 3 = firstname
 						studentAccount.setLastname(resultSet.getString(4));//column 4 = lastname
 						studentAccount.setEmail(resultSet.getString(5));//column 5 = email
 						studentAccount.setPassword(resultSet.getString(6));//column 6 = password
 						studentAccount.setSchoolID(resultSet.getString(7));//column 7 = schoolID
-						studentAccount.setStatus(resultSet.getBoolean(8));//column 8 = status
+						studentAccount.setFaculty(resultSet.getBoolean(8));//column 8 = status
+					
+						//obtained general info
+						//now get studentAccount class info
+						
+						stmt2 = conn.prepareStatement(
+								" select studentAccounts.* "
+								+ " from studentAccounts, accounts "
+								+ " where studentAccounts.account_id_1 = accounts.account_id_1 "
+								+ " and accounts.account_id_1 = ?"
+						);
+						
+						stmt2.setInt(1,  studentAccount.getAccountID());
+						resultSet2 = stmt2.executeQuery();
+						
+						if(resultSet2.next()) {//studentAccount info found
+							studentAccount.setStudentAccountID(resultSet2.getInt(1));
+							studentAccount.setStatus(resultSet2.getBoolean(4));
+						}
+						else {
+							throw new ClassFormatError("No Student Data for Existing Account. Unable to Create studentAccount class model.");
+						}
 					}
 					return studentAccount;//return either null or populated model
 				}finally {
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(resultSet2);
 				}
 			}
 		});	
