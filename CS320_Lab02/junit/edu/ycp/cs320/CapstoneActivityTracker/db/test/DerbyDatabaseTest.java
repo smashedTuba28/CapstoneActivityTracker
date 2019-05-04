@@ -68,7 +68,7 @@ public class DerbyDatabaseTest {
 		admin = db.verifyAdminAccount("mscott@ycp.edu", hashSHA256.getHash("steve"));
 		assertTrue(admin != null);//something was returned
 		assertTrue(admin.getLastname().equals("Scott"));
-		assertEquals(1, admin.getAccountID());
+		assertEquals(17, admin.getAccountID());
 		
 		//incorrect password
 		admin = db.verifyAdminAccount("mscott@ycp.edu", "wrong");
@@ -77,6 +77,12 @@ public class DerbyDatabaseTest {
 		//incorrect email
 		admin = db.verifyAdminAccount("wrong", hashSHA256.getHash("steve"));
 		assertTrue(admin == null);
+		
+		//student account
+		try {
+			admin = db.verifyAdminAccount("jsteinberg@ycp.edu", hashSHA256.getHash("password"));
+			fail("Did not throw expected ClassFormatError");
+		}catch (ClassFormatError e) {}
 	}
 	
 	@Test

@@ -684,7 +684,9 @@ public class DerbyDatabase implements IDatabase {
 					return studentAccount; //will either be fully populated or null
 				}finally {
 					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(resultSet2);
 				}
 			}
 		});
@@ -720,7 +722,7 @@ public class DerbyDatabase implements IDatabase {
 					if(resultSet1.next()) {
 						admin = new AdminAccount();
 						
-						admin.setAccountID(resultSet1.getInt(1));//
+						admin.setAccountID(resultSet1.getInt(1));
 						admin.setFirstname(resultSet1.getString(3));
 						admin.setLastname(resultSet1.getString(4));
 						admin.setEmail(resultSet1.getString(5));
@@ -751,7 +753,9 @@ public class DerbyDatabase implements IDatabase {
 					return admin;
 				}finally {
 					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(resultSet2);
 					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
 				}
 			}
 		});
@@ -763,7 +767,9 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public AdminAccount execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
+				PreparedStatement stmt2 = null;
 				ResultSet resultSet = null;
+				ResultSet resultSet2 = null;
 				AdminAccount adminAccount =  null;
 				
 				try {
@@ -771,7 +777,7 @@ public class DerbyDatabase implements IDatabase {
 						"select accounts.* "
 						+ "	from accounts "
 						+ " where accounts.email = ?"
-						+ " and adminAccounts.password = ?"
+						+ " and accounts.password = ?"
 					);
 					
 					stmt.setString(1, email);
@@ -782,17 +788,36 @@ public class DerbyDatabase implements IDatabase {
 						adminAccount = new AdminAccount();//create new model
 						// result set to populate model
 						adminAccount.setAccountID(resultSet.getInt(1));
-						adminAccount.setFirstname(resultSet.getString(2));
-						adminAccount.setLastname(resultSet.getString(3));
-						adminAccount.setEmail(resultSet.getString(4));
-						adminAccount.setPassword(resultSet.getString(5));
-						adminAccount.setSchoolID(resultSet.getString(6));
-					}
+						adminAccount.setFirstname(resultSet.getString(3));
+						adminAccount.setLastname(resultSet.getString(4));
+						adminAccount.setEmail(resultSet.getString(5));
+						adminAccount.setPassword(resultSet.getString(6));
+						adminAccount.setSchoolID(resultSet.getString(7));
+						adminAccount.setFaculty(resultSet.getBoolean(8));
 					
+						stmt2 = conn.prepareStatement(
+								" select adminAccounts.* "
+								+ " from adminAccounts, accounts "
+								+ " where adminAccounts.account_id_2 = accounts.account_id_2 "
+								+ " and accounts.account_id_1 = ?"	
+						);
+						
+						stmt2.setInt(1, adminAccount.getAccountID());
+						resultSet2 = stmt2.executeQuery();
+						
+						if(resultSet2.next()) {
+							adminAccount.setAdminAccountID(resultSet2.getInt(1));
+						}
+						else {
+							throw new ClassFormatError("No admin data for existsing account. Unable to create adminAccount class model.");
+						}
+					}					
 					return adminAccount;//return either null or populated model
 				}finally {
 					DBUtil.closeQuietly(stmt);
+					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(resultSet2);
 				}
 			}
 		});	
