@@ -42,7 +42,8 @@ public class DerbyDatabaseTest {
 		//verify an existing account
 		student = db.verifyStudentAccount("jsteinberg@ycp.edu", hashSHA256.getHash("password"));
 		assertTrue(student != null);//something was returned 
-		assertTrue(student.getFirstname().equals("Jason"));
+		assertTrue(student.getFirstname().equals("Jason"));//testing info from accounts table
+		assertFalse(student.getStatus());//testing info from studentAccounts table
 		assertEquals(1, student.getAccountID());
 		
 		//incorrect password
@@ -52,6 +53,12 @@ public class DerbyDatabaseTest {
 		//incorrect email
 		student = db.verifyStudentAccount("wrong", hashSHA256.getHash("password"));
 		assertTrue(student == null);
+	
+		//existing account that has no student data aka admin account
+		try { 
+			student = db.verifyStudentAccount("mscott@ycp.edu", hashSHA256.getHash("steve"));
+			fail("Didnt catch expected VerifyError");
+		} catch (VerifyError e) {}
 	}
 	 
 	@Test

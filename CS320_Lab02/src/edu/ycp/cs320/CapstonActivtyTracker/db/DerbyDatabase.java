@@ -496,8 +496,10 @@ public class DerbyDatabase implements IDatabase {
 		return executeTransaction(new Transaction<StudentAccount>() { 
 			@Override
 			public StudentAccount execute(Connection conn) throws SQLException {
-				PreparedStatement stmt = null;
-				ResultSet resultSet = null;
+				PreparedStatement stmt 	= null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet 	= null;
+				ResultSet resultSet2	= null;
 				StudentAccount studentAccount =  null;
 				
 				try {
@@ -521,13 +523,36 @@ public class DerbyDatabase implements IDatabase {
 						studentAccount.setEmail(resultSet.getString(5));
 						studentAccount.setPassword(resultSet.getString(6));
 						studentAccount.setSchoolID(resultSet.getString(7));
-						studentAccount.setStatus(resultSet.getBoolean(8));
-					}
+						studentAccount.setFaculty(resultSet.getBoolean(8));
 					
+						//general account info obtained successfully 
+						//now get the specific studentAccount info from studentAccount table
+					
+						
+						stmt2 = conn.prepareStatement(
+								" select studentAccounts.* "
+								+ " from studentAccounts, accounts"
+								+ " where accounts.account_id_1 = studentAccounts.account_id_1"
+								+ " and accounts.account_id_1 = ? "
+						);
+					
+						stmt2.setInt(1, studentAccount.getAccountID());	
+						resultSet2 = stmt2.executeQuery();
+						
+						if (resultSet2.next()) {
+							studentAccount.setStudentAccountID(resultSet2.getInt(1));
+							studentAccount.setStatus(resultSet2.getBoolean(4));
+						}
+						else {
+							throw new VerifyError("No Student Data for Existing Account");
+						}
+					}
 					return studentAccount;//return either null or populated model
 				}finally {
 					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(resultSet2);
 				}
 			}
 		});	
