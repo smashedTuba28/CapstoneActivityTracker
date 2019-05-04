@@ -12,6 +12,7 @@ public class StudentAccount extends Account{
 	private boolean status;	
 	private List<RoomEvent> events;
 	private RoomEvent event;
+	private int studentAccount_id;
 	//when account is created student is not in a room, therefore status is false
 	
 	public StudentAccount() {
@@ -84,6 +85,16 @@ public class StudentAccount extends Account{
 	
 	public List<RoomEvent> getRoomEventList(){
 		return events;
+	}
+
+
+	public int getStudentAccountID() {
+		return studentAccount_id;
+	}
+
+
+	public void setStudentAccountID(int studentAccountID) {
+		studentAccount_id = studentAccountID;
 	}
 
 }
