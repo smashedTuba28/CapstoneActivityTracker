@@ -55,10 +55,9 @@ public class DerbyDatabaseTest {
 		assertTrue(student == null);
 	
 		//existing account that has no student data aka admin account
-		try { 
-			student = db.verifyStudentAccount("mscott@ycp.edu", hashSHA256.getHash("steve"));
-			fail("Didnt catch expected ClassFormatError");
-		} catch (ClassFormatError e) {}
+		student = db.verifyStudentAccount("mscott@ycp.edu", hashSHA256.getHash("steve"));
+		assertTrue(student == null);
+	
 	}
 	 
 	@Test
@@ -79,10 +78,8 @@ public class DerbyDatabaseTest {
 		assertTrue(admin == null);
 		
 		//student account
-		try {
-			admin = db.verifyAdminAccount("jsteinberg@ycp.edu", hashSHA256.getHash("password"));
-			fail("Did not throw expected ClassFormatError");
-		}catch (ClassFormatError e) {}
+		admin = db.verifyAdminAccount("jsteinberg@ycp.edu", hashSHA256.getHash("password"));
+		assertTrue(admin == null);
 	}
 	
 	@Test
@@ -95,17 +92,13 @@ public class DerbyDatabaseTest {
 		assertTrue(student.getFirstname().equals("Jason"));
 		assertTrue(student.getLastname().equals("Steinberg"));
 		assertEquals(1, student.getAccountID());
-		
+		assertEquals(1, student.getStudentAccountID());
 		//check a nonexistent id
 		student = db.getStudentAccountWithID(-1);//should return null
 		assertTrue(student == null);
-		
-		//check an admin account
-		try {
-			student = db.getStudentAccountWithID(17);//michael scott admin account_id
-			fail("Did not throw expected ClassFormatError");
-		}catch(ClassFormatError e) {}
-		
+		//existing account that has no student data aka admin account
+		student = db.verifyStudentAccount("mscott@ycp.edu", hashSHA256.getHash("steve"));
+		assertTrue(student == null);
 	}
 
 	@Test
@@ -128,15 +121,29 @@ public class DerbyDatabaseTest {
 		assertTrue(student == null);//account not found
 		
 		//test admin account
-		try {
-			student = db.getStudentAccountWithEmailandSchoolID("mscott@ycp.edu", "910000000");
-			fail("Did not throw expected ClassFormatError");
-		}catch(ClassFormatError e) {}
+		student = db.verifyStudentAccount("mscott@ycp.edu", hashSHA256.getHash("steve"));
+		assertTrue(student == null);
 	}
 
 	@Test
 	public void testGetStudentsInSubTeam() {
-		fail("Not yet implemented");
+		assertTrue(students == null);
+		
+		//get all students in sales
+		students = db.getStudentsInSubTeam(1);//sales
+		assertTrue(students != null);
+		assertEquals(5, students.size());//should be 5 students 
+		
+		assertEquals(3,students.get(0).getAccountID());//
+		assertEquals(5,students.get(1).getAccountID());
+		assertEquals(12, students.get(2).getAccountID());
+		assertEquals(13, students.get(3).getAccountID());
+		assertEquals(14, students.get(4).getAccountID());
+		
+		//non existent subTeam
+		students = db.getStudentsInSubTeam(-1);
+		assertTrue(students.isEmpty());
+		
 	}
 
 	@Test

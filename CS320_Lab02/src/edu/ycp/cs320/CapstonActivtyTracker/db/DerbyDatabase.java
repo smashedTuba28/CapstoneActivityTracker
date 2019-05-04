@@ -388,8 +388,8 @@ public class DerbyDatabase implements IDatabase {
 					System.out.println("Accounts table populated");
 					
 					insertStudent = conn.prepareStatement("insert into studentAccounts (status, studentAccount_id_2, account_id_1) values (?,?,?)");
+					Integer id = 1;
 					for (Account account : accountList) {
-						Integer id = 1;
 						if(!account.getFaculty()) {//only if account is a student
 							insertStudent.setBoolean(1, account.getFaculty());//always false upon account creation
 							insertStudent.setInt(2, id++);//should match primary key starts at one increments after every insertion
@@ -497,17 +497,16 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public StudentAccount execute(Connection conn) throws SQLException {
 				PreparedStatement stmt 	= null;
-				PreparedStatement stmt2 = null;
 				ResultSet resultSet 	= null;
-				ResultSet resultSet2	= null;
 				StudentAccount studentAccount =  null;
 				
 				try {
 					stmt = conn.prepareStatement(
-						"select accounts.* "
-						+ "	from accounts "
-						+ " where accounts.email = ?"
-						+ " and accounts.password = ?"
+						"select accounts.* , studentAccounts.* "
+						+ "	from accounts, studentAccounts "
+						+ " where accounts.account_id_1 = studentAccounts.account_id_1 "
+						+ " and accounts.email = ? "
+						+ " and accounts.password = ? "
 					);
 					
 					stmt.setString(1, email);
@@ -527,32 +526,13 @@ public class DerbyDatabase implements IDatabase {
 					
 						//general account info obtained successfully 
 						//now get the specific studentAccount info from studentAccount table
-					
-						
-						stmt2 = conn.prepareStatement(
-								" select studentAccounts.* "
-								+ " from studentAccounts, accounts"
-								+ " where accounts.account_id_1 = studentAccounts.account_id_1"
-								+ " and accounts.account_id_1 = ? "
-						);
-					
-						stmt2.setInt(1, studentAccount.getAccountID());	
-						resultSet2 = stmt2.executeQuery();
-						
-						if (resultSet2.next()) {
-							studentAccount.setStudentAccountID(resultSet2.getInt(1));
-							studentAccount.setStatus(resultSet2.getBoolean(4));
-						}
-						else {
-							throw new ClassFormatError("No Student Data for Existing Account. Unable to Create studentAccount class model.");
-						}
+						studentAccount.setStudentAccountID(resultSet.getInt(9));
+						studentAccount.setStatus(resultSet.getBoolean(12));
 					}
 					return studentAccount;//return either null or populated model
 				}finally {
 					DBUtil.closeQuietly(stmt);
 					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(stmt2);
-					DBUtil.closeQuietly(resultSet2);
 				}
 			}
 		});	
@@ -564,16 +544,15 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public StudentAccount execute(Connection conn) throws SQLException {
 				PreparedStatement stmt = null;
-				PreparedStatement stmt2 = null;
 				ResultSet resultSet = null;
-				ResultSet resultSet2 = null;
 				StudentAccount studentAccount =  null;
 				
 				try {
 					stmt = conn.prepareStatement(
-						"select accounts.* "
-						+ "	from accounts "
-						+ " where accounts.account_id_1 = ?"
+						"select accounts.* , studentAccounts.* "
+						+ "	from accounts, studentAccounts "
+						+ " where accounts.account_id_1 = studentAccounts.account_id_1 "
+						+ " and accounts.account_id_1 = ?"
 					);
 					
 					stmt.setInt(1, account_id);
@@ -591,33 +570,14 @@ public class DerbyDatabase implements IDatabase {
 						studentAccount.setSchoolID(resultSet.getString(7));//column 7 = schoolID
 						studentAccount.setFaculty(resultSet.getBoolean(8));//column 8 = status
 					
-						//obtained general info
-						//now get studentAccount class info
+						studentAccount.setStudentAccountID(resultSet.getInt(9));
+						studentAccount.setStatus(resultSet.getBoolean(12));
 						
-						stmt2 = conn.prepareStatement(
-								" select studentAccounts.* "
-								+ " from studentAccounts, accounts "
-								+ " where studentAccounts.account_id_1 = accounts.account_id_1 "
-								+ " and accounts.account_id_1 = ?"
-						);
-						
-						stmt2.setInt(1,  studentAccount.getAccountID());
-						resultSet2 = stmt2.executeQuery();
-						
-						if(resultSet2.next()) {//studentAccount info found
-							studentAccount.setStudentAccountID(resultSet2.getInt(1));
-							studentAccount.setStatus(resultSet2.getBoolean(4));
-						}
-						else {
-							throw new ClassFormatError("No Student Data for Existing Account. Unable to Create studentAccount class model.");
-						}
 					}
 					return studentAccount;//return either null or populated model
 				}finally {
 					DBUtil.closeQuietly(stmt);
-					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(resultSet);
-					DBUtil.closeQuietly(resultSet2);
 				}
 			}
 		});	
@@ -629,17 +589,16 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public StudentAccount execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;//for select
-				PreparedStatement stmt2 = null;
 				ResultSet	resultSet1 = null;//result from select
-				ResultSet   resultSet2 = null;
 				StudentAccount studentAccount = null;//for return
 				
 				try {
 					//prepare SQL statement to select
 					stmt1 = conn.prepareStatement(
-						"select accounts.* "
-						+ "  from accounts"
-						+ "  where accounts.email = ?"
+						"select accounts.* , studentAccounts.*"
+						+ "  from accounts, studentAccounts"
+						+ "  where accounts.account_id_1 = studentAccounts.account_id_1 "
+						+ "  and accounts.email = ?"
 						+ "  and accounts.schoolID = ?"
 					);
 							
@@ -660,44 +619,89 @@ public class DerbyDatabase implements IDatabase {
 						studentAccount.setEmail(resultSet1.getString(5));//column 5 = email
 						studentAccount.setPassword(resultSet1.getString(6));//column 6 = password
 						studentAccount.setSchoolID(resultSet1.getString(7));//column 7 = schoolID
-						studentAccount.setStatus(resultSet1.getBoolean(8));//column 8 = status
+						studentAccount.setFaculty(resultSet1.getBoolean(8));//column 8 = status
 						
+						studentAccount.setStudentAccountID(resultSet1.getInt(9));
+						studentAccount.setStatus(resultSet1.getBoolean(12));
 						//obtained general info
 						//now get studentAccount info
-						stmt2 = conn.prepareStatement(
-								" select studentAccounts.* "
-								+ " from studentAccounts, accounts "
-								+ " where studentAccounts.account_id_1 = accounts.account_id_1 "
-								+ " and accounts.account_id_1 = ?"
-						);
-						stmt2.setInt(1,  studentAccount.getAccountID());
-						resultSet2 = stmt2.executeQuery();
-						
-						if(resultSet2.next()) {//studentAccount info found
-							studentAccount.setStudentAccountID(resultSet2.getInt(1));
-							studentAccount.setStatus(resultSet2.getBoolean(4));
-						}
-						else {
-							throw new ClassFormatError("No Student Data for Existing Account. Unable to Create studentAccount class model.");
-						}
 					}
 					return studentAccount; //will either be fully populated or null
 				}finally {
 					DBUtil.closeQuietly(stmt1);
-					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(resultSet1);
-					DBUtil.closeQuietly(resultSet2);
 				}
 			}
 		});
 	}
 
-	@Override
+	@Override //TODO: TEST
 	public List<StudentAccount> getStudentsInSubTeam(Integer subTeam_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return executeTransaction(new Transaction<List<StudentAccount>>() {
+			@Override
+			public List<StudentAccount> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 	= null;//find studentAccount_ids in subTeam
+				PreparedStatement stmt2 	= null;
+				
+				ResultSet resultSet1 		= null;
+				ResultSet resultSet2 		= null;
+				
+				List<StudentAccount> students = new ArrayList<StudentAccount>();
+				
+				try {
+					stmt1 = conn.prepareStatement(
+						" select studentAccounts.studentAccount_id_1 "
+						+ " from studentAccounts, subTeamStudents, subTeams "
+						+ " where studentAccounts.studentAccount_id_2 = subTeamStudents.studentAccount_id_2 "
+						+ " and subTeamStudents.subTeam_id_2 = subTeams.subTeam_id_2 "
+						+ " and subTeams.subTeam_id_1 = ?"
+					);
+					
+					stmt1.setInt(1, subTeam_id);
+					resultSet1 = stmt1.executeQuery();
+					
+					System.out.println("TESTING HERE");
+					
+					while(resultSet1.next()) {
+						//for each tuple (studentAccount_id_1)
+						//get all student data
+						System.out.println(resultSet1.getInt(1));
+						
+						stmt2 = conn.prepareStatement(
+							" select studentAccounts.*, accounts.* "
+							+ " from studentAccounts, accounts "
+							+ " where accounts.account_id_1 = studentAccounts.account_id_1 "
+							+ " and studentAccounts.studentAccount_id_1 = ?"
+						);
+						stmt2.setInt(1, resultSet1.getInt(1));//load studentAccount_id_1 from previous result set directly into new query
+						resultSet2 = stmt2.executeQuery();
+						
+						if(resultSet2.next()) {
+							StudentAccount s = new StudentAccount();
+							
+							s.setStudentAccountID(resultSet2.getInt(1));
+							s.setAccountID(resultSet2.getInt(3));
+							s.setStatus(resultSet2.getBoolean(4));
+							s.setFirstname(resultSet2.getString(7));
+							s.setLastname(resultSet2.getString(8));
+							s.setEmail(resultSet2.getString(9));
+							s.setPassword(resultSet2.getString(10));
+							s.setSchoolID(resultSet2.getString(11));
+							s.setFaculty(resultSet2.getBoolean(12));
+							students.add(s);
+						}
+						DBUtil.closeQuietly(stmt2);
+						DBUtil.closeQuietly(resultSet2);
+					}
+					return students;
+				}finally{
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet1);
+				}
+			}
+		});
 	}
-
+	
 	@Override
 	public AdminAccount getAdminAccountWithID(Integer adminAccount_id) {
 		return executeTransaction(new Transaction<AdminAccount>() {
