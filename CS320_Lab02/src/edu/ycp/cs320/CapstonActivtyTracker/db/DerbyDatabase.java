@@ -629,16 +629,18 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public StudentAccount execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;//for select
+				PreparedStatement stmt2 = null;
 				ResultSet	resultSet1 = null;//result from select
+				ResultSet   resultSet2 = null;
 				StudentAccount studentAccount = null;//for return
 				
 				try {
 					//prepare SQL statement to select
 					stmt1 = conn.prepareStatement(
-						"select studentAccounts.* "
-						+ "  from studentAccounts"
-						+ "  where studentAccounts.email = ?"
-						+ "  and studentAccounts.schoolID = ?"
+						"select accounts.* "
+						+ "  from accounts"
+						+ "  where accounts.email = ?"
+						+ "  and accounts.schoolID = ?"
 					);
 							
 					//insert values into prepared statement
@@ -651,14 +653,33 @@ public class DerbyDatabase implements IDatabase {
 					if(resultSet1.next()) {//resultSet not empty
 						//populate return model
 						studentAccount = new StudentAccount();//new account
-						studentAccount.setAccountID(resultSet1.getInt(1));//column 1 = studentAccount_id_1
-																			//column 2 = studentAccount_id_2 : unused outside of schema and always equals studentAccount_id_1
+						studentAccount.setAccountID(resultSet1.getInt(1));//column 1 = account_id_1
+						//column 2 = account_id_2 : unused outside of schema and always equals account_id_1
 						studentAccount.setFirstname(resultSet1.getString(3));//column 3 = firstname
 						studentAccount.setLastname(resultSet1.getString(4));//column 4 = lastname
 						studentAccount.setEmail(resultSet1.getString(5));//column 5 = email
 						studentAccount.setPassword(resultSet1.getString(6));//column 6 = password
 						studentAccount.setSchoolID(resultSet1.getString(7));//column 7 = schoolID
 						studentAccount.setStatus(resultSet1.getBoolean(8));//column 8 = status
+						
+						//obtained general info
+						//now get studentAccount info
+						stmt2 = conn.prepareStatement(
+								" select studentAccounts.* "
+								+ " from studentAccounts, accounts "
+								+ " where studentAccounts.account_id_1 = accounts.account_id_1 "
+								+ " and accounts.account_id_1 = ?"
+						);
+						stmt2.setInt(1,  studentAccount.getAccountID());
+						resultSet2 = stmt2.executeQuery();
+						
+						if(resultSet2.next()) {//studentAccount info found
+							studentAccount.setStudentAccountID(resultSet2.getInt(1));
+							studentAccount.setStatus(resultSet2.getBoolean(4));
+						}
+						else {
+							throw new ClassFormatError("No Student Data for Existing Account. Unable to Create studentAccount class model.");
+						}
 					}
 					return studentAccount; //will either be fully populated or null
 				}finally {

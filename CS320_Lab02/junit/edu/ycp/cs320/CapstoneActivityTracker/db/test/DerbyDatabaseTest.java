@@ -120,6 +120,12 @@ public class DerbyDatabaseTest {
 		//attempt to get a studentAccount with ID that doesnt exist
 		student = db.getStudentAccountWithEmailandSchoolID("jsteinberg@ycp.edu", "wrong");
 		assertTrue(student == null);//account not found
+		
+		//test admin account
+		try {
+			student = db.getStudentAccountWithEmailandSchoolID("mscott@ycp.edu", "910000000");
+			fail("Did not throw expected ClassFormatError");
+		}catch(ClassFormatError e) {}
 	}
 
 	@Test
