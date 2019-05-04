@@ -107,5 +107,13 @@ public class AccountModelTest {
 		assertTrue(testJohn.getSchoolID().equals("900000000"));
 	}
 
+	@Test
+	public void testSetFaculty() {
+		account.setFaculty(true);
+		assertTrue(account.getFaculty());
+		account.setFaculty(false);
+		assertFalse(account.getFaculty());
+	}
+	
 	
 }
