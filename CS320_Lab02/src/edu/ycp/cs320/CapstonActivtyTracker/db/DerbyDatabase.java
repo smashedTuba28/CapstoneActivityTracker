@@ -635,7 +635,7 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 
-	@Override //TODO: TEST
+	@Override
 	public List<StudentAccount> getStudentsInSubTeam(Integer subTeam_id) {
 		return executeTransaction(new Transaction<List<StudentAccount>>() {
 			@Override
@@ -660,13 +660,9 @@ public class DerbyDatabase implements IDatabase {
 					stmt1.setInt(1, subTeam_id);
 					resultSet1 = stmt1.executeQuery();
 					
-					System.out.println("TESTING HERE");
-					
 					while(resultSet1.next()) {
 						//for each tuple (studentAccount_id_1)
 						//get all student data
-						System.out.println(resultSet1.getInt(1));
-						
 						stmt2 = conn.prepareStatement(
 							" select studentAccounts.*, accounts.* "
 							+ " from studentAccounts, accounts "
@@ -716,9 +712,10 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					//prepare SQL select
 					stmt1 = conn.prepareStatement(
-						" select accounts.* "
-						+ " from accounts "
-						+ " where accounts.account_id_1 = ?"	
+						" select accounts.*, adminAccounts.*"
+						+ " from accounts, adminAccounts "
+						+ " where adminAccounts.account_id_2 = accounts.account_id_2 "
+						+ " and accounts.account_id_1 = ?"	
 					);
 					stmt1.setInt(1, adminAccount_id);
 					resultSet1 = stmt1.executeQuery();
@@ -733,26 +730,10 @@ public class DerbyDatabase implements IDatabase {
 						admin.setPassword(resultSet1.getString(6));
 						admin.setSchoolID(resultSet1.getString(7));
 						admin.setFaculty(resultSet1.getBoolean(8));
-					
+						admin.setAdminAccountID(resultSet1.getInt(9));
 						//obtained general info
 						//now get admin ID from adminAccounts table
 						
-						stmt2 = conn.prepareStatement(
-							" select adminAccounts.* "
-							+ " from adminAccounts, accounts "
-							+ " where adminAccounts.account_id_2 = accounts.account_id_2 "
-							+ " and accounts.account_id_1 = ?"	
-						);
-					
-						stmt2.setInt(1, admin.getAccountID());
-						resultSet2 = stmt2.executeQuery();
-						
-						if(resultSet2.next()) {
-							admin.setAdminAccountID(resultSet2.getInt(1));
-						}
-						else {
-							throw new ClassFormatError("No admin data for existsing account. Unable to create adminAccount class model.");
-						}
 					}
 					return admin;
 				}finally {
@@ -778,9 +759,10 @@ public class DerbyDatabase implements IDatabase {
 				
 				try {
 					stmt = conn.prepareStatement(
-						"select accounts.* "
-						+ "	from accounts "
-						+ " where accounts.email = ?"
+						"select accounts.* , adminAccounts.*"
+						+ "	from accounts, adminAccounts "
+						+ " where accounts.account_id_2 = adminAccounts.account_id_2 "
+						+ " and accounts.email = ?"
 						+ " and accounts.password = ?"
 					);
 					
@@ -798,23 +780,7 @@ public class DerbyDatabase implements IDatabase {
 						adminAccount.setPassword(resultSet.getString(6));
 						adminAccount.setSchoolID(resultSet.getString(7));
 						adminAccount.setFaculty(resultSet.getBoolean(8));
-					
-						stmt2 = conn.prepareStatement(
-								" select adminAccounts.* "
-								+ " from adminAccounts, accounts "
-								+ " where adminAccounts.account_id_2 = accounts.account_id_2 "
-								+ " and accounts.account_id_1 = ?"	
-						);
-						
-						stmt2.setInt(1, adminAccount.getAccountID());
-						resultSet2 = stmt2.executeQuery();
-						
-						if(resultSet2.next()) {
-							adminAccount.setAdminAccountID(resultSet2.getInt(1));
-						}
-						else {
-							throw new ClassFormatError("No admin data for existsing account. Unable to create adminAccount class model.");
-						}
+						adminAccount.setAdminAccountID(resultSet.getInt(9));
 					}					
 					return adminAccount;//return either null or populated model
 				}finally {
@@ -1323,17 +1289,19 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt1 = null;//for inserting
 				PreparedStatement stmt2 = null;//for getting studentAccount back
 				PreparedStatement stmt3 = null;//for updating
-				
+				PreparedStatement stmt4 = null;
+				PreparedStatement stmt5 = null;
+				PreparedStatement stmt6 = null;
 				ResultSet resultSet1 = null;//resultset for stmt2
-				
+				ResultSet resultSet2 = null;
 				Integer account_id = -1;
 				
 				try {
 					conn.setAutoCommit(false);
 					//prepare SQL statement to insert a new studentAccount
 					stmt1 = conn.prepareStatement(
-							"insert into studentAccounts " +
-							"  (studentAccount_id_2, firstname, lastname, email, password, schoolID, status) "	+	
+							"insert into accounts " +
+							"  (account_id_2, firstname, lastname, email, password, schoolID, faculty) "	+	
 							"  values(?,?,?,?,?,?,?) "
 					);
 					
@@ -1343,22 +1311,20 @@ public class DerbyDatabase implements IDatabase {
 					stmt1.setString(4, email);
 					stmt1.setString(5, password);
 					stmt1.setString(6, schoolID);
-					stmt1.setBoolean(7, Boolean.FALSE);//auto false upon creation
+					stmt1.setBoolean(7, Boolean.FALSE);//auto false for students
 					
 					stmt1.executeUpdate();//execute the update
 					System.out.println("new account created with dud_id");
 					
 					//Retrieve the newly inserted student's studentAccount_id_1
 					stmt2 = conn.prepareStatement(
-						"select studentAccount_id_1 " +
-						" 	from studentAccounts " +	
+						"select account_id_1 " +
+						" 	from accounts " +	
 						" 	where schoolID = ? " +
-						"   and firstname = ? " +
-						"   and lastname = ?"
+						"   and email = ? "
 					);
 					stmt2.setString(1, schoolID);
-					stmt2.setString(2, firstname);
-					stmt2.setString(3, lastname);
+					stmt2.setString(2, email);
 					
 					//execute the query
 					resultSet1 = stmt2.executeQuery();
@@ -1368,15 +1334,15 @@ public class DerbyDatabase implements IDatabase {
 						account_id = resultSet1.getInt(1);
 					}
 					else {
-						System.out.println("cant find studentAccount");
+						System.out.println("cant find created account");
 						return false;
 					}
 					
-					//prepare update to studentAccount's studentAccount_id_2
+					//prepare update to account's account_id_2 field so it matches account_id_1
 					stmt3 = conn.prepareStatement( 
-						"update studentAccounts"
-						+ " set studentAccount_id_2 = ? "
-						+ " where studentAccount_id_1 = ? "	
+						"update accounts"
+						+ " set account_id_2 = ? "
+						+ " where account_id_1 = ? "	
 					);
 					stmt3.setInt(1, account_id);
 					stmt3.setInt(2, account_id);
@@ -1386,13 +1352,55 @@ public class DerbyDatabase implements IDatabase {
 					
 					System.out.println("Account for <" + firstname + "> created");
 					
-					conn.commit();
+					//now that the general account is created
+					//create the studentAccount table entry
+					stmt4 = conn.prepareStatement(
+						" insert into studentAccounts"
+						+ " (studentAccount_id_2, account_id_1, status) "
+						+ " values (?,?,?) "		
+					);
+					stmt4.setInt(1, -1);
+					stmt4.setInt(2, account_id);
+					stmt4.setBoolean(3, Boolean.FALSE);
+					stmt4.executeUpdate();
+					
+					//now retrieve studentAccount
+					stmt5 = conn.prepareStatement(
+						" select studentAccounts.studentAccount_id_1 "
+						+ " from studentAccounts, accounts "
+						+ " where studentAccounts.account_id_1 = accounts.account_id_1 "
+						+ " and accounts.account_id_1 = ?"	
+					);
+					stmt5.setInt(1, account_id);
+					resultSet2 = stmt5.executeQuery();
+				
+					
+					if(resultSet2.next()) {
+						Integer id = resultSet2.getInt(1);
+						stmt6 = conn.prepareStatement(
+							"update studentAccounts"
+							+ " set studentAccount_id_2 = ? "
+							+ " where studentAccount_id_1 = ? "
+						);		
+						stmt6.setInt(1, id);
+						stmt6.setInt(2, id);
+						stmt6.executeUpdate();
+						System.out.println("Account for <" + firstname + " " + lastname +"> created");	
+					}
+					else {
+						System.out.println("Student Account unable to be created");
+						return false;
+					}
 					return true;
 				}finally {
 					DBUtil.closeQuietly(stmt1);
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt3);
+					DBUtil.closeQuietly(stmt4);
+					DBUtil.closeQuietly(stmt5);
+					DBUtil.closeQuietly(stmt6);
 					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(resultSet2);
 				}				
 			}
 		});
