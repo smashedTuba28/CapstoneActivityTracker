@@ -353,7 +353,7 @@ public class DerbyDatabaseTest {
 	}
 
 	@Test
-	public void testCreatAdminAccount() {
+	public void testCreateAdminAccount() {
 		String firstname = "Test";
 		String lastname = "Tester";
 		String email = "ttester@ycp.edu";
@@ -365,7 +365,7 @@ public class DerbyDatabaseTest {
 		assertTrue(admin == null);
 		
 		//create a new admin
-		db.creatAdminAccount(firstname, lastname, email, password, schoolID);
+		db.createAdminAccount(firstname, lastname, email, password, schoolID);
 		
 		//verify that account now exists in DB
 		admin = db.getAdminAccountWithEmailandSchoolID(email, schoolID);
@@ -384,7 +384,8 @@ public class DerbyDatabaseTest {
 		admin = db.getAdminAccountWithEmailandSchoolID("mscott@ycp.edu", "910000000");
 		assertTrue(admin.getFirstname().equals("Michael"));
 		assertTrue(admin.getLastname().equals("Scott"));
-		assertEquals(1,admin.getAccountID());
+		assertEquals(17,admin.getAccountID());
+		assertEquals(1, admin.getAdminAccountID());
 		
 		//attempt to get account with email that doesn't exist
 		admin = db.getAdminAccountWithEmailandSchoolID("wrong", "910000000");
@@ -408,7 +409,7 @@ public class DerbyDatabaseTest {
 		assertTrue(admin == null);
 		
 		//insert a new admin
-		db.creatAdminAccount(firstname, lastname, email, password, schoolID);
+		db.createAdminAccount(firstname, lastname, email, password, schoolID);
 		
 		//verify that it now exists and retrieve account
 		admin = db.getAdminAccountWithEmailandSchoolID(email, schoolID);

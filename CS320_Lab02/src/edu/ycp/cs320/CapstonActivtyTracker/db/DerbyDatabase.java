@@ -1407,19 +1407,23 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public Boolean creatAdminAccount(String firstname, String lastname, String email, String password, String schoolID) {
+	public Boolean createAdminAccount(String firstname, String lastname, String email, String password, String schoolID) {
 		return executeTransaction(new Transaction<Boolean>() {
 
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;//for inserting
-			
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				PreparedStatement stmt4 = null;
+				ResultSet resultSet1 = null;
+				Integer account_id = -1;
 				try {
-					//prepare SQL statement to insert a new adminAccount
+					//prepare SQL statement to insert a new account
 					stmt1 = conn.prepareStatement(
-							"insert into adminAccounts " +
-							"  (firstname, lastname, email, password, schoolID) "	+	
-							"  values(?,?,?,?,?) "
+							"insert into accounts " +
+							"  (firstname, lastname, email, password, schoolID, faculty, account_id_2) "	+	
+							"  values(?,?,?,?,?,?,?) "
 					);
 					 
 					stmt1.setString(1, firstname);
@@ -1427,10 +1431,46 @@ public class DerbyDatabase implements IDatabase {
 					stmt1.setString(3, email);
 					stmt1.setString(4, password);
 					stmt1.setString(5, schoolID);
-					
+					stmt1.setBoolean(6, Boolean.TRUE);
+					stmt1.setInt(7, account_id);
 					stmt1.executeUpdate();//execute the update
 					
-					System.out.println("AdminAccount for <" + firstname + "> created");
+					
+					stmt2 = conn.prepareStatement(
+							" select account_id_1 "
+							+ " from accounts "
+							+ " where schoolID = ? "
+							+ " and email = ? "
+					);
+					stmt2.setString(1, schoolID);
+					stmt2.setString(2, email);
+					resultSet1 = stmt2.executeQuery();//get the primary key for new account
+					
+					if(resultSet1.next()) {
+						account_id = resultSet1.getInt(1);//store pk value reference
+						
+						stmt3 = conn.prepareStatement(//update fake pk to match real pk
+							" update accounts "
+							+ " set account_id_2 = ? "
+							+ " where account_id_1 = ?"	
+						);		
+						stmt3.setInt(1,  account_id);
+						stmt3.setInt(2,  account_id);
+						stmt3.executeUpdate();
+						System.out.println("Account for <" + firstname + "> created");
+					}
+					else {
+						System.out.println("Unable to create account");
+						return false;
+					}
+					
+					stmt4 = conn.prepareStatement(
+							" insert into adminAccounts (account_id_2) values (?)"
+					);
+					stmt4.setInt(1, account_id);
+					stmt4.executeUpdate();
+					
+					System.out.println("Account for <" + firstname + " " + lastname + "> created");
 					
 					return true;
 				}finally {
@@ -1452,10 +1492,11 @@ public class DerbyDatabase implements IDatabase {
 				try {
 					//prepare SQL statement to select
 					stmt1 = conn.prepareStatement(
-						"select adminAccounts.* "
-						+ "  from adminAccounts"
-						+ "  where adminAccounts.email = ?"
-						+ "  and adminAccounts.schoolID = ?"
+						"select accounts.*, adminAccounts.adminAccount_id "
+						+ "  from accounts, adminAccounts"
+						+ "  where accounts.account_id_2 = adminAccounts.account_id_2 "
+						+ "  and accounts.email = ?"
+						+ "  and accounts.schoolID = ?"
 					);
 							
 					//insert values into prepared statement
@@ -1468,12 +1509,14 @@ public class DerbyDatabase implements IDatabase {
 					if(resultSet1.next()) {//resultSet not empty
 						//populate return model
 						adminAccount = new AdminAccount();//new account
-						adminAccount.setAccountID(resultSet1.getInt(1));//column 1 = studentAccount_id_1
-						adminAccount.setFirstname(resultSet1.getString(2));//column 2 = firstname
-						adminAccount.setLastname(resultSet1.getString(3));//column 3 = lastname
-						adminAccount.setEmail(resultSet1.getString(4));//column 4 = email
-						adminAccount.setPassword(resultSet1.getString(5));//column 5 = password
-						adminAccount.setSchoolID(resultSet1.getString(6));//column 6 = schoolID
+						adminAccount.setAccountID(resultSet1.getInt(1));//column 1 = account_id_1
+						adminAccount.setFirstname(resultSet1.getString(3));//column 3 = firstname
+						adminAccount.setLastname(resultSet1.getString(4));//column 4 = lastname
+						adminAccount.setEmail(resultSet1.getString(5));//column 5 = email
+						adminAccount.setPassword(resultSet1.getString(6));//column 6 = password
+						adminAccount.setSchoolID(resultSet1.getString(7));//column 7 = schoolID
+						adminAccount.setFaculty(resultSet1.getBoolean(8));//column 8 = faculty
+						adminAccount.setAdminAccountID(resultSet1.getInt(9));//column 9 is from column 1 of adminAccounts = adminAccount_id
 					}
 					return adminAccount; //will either be fully populated or null
 				}finally {
