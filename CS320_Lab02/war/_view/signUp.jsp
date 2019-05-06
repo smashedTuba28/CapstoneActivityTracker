@@ -20,11 +20,11 @@
 						<td class="Label">Please complete to create your account.</td>
 					</tr>
 					<tr>
-						<td class = "Label">Student ID Number:</td>
+						<td class = "Label">Student ID:</td>
 						<td><input type = "Text" name="schoolID" size="12" value="${schoolID}">
 					</tr>		
 					<tr>
-						<td class = "Label">YCP Email:</td>
+						<td class = "Label">Email:</td>
 						<td><input type ="Text" name="email" size="12" value="${email}">
 					</tr>
 					<tr>
