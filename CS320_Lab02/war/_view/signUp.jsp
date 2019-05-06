@@ -34,14 +34,19 @@
 					<tr>
 						<td class = "Label">Password Confirmation:</td>
 						<td><input type = "Password" name="passwordConfirm" size="12" value="${passwordConfirm}">
-					</tr>		
+					</tr>	
+					<tr>
+						<td class = "Label">Faculty Member:</td>
+						<td>
+							<select size="1" name="accountType" required= "required">
+							<option>Select-One</option>
+        					<option value ="admin">Administrator</option>
+        					<option value ="student">Student</option>
+							</select>
+						</td>	
 				</table>
 					
-				<select size="1" name="accountType" required= "required">
-						<option>Select-One</option>
-        				<option value ="admin">Administrator</option>
-        				<option value ="student">Student</option>
-				</select>
+
 				
 				<input type="submit" name="signUp" value="Create Account" />
 		</form>
