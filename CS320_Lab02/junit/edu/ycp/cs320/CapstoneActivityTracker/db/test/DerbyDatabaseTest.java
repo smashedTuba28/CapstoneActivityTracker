@@ -195,11 +195,6 @@ public class DerbyDatabaseTest {
 	}
 
 	@Test
-	public void testGetRoomEventsForStudentWithDates() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetSubTeamsInTopTeam() {
 		String teamname = "Dunder Mifflin";
 		subTeams = new ArrayList<SubTeam>();
@@ -260,25 +255,6 @@ public class DerbyDatabaseTest {
 		assertTrue(db.deleteSubTeam(subTeam.getTeamID()));
 	}
 	
-	/*
-	@Test
-	public void testDeleteSubTeam() {
-		String teamname = "Test";
-		
-		//temp test to delete account from csv load
-		assertTrue(db.deleteSubTeam(3));
-		
-		//check that the account doesn't exists
-		subTeam = db.getSubTeamWithTeamname(teamname);
-		assertTrue(student == null);
-		
-		//TODO: need to implement getallstudentsfromsubteam() to test this
-		//check that all roomEvents are also gone
-		students = db.getStudentsInSubTeam(3);			
-		
-	}
-	*/
-	
 	@Test
 	public void testGetTopTeamWithTeamname() {
 		//assuming topTeam initialized but not populated
@@ -327,32 +303,7 @@ public class DerbyDatabaseTest {
 		
 	}
 
-	@Test
-	public void testCreateStudentAccount() {
-		String firstname = "Test";
-		String lastname = "Tester";
-		String email = "ttester@ycp.edu";
-		String password = hashSHA256.getHash("testpassword");
-		String schoolID = "999999999";
-		
-		//check that account does not already exist
-		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
-		assertTrue(student == null);
-		
-		//create the student account
-		db.createStudentAccount(firstname, lastname, email, password, schoolID);
-		
-		//find and veirfy new student exists
-		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
-		assertTrue(student != null);
-		assertTrue(student.getFirstname().equals("Test"));
-		assertTrue(student.getLastname().equals("Tester"));
-	
-		//delete the account after testing checks out
-		db.deleteStudentAccount(student.getAccountID());
-	}
-
-	@Test
+/*	@Test
 	public void testCreateAdminAccount() {
 		String firstname = "Test";
 		String lastname = "Tester";
@@ -374,7 +325,7 @@ public class DerbyDatabaseTest {
 		
 		//delete from table as to not cause issues every time this runs
 		db.deleteAdminAccount(admin.getAccountID());
-	}  
+	} */ 
 
 	@Test
 	public void testGetAdminAccountWithEmailandSchoolID() {
@@ -416,7 +367,7 @@ public class DerbyDatabaseTest {
 		assertTrue(admin != null);
 		
 		//delete adminAccount
-		db.deleteAdminAccount(admin.getAccountID());
+		db.deleteAdminAccount(admin.getAdminAccountID());
 		
 		//verify that it can no longer be found
 		admin = db.getAdminAccountWithEmailandSchoolID(email, schoolID);
@@ -424,7 +375,7 @@ public class DerbyDatabaseTest {
 	}
 	
 	@Test
-	public void testDeleteStudentAccount() {
+	public void testCreateAndDeleteStudentAccount() {
 		String firstname = "Test";
 		String lastname = "Tester";
 		String email = "ttester@ycp.edu";
@@ -432,9 +383,10 @@ public class DerbyDatabaseTest {
 		String schoolID = "999999999";
 	
 		//will need to add a room event to the account too
-		Integer account_id;
+		Integer studentAccount_id;
 		Integer room_id = 19;
 		Date start = new Date();
+		
 		
 		//clean slate make sure student doesn't exist
 		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
@@ -446,25 +398,27 @@ public class DerbyDatabaseTest {
 		//get studentAccountID
 		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
 		assertTrue(student != null);
-		account_id = student.getAccountID();
+		studentAccount_id = student.getStudentAccountID();
+		System.out.println(studentAccount_id);
 		
 		//attempt to create a room event
-		assertTrue(db.createRoomEventForStudentAccountWithID(account_id, room_id, new Timestamp(start.getTime())));
+		assertTrue(db.createRoomEventForStudentAccountWithID(studentAccount_id, room_id, new Timestamp(start.getTime())));
 		
 		//check that a roomEvent has been added
-		List<RoomEvent> events = db.getAllRoomEventForStudentAccountWithAccountID(account_id);
+		List<RoomEvent> events = db.getAllRoomEventForStudentAccountWithAccountID(studentAccount_id);
 		assertTrue(events != null);
 		assertNotEquals(0, events.size());
 		
 		//delete the student Account
-		assertTrue(db.deleteStudentAccount(account_id));
+		Integer account_id = student.getAccountID();
+		assertTrue(db.deleteStudentAccount(studentAccount_id));
 		
 		//check that the account doesnt exists
 		student = db.getStudentAccountWithID(account_id);
 		assertTrue(student == null);
 		
 		//check that all roomEvents are also gone
-		roomEventList = db.getAllRoomEventForStudentAccountWithAccountID(account_id);		
+		roomEventList = db.getAllRoomEventForStudentAccountWithAccountID(studentAccount_id);		
 		assertTrue(roomEventList != null);
 		assertEquals(0, roomEventList.size());
 	}
@@ -491,7 +445,7 @@ public class DerbyDatabaseTest {
 		//get studentAccountID
 		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
 		assertTrue(student != null);
-		account_id = student.getAccountID();
+		account_id = student.getStudentAccountID();
 		
 		//attempt to create a room event
 		assertTrue(db.createRoomEventForStudentAccountWithID(account_id, room_id, new Timestamp(start.getTime())));
@@ -538,11 +492,11 @@ public class DerbyDatabaseTest {
 		assertTrue(students != null);
 		assertEquals(5, students.size());
 		
-		//make sure that only expectedd students are returned
+		//make sure that only expected students are returned
 		for (StudentAccount s : students) {
-			if( s.getAccountID() == 3 || s.getAccountID() == 5
-			 || s.getAccountID() == 12 || s.getAccountID() == 13
-			 || s.getAccountID() == 14) {
+			if( s.getStudentAccountID() == 3 || s.getStudentAccountID() == 5
+			 || s.getStudentAccountID() == 12 || s.getStudentAccountID() == 13
+			 || s.getStudentAccountID() == 14) {
 				//do nothing
 			}
 			else {

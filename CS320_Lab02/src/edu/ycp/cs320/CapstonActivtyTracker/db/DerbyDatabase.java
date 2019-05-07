@@ -1528,7 +1528,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public Boolean deleteStudentAccount(Integer account_id) {
+	public Boolean deleteStudentAccount(Integer studentAccount_id) {
 		return executeTransaction(new Transaction<Boolean>() {
 
 			@Override
@@ -1539,29 +1539,32 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt4 = null;
 				PreparedStatement stmt5 = null;
 				PreparedStatement stmt6 = null;
+				PreparedStatement stmt7 = null;
 				
 				ResultSet resultSet1 = null;
 				ResultSet resultSet2 = null;
 				ResultSet resultSet4 = null;
 				
+				Integer account_id = null;
 				try {
 					//first verify studentAccount that needs to be deleted
 					stmt1 = conn.prepareStatement( 
-							"select studentAccounts.* "
+							"select studentAccounts.account_id_1 "
 							+ " from studentAccounts"
 							+ " where studentAccounts.studentAccount_id_1 = ?"
 					); 
 					
-					stmt1.setInt(1, account_id);
+					stmt1.setInt(1, studentAccount_id);
 					resultSet1 = stmt1.executeQuery();
 		
 					//make sure something was returned
 					if(!resultSet1.next()) {
 						//wasn't found
-						System.out.println("StudentAccount <" + account_id + "> wasn't found");
+						System.out.println("StudentAccount <" + studentAccount_id + "> wasn't found");
 						return false;
 					}
 					//at this point the studentAccount was found to exist
+					account_id = resultSet1.getInt(1);//account_id
 					
 					//now get all the roomEvents associated with the student
 					stmt2 = conn.prepareStatement(
@@ -1570,7 +1573,7 @@ public class DerbyDatabase implements IDatabase {
 						+ " where roomEvents.studentAccount_id_1 = studentAccounts.studentAccount_id_1"
 						+ " and studentAccounts.studentAccount_id_1 = ?"	
 					);
-					stmt2.setInt(1, account_id);
+					stmt2.setInt(1, studentAccount_id);
 					resultSet2 = stmt2.executeQuery();
 		
 					//assemble list of roomEvents
@@ -1602,7 +1605,7 @@ public class DerbyDatabase implements IDatabase {
 						+ " where subTeamStudents.studentAccount_id_2 = studentAccounts.studentAccount_id_2 "
 						+ " and studentAccounts.studentAccount_id_1 = ?"				
 					);
-					stmt4.setInt(1, account_id);
+					stmt4.setInt(1, studentAccount_id);
 					resultSet4 = stmt4.executeQuery();
 					
 					//assemble list of join table entries 
@@ -1634,10 +1637,19 @@ public class DerbyDatabase implements IDatabase {
 						" delete from studentAccounts "
 						+ " where studentAccounts.studentAccount_id_1 = ?"	
 					);
-					stmt6.setInt(1, account_id);
+					stmt6.setInt(1, studentAccount_id);
 					stmt6.executeUpdate();
 					
-					System.out.println("Student Account <" + account_id + "> deleted from Database");
+					
+					//now delete the general account profile
+					stmt7 = conn.prepareStatement(
+						" delete from accounts "
+						+ " where accounts.account_id_1 = ? "	
+					);
+					stmt7.setInt(1, account_id);
+					stmt7.executeUpdate();
+					
+					System.out.println("Student Account <" + studentAccount_id + "> deleted from Database");
 		
 					return true;
 				}finally {
@@ -1659,28 +1671,57 @@ public class DerbyDatabase implements IDatabase {
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				ResultSet resultSet1 = null;
 			
 				try {
 					//prepare SQL statement to delete 
 					stmt1 = conn.prepareStatement(
-						"delete"
+						"select adminAccounts.account_id_2"
 						+ " from adminAccounts "
-						+ " where adminAccounts.adminAccount_id = ?"
+						+ " where adminAccounts.adminAccount_id = ?" 
 					);
 					
 					stmt1.setInt(1, adminAccount_id);
-					stmt1.executeUpdate();
+					resultSet1 = stmt1.executeQuery();
+					
+					if(!resultSet1.next()) {
+						System.out.println("AdminAccount not Found");
+						return false;
+					}
+					
+					stmt2 = conn.prepareStatement(
+						" delete "
+						+ " from adminAccounts"
+						+ "  where adminAccounts.account_id_2 = ?"
+					);	
+					stmt2.setInt(1, resultSet1.getInt(1));
+					stmt2.executeUpdate();
+					
+					stmt3 = conn.prepareStatement(
+						" delete "
+						+ " from accounts "
+						+ " where accounts.account_id_1 = ?"	
+					);
+					stmt3.setInt(1, resultSet1.getInt(1));
+					stmt3.executeUpdate();
+					
+					System.out.println("Account <" + resultSet1.getInt(1) + "> deleted");
 					
 					return true;
 				}finally {
 					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(stmt3);
+					DBUtil.closeQuietly(resultSet1);
 				}		
 			}
 		});	
 	}
 
 	@Override
-	public boolean createRoomEventForStudentAccountWithID(Integer account_id, Integer room_id, Timestamp start) {
+	public boolean createRoomEventForStudentAccountWithID(Integer studentAccount_id, Integer room_id, Timestamp start) {
 		return executeTransaction(new Transaction<Boolean>() {
 
 			@Override
@@ -1695,7 +1736,7 @@ public class DerbyDatabase implements IDatabase {
 						+ " (studentAccount_id_1, room_id_2, startTime, endTime, flag, lognote) "
 						+ " values (?,?,?,?,?,?) "	
 					);
-					stmt1.setInt(1, account_id);
+					stmt1.setInt(1, studentAccount_id);
 					stmt1.setInt(2, room_id);
 					stmt1.setTimestamp(3,  start);
 					stmt1.setTimestamp(4, new Timestamp(0));
@@ -1720,7 +1761,7 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public List<RoomEvent> getAllRoomEventForStudentAccountWithAccountID(Integer account_id) {
+	public List<RoomEvent> getAllRoomEventForStudentAccountWithAccountID(Integer studentAccount_id) {
 		return executeTransaction(new Transaction<List<RoomEvent>>() {
 
 			@Override
@@ -1739,7 +1780,7 @@ public class DerbyDatabase implements IDatabase {
 							+ " where studentAccounts.studentAccount_id_1 = roomEvents.studentAccount_id_1"
 							+ " and studentAccounts.studentAccount_id_1 = ?"		
 					);		
-					stmt1.setInt(1, account_id);
+					stmt1.setInt(1, studentAccount_id);
 					resultSet1 = stmt1.executeQuery();
 					
 					//verify a returned result
@@ -1772,10 +1813,11 @@ public class DerbyDatabase implements IDatabase {
 				
 				try {//prepare SQL statement
 					stmt1 = conn.prepareStatement(
-						" select studentAccounts.* "
-						+ " from studentAccounts, subTeams, subTeamStudents "
+						" select accounts.*, studentAccounts.* "
+						+ " from studentAccounts, subTeams, subTeamStudents, accounts "
 						+ " where studentAccounts.studentAccount_id_2 = subTeamStudents.studentAccount_id_2 "
 						+ " and subTeams.subTeam_id_2 = subTeamStudents.subTeam_id_2 "
+						+ " and studentAccounts.account_id_1 = accounts.account_id_1 "
 						+ " and subTeams.teamname = ?"	
 					);
 					stmt1.setString(1, teamname);
@@ -1784,7 +1826,17 @@ public class DerbyDatabase implements IDatabase {
 					while(resultSet1.next()) {
 						
 						StudentAccount student = new StudentAccount();
-						loadStudentAccount(student, resultSet1, 2);
+						
+						student.setAccountID(resultSet1.getInt(1));
+						student.setFirstname(resultSet1.getString(3));
+						student.setLastname(resultSet1.getString(4));
+						student.setEmail(resultSet1.getString(5));
+						student.setPassword(resultSet1.getString(6));
+						student.setSchoolID(resultSet1.getString(7));
+						student.setFaculty(resultSet1.getBoolean(8));
+						student.setStudentAccountID(resultSet1.getInt(9));
+						student.setStatus(resultSet1.getBoolean(12));
+						
 						studentAccountList.add(student);
 					}
 					return studentAccountList;
