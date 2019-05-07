@@ -28,6 +28,7 @@ public interface IDatabase {
 	public Boolean deleteAdminAccount(Integer adminAccount_id);//delete
 	
 	public List<Room> getRoomsForASubTeam(Integer subTeam_id);//select
+	public List<Room> getRoomsForStudentAccount(Integer studentAccount_id);
 	
 	public List<RoomEvent> getAllRoomEventForStudentAccountWithAccountID(Integer studentAccount_id);
 	public List<RoomEvent> getRoomEventsForStudentWithDates(Integer account_id, Timestamp start, Timestamp end);//select

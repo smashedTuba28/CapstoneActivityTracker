@@ -1893,4 +1893,63 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+
+	@Override
+	public List<Room> getRoomsForStudentAccount(Integer studentAccount_id) {
+		return executeTransaction(new Transaction<List<Room>>() {
+			@Override
+			public List<Room> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;//get subTeam from student
+				PreparedStatement stmt2 = null;//get rooms for subTeam
+				ResultSet resultSet1 = null;
+				ResultSet resultSet2 = null;
+				List<Room> rooms = null;
+				
+				try {
+					//find subTeam
+					stmt1 = conn.prepareStatement(
+						" select subTeams.subTeam_id_1 "
+						+ " from subTeams, subTeamStudents, studentAccounts "
+						+ " where studentAccounts.studentAccount_id_2 = subTeamStudents.studentAccount_id_2 "
+						+ " and subTeamStudents.subTeam_id_2 = subTeams.subTeam_id_2 "
+						+ " and studentAccounts.studentAccount_id_1 = ? "	
+					);		
+					stmt1.setInt(1, studentAccount_id);
+					resultSet1 = stmt1.executeQuery();
+					
+					if(resultSet1.next()) {
+						
+						stmt2 = conn.prepareStatement(
+							" select rooms.* "
+							+ " from rooms, teamRooms, subTeams "
+							+ " where rooms.room_id_1 = teamRooms.room_id_1  "
+							+ " and teamRooms.subTeam_id_1 = subTeams.subTeam_id_1 "
+							+ " and subTeams.subTeam_id_1 = ?"	
+						);
+						stmt2.setInt(1, resultSet1.getInt(1));
+						resultSet2 = stmt2.executeQuery();
+						
+						rooms = new ArrayList<Room>();
+							
+						while(resultSet2.next()) {
+							Room room = new Room();	
+							room.setRoomID(resultSet2.getInt(1));
+							room.setRoomNumber(resultSet2.getInt(3));
+							room.setRoomName(resultSet2.getString(4));
+							rooms.add(room);	
+						}
+					}
+					else {
+						System.out.println("Student has no relationship to a subTeam");
+					}
+					return rooms;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(resultSet2);
+				}
+			}
+		});
+	}
 }

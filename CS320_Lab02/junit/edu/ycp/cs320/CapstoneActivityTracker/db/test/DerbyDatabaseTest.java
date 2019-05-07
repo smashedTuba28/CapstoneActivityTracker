@@ -524,4 +524,17 @@ public class DerbyDatabaseTest {
 		student = db.getStudentAccountWithSchoolID("-1");
 		assertTrue(student == null);	
 	}
+	
+	@Test
+	public void testGetRoomsForStudentAccount() {
+		Integer studentAccount_id = 3; //JIM
+		assertTrue(roomList == null);
+		
+		roomList = db.getRoomsForStudentAccount(3);
+		assertTrue(roomList != null);
+		assertEquals(2, roomList.size());
+		assertEquals(19, roomList.get(0).getRoomID());
+		assertTrue(roomList.get(0).getRoomName().equals("Main office"));
+		assertEquals(20, roomList.get(1).getRoomID());
+	}
 }
