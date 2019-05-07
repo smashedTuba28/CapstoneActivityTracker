@@ -16,6 +16,7 @@ public interface IDatabase {
 	
 	public StudentAccount getStudentAccountWithID(Integer account_id);//select
 	public StudentAccount getStudentAccountWithEmailandSchoolID(String email, String schoolID);//select
+	public StudentAccount getStudentAccountWithSchoolID(String schoolID);//select
 	public StudentAccount verifyStudentAccount(String email, String password);//select
 	public List<StudentAccount> getStudentsInSubTeam(Integer subTeam_id);//select
 	public Boolean deleteStudentAccount(Integer studentAccount_id);//delete

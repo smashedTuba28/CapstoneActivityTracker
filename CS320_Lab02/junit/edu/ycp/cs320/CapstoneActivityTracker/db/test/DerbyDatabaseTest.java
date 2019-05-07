@@ -504,4 +504,24 @@ public class DerbyDatabaseTest {
 			}
 		}
 	}
+	
+	@Test
+	public void testGetStudentAccountWithSchoolID() {
+		String schoolID = "900000000";
+		assertTrue(student == null);
+		
+		//test existing schoolID for student
+		student = db.getStudentAccountWithSchoolID(schoolID);
+		assertTrue(student != null);
+		assertEquals(1, student.getStudentAccountID());
+		assertTrue(student.getLastname().equals("Steinberg"));
+		
+		//check admin schoolID
+		student = db.getStudentAccountWithSchoolID("910000000");
+		assertTrue(student == null);
+		
+		//check non existent ID
+		student = db.getStudentAccountWithSchoolID("-1");
+		assertTrue(student == null);	
+	}
 }

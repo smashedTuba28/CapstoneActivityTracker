@@ -1847,4 +1847,50 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+
+	@Override
+	public StudentAccount getStudentAccountWithSchoolID(String schoolID) {
+		return executeTransaction(new Transaction<StudentAccount>() {
+			
+			@Override
+			public StudentAccount execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet1 = null;
+				StudentAccount student = null;
+				try {
+					//prepare SQL
+					stmt1 = conn.prepareStatement(
+						" select accounts.*, studentAccounts.* "
+						+ " from accounts, studentAccounts "
+						+ " where accounts.account_id_1 = studentAccounts.account_id_1 "
+						+ " and accounts.schoolID = ?"	
+					);		
+					
+					stmt1.setString(1, schoolID);
+					resultSet1 = stmt1.executeQuery();
+					
+					if(resultSet1.next()) {
+						student = new StudentAccount();
+						
+						student.setAccountID(resultSet1.getInt(1));
+						student.setFirstname(resultSet1.getString(3));
+						student.setLastname(resultSet1.getString(4));
+						student.setEmail(resultSet1.getString(5));
+						student.setPassword(resultSet1.getString(6));
+						student.setSchoolID(resultSet1.getString(7));
+						student.setFaculty(resultSet1.getBoolean(8));
+						student.setStudentAccountID(resultSet1.getInt(9));
+						student.setStatus(resultSet1.getBoolean(12));
+					}
+					else {
+						System.out.println("Unable to find Student Account");
+					}
+					return student;
+				}finally{
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet1);
+				}
+			}
+		});
+	}
 }
