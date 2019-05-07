@@ -537,4 +537,44 @@ public class DerbyDatabaseTest {
 		assertTrue(roomList.get(0).getRoomName().equals("Main office"));
 		assertEquals(20, roomList.get(1).getRoomID());
 	}
+	
+	
+	@Test
+	public void testGetLastRoomEventForStudent() {
+		String firstname = "Test";
+		String lastname = "Tester";
+		String email = "ttester@ycp.edu";
+		String password = hashSHA256.getHash("testpassword");
+		String schoolID = "999999999";
+		
+		Integer studentAccount_id = null;
+		Integer room_id = 19;
+		
+		//create a fresh account
+		db.createStudentAccount(firstname, lastname, email, password, schoolID);
+		
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(student != null);
+		studentAccount_id = student.getStudentAccountID();
+		
+		//populate some fake roomevents
+		db.createRoomEventForStudentAccountWithID(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
+		db.createRoomEventForStudentAccountWithID(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
+		db.createRoomEventForStudentAccountWithID(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
+		db.createRoomEventForStudentAccountWithID(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
+		try {Thread.sleep((long) 10);} catch (InterruptedException e1) {}
+		
+		Date start = new Date();
+		db.createRoomEventForStudentAccountWithID(studentAccount_id, room_id, new Timestamp(start.getTime()));
+		
+		//get most recent
+		RoomEvent e = db.getLastRoomEventForStudent(studentAccount_id);
+		assertTrue(e != null);
+		
+		assertEquals(19,e.getRoomID());
+		assertTrue(e.getStartTime().equals(start));
+		
+		//cleanup
+		db.deleteStudentAccount(studentAccount_id);
+	}
 }

@@ -99,7 +99,7 @@ public class DerbyDatabase implements IDatabase {
 	// retrieves Roomevent information from query result set modified from lab06
 	private void loadRoomEvent(RoomEvent event, ResultSet resultSet, int index) throws SQLException {
 		event.setRoomEventID(resultSet.getInt(index++));
-		event.setAccountID(resultSet.getInt(index++));
+		event.setStudentAccountID(resultSet.getInt(index++));
 		event.setRoomID(resultSet.getInt(index++));
 		event.setStartTime(new Date(resultSet.getTimestamp(index++).getTime()));
 		event.setEndTime(new Date(resultSet.getTimestamp(index++).getTime()));
@@ -421,7 +421,7 @@ public class DerbyDatabase implements IDatabase {
 					
 					insertRoomEvent = conn.prepareStatement("insert into roomEvents (studentAccount_id_1, room_id_2, startTime, endTime, lognote, flag) values (?,?,?,?,?,?) ");
 					for (RoomEvent event : roomEventList) {
-						insertRoomEvent.setInt(1, event.getAccountID());
+						insertRoomEvent.setInt(1, event.getStudentAccountID());
 						insertRoomEvent.setInt(2, event.getRoomID());
 						insertRoomEvent.setTimestamp(3, new Timestamp(event.getStartTime().getTime()));
 						insertRoomEvent.setTimestamp(4, new Timestamp(event.getEndTime().getTime()));
@@ -1949,6 +1949,55 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(resultSet1);
 					DBUtil.closeQuietly(resultSet2);
 				}
+			}
+		});
+	}
+
+	@Override
+	public RoomEvent getLastRoomEventForStudent(int studentAccountID) {
+		return executeTransaction(new Transaction<RoomEvent>() {
+			@Override
+			public RoomEvent execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				ResultSet resultSet1 = null;
+				ResultSet resultSet2 = null;
+				RoomEvent event = null;
+				
+				try {
+					//sql statement that finds the highest roomEvent_id given the student
+					//in theory this should return the most recent roomEvent_id for the given individual
+					stmt1 = conn.prepareStatement(
+						"select max(roomEvents.roomEvent_id) "
+						+ " from roomEvents, studentAccounts "
+						+ " where roomEvents.studentAccount_id_1 = studentAccounts.studentAccount_id_1 "
+						+ " and studentAccounts.studentAccount_id_1 = ?"	
+					);		
+					stmt1.setInt(1, studentAccountID);
+					resultSet1 = stmt1.executeQuery();
+					
+					if(resultSet1.next()) {
+						
+						stmt2 = conn.prepareStatement(
+							" select roomEvents.* "
+							+ " from roomEvents "
+							+ " where roomEvents.roomEvent_id = ?"	
+						);
+						stmt2.setInt(1, resultSet1.getInt(1));
+						resultSet2 = stmt2.executeQuery();
+						
+						if(resultSet2.next()) {	
+							event = new RoomEvent();
+							loadRoomEvent(event, resultSet2, 1);
+						}
+					}
+					return event;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+					DBUtil.closeQuietly(resultSet1);
+					DBUtil.closeQuietly(resultSet2);
+				}				
 			}
 		});
 	}
