@@ -1763,10 +1763,42 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public boolean updateRoomEventandStatusForStudentAccountWithAccountIDandEventID(Integer account_id, Integer roomEvent_id,
+	public boolean updateRoomEventandStatusForStudentAccountWithAccountIDandEventID(Integer studentAccount_id, Integer roomEvent_id,
 			Timestamp end, Boolean flag, Boolean status) {
-		// TODO Auto-generated method stub
-		return false;
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;//update roomEvent
+				PreparedStatement stmt2 = null;//update studentAccount
+				
+				try {
+				
+					stmt1 = conn.prepareStatement(
+						" update roomEvents "
+						+ " set endTime = ? , flag = ?"
+						+ " where roomEvents.roomEvent_id = ?"	
+					);		
+					stmt1.setTimestamp(1, end);
+					stmt1.setBoolean(2, flag);
+					stmt1.setInt(3, roomEvent_id);
+					stmt1.executeUpdate();
+					
+					stmt2 = conn.prepareStatement(
+						" update studentAccounts "
+						+ " set status = ? "
+						+ " where studentAccounts.studentAccount_id_1 = ?"	
+					);		
+					stmt2.setBoolean(1, status);
+					stmt2.setInt(2, studentAccount_id);
+					stmt2.executeUpdate();
+					return true;
+				}
+				finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+				}
+			}
+		});
 	}
 
 	@Override

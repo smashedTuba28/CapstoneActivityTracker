@@ -616,6 +616,55 @@ public class DerbyDatabaseTest {
 		
 		//cleanup
 		db.deleteStudentAccount(studentAccount_id);
-		
 	}
+	
+	@Test
+	public void testUpdateRoomEventandStatusForStudentAccountWithAccountIDandEventID() {
+		String firstname = "Test";
+		String lastname = "Tester";
+		String email = "ttester@ycp.edu";
+		String password = hashSHA256.getHash("testpassword");
+		String schoolID = "999999999";
+		
+		Integer studentAccount_id = null;
+		Integer room_id = 19;
+		
+		//create a fresh account
+		db.createStudentAccount(firstname, lastname, email, password, schoolID);
+		//get account info
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(student != null);
+		studentAccount_id = student.getStudentAccountID();
+		
+		//populate fake roomevent
+		db.createRoomEventForStudentAccountWithIDandUpdateStatus(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		
+		//status should be now be
+		assertTrue(student.getStatus());
+		
+		//get most recent event back
+		RoomEvent event = db.getLastRoomEventForStudent(student.getStudentAccountID());
+		assertTrue(event != null);
+		
+		//set up new date for end timestamp
+		Date end = new Date();
+		//call udate
+		db.updateRoomEventandStatusForStudentAccountWithAccountIDandEventID(studentAccount_id, 
+				event.getRoomEventID(), new Timestamp(end.getTime()), Boolean.FALSE, Boolean.FALSE);
+		//get event again
+		RoomEvent event1 = db.getLastRoomEventForStudent(studentAccount_id);
+		assertTrue(event1 != null);
+		//make sure eventid matches expected and that the end time has now changed
+		assertTrue(event1.getRoomEventID() == event.getRoomEventID());
+		assertFalse(event1.getEndTime().equals(event.getEndTime()));
+		
+		//check that status has changed as well
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		assertFalse(student.getStatus());
+		
+		//cleanup
+		db.deleteStudentAccount(studentAccount_id);
+	}
+	
 }
