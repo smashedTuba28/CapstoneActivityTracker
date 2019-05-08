@@ -19,6 +19,12 @@ public class RFIDMain {
 				System.out.println("RFID TURNED OFF");
 				break;
 			}
+			/*if(scan.toLowerCase().equals("")) {
+				//INPUT FOR END OF DAY SIGNOUT IF IMPLMENTED
+				controller.autoScanOut() //would be a method to scan all students out and flag events
+				break;//turn off RFID scanners
+			}*/
+			
 			//example of valid input
 			//schoolID|room#|Timestamp
 			//900000000|128|20190422090000
