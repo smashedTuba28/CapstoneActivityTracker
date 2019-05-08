@@ -80,6 +80,10 @@ public class RFIDControllerTest {
 		ps = new PrintStream(baos);
 		System.setOut(ps);
 		controller.handleEvent("900000000|120|20190507120000");//all good data 
+		System.out.flush();
 		assertTrue(baos.toString().trim().equals("Student<Jason Steinberg> scanned out of room 120"));
+		
+		//reset console output
+		System.setOut(old);
 	}
 }
