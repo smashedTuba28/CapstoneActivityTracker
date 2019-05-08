@@ -32,13 +32,14 @@ public interface IDatabase {
 	
 	public List<RoomEvent> getAllRoomEventForStudentAccountWithAccountID(Integer studentAccount_id);
 	public List<RoomEvent> getRoomEventsForStudentWithDates(Integer account_id, Timestamp start, Timestamp end);//select
-	public boolean createRoomEventForStudentAccountWithID(Integer studentAccount_id, Integer room_id, Timestamp start);//insert
-	public boolean updateRoomEventForStudentAccountWithAccountIDandEventID(Integer account_id, Integer roomEvent_id, Timestamp end, Boolean flag);
+	public boolean createRoomEventForStudentAccountWithIDandUpdateStatus(Integer studentAccount_id, Integer room_id, Timestamp start);//insert
+	public boolean updateRoomEventandStatusForStudentAccountWithAccountIDandEventID(Integer studentAccount_id, Integer roomEvent_id, Timestamp end, Boolean flag, Boolean status);
 	public RoomEvent getLastRoomEventForStudent(int studentAccountID);
 	
 	public List<SubTeam> getSubTeamsInTopTeam(String topTeamname);//select
 	public TopTeam getTopTeamWithTeamname(String topTeamname);
 	public Boolean deleteTopTeam(Integer topTeam_id);
+	
 	
 	public SubTeam getSubTeamWithTeamname(String teamname);//select
 	public Boolean createSubTeam(String name, Integer topTeamID);//insert

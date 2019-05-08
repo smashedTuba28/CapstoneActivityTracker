@@ -402,7 +402,7 @@ public class DerbyDatabaseTest {
 		System.out.println(studentAccount_id);
 		
 		//attempt to create a room event
-		assertTrue(db.createRoomEventForStudentAccountWithID(studentAccount_id, room_id, new Timestamp(start.getTime())));
+		assertTrue(db.createRoomEventForStudentAccountWithIDandUpdateStatus(studentAccount_id, room_id, new Timestamp(start.getTime())));
 		
 		//check that a roomEvent has been added
 		List<RoomEvent> events = db.getAllRoomEventForStudentAccountWithAccountID(studentAccount_id);
@@ -424,7 +424,7 @@ public class DerbyDatabaseTest {
 	}
 	
 	@Test
-	public void createRoomEventForStudentAccountWithID() {
+	public void createRoomEventForStudentAccountWithIDandUpdateStatus() {
 		String firstname = "Test";
 		String lastname = "Tester";
 		String email = "ttester@ycp.edu";
@@ -448,7 +448,13 @@ public class DerbyDatabaseTest {
 		account_id = student.getStudentAccountID();
 		
 		//attempt to create a room event
-		assertTrue(db.createRoomEventForStudentAccountWithID(account_id, room_id, new Timestamp(start.getTime())));
+		assertFalse(student.getStatus());
+		assertTrue(db.createRoomEventForStudentAccountWithIDandUpdateStatus(account_id, room_id, new Timestamp(start.getTime())));
+		
+		//refresh student info
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		//check that status is now true
+		assertTrue(student.getStatus());
 		
 		//check that a roomEvent has been added
 		List<RoomEvent> events = db.getAllRoomEventForStudentAccountWithAccountID(account_id);
@@ -558,14 +564,14 @@ public class DerbyDatabaseTest {
 		studentAccount_id = student.getStudentAccountID();
 		
 		//populate some fake roomevents
-		db.createRoomEventForStudentAccountWithID(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
-		db.createRoomEventForStudentAccountWithID(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
-		db.createRoomEventForStudentAccountWithID(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
-		db.createRoomEventForStudentAccountWithID(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
+		db.createRoomEventForStudentAccountWithIDandUpdateStatus(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
+		db.createRoomEventForStudentAccountWithIDandUpdateStatus(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
+		db.createRoomEventForStudentAccountWithIDandUpdateStatus(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
+		db.createRoomEventForStudentAccountWithIDandUpdateStatus(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
 		try {Thread.sleep((long) 10);} catch (InterruptedException e1) {}
 		
 		Date start = new Date();
-		db.createRoomEventForStudentAccountWithID(studentAccount_id, room_id, new Timestamp(start.getTime()));
+		db.createRoomEventForStudentAccountWithIDandUpdateStatus(studentAccount_id, room_id, new Timestamp(start.getTime()));
 		
 		//get most recent
 		RoomEvent e = db.getLastRoomEventForStudent(studentAccount_id);

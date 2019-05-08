@@ -1721,13 +1721,14 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public boolean createRoomEventForStudentAccountWithID(Integer studentAccount_id, Integer room_id, Timestamp start) {
+	public boolean createRoomEventForStudentAccountWithIDandUpdateStatus(Integer studentAccount_id, Integer room_id, Timestamp start) {
 		return executeTransaction(new Transaction<Boolean>() {
 
 			@Override
 			public Boolean execute(Connection conn) throws SQLException {
 				
 				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
 				
 				try {
 					//prepare SQL statement to create new RoomEvent
@@ -1745,6 +1746,14 @@ public class DerbyDatabase implements IDatabase {
 					
 					stmt1.executeUpdate();
 					
+					stmt2 = conn.prepareStatement(
+						" update studentAccounts "
+						+ " set studentAccounts.status = true "
+						+ " where studentAccounts.studentAccount_id_1 = ? "
+					);		
+					stmt2.setInt(1, studentAccount_id);
+					stmt2.executeUpdate();
+					
 					return true;
 				}finally {
 					DBUtil.closeQuietly(stmt1);
@@ -1754,8 +1763,8 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public boolean updateRoomEventForStudentAccountWithAccountIDandEventID(Integer account_id, Integer roomEvent_id,
-			Timestamp end, Boolean flag) {
+	public boolean updateRoomEventandStatusForStudentAccountWithAccountIDandEventID(Integer account_id, Integer roomEvent_id,
+			Timestamp end, Boolean flag, Boolean status) {
 		// TODO Auto-generated method stub
 		return false;
 	}
