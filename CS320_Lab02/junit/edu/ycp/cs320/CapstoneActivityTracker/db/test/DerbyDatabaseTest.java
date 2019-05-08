@@ -583,4 +583,39 @@ public class DerbyDatabaseTest {
 		//cleanup
 		db.deleteStudentAccount(studentAccount_id);
 	}
+	
+	@Test
+	public void testUpdateLogNoteforRoomEvent() {
+		String firstname = "Test";
+		String lastname = "Tester";
+		String email = "ttester@ycp.edu";
+		String password = hashSHA256.getHash("testpassword");
+		String schoolID = "999999999";
+		
+		Integer studentAccount_id = null;
+		Integer room_id = 19;
+		
+		//create a fresh account
+		db.createStudentAccount(firstname, lastname, email, password, schoolID);
+		
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		assertTrue(student != null);
+		studentAccount_id = student.getStudentAccountID();
+		
+		//populate fake roomevent
+		db.createRoomEventForStudentAccountWithIDandUpdateStatus(studentAccount_id, room_id, new Timestamp(new Date().getTime()));
+		
+		//get the roomEvent and check lognote
+		RoomEvent event = db.getLastRoomEventForStudent(studentAccount_id);
+		assertTrue(event.getLognote().equals(""));
+		
+		db.updateLogNoteforRoomEvent(event.getRoomEventID(), "I am an Update");
+		
+		event = db.getLastRoomEventForStudent(studentAccount_id);
+		assertTrue(event.getLognote().equals("I am an Update"));
+		
+		//cleanup
+		db.deleteStudentAccount(studentAccount_id);
+		
+	}
 }

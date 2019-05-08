@@ -35,6 +35,9 @@ public interface IDatabase {
 	public boolean createRoomEventForStudentAccountWithIDandUpdateStatus(Integer studentAccount_id, Integer room_id, Timestamp start);//insert
 	public boolean updateRoomEventandStatusForStudentAccountWithAccountIDandEventID(Integer studentAccount_id, Integer roomEvent_id, Timestamp end, Boolean flag, Boolean status);
 	public RoomEvent getLastRoomEventForStudent(int studentAccountID);
+	public boolean updateLogNoteforRoomEvent(Integer roomEvent_id, String lognote);
+	
+	
 	
 	public List<SubTeam> getSubTeamsInTopTeam(String topTeamname);//select
 	public TopTeam getTopTeamWithTeamname(String topTeamname);

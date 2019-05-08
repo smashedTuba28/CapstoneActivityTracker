@@ -2010,4 +2010,31 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+
+	@Override
+	public boolean updateLogNoteforRoomEvent(Integer roomEvent_id, String lognote) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				
+				try {
+					
+					stmt1 = conn.prepareStatement(
+						" update roomEvents "
+						+ " set roomEvents.lognote = ? "
+						+ " where roomEvents.roomEvent_id = ? "							
+					);		
+					stmt1.setString(1, lognote);
+					stmt1.setInt(2, roomEvent_id);
+					
+					stmt1.executeUpdate();
+					
+					return true;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+				}				
+			}
+		});
+	}
 }
