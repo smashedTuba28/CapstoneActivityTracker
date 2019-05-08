@@ -1923,9 +1923,6 @@ public class DerbyDatabase implements IDatabase {
 						student.setStudentAccountID(resultSet1.getInt(9));
 						student.setStatus(resultSet1.getBoolean(12));
 					}
-					else {
-						System.out.println("Unable to find Student Account");
-					}
 					return student;
 				}finally{
 					DBUtil.closeQuietly(stmt1);

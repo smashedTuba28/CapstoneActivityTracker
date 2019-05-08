@@ -8,14 +8,9 @@ import java.io.PrintStream;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.CapstonActivtyTracker.db.DatabaseProvider;
-import edu.ycp.cs320.CapstonActivtyTracker.db.DerbyDatabase;
-import edu.ycp.cs320.CapstonActivtyTracker.db.IDatabase;
-import edu.ycp.cs320.CapstonActivtyTracker.db.hashSHA256;
 import edu.ycp.cs320.CapstoneActivityTracker.RFID.RFIDController;
 
 public class RFIDControllerTest {
-	private IDatabase db;
 	private RFIDController controller = new RFIDController();
 	private ByteArrayOutputStream baos;
 	private PrintStream ps, old;
@@ -23,8 +18,7 @@ public class RFIDControllerTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		DatabaseProvider.setInstance(new DerbyDatabase());
-		db = DatabaseProvider.getInstance();
+		old = System.out;
 	}
 
 	
@@ -42,7 +36,6 @@ public class RFIDControllerTest {
 		//test not a student account 
 		baos = new ByteArrayOutputStream();
 		ps = new PrintStream(baos);
-		old = System.out;
 		System.setOut(ps);
 		controller.handleEvent("910000000|128|20190507120000");//schoolID for admin
 		System.out.flush();

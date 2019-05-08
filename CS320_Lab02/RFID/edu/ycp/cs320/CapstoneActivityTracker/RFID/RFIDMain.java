@@ -1,6 +1,5 @@
 package edu.ycp.cs320.CapstoneActivityTracker.RFID;
 
-import java.util.Date;
 import java.util.Scanner;
 
 public class RFIDMain {

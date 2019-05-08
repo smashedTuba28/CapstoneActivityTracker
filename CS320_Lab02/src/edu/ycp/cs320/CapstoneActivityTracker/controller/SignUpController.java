@@ -32,7 +32,7 @@ public class SignUpController {
 				}
 				else {//account does not yet exist
 					//attempt to insert new adminAccount into DB
-					if(db.creatAdminAccount(personnel.getFirstname(), personnel.getLastname(), email, password, schoolID)) {
+					if(db.createAdminAccount(personnel.getFirstname(), personnel.getLastname(), email, password, schoolID)) {
 						return true;//successfully created admin account
 					}
 					else {
