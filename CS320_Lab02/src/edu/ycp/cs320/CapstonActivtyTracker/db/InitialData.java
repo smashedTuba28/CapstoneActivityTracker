@@ -41,7 +41,7 @@ public class InitialData {
 				Iterator<String> i = tuple.iterator();
 				RoomEvent event = new RoomEvent();
 				
-				event.setAccountID(Integer.parseInt(i.next()));
+				event.setStudentAccountID(Integer.parseInt(i.next()));
 				event.setRoomID(Integer.parseInt(i.next()));
 				event.setStartTime(format.parse(i.next()));
 				event.setEndTime(format.parse(i.next()));
