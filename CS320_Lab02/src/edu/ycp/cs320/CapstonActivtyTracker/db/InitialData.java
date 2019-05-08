@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import edu.ycp.cs320.CapstoneActivityTracker.model.Account;
 import edu.ycp.cs320.CapstoneActivityTracker.model.AdminAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.Room;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
@@ -40,7 +41,7 @@ public class InitialData {
 				Iterator<String> i = tuple.iterator();
 				RoomEvent event = new RoomEvent();
 				
-				event.setAccountID(Integer.parseInt(i.next()));
+				event.setStudentAccountID(Integer.parseInt(i.next()));
 				event.setRoomID(Integer.parseInt(i.next()));
 				event.setStartTime(format.parse(i.next()));
 				event.setEndTime(format.parse(i.next()));
@@ -59,7 +60,7 @@ public class InitialData {
 	//reads initial StudentAccount data from CSV file and return List of StudentAccounts
 	public static List<StudentAccount> getStudentAccounts() throws IOException{
 		List<StudentAccount> studentList = new ArrayList<StudentAccount>();
-		ReadCSV readStudentAccounts = new ReadCSV("studentAccounts.csv");
+		ReadCSV readStudentAccounts = new ReadCSV("accounts.csv");
 		try {
 			//auto-generated primary key
 			Integer account_id = 1;
@@ -243,6 +244,37 @@ public class InitialData {
 			return subTeamStudentsList;
 		}finally {
 			readSubTeamStudents.close();
+		}
+	}
+	
+	public static List<Account> getAccounts() throws IOException{
+		List<Account> accounts = new ArrayList<Account>();
+		ReadCSV readAccounts = new ReadCSV("accounts.csv");
+		try {
+			//auto-generated primary key
+			Integer account_id = 1;
+			while(true) {
+				List<String> tuple = readAccounts.next();
+				if (tuple == null) {
+					break;
+				}
+				Iterator<String> i = tuple.iterator();
+				Account a = new Account();
+				
+				//auto-generate id
+				a.setAccountID(account_id++);
+				a.setFirstname(i.next());
+				a.setLastname(i.next());
+				a.setEmail(i.next());
+				a.setPassword(hashSHA256.getHash(i.next()));
+				a.setSchoolID(i.next());
+				a.setFaculty(Boolean.parseBoolean(i.next())); 
+				accounts.add(a);
+			}
+			System.out.println("accounts loaded from CSV file");
+			return accounts;
+		}finally {
+			readAccounts.close();
 		}
 	}
 }

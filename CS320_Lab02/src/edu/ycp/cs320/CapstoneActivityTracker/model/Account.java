@@ -5,6 +5,9 @@ public class Account {
 	private String firstname, lastname, email, schoolID;
 	private String password; //TODO: This will be changed for encryption purposes in the future
 	private Integer accountID;
+	private Boolean faculty;
+	
+	
 	//private boolean valid; from before db implemeted
 	
 	// setting no values, therefore the account is not yet valid
@@ -69,5 +72,13 @@ public class Account {
 	
 	public int getAccountID() {
 		return accountID;
+	}
+
+	public Boolean getFaculty() {
+		return faculty;
+	}
+
+	public void setFaculty(Boolean faculty) {
+		this.faculty = faculty;
 	}
 }

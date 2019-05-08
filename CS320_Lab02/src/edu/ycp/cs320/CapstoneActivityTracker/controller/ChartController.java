@@ -9,6 +9,7 @@ import java.util.List;
 import edu.ycp.cs320.CapstoneActivityTracker.model.ChartModel;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
+import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
 import edu.ycp.cs320.CapstoneActivityTracker.model.Week;
 import edu.ycp.cs320.CapstonActivtyTracker.db.*;
@@ -66,20 +67,19 @@ public class ChartController {
 		model.setTitle(title);
 	}
 	
-	public void populateTopTeamWeek(String email, Date start, Date end) {
+	public void populateSubTeamWeek(String teamname, Date start, Date end) {
 		
 		
-		
-		TopTeam topTeam = fdb.getTopTeamWithStudentEmail(email); 
-		String title = topTeam.getTeamname() + " Hours";
+		SubTeam subTeam = db.getSubTeamWithTeamname(teamname);
+		String title = subTeam.getTeamname() + " Work Hours";
 		ArrayList<long[]> weekList = new ArrayList<long[]>();
 		String data = "[['Date'";
 		
 		//get all students in the Team
-		List<StudentAccount> students = fdb.getAllStudentsInTopTeam(topTeam);
+		List<StudentAccount> students = db.getAllStudentsInSubTeamWithTeamName(teamname);
 		
 		for(StudentAccount s: students) {//get each students week events
-			weekList.add(getWeekFromRoomEvents(start, end,s));
+			weekList.add(getWeekFromRoomEvents(start, end, db.getAllRoomEventForStudentAccountWithAccountID(s.getStudentAccountID())));
 			data += ",'" + s.getFirstname() + " " + s.getLastname() + "'";
 		}
 		data += "]";

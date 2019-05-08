@@ -283,4 +283,13 @@ public class StudentAccountTest {
 		assertFalse(student.findRoomEvent(1).getLognote().equals(oldLogNote));
 	
 	}
+	
+	@Test
+	public void testSetStudentAccountID() {
+		int id = 1;
+		student.setStudentAccountID(id);
+		assertEquals(1, student.getStudentAccountID());
+		student.setStudentAccountID(2);
+		assertNotEquals(id, student.getStudentAccountID());
+	}
 }

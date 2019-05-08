@@ -89,7 +89,14 @@ public class AdminAccountTest {
 		assertFalse(admin.getFirstname().equals(password));
 	}
 	
-	
+	@Test
+	public void testSetAdminAccountID() {
+		int id = 1;
+		admin.setAdminAccountID(id);
+		assertEquals(1, admin.getAdminAccountID());
+		admin.setAdminAccountID(2);
+		assertNotEquals(id, admin.getAdminAccountID());
+	}
 	
 	/* All of this information is now in the database. therefore most of these test will end up in the test cases for the FakeDatabase.java
 	@Test

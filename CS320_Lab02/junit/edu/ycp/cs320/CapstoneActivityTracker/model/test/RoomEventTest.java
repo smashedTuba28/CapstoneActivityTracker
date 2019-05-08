@@ -118,4 +118,31 @@ public class RoomEventTest {
 		event.setEndTime(weekEnd);
 		assertEquals(10080, event.getDuration());
 	}
+	
+	@Test
+	public void testSetRoomID() {
+		int id = 1;
+		event.setRoomID(id);
+		assertEquals(1, event.getRoomID());
+		event.setRoomID(2);
+		assertNotEquals(id, event.getRoomID());
+	}
+	
+	@Test
+	public void testSetStudentAccountID() {
+		int id = 1;
+		event.setStudentAccountID(id);
+		assertEquals(1, event.getStudentAccountID());
+		event.setStudentAccountID(2);
+		assertNotEquals(id, event.getStudentAccountID());
+	}
+	
+	@Test
+	public void testSetRoomEventID() {
+		int id = 1;
+		event.setRoomEventID(id);
+		assertEquals(1, event.getRoomEventID());
+		event.setRoomEventID(2);
+		assertNotEquals(id, event.getRoomEventID());
+	}
 }

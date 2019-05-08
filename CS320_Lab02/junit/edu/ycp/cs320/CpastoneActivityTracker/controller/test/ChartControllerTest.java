@@ -125,33 +125,20 @@ public class ChartControllerTest {
 	@Test
 	public void testPopulateTopTeamWeek() {
 		assertTrue(model.getData() == null);
-		String email = "jsteinberg@ycp.edu";
+		String teamname= "Controls";
 		Date start = new Date(119, 2, 31, 0,0,0);//March31st 2019
 		Date end = new Date(119,3,6,24,0,0);//April6th 2019
 		
-		controller.populateTopTeamWeek(email, start, end);   
+		controller.populateSubTeamWeek(teamname, start, end);
 		
-		
-		assertTrue(model.getTitle().equals("Drone Team Hours"));
-		assertTrue(model.getData().equals("[['Date','Jason Steinberg','Travis Wetzel','William Taylor'],"
-				+ "['3-31', 4.5, 2.5, 1.5],"
-				+ "['4-1', 5.0, 5.0, 1.0],"
-				+ "['4-2', 1.7833333333333334, 1.8333333333333333, 0.0],"
-				+ "['4-3', 3.0, 6.0, 0.5],"
-				+ "['4-4', 6.816666666666666, 14.316666666666666, 6.816666666666666],"
-				+ "['4-5', 7.5, 4.0, 3.933333333333333],"
-				+ "['4-6', 10.0, 10.0, 0.0]]"));
-		
-		email = "twetzel1@ycp.edu"; //change email do different person
-		//team is the same so asserts shouldn't change
-		assertTrue(model.getTitle().equals("Drone Team Hours"));
-		assertTrue(model.getData().equals("[['Date','Jason Steinberg','Travis Wetzel','William Taylor'],"
-				+ "['3-31', 4.5, 2.5, 1.5],"
-				+ "['4-1', 5.0, 5.0, 1.0],"
-				+ "['4-2', 1.7833333333333334, 1.8333333333333333, 0.0],"
-				+ "['4-3', 3.0, 6.0, 0.5],"
-				+ "['4-4', 6.816666666666666, 14.316666666666666, 6.816666666666666],"
-				+ "['4-5', 7.5, 4.0, 3.933333333333333],"
-				+ "['4-6', 10.0, 10.0, 0.0]]"));
+		assertTrue(model.getTitle().equals("Controls Work Hours"));
+		assertTrue(model.getData().equals("[['Date','Jason Steinberg','Travis Wetzel'],"
+				+ "['3-31', 4.5, 2.5],"
+				+ "['4-1', 5.0, 5.0],"
+				+ "['4-2', 1.7833333333333334, 1.8333333333333333],"
+				+ "['4-3', 3.0, 6.0],"
+				+ "['4-4', 6.816666666666666, 14.316666666666666],"
+				+ "['4-5', 7.5, 4.0],"
+				+ "['4-6', 10.0, 10.0]]"));
 	}
 }
