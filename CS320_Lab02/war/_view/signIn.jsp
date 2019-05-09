@@ -4,7 +4,7 @@
 
 <html>
 	<head>
-		<title>Log In to the Capstone Tracker</title>
+		<title>Sign In to the Capstone Tracker</title>
 	</head>
 
 	<body>
@@ -28,15 +28,18 @@
 					<tr>
 						<td class = "Label">Password:</td>
 						<td><input type = "Password" name="password" size="12" value="${password}">
-					</tr>		
+					</tr>	
+					<tr>
+						<td class = "Label">Faculty Member:</td>
+						<td>
+							<select size="1" name="accountType" required= "required">
+							<option>Select-One</option>
+        					<option value ="admin">Administrator</option>
+        					<option value ="student">Student</option>
+							</select>
+						</td>	
+					</tr>	
 				</table>
-				
-				<select size="1" name="accountType" required= "required">
-						<option>Select-One</option>
-        				<option value ="admin">Administrator</option>
-        				<option value ="student">Student</option>
-				</select>
-				
 				<input type="submit" name="signIn" value="Log In" />
 				<a href = "http://localhost:8081/CapstoneActivityTracker/passForgot">Forgot Password</a>
 			</c:if>

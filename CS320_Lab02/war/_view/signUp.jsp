@@ -20,11 +20,11 @@
 						<td class="Label">Please complete to create your account.</td>
 					</tr>
 					<tr>
-						<td class = "Label">Student ID Number:</td>
+						<td class = "Label">Student ID:</td>
 						<td><input type = "Text" name="schoolID" size="12" value="${schoolID}">
 					</tr>		
 					<tr>
-						<td class = "Label">YCP Email:</td>
+						<td class = "Label">Email:</td>
 						<td><input type ="Text" name="email" size="12" value="${email}">
 					</tr>
 					<tr>
@@ -34,14 +34,19 @@
 					<tr>
 						<td class = "Label">Password Confirmation:</td>
 						<td><input type = "Password" name="passwordConfirm" size="12" value="${passwordConfirm}">
-					</tr>		
+					</tr>	
+					<tr>
+						<td class = "Label">Faculty Member:</td>
+						<td>
+							<select size="1" name="accountType" required= "required">
+							<option>Select-One</option>
+        					<option value ="admin">Administrator</option>
+        					<option value ="student">Student</option>
+							</select>
+						</td>	
 				</table>
 					
-				<select size="1" name="accountType" required= "required">
-						<option>Select-One</option>
-        				<option value ="admin">Administrator</option>
-        				<option value ="student">Student</option>
-				</select>
+
 				
 				<input type="submit" name="signUp" value="Create Account" />
 		</form>
