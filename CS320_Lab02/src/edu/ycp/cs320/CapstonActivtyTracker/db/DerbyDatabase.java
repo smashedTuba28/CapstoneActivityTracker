@@ -2066,4 +2066,40 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+
+	@Override
+	public TopTeam getTopTeamWithAccountID(Integer account_id) {
+		return executeTransaction(new Transaction<TopTeam>() {
+			@Override
+			public TopTeam execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;//get top team
+				ResultSet resultSet1 = null;
+				TopTeam team = null;
+				try {
+					//MEGA SQL REQUEST
+					stmt1 = conn.prepareStatement(
+						" select topTeams.* "
+						+ " from topTeams, subTeams, subTeamStudents, studentAccounts, accounts"
+						+ " where accounts.account_id_1 = ? "
+						+ " and accounts.account_id_1 = studentAccounts.account_id_1 "
+						+ " and studentAccounts.studentAccount_id_2 = subTeamStudents.studentAccount_id_2 "
+						+ " and subTeamStudents.subTeam_id_2 = subTeams.subTeam_id_2 "
+						+ " and subTeams.topTeam_id = topTeams.topTeam_id"	
+					);		
+					stmt1.setInt(1, account_id);
+					resultSet1 = stmt1.executeQuery();
+					
+					if(resultSet1.next()) {
+						team = new TopTeam();
+						team.setTeamID(resultSet1.getInt(1));
+						team.setTeamname(resultSet1.getString(2));
+					}
+					return team;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet1);
+				}
+			}
+		});
+	}
 }

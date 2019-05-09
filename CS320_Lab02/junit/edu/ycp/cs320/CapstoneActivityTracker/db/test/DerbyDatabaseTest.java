@@ -667,4 +667,19 @@ public class DerbyDatabaseTest {
 		db.deleteStudentAccount(studentAccount_id);
 	}
 	
+	@Test
+	public void testgetTopTeamWithAccountID() {
+		assertTrue(topTeam == null);
+		
+		topTeam = db.getTopTeamWithAccountID(3); //Jim Halpert member of dunder mifflin
+		assertTrue(topTeam != null);
+		assertTrue(topTeam.getTeamname().equals("Dunder Mifflin"));
+		assertEquals(1, topTeam.getTeamID());
+		
+		topTeam = db.getTopTeamWithAccountID(-1);
+		assertTrue(topTeam == null);
+		
+	}
+	
+	
 }
