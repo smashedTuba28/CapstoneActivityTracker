@@ -25,12 +25,14 @@ public class StudentViewServlet  extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("StudentView Servlet: doGet");
+		String account_id = null;
 	
-	
-		String account_id = req.getSession().getAttribute("account_id").toString();
-		
+		try{
+			account_id = req.getSession().getAttribute("account_id").toString();
+		}catch(NullPointerException e) {}
 		//check session
-		if ( account_id == null) {
+		
+		if (account_id == null) {
 			//redirect
 			resp.sendRedirect(req.getContextPath() + "/signIn");
 		}
@@ -51,8 +53,20 @@ public class StudentViewServlet  extends HttpServlet {
 			System.out.println("Start Time: " + start.toString());
 			System.out.println("End Time: " + end.toString());
 			
-			//populates model with needed information for jsp
-			controller.populateStudentWeek(Integer.parseInt(account_id), start, end);
+			
+			//find if needing logged in student or another individual
+			String teammate_id = null;
+			
+			try {
+				teammate_id = req.getSession().getAttribute("teammate_id").toString();
+			}catch(NullPointerException e) {}
+			
+			if(teammate_id == null) {//no teammate use logged in account
+				controller.populateStudentWeek(Integer.parseInt(account_id), start, end);
+			}
+			else {//teammate info being requested
+				controller.populateStudentWeek(Integer.parseInt(teammate_id), start, end);
+			}
 			
 			req.setAttribute("model", model);
 			System.out.println("Made IT");

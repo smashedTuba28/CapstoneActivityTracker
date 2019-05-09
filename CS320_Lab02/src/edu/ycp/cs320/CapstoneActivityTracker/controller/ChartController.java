@@ -30,10 +30,10 @@ public class ChartController {
 	
 	public void populateStudentWeek(Integer account_id, Date start, Date end){
 		
-		StudentAccount student = db.getStudentAccountWithID(account_id);//get student from DB
+		StudentAccount student = db.getStudentAccountWithID(account_id);//get student from DB using general AccountID
 		
 		//get all room events for student
-		List<RoomEvent> eventList = db.getAllRoomEventForStudentAccountWithAccountID(student.getAccountID());
+		List<RoomEvent> eventList = db.getAllRoomEventForStudentAccountWithAccountID(student.getStudentAccountID());
 		
 		System.out.println(eventList.size());
 		
