@@ -3,6 +3,9 @@
 <! taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <! taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<!-- SomeImages taken from York College of Pennsylvania. The image links directly to the src it was taken from -->
+
+
 <html>
 	<head>
 		<title>Individual Student View</title>
@@ -47,8 +50,10 @@
 		<!-- Header -->
 		<div class="header">
   			<h1>Capstone Activity Tracker</h1>
-  			<img src="https://www.ycp.edu/media/york-website/style-assets-2016/images/york-college-logo-white.svg"
+  			<a href="https://www.ycp.edu/">
+  				<img src="https://www.ycp.edu/media/york-website/style-assets-2016/images/york-college-logo-white.svg"
   				id="banner"></img>
+			</a>
 		</div>
 
 <!-- Navigation Bar -->
