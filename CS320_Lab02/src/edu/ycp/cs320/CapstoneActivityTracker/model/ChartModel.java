@@ -10,7 +10,7 @@ public class ChartModel {
 		private String subTeamNames;
 		private String studentNames;
 		private String mySubTeamName;
-		private ArrayList<>
+	
 		
 		public ChartModel() {
 		}

@@ -245,7 +245,7 @@ public class ChartController {
 	}
 	
 	public void populateModelLognotes(List<RoomEvent> events) {
-		model.set
+		//model.set
 	}
 	
 	
