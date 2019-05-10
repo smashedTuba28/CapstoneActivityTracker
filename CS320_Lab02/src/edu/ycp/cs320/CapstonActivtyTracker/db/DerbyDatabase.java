@@ -856,7 +856,8 @@ public class DerbyDatabase implements IDatabase {
 							" select subTeams.* "
 							+ "   	from subTeams, topTeams "
 							+ " 	where subTeams.topTeam_id = topTeams.topTeam_id "
-							+ " 	and topTeams.teamname = ? "		
+							+ " 	and topTeams.teamname = ? "
+							+ "		order by subTeams.teamname ASC"		
 					);		
 					stmt1.setString(1, topTeamname);
 					resultSet1 = stmt1.executeQuery();
@@ -1853,7 +1854,8 @@ public class DerbyDatabase implements IDatabase {
 						+ " where studentAccounts.studentAccount_id_2 = subTeamStudents.studentAccount_id_2 "
 						+ " and subTeams.subTeam_id_2 = subTeamStudents.subTeam_id_2 "
 						+ " and studentAccounts.account_id_1 = accounts.account_id_1 "
-						+ " and subTeams.teamname = ?"	
+						+ " and subTeams.teamname = ? "
+						+ " order by accounts.lastname ASC, accounts.firstname ASC, accounts.schoolID ASC"	
 					);
 					stmt1.setString(1, teamname);
 					resultSet1 = stmt1.executeQuery();
@@ -2113,7 +2115,7 @@ public class DerbyDatabase implements IDatabase {
 						+ " where accounts.account_id_1 = ? "
 						+ " and accounts.account_id_1 = studentAccounts.account_id_1 "
 						+ " and studentAccounts.studentAccount_id_2 = subTeamStudents.studentAccount_id_2 "
-						+ " and subTeamStudents.subTeam_id_2 = subTeams.subTeam_id_2"	
+						+ " and subTeamStudents.subTeam_id_2 = subTeams.subTeam_id_2"
 					);		
 					stmt1.setInt(1, account_id);
 					resultSet1 = stmt1.executeQuery();

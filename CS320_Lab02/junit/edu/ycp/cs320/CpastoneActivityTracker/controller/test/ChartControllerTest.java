@@ -141,4 +141,27 @@ public class ChartControllerTest {
 				+ "['4-5', 7.5, 4.0],"
 				+ "['4-6', 10.0, 10.0]]"));
 	}
+	
+	@Test
+	public void testGetTeamInfoForAccount() {
+		//testing with Drone Team
+		
+		controller.getTeamInfoForAccount(1, "student");//Jason Steinberg's Account
+		
+		assertTrue(model.getTopTeamName().equals("Drone Team"));
+		assertTrue(model.getMySubTeamName().equals("Controls"));
+		assertTrue(model.getSubTeamNames().equals("[\"Controls\"]"));
+		assertTrue(model.getStudentNames().equals("[\"Jason Steinberg\",\"Travis Wetzel\"]"));
+	
+		controller.getTeamInfoForAccount(3, "student");//Jim Halpert's Account
+		assertTrue(model.getTopTeamName().equals("Dunder Mifflin"));
+		assertTrue(model.getMySubTeamName().equals("Sales"));
+		assertTrue(model.getSubTeamNames().equals("[\"Accounting\",\"Annex\",\"Quality Assurance\",\"Reception\",\"Sales\",\"Supplier Relations\",\"Warehouse\"]"));
+		assertTrue(model.getStudentNames().equals("[\"Andy Bernard\",\"Jim Halpert\",\"Stanley Hudson\",\"Dwight Schrute\",\"Phyllis Vance\"]"));
+		
+		//TODO: finish
+	}
+	
+	
+	
 }

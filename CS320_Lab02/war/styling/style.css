@@ -88,9 +88,31 @@ body {
 /*box for list subteam and student names*/
 .nameList {
   background-color: #aaa;
-  width: 60%;
-  text-align: center;
-  padding: 20px;
+  width: 80%;
+  align-items: center;
+  padding: 5px;
+}
+
+#studentList input{
+  background-color: #4CAF50; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 10px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 95%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  font-size: 10px; 
+}
+
+#subTeamList input{
+  background-color: #4CAF50; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 10px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 95%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  font-size: 10px; 
 }
 
 /* Footer */

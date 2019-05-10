@@ -11,7 +11,6 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.SubTeam;
 import edu.ycp.cs320.CapstoneActivityTracker.model.TopTeam;
-import edu.ycp.cs320.CapstoneActivityTracker.model.Week;
 import edu.ycp.cs320.CapstonActivtyTracker.db.*;
 
 public class ChartController {
@@ -100,8 +99,69 @@ public class ChartController {
 		model.setData(data);
 		model.setTitle(title);
 	}
+	
+	public void getTeamInfoForAccount(Integer account_id, String accountType) {
+		
+		if(accountType.equals("student")) {
+			//student is currently logged in
+			
+			//get the logged in student's topteam name
+			TopTeam topTeam = db.getTopTeamWithAccountID(account_id);
+			model.setTopTeamName(topTeam.getTeamname());
+			
+			//get the logged in students subTeam
+			SubTeam subTeam = db.getSubTeamWithAccountID(account_id);
+			model.setMySubTeamName(subTeam.getTeamname());
+			
+			//get a list of the subTeams in that topTeam
+			List<SubTeam> subTeams = db.getSubTeamsInTopTeam(topTeam.getTeamname());
+			//ArrayList<String> subTeamNames = new ArrayList<String>();
+			//format as a javaScript array
+			String subTeamNames = "[";
+			for (int i = 0; i<subTeams.size(); i++) {
+				subTeamNames += "\"" + subTeams.get(i).getTeamname() + "\"";
+				if(i<subTeams.size()-1) {
+					subTeamNames +=",";
+				}
+			}
+			subTeamNames += "]";
+			
+			//for(SubTeam sub: subTeams) {
+				//if(sub.getTeamID() != subTeam.getTeamID())
+				//{
+				//	subTeamNames.add(sub.getTeamname());
+				//}
+			//}
+			model.setSubTeamNames(subTeamNames);
+		
+			
+			//get all students
+			List<StudentAccount> studentList = db.getAllStudentsInSubTeamWithTeamName(subTeam.getTeamname());
+			//ArrayList<String> studentNames = new ArrayList<String>();
+			//format into a javaScript array
+			String studentNames = "[";
+			for (int i = 0; i<studentList.size(); i++) {
+				studentNames += "\"" + studentList.get(i).getFirstname() + " " + studentList.get(i).getLastname() + "\"";
+				if(i<studentList.size()-1) {
+					studentNames += ",";
+				}
+			}
+			studentNames += "]";
+			/*
+			for(StudentAccount s: studentList) {
+				if(s.getAccountID()!=account_id) {
+					studentNames.add(s.getFirstname() + " " + s.getLastname());
+				}
+			}*/
+			model.setStudentNames(studentNames);
+			System.out.println(model.getStudentNames());	
+		}
+		else {
+			
+		}
+	}
 
-public long[] getWeekFromRoomEvents(Date start, Date end, List<RoomEvent> eventList) {
+	public long[] getWeekFromRoomEvents(Date start, Date end, List<RoomEvent> eventList) {
 		
 		ArrayList<RoomEvent> events = new ArrayList<RoomEvent>();//list for all events within timeframe
 		long durations[] = new long[7];
@@ -128,11 +188,11 @@ public long[] getWeekFromRoomEvents(Date start, Date end, List<RoomEvent> eventL
 		}
 		
 		
+		//stash the lognotes of these room events into to ChartModel
+		populateModelLognotes(events);
 		
 		for(int i= 0; i < 7; i++) {//always doing 7
 			//for loop checks all applicable events to see if they transpire on a certain day
-		
-			//System.out.println("Iteration " + i);		
 			
 			for (RoomEvent e: events) {
 				
@@ -183,5 +243,11 @@ public long[] getWeekFromRoomEvents(Date start, Date end, List<RoomEvent> eventL
 		//Finished going through all room events and adding durations 
 		return durations;
 	}
+	
+	public void populateModelLognotes(List<RoomEvent> events) {
+		model.set
+	}
+	
+	
 }
 

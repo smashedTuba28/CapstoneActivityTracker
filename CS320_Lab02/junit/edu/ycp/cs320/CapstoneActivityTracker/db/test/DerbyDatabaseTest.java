@@ -28,7 +28,7 @@ public class DerbyDatabaseTest {
 	private List<Room> roomList; 
 	private SubTeam subTeam = null;
 	private TopTeam topTeam = null;
-	List<SubTeam> subTeams = null;
+	List<SubTeam> subTeams = null; 
 	
 	@Before
 	public void setUp() throws Exception {
@@ -668,7 +668,7 @@ public class DerbyDatabaseTest {
 	}
 	
 	@Test
-	public void testgetTopTeamWithAccountID() {
+	public void testGetTopTeamWithAccountID() {
 		assertTrue(topTeam == null);
 		
 		topTeam = db.getTopTeamWithAccountID(3); //Jim Halpert member of dunder mifflin
@@ -681,5 +681,18 @@ public class DerbyDatabaseTest {
 		
 	}
 	
+	@Test
+	public void testGetSubTeamWithAccountID() {
+		assertTrue(subTeam == null);
+		
+		subTeam = db.getSubTeamWithAccountID(1);//jason on controls subteam
+		assertTrue(subTeam != null);
+		assertTrue(subTeam.getTeamname().equals("Controls"));
+		assertEquals(8, subTeam.getTeamID());
+		assertEquals(2, subTeam.getTopTeamID());
+		
+		subTeam = db.getSubTeamWithAccountID(-1);
+		assertTrue(subTeam == null);
+	}
 	
 }
