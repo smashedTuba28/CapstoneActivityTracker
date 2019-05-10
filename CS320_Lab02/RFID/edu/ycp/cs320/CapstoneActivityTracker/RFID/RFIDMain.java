@@ -13,7 +13,7 @@ public class RFIDMain {
 		
 			System.out.println("Incoming String from Scanner: ");
 			String scan = keyboard.nextLine();
-		
+			
 			if(scan.toLowerCase().equals("exit")) {
 				System.out.println("RFID TURNED OFF");
 				break;
@@ -28,7 +28,6 @@ public class RFIDMain {
 			//schoolID|room#|Timestamp
 			//900000000|128|20190422090000
 			controller.handleEvent(scan);
-		
 		}
 	}
 }

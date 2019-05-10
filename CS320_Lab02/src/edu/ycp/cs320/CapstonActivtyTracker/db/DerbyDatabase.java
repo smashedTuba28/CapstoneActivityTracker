@@ -839,12 +839,6 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public List<RoomEvent> getRoomEventsForStudentWithDates(Integer account_id, Timestamp start, Timestamp end) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<SubTeam> getSubTeamsInTopTeam(String topTeamname) {
 		return executeTransaction(new Transaction<List<SubTeam>>() {
 
@@ -862,7 +856,8 @@ public class DerbyDatabase implements IDatabase {
 							" select subTeams.* "
 							+ "   	from subTeams, topTeams "
 							+ " 	where subTeams.topTeam_id = topTeams.topTeam_id "
-							+ " 	and topTeams.teamname = ? "		
+							+ " 	and topTeams.teamname = ? "
+							+ "		order by subTeams.teamname ASC"		
 					);		
 					stmt1.setString(1, topTeamname);
 					resultSet1 = stmt1.executeQuery();
@@ -1859,7 +1854,8 @@ public class DerbyDatabase implements IDatabase {
 						+ " where studentAccounts.studentAccount_id_2 = subTeamStudents.studentAccount_id_2 "
 						+ " and subTeams.subTeam_id_2 = subTeamStudents.subTeam_id_2 "
 						+ " and studentAccounts.account_id_1 = accounts.account_id_1 "
-						+ " and subTeams.teamname = ?"	
+						+ " and subTeams.teamname = ? "
+						+ " order by accounts.lastname ASC, accounts.firstname ASC, accounts.schoolID ASC"	
 					);
 					stmt1.setString(1, teamname);
 					resultSet1 = stmt1.executeQuery();
@@ -2063,6 +2059,78 @@ public class DerbyDatabase implements IDatabase {
 				}finally {
 					DBUtil.closeQuietly(stmt1);
 				}				
+			}
+		});
+	}
+
+	@Override
+	public TopTeam getTopTeamWithAccountID(Integer account_id) {
+		return executeTransaction(new Transaction<TopTeam>() {
+			@Override
+			public TopTeam execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;//get top team
+				ResultSet resultSet1 = null;
+				TopTeam team = null;
+				try {
+					//MEGA SQL REQUEST
+					stmt1 = conn.prepareStatement(
+						" select topTeams.* "
+						+ " from topTeams, subTeams, subTeamStudents, studentAccounts, accounts"
+						+ " where accounts.account_id_1 = ? "
+						+ " and accounts.account_id_1 = studentAccounts.account_id_1 "
+						+ " and studentAccounts.studentAccount_id_2 = subTeamStudents.studentAccount_id_2 "
+						+ " and subTeamStudents.subTeam_id_2 = subTeams.subTeam_id_2 "
+						+ " and subTeams.topTeam_id = topTeams.topTeam_id"	
+					);		
+					stmt1.setInt(1, account_id);
+					resultSet1 = stmt1.executeQuery();
+					
+					if(resultSet1.next()) {
+						team = new TopTeam();
+						team.setTeamID(resultSet1.getInt(1));
+						team.setTeamname(resultSet1.getString(2));
+					}
+					return team;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet1);
+				}
+			}
+		});
+	}
+
+	@Override
+	public SubTeam getSubTeamWithAccountID(Integer account_id) {
+		return executeTransaction(new Transaction<SubTeam>() {
+			@Override
+			public SubTeam execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet1 = null;
+				SubTeam subTeam = null;
+				
+				try {
+					stmt1= conn.prepareStatement(
+						" select subTeams.* "
+						+ " from subTeams, subTeamStudents, studentAccounts, accounts "
+						+ " where accounts.account_id_1 = ? "
+						+ " and accounts.account_id_1 = studentAccounts.account_id_1 "
+						+ " and studentAccounts.studentAccount_id_2 = subTeamStudents.studentAccount_id_2 "
+						+ " and subTeamStudents.subTeam_id_2 = subTeams.subTeam_id_2"
+					);		
+					stmt1.setInt(1, account_id);
+					resultSet1 = stmt1.executeQuery();
+					
+					if(resultSet1.next()) {
+						subTeam = new SubTeam();
+						subTeam.setTeamID(resultSet1.getInt(1));
+						subTeam.setTeamname(resultSet1.getString(3));
+						subTeam.setTopTeamID(resultSet1.getInt(4));
+					}
+					return subTeam;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet1);
+				}
 			}
 		});
 	}

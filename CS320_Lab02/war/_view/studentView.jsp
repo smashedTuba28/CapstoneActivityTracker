@@ -4,7 +4,7 @@
 <! taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!-- SomeImages taken from York College of Pennsylvania. The image links directly to the src it was taken from -->
-
+<!-- styling is based of of code examples from w3schools.com-->
 
 <html>
 	<head>
@@ -21,11 +21,11 @@
   	 		// Create the data table.			
   	 		
   	 		
-        	var data = google.visualization.arrayToDataTable(${model.data});
+        	var data = google.visualization.arrayToDataTable(${chartModel.data});
         	
        		// Set chart options
         	var options = {
-       			title: '${model.title}',
+       			title: '${chartModel.title}',
        			subtitle: '${model.student}',
        			colors: ['#008000'],
        			vAxis: {
@@ -44,6 +44,9 @@
         	chart.draw(data, google.charts.Bar.convertOptions(options));
  		}
 		</script>
+		
+		
+		
 	</head>
 
 	<body>
@@ -59,7 +62,6 @@
 <!-- Navigation Bar -->
 		<div class="navbar">
   			<a href="http://localhost:8081/CapstoneActivityTracker/studentView">Home</a>
-  			<a href="#">Team</a>
   			<a href="http://localhost:8081/CapstoneActivityTracker/teamView">SubTeam</a>
   			<a href="">Account</a>
   			<a href="http://localhost:8081/CapstoneActivityTracker/index">Sign Out</a>
@@ -71,26 +73,26 @@
 		<div class="row">
   			<div class="side">
     			<h2>${account.firstname}<br>${account.lastname}</h2>
-    			<h3>TopTeamName</h3>
-    			<div class="nameList">
-    				<a href="#">SubTeam1</a>
-    				<a href="#">SubTeam2</a>
-            		<a href="#">SubTeam3</a>
-        			<a href="#">SubTeam4</a>
+    			<h3>${chartModel.topTeamName}</h3>
+    			<form>
+    				<div class="nameList" > 
+    					<div id="subTeamList"></div>
+    				</div>
+    			</form>	
+    			<h4>${chartModel.mySubTeamName}</h4>
+    			<div class="nameList" > 
+    				<div id="studentList"></div>
     			</div>
-    			<h4>SubTeam Name</h4>
-    			<div class="nameList">
-    				<a href="#">Student1</a>
-    				<a href="#">Student2</a>
-            		<a href="#">Student3</a>
-        			<a href="#">Student4</a>
-        		</div>
   			</div>
   			<div class="main">
-  				<div class="flex-container">
-  					<div class="button"><</div>
-    				<div class="chart" id="columnchart_hours">CHART HERE</div>
-    				<div class="button">></div>
+  				<div class="flex-container" >
+  					<form action="${pageContext.servletContext.contextPath}/studentView" method="post"> 					
+  						<input class="button" type="button" value="<"></input>
+  					</form>
+    				<div class="chart" id="columnchart_hours"></div>
+    				<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+    					<input class="button" type="button" value=">"></input>
+    				</form>
     			</div> 
     			<p>Week Log notes:</p>
     			<div>
@@ -112,5 +114,33 @@
   				</div>
 			</div>
 		</div>
+		<script type="text/javascript">
+			//ceates the submit buttons based needed size
+			var docFrag = document.getElementById("studentList");
+			var names = ${chartModel.studentNames};
+		
+			for (var i=0; i < names.length ; i++){
+			     var elem = document.createElement('input');
+			     elem.type = 'button';
+			     elem.value = names[i];
+			     var linebreak = document.createElement("br");
+			     elem.appendChild(linebreak);
+			     docFrag.appendChild(elem);
+			}
+		</script>
+		<script type="text/javascript">
+			//ceates the submit buttons based needed size
+			var docFrag = document.getElementById("subTeamList");
+			var names = ${chartModel.subTeamNames};
+		
+			for (var i=0; i < names.length ; i++){
+			     var elem = document.createElement('input');
+			     elem.type = 'button';
+			     elem.value = names[i];
+			     var linebreak = document.createElement("br");
+			     elem.appendChild(linebreak);
+			     docFrag.appendChild(elem);
+			}
+		</script>
 	</body>
 </html>
