@@ -55,8 +55,14 @@ public class CreateTopTeamServlet extends HttpServlet {
 		String teamname = null;
 		boolean TTcreation = false;
 		
-		//decode POSted from parameter and dispatch to controller
-		teamname = req.getParameter("teamname").toString();
+		try {
+			//decode POSted from parameter and dispatch to controller
+			teamname = req.getParameter("teamname").toString();
+			
+		}
+		catch(NullPointerException e) {
+			
+		}
 		System.out.println(teamname);
 		
 		//check that none are empty
@@ -70,14 +76,14 @@ public class CreateTopTeamServlet extends HttpServlet {
 		
 		if(!TTcreation) {
 			errorMessage = "Top Team not created!";
-			req.getRequestDispatcher("/_view/signUp.jsp").forward(req, resp);
+			req.getRequestDispatcher("/_view/createTopTeam.jsp").forward(req, resp);
 			
 		}
 		else{
 			errorMessage = "Successful Top Team Creation";
-			req.getRequestDispatcher("/_view/signUp.jsp").forward(req, resp);
+			req.getRequestDispatcher("/_view/createTopTeam.jsp").forward(req, resp);
 		}
 		errorMessage = "Whoops! That wasn't supposed to happen. Try Again.";
-		req.getRequestDispatcher("/_view/signUp.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/createTopTeam.jsp").forward(req, resp);
 	}
 }
