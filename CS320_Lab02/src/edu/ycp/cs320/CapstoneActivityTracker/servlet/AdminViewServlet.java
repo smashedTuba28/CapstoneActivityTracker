@@ -68,10 +68,16 @@ public class AdminViewServlet extends HttpServlet {
 		String topTeam = null;
 		String subTeam = null;
 		String student = null;
+		
 		//b == button press
 		String b1 = null;
 		String b2 = null;
 		String b3 = null;
+		
+		//buttons for creating Capstone team and sub Team
+		String cTeam = null;
+		String cSub = null;
+		
 		//intiallizing controller and model for adminView
 		AdminViewController controller = new AdminViewController();
 		AdminView model = new AdminView();
@@ -114,9 +120,20 @@ public class AdminViewServlet extends HttpServlet {
 		}
 		catch(NullPointerException e) {
 
+		}try {
+			cTeam 		= req.getParameter("cTeam").toString();
+		}
+		catch(NullPointerException e) {
+
+		}
+		try {
+			cSub 		= req.getParameter("cSub").toString();
+		}
+		catch(NullPointerException e) {
+
 		}
 		
-
+		if(cTeam==null && cSub==null) {
 		if(b1!=null) {
 			if(topTeam.equals("val")) {
 				
@@ -199,13 +216,24 @@ public class AdminViewServlet extends HttpServlet {
 			}
 			else {
 				if(student==null) {
-					//get faculty view if successful login
-					req.getRequestDispatcher("/_view/teamView.jsp").forward(req, resp);
+					req.getSession().setAttribute("subTeamname", subTeam);
+					//get student view if successful login
+					resp.sendRedirect(req.getContextPath() + "/teamView");
 				}
 				else {
-					//get faculty view if successful login
-					req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
+					req.getSession().setAttribute("teammate_id", student);
+					//get student view if successful login
+					resp.sendRedirect(req.getContextPath() + "/studentView");
 				}
+			}
+		}
+		}
+		else {
+			if(cTeam!=null) {
+				resp.sendRedirect(req.getContextPath() + "/createTopTeam");
+			}
+			else {
+				resp.sendRedirect(req.getContextPath() + "/createSubTeam");
 			}
 		}
 
