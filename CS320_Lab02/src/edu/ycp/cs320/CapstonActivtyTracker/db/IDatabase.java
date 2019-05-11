@@ -40,4 +40,5 @@ public interface IDatabase {
 	public Boolean createSubTeam(String name, Integer topTeamID);//insert
 	public Boolean deleteSubTeam(Integer subTeamID);//delete
 	public Boolean createTopTeam(String topTeamname);//insert
+	public List<TopTeam> getAllTopTeams();
 }

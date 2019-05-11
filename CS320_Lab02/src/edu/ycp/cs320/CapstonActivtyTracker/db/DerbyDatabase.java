@@ -2134,4 +2134,34 @@ public class DerbyDatabase implements IDatabase {
 			}
 		});
 	}
+
+	@Override
+	public List<TopTeam> getAllTopTeams() {
+		return executeTransaction(new Transaction<List<TopTeam>>() {
+			@Override
+			public List<TopTeam> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				ResultSet resultSet1 = null;
+				List<TopTeam> topTeams = new ArrayList<TopTeam>();
+				
+				try {
+					stmt1= conn.prepareStatement(
+						" select topTeams.* "
+						+ " from topTeams "
+						+ " order by teamname "
+					);	
+
+					resultSet1 = stmt1.executeQuery();
+					while(resultSet1.next()) {
+						topTeams.add(new TopTeam(resultSet1.getString(2), resultSet1.getInt(1)));
+					}
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet1);
+				}
+				
+				return topTeams;
+			}
+			});
+	}
 }

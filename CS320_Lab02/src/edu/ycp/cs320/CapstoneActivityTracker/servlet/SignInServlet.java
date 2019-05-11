@@ -78,7 +78,7 @@ public class SignInServlet extends HttpServlet {
 			password = hashSHA256.getHash(password);
 			
 			//verify account 
-			if(controller.validateCredentials(email, password, accountType)) {
+			if(controller.validateCredentials(email, password, accountType)) { 
 				//add account_id to session
 				
 		
@@ -103,7 +103,7 @@ public class SignInServlet extends HttpServlet {
 		
 		if(errorMessage != null) {
 			//set the errorMessage text to the response
-			req.setAttribute("errorMessage", errorMessage);
+			req.setAttribute("errorMessage", errorMessage); 
 			//Forward to view to render the result in jsp
 			req.getRequestDispatcher("/_view/signIn.jsp").forward(req, resp);
 		}

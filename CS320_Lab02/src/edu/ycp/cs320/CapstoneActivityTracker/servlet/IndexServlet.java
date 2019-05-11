@@ -16,8 +16,9 @@ public class IndexServlet extends HttpServlet {
 		
 		System.out.println("Index Servlet SignOut: doGet");
 		
-		req.getSession().removeAttribute("userEmail");
-		resp.sendRedirect(req.getContextPath() + "/signIn");
+		req.getSession().removeAttribute("account_id");
+		req.getSession().removeAttribute("accountType");
+		resp.sendRedirect(req.getContextPath() + "/signIn"); 
 	}
 }
 

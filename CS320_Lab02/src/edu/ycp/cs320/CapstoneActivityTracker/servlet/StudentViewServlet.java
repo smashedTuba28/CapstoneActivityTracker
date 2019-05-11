@@ -16,7 +16,7 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.ChartModel;
 import edu.ycp.cs320.CapstoneActivityTracker.controller.ChartController;;
 
 public class StudentViewServlet  extends HttpServlet { 
-	private ChartModel chartModel;
+	
 	private static final long serialVersionUID = 1L;
 	
 	//retrieve jsp
@@ -31,7 +31,7 @@ public class StudentViewServlet  extends HttpServlet {
 			account_id = req.getSession().getAttribute("account_id").toString();
 		}catch(NullPointerException e) {}
 		
-		//check session
+		//check session 
 		
 		if (account_id == null) {
 			//redirect
@@ -39,7 +39,7 @@ public class StudentViewServlet  extends HttpServlet {
 		}
 		else {	
 			ChartController chartController = new ChartController();//create controller
-			chartModel = new ChartModel();//create model
+			ChartModel chartModel = new ChartModel();//create model
 			chartController.setModel(chartModel);//populate model 
 			
 			try {
@@ -55,8 +55,8 @@ public class StudentViewServlet  extends HttpServlet {
 			
 			Date start = new Date(end.getTime() - 604800000);
 	
-			System.out.println("Start Time: " + start.toString());
-			System.out.println("End Time: " + end.toString());
+			//System.out.println("Start Time: " + start.toString());
+			//System.out.println("End Time: " + end.toString());
 			
 			
 			//find if needing logged in student or another individual
@@ -87,10 +87,12 @@ public class StudentViewServlet  extends HttpServlet {
 			throws ServletException, IOException {
 	
 		System.out.println("StudentView Servlet: doPost");
+		
 		String account_id = null;
 		String accountType = null;
+		ChartModel chartModel = new ChartModel();
 		ChartController controller = new ChartController();
-		
+		controller.setModel(chartModel);
 		
 		try{
 			account_id = req.getSession().getAttribute("account_id").toString();
@@ -100,6 +102,39 @@ public class StudentViewServlet  extends HttpServlet {
 		}catch(NullPointerException e) {}
 		
 		
+		String teammate = null;
+		String subTeamTeamname = null;
+		String currentSubTeam = null;
+		
+		
+		try {
+			teammate = req.getParameter("studentButton").toString();
+		}catch(NullPointerException e){}
+		try {
+			subTeamTeamname = req.getParameter("subTeamButton").toString();
+		}catch(NullPointerException e){}
+		try {
+			currentSubTeam = req.getParameter("currentSub").toString();
+		}catch(NullPointerException e){}
+		
+		Date end = new Date();
+		end.setHours(24);
+		end.setMinutes(0);
+		end.setSeconds(0);
+		Date start = new Date(end.getTime() - 604800000);
+		
+		
+		if(teammate != null) {
+			String[] name = teammate.split(" ");
+			System.out.println(name[0]);
+			System.out.println(name[1]);
+			System.out.println(currentSubTeam);
+			controller.populateStudentWeek(name, currentSubTeam, start, end);
+			controller.getTeamInfoForAccount(Integer.parseInt(account_id), accountType);
+			System.out.println(chartModel.getData());
+			req.setAttribute("chartModel", chartModel);
+			req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
+		}
 		
 		
 		
