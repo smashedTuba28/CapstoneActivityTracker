@@ -9,11 +9,6 @@
 </head>
 
 <body>
-	<c:if test="${! empty errorMessage}">
-		<div class="error">
-			<h3>${errorMessage}</h3>
-		</div>
-	</c:if>
 
 	<!-- Header -->
 	<div class="header">
@@ -33,6 +28,11 @@
 
 			<div class="login">
 				<div class="loginText">
+					<c:if test="${! empty errorMessage}">
+						<div class="error">
+							<h3>${errorMessage}</h3>
+						</div>
+					</c:if>
 					<label for="login"><b>Sign In</b></label>
 				</div>
 				
