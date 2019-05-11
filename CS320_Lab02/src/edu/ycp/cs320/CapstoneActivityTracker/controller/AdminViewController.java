@@ -15,9 +15,10 @@ public class AdminViewController {
 
 	private IDatabase db;
 	private AdminView model;
+	private String topteamname;
+	private String subteamname;
 	
 	public AdminViewController(){
-
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		db = DatabaseProvider.getInstance();
 	}
@@ -34,6 +35,10 @@ public class AdminViewController {
 		}
 		model.setTopTeamList(topTeamList);
 	}
+	public void getTopTeam(String topteamname) {
+		TopTeam topteam = db.getTopTeamWithTeamname(topteamname);
+		model.setTopTeam(topteam);
+	}
 	public void setModelTopTeam(String teamname) {
 		model.setTopTeam(db.getTopTeamWithTeamname(teamname));
 	}
@@ -41,9 +46,13 @@ public class AdminViewController {
 		List<SubTeam> subTeamList = new ArrayList<SubTeam>();
 		subTeamList = db.getSubTeamsInTopTeam(topTeamname);
 		for(SubTeam subTeam: subTeamList) {
-			System.out.println(subTeam);
+			System.out.println(subTeam.getTeamname());
 		}
 		model.setSubTeamList(subTeamList);
+	}
+	public void getSubTeam(String subteamname) {
+		SubTeam subteam = db.getSubTeamWithTeamname(subteamname);
+		model.setSubTeam(subteam);;
 	}
 	public void setModelSubTeam(String subTeamname) {
 		SubTeam subTeam = new SubTeam();
@@ -58,5 +67,20 @@ public class AdminViewController {
 			System.out.println(students);
 		}
 		model.setStudents(studentsList);
+	}
+
+	public String getTopteamname() {
+		return topteamname;
+	}
+
+	public void setTopteamname(String topteamname) {
+		this.topteamname = topteamname;
+	}
+
+	public String getSubteamname() {
+		return subteamname;
+	}
+	public void setSubteamname(String subteamname) {
+		this.subteamname = subteamname;
 	}
 }

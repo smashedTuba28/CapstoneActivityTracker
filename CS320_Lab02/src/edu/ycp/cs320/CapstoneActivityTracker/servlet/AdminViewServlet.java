@@ -81,30 +81,103 @@ public class AdminViewServlet extends HttpServlet {
 		try {
 			//requesting parameters from JSP
 			topTeam = req.getParameter("topTeam").toString();
+		}
+		catch(NullPointerException e) {
+
+		}
+		try {
 			subTeam = req.getParameter("subTeam").toString();
+		}
+		catch(NullPointerException e) {
+
+		}
+		try {
 			student = req.getParameter("student").toString();
+		}
+		catch(NullPointerException e) {
+
+		}
+		try {
 			b1 		= req.getParameter("b1").toString();
+		}
+		catch(NullPointerException e) {
+
+		}
+		try {
 			b2 		= req.getParameter("b2").toString();
+		}
+		catch(NullPointerException e) {
+
+		}
+		try {
 			b3 		= req.getParameter("b3").toString();
 		}
 		catch(NullPointerException e) {
 
 		}
+		
+
 		if(b1!=null) {
-			if(topTeam==null) {
-				errorMessage = "select topTeam";
-				System.out.println("topTeam==null");
+			if(topTeam.equals("val")) {
+				
+				//intially populates TopTeams once page is opened
+				controller.populateModelWithTopTeams();
+				System.out.println(model.getTopTeamList());
+				model.setSubTeamList(new ArrayList<SubTeam>());
+				model.setStudents(new ArrayList<StudentAccount>());
+				//req.setAttribute("model", model);
+				req.setAttribute("model", model);
+
+				//call the jsp and generate empty form
+				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
+				
+				
+				
+				
+				
+				/*errorMessage = "select topTeam";
+				System.out.println(topTeam);
+				controller.populateModelWithTopTeams();
+
+				//req.setAttribute("model", model);
+				req.setAttribute("model", model);
+				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);*/
 			}
 			else{
-				controller.populateModelWithSubTeams(topTeam);
 				
+				System.out.print(topTeam);
+				controller.populateModelWithSubTeams(topTeam);
+				//intially populates TopTeams once page is opened
+				controller.populateModelWithTopTeams();
+				System.out.println(model.getTopTeamList());
+				model.setStudents(new ArrayList<StudentAccount>());
+				//req.setAttribute("model", model);
+				req.setAttribute("model", model);
+
+				//call the jsp and generate empty form
+				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
+				
+				/*controller.getTopTeam(topTeam);
+				controller.populateModelWithTopTeams();
+				controller.populateModelWithSubTeams(topTeam);
+				//req.setAttribute("model", model);
+				req.setAttribute("model", model);
+				//call the jsp and generate empty form
+				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);*/
 			}
 		}
 		else if(b2!=null) {
-			if(subTeam==null) {
+			if(subTeam.equals("val")) {
 				errorMessage = "select subTeam";
+				controller.getTopTeam(topTeam);
+				controller.populateModelWithTopTeams();
+				controller.populateModelWithSubTeams(topTeam);
 			}
 			else {
+				controller.getTopTeam(topTeam);
+				controller.getSubTeam(subTeam);
+				controller.populateModelWithTopTeams();
+				controller.populateModelWithSubTeams(topTeam);
 				controller.populateModelWithStudents(subTeam);
 				//req.setAttribute("model", model);
 				req.setAttribute("model", model);
@@ -113,20 +186,24 @@ public class AdminViewServlet extends HttpServlet {
 			}
 		}
 		else if(b3!=null) {
-			if(subTeam==null) {
+			if(subTeam.equals("val")) {
 				errorMessage = "select subTeam";
+				controller.getTopTeam(topTeam);
+				controller.populateModelWithTopTeams();
+				controller.populateModelWithSubTeams(topTeam);
+				//req.setAttribute("model", model);
+				req.setAttribute("model", model);
+				//call the jsp and generate empty form
+				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
+				
 			}
 			else {
 				if(student==null) {
-					//req.setAttribute("model", model);
-					req.setAttribute("model", model);
-					//call the jsp and generate empty form
+					//get faculty view if successful login
 					req.getRequestDispatcher("/_view/teamView.jsp").forward(req, resp);
 				}
 				else {
-					//req.setAttribute("model", model);
-					req.setAttribute("model", model);
-					//call the jsp and generate empty form
+					//get faculty view if successful login
 					req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
 				}
 			}
