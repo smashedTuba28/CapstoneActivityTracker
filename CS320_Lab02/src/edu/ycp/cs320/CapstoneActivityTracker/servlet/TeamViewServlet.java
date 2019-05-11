@@ -22,10 +22,10 @@ public class TeamViewServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("TeamView Servlet: doGet");
-		String email = (String) req.getSession().getAttribute("userEmail");
+		String account_id = (String) req.getSession().getAttribute("account_id");
 		
 		//check session
-		if ( email == null) {
+		if ( account_id == null) {
 			//redirect to signIn
 			resp.sendRedirect(req.getContextPath() + "/signIn");
 		}
@@ -42,7 +42,7 @@ public class TeamViewServlet extends HttpServlet {
 			Date start = new Date(end.getTime() - 604800000);
 			
 			//populates model with needed information for jsp
-			controller.populateTopTeamWeek(email, start, end);
+			controller.populateSubTeamWeek(account_id, start, end);
 			
 			req.setAttribute("model", model);
 			//call the jsp and generate empty form

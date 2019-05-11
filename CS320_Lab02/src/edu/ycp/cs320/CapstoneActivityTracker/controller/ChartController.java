@@ -75,16 +75,16 @@ public class ChartController {
 		model.setTitle(title);
 	}
 	
-	public void populateSubTeamWeek(String teamname, Date start, Date end) {
+	public void populateSubTeamWeek(String account_id, Date start, Date end) {
 		
 		
-		SubTeam subTeam = db.getSubTeamWithTeamname(teamname);
+		SubTeam subTeam = db.getSubTeamWithAccountID(Integer.parseInt(account_id));
 		String title = subTeam.getTeamname() + " Work Hours";
 		ArrayList<long[]> weekList = new ArrayList<long[]>();
 		String data = "[['Date'";
 		
 		//get all students in the Team
-		List<StudentAccount> students = db.getAllStudentsInSubTeamWithTeamName(teamname);
+		List<StudentAccount> students = db.getAllStudentsInSubTeamWithTeamName(subTeam.getTeamname());
 		
 		for(StudentAccount s: students) {//get each students week events
 			weekList.add(getWeekFromRoomEvents(start, end, db.getAllRoomEventForStudentAccountWithAccountID(s.getStudentAccountID())));
