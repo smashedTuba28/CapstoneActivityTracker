@@ -6,38 +6,39 @@
 
 <html>
 	<head>
-		<title>Admin Home</title>	
+		<title>Administrator View</title>
+		<link rel="stylesheet" href="styling/style.css">	
 		
 	</head>
 
 	<body>
-		<!-- logout form -->
 		<div>
-			<form action="${pageContext.servletContext.contextPath}/index" method="get">
-				<input name="signOut" type="submit" value="Sign Out">
-			</form>
+		
+			<select size="1"
+					name="Top Teams" required="required">
+					<c.forEach items="${model.topTeamList}" var="topTeam">
+					
+					<option value="${topTeam.teamID}">${topTeam.teamname}</option>
+					</c.forEach>
+
+			</select>
+			
+			<select size="1"
+				name="Sub Teams" required="required">
+				<c.forEach items="${model.subTeamList}" var="subTeam">
+				<option value="${subTeam.teamID}">${subTeam.teamname}</option>
+				</c.forEach>
+			</select>
+			
+			<select size="1"
+				name="Students">
+				<c.forEach items="${model.studentList}" var="student">
+				<option value="${student.}">${student.name}</option>
+				</c.forEach>
+			</select>
+			
+			
+				
 		</div>
-	
-		<div>
-			<select size="1" name="topTeam" required= "required">
-						<option>Capstone Team</option>
-        				<option value ="admin"></option>
-        				<option value ="student"></option>
-			</select>
-		</div> 
-		<div>
-			<select size="1" name="subTeam" required= "required">
-						<option>Sub-Team</option>
-        				<option value ="admin"></option>
-        				<option value ="student"></option>
-			</select>
-		</div> 
-		<div>
-			<select size="1" name="accountType" required= "required">
-						<option>Student</option>
-        				<option value ="admin"></option>
-        				<option value ="student"></option>
-			</select>
-		</div> 
 	</body>
 </html>
