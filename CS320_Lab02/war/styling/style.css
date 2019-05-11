@@ -55,7 +55,7 @@ body {
 
 /* Main column */
 .main {
-  flex: 85%;
+  flex: 70%;
   background-color: white;
   padding: 20px;
 }
@@ -72,15 +72,32 @@ body {
 }
 /* weekButton in Main*/
 #studentList input{
-  background-color: #4CAF50; /* Green background */
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  padding: 10px 24px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  width: 50%; /* Set a width if needed */
-  display: block; /* Make the buttons appear below each other */
+  background-color: #4CAF50;
+  border: 1px solid green;
+  color: white; 
+  padding: 5px;
+  cursor: pointer; 
+  width: 90%;
+  display: block;
+  font-size: 10px;
+  margin:auto;
 }
 
+#subTeamList input{
+  background-color: #4CAF50;
+  border: 1px solid green;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+  width: 90%;
+  margin:auto;
+  display: block;
+  font-size: 10px;
+}
+
+.nameList > form{
+	width:100%;
+}
 /*chart data section*/
 .chart {
 	padding: 10px;
@@ -91,8 +108,8 @@ body {
 /*box for list subteam and student names*/
 .nameList {
   background-color: #aaa;
-  width: 60%;
-  text-align: center;
+  margin:auto;
+  display: flex;
   padding: 20px;
 }
 
@@ -104,8 +121,8 @@ body {
   width: 100%
 }
 .footerlogin{
-	position: absolute;
-    bottom: 0;
+  position: absolute;
+  bottom: 0;
   padding: 20px;
   text-align: center;
   background: green;
@@ -117,7 +134,6 @@ body {
     position: absolute;
     right: 0;
     bottom: 0;
-    
 }
 
 .empty{

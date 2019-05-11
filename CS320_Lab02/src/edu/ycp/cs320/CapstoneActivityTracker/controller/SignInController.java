@@ -29,7 +29,7 @@ public class SignInController {
 			if(model!=null) {//if an account was returned
 				return true;//successful login
 			}
-		}
+		} 
 		else if (accountType.equals("student")) {//student attempting to login
 			model = db.verifyStudentAccount(email,  password);//db query for student login
 			if(model!=null) {//if an account was returned

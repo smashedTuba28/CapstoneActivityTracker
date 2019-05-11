@@ -26,7 +26,7 @@
        		// Set chart options
         	var options = {
        			title: '${chartModel.title}',
-       			subtitle: '${model.student}',
+       			subtitle: '${chartModel.student}',
        			colors: ['#008000'],
        			vAxis: {
        				title: "Time (Hours)",
@@ -93,11 +93,15 @@
 				<form action="${pageContext.servletContext.contextPath}/studentView"
 					method="post">
 					<input class="button" type="button" value="<"></input>
+					<input type="hidden" name="change" value="-1"/>
+					<input type="hidden" name="offset" value="${chartModel.offset}"/>
 				</form>
 				<div class="chart" id="columnchart_hours"></div>
 				<form action="${pageContext.servletContext.contextPath}/studentView"
 					method="post">
 					<input class="button" type="button" value=">"></input>
+					<input type="hidden" name="change" value="1"/>
+					<input type="hidden" name="offset" value="${chartModel.offset}"/>
 				</form>
 			</div>
 			<p>Week Log notes:</p>
