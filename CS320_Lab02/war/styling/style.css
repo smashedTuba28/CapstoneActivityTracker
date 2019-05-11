@@ -95,6 +95,61 @@ body {
   font-size: 10px;
 }
 
+.adminbutton{
+  background-color: #4CAF50;
+  border: 1px solid green;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+  width: 90%;
+  margin:auto;
+  display: block;
+  font-size: 10px;
+}
+
+.adminviewchart{
+	display:flex;
+    width: 20%;
+    margin: auto;
+}
+.adminviewchart input{
+	background-color: green;
+    border: green;
+    color: white;
+    margin: auto;
+    padding: 15%;
+    font-size: 25px;
+    border-radius: 3px;
+}
+.adminmain{
+	display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin: auto;
+}
+.adminmain select{
+	font-size: 25px;
+    height:30px;
+    border-radius: 3px;
+}
+.adminmain input{
+    width: 8%;
+    font-size: 35px;
+    margin: 25px;
+    border-radius: 3px;
+	background-color: green;
+    border: green;
+    color: white;
+}
+.flex-containeradmin{
+	display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.formadmin{
+	height: 100%;
+	width: 100%;
+}
 .nameList > form{
 	width:100%;
 }

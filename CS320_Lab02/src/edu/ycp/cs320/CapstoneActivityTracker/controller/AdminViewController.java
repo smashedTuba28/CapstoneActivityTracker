@@ -83,4 +83,11 @@ public class AdminViewController {
 	public void setSubteamname(String subteamname) {
 		this.subteamname = subteamname;
 	}
+	public void setAdminname(String account_id) {
+		String adminfirstname = db.getAdminAccountWithID(Integer.parseInt(account_id)).getFirstname();
+		String adminlastname = db.getAdminAccountWithID(Integer.parseInt(account_id)).getLastname();
+		String adminname = adminfirstname + " " + adminlastname;
+		model.setAdminname(adminname);
+		
+	}
 }
