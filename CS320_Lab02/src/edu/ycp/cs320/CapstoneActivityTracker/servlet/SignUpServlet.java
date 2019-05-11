@@ -14,7 +14,7 @@ import edu.ycp.cs320.CapstoneActivityTracker.model.Account;
 
 
 public class SignUpServlet extends HttpServlet {
-	 
+	  
 	private static final long serialVersionUID = 1L;
 	
 	//retrieve jsp for SignUp
@@ -47,11 +47,18 @@ public class SignUpServlet extends HttpServlet {
 		String accountType = null;
 		
 		//decode POSted from parameter and dispatch to controller
+		try {
 		email = req.getParameter("email").toString();
 		password = req.getParameter("password").toString();
 		passConfirm = req.getParameter("passwordConfirm").toString();
 		schoolID = req.getParameter("schoolID").toString();
 		accountType = req.getParameter("accountType").toString();
+		}
+		catch(NullPointerException e){
+			System.out.println("whaaaaa????");
+		}
+		
+		
 		System.out.println(accountType);
 		
 		//check that none are empty

@@ -9,11 +9,6 @@
 </head>
 
 <body>
-	<c:if test="${! empty errorMessage}">
-		<div class="error">
-			<h3>${errorMessage}</h3>
-		</div>
-	</c:if>
 
 	<!-- Header -->
 	<div class="header">
@@ -31,25 +26,30 @@
 	<!---enter user credentials--->
 	<div class="emptybox"></div>
 	<div class="box">
-		<form action="${pageContext.servletContext.contextPath}/signIn"
+		<form action="${pageContext.servletContext.contextPath}/signUp"
 			method="post">
 
 			<div class="login">
 				<div class="loginText">
+					<c:if test="${! empty errorMessage}">
+						<div class="error">
+							<h3>${errorMessage}</h3>
+						</div>
+					</c:if>
 					<label for="login"><b>Create Account</b></label>
 				</div>
-				</br> <input type="Text" name="email" size="12" value="${schoolID}"
-					placeholder="YCP School ID"> </br> <input type="Text"
-					name="email" size="12" value="${email}" placeholder="YCP Email">
-				</br> <input type="Password" name="password" size="12"
-					value="${password}" placeholder="Password"> </br> <input
-					type="Password" name="password" size="12" value="${password}"
-					placeholder="Confirm Password"> </br> </br> <select size="1"
-					name="accountType" required="required">
+				</br> <input type="Text" name="schoolID" size="12" value="${schoolID}" placeholder="YCP School ID"/>
+				 
+				</br> <input type="Text" name="email" size="12" value="${email}" placeholder="YCP Email"/>
+					
+				</br> <input type="Password" name="password" size="12" value="${password}" placeholder="Password"/> 
+				
+				</br> <input type="Password" name="passwordConfirm" size="12" value="${password}"placeholder="Confirm Password"/> </br> 
+					
+				</br> <select size="1" name="accountType" required="required">
 					<option>Account Type</option>
 					<option value="student">Student</option>
 					<option value="admin">Administrator</option>
-
 				</select> </br> </br> <a href="http://localhost:8081/CapstoneActivityTracker/signIn"><b>Login</b></a>
 				<input type="submit" name="createAccount" value="Create Account" />
 			</div>
