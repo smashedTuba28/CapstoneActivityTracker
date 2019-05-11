@@ -13,6 +13,7 @@ public class ChartModel {
 		private String mySubTeamName;
 		private List<RoomEvent> events;
 		
+		
 		public ChartModel() {
 		}
 		

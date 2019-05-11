@@ -73,16 +73,18 @@
 	<!-- The flexible grid (content) -->
 	<div class="row">
 		<div class="side">
-			<h2>${account.firstname}<br>${account.lastname}</h2>
-			<h3>${chartModel.topTeamName}</h3>
-			<form>
+			<h2>${chartModel.student}</h2>
+			<h3 value="">${chartModel.topTeamName}</h3>
 				<div class="nameList">
-					<div id="subTeamList"></div>
+					<form action="${pageContext.servletContext.contextPath}/teamView" method="post">
+						<div id="subTeamList"></div>
+					</form>
 				</div>
-			</form>
 			<h4>${chartModel.mySubTeamName}</h4>
 			<div class="nameList">
-				<div id="studentList"></div>
+				<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+					<div id="studentList"></div>
+				</form>
 			</div>
 		</div>
 		<div class="main">
@@ -126,8 +128,9 @@
 		
 			for (var i=0; i < names.length ; i++){
 			     var elem = document.createElement('input');
-			     elem.type = 'button';
+			     elem.type = 'submit';
 			     elem.value = names[i];
+			     elem.name = "studentButton";
 			     var linebreak = document.createElement("br");
 			     elem.appendChild(linebreak);
 			     docFrag.appendChild(elem);
@@ -147,5 +150,8 @@
 			     docFrag.appendChild(elem);
 			}
 		</script>
+		
+		<input type="hidden" name="currentSub" value="${chartModel.mySubTeamName}"/>
+		
 </body>
 </html>
