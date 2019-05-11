@@ -8,6 +8,7 @@ public class AdminView {
 	private List<SubTeam> subTeamList;
 	private SubTeam subTeam;
 	private List<StudentAccount> students;
+	private StudentAccount student;
 
 	
 	
@@ -49,5 +50,13 @@ public class AdminView {
 
 	public void setStudents(List<StudentAccount> students) {
 		this.students = students;
+	}
+
+	public StudentAccount getStudent() {
+		return student;
+	}
+
+	public void setStudent(StudentAccount student) {
+		this.student = student;
 	}
 }
