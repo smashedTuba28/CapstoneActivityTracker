@@ -19,8 +19,7 @@
 
 	<!-- Navigation Bar -->
 	<div class="navbar">
-		<a href="http://localhost:8081/CapstoneActivityTracker/studentView">Home</a>
-		<a href="http://localhost:8081/CapstoneActivityTracker/teamView">SubTeam</a>
+		<a href="http://localhost:8081/CapstoneActivityTracker/adminView">Home</a>
 		<a href="">Account</a> <a
 			href="http://localhost:8081/CapstoneActivityTracker/index">Sign
 			Out</a> <img
