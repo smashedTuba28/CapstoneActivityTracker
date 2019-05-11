@@ -1,6 +1,7 @@
 package edu.ycp.cs320.CapstoneActivityTracker.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChartModel {
 		private String data;
@@ -10,7 +11,7 @@ public class ChartModel {
 		private String subTeamNames;
 		private String studentNames;
 		private String mySubTeamName;
-	
+		private List<RoomEvent> events;
 		
 		public ChartModel() {
 		}
@@ -73,5 +74,13 @@ public class ChartModel {
 
 		public void setMySubTeamName(String mySubTeamName) {
 			this.mySubTeamName = mySubTeamName;
+		}
+
+		public List<RoomEvent> getEvents() {
+			return events;
+		}
+
+		public void setEvents(List<RoomEvent> events) {
+			this.events = events;
 		}
 }
