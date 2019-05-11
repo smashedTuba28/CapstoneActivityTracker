@@ -1,29 +1,64 @@
 <!DOCTYPE html>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<!-- used images from www.YCP.edu -->
 <html>
-	<head>
-		<title>Welcome to the YCP Capstone Activity Tracker</title>
-	</head>
+<head>
+<title>Create Account</title>
+<link rel="stylesheet" href="styling/style.css">
+</head>
 
-	<body>
-		<div>
-			<c:if test="${empty model}">
-				<table>
-					<tr>
-						<td class="Label">Please enter your information:</td>
-					</tr>
-					<tr>
-						<td class = "Label">Email</td>
-						<td><input type ="Text" name="email" size="12" value="${email}">
-					</tr>
-					<tr>
-						<td class = "Label">StudentID</td>
-						<td><input type = "Text" name="studentID" size="12" value="${studentID}">
-					</tr>				
-				</table>
-				<input type="submit" name="forgotPassword" value="Forgot Password" />
-			</c:if>
-			
+<body>
+	<c:if test="${! empty errorMessage}">
+		<div class="error">
+			<h3>${errorMessage}</h3>
 		</div>
-	</body>
+	</c:if>
+
+	<!-- Header -->
+	<div class="header">
+		<h1>Capstone Activity Tracker</h1>
+		<a href="https://www.ycp.edu/"> <img
+			src="https://www.ycp.edu/media/york-website/style-assets-2016/images/york-college-logo-white.svg"
+			id="banner"></img>
+		</a>
+
+	</div>
+
+
+	<!---enter user credentials--->
+	<div class="emptybox"></div>
+	<div class="box">
+		<form
+			action="${pageContext.servletContext.contextPath}/forgotPassword"
+			method="post">
+
+			<div class="login">
+				<div class="loginText">
+					<label for="login"><b>Forgot Password</b></label>
+				</div>
+				</br> <input type="Text" name="email" size="12" value="${schoolID}"
+					placeholder="YCP Email"> </br> <input type="Text"
+					name="schoolID" size="12" value="${email}"
+					placeholder="YCP School ID"> </br> </br> <a
+					href="http://localhost:8081/CapstoneActivityTracker/signIn"><b>Sign In</b></a>
+				<input type="submit" name="createAccount" value="Send Email" />
+			</div>
+
+		</form>
+	</div>
+	<div class="empty"></div>
+	<div class="footerlogin">
+		<div class="flex-container">
+			<div class="footnote">Designed by Jason Steinberg, Travis
+				Wetzel, and William Taylor</div>
+			<div class="footnote">Developed by Jason Steinberg and Travis
+				Wetzel</div>
+			<div class="footnote">York College of PA CS320 Spring 2019</div>
+
+		</div>
+	</div>
+</body>
 </html>
+
+
