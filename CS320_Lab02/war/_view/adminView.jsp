@@ -14,13 +14,13 @@
 		<select size="1" name="topTeam" required="required">
 			<option value="val">${model.topTeam.teamname}</option>
 			<c:forEach items="${model.topTeamList}" var="topTeam">
-			<option value="${topTeam.teamID}">${topTeam.teamname}</option>
+			<option value="${topTeam.teamname}">${topTeam.teamname}</option>
 			</c:forEach>
 		</select>
 		<select size="1" name="subTeam" required="required">
 			<option value="val">${model.subTeam.teamname}</option>
 			<c:forEach items="${model.subTeamList}" var="subTeam">
-			<option value="${subTeam.teamID}">${subTeam.teamname}</option>
+			<option value="${subTeam.teamname}">${subTeam.teamname}</option>
 			</c:forEach>
 		</select>
 		<select size="1" name="student">

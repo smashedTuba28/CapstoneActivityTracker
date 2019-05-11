@@ -46,7 +46,7 @@ public class AdminViewController {
 		List<SubTeam> subTeamList = new ArrayList<SubTeam>();
 		subTeamList = db.getSubTeamsInTopTeam(topTeamname);
 		for(SubTeam subTeam: subTeamList) {
-			System.out.println(subTeam);
+			System.out.println(subTeam.getTeamname());
 		}
 		model.setSubTeamList(subTeamList);
 	}

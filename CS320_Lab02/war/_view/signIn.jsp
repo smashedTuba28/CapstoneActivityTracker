@@ -35,6 +35,7 @@
 				<div class="loginText">
 					<label for="login"><b>Sign In</b></label>
 				</div>
+				
 				</br> </br> <input type="Text" name="email" size="12" value="${email}"
 					placeholder="Email"> </br> <input type="Password"
 					name="password" size="12" value="${password}"

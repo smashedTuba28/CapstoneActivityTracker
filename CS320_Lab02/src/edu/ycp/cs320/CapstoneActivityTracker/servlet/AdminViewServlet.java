@@ -116,25 +116,54 @@ public class AdminViewServlet extends HttpServlet {
 
 		}
 		
-		
+
 		if(b1!=null) {
 			if(topTeam.equals("val")) {
-				errorMessage = "select topTeam";
+				
+				//intially populates TopTeams once page is opened
+				controller.populateModelWithTopTeams();
+				System.out.println(model.getTopTeamList());
+				model.setSubTeamList(new ArrayList<SubTeam>());
+				model.setStudents(new ArrayList<StudentAccount>());
+				//req.setAttribute("model", model);
+				req.setAttribute("model", model);
+
+				//call the jsp and generate empty form
+				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
+				
+				
+				
+				
+				
+				/*errorMessage = "select topTeam";
 				System.out.println(topTeam);
 				controller.populateModelWithTopTeams();
 
 				//req.setAttribute("model", model);
 				req.setAttribute("model", model);
-				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
+				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);*/
 			}
 			else{
-				controller.getTopTeam(topTeam);
+				
+				System.out.print(topTeam);
+				controller.populateModelWithSubTeams(topTeam);
+				//intially populates TopTeams once page is opened
+				controller.populateModelWithTopTeams();
+				System.out.println(model.getTopTeamList());
+				model.setStudents(new ArrayList<StudentAccount>());
+				//req.setAttribute("model", model);
+				req.setAttribute("model", model);
+
+				//call the jsp and generate empty form
+				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
+				
+				/*controller.getTopTeam(topTeam);
 				controller.populateModelWithTopTeams();
 				controller.populateModelWithSubTeams(topTeam);
 				//req.setAttribute("model", model);
 				req.setAttribute("model", model);
 				//call the jsp and generate empty form
-				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
+				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);*/
 			}
 		}
 		else if(b2!=null) {
@@ -171,11 +200,11 @@ public class AdminViewServlet extends HttpServlet {
 			else {
 				if(student==null) {
 					//get faculty view if successful login
-					resp.sendRedirect(req.getContextPath() + "/teamView");
+					req.getRequestDispatcher("/_view/teamView.jsp").forward(req, resp);
 				}
 				else {
 					//get faculty view if successful login
-					resp.sendRedirect(req.getContextPath() + "/studentView");
+					req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
 				}
 			}
 		}
