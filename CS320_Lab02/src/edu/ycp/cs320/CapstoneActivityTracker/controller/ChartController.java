@@ -18,7 +18,7 @@ public class ChartController {
 	private ChartModel model;
 	
 	 
-	public ChartController(){
+	public ChartController(){ 
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		db = DatabaseProvider.getInstance();
 	}
@@ -26,17 +26,14 @@ public class ChartController {
 	public void setModel(ChartModel model) {
 		this.model = model;
 	}
-	
+	 
 	public void populateStudentWeek(String[] name, String teamname, Date start, Date end) {
 		List<StudentAccount> students = db.getAllStudentsInSubTeamWithTeamName(teamname);
 		for(StudentAccount s: students) {
 			if(s.getFirstname().equals(name[0]) && s.getLastname().equals(name[1])) {
-				
+				populateStudentWeek(s.getAccountID(), start, end);
 			}
 		}
-		
-		
-		
 	}
 	
 	public void populateStudentWeek(Integer account_id, Date start, Date end){
@@ -60,7 +57,7 @@ public class ChartController {
 		//System.out.println(dateDuration[i]);
 		//}
 		
-		String title = "Individual Work Hours";
+		String title = "Individual Work Hours " + student.getFirstname() + " " + student.getLastname();
 		Calendar c = Calendar.getInstance();//create a calendar instance/reference
 		String data = "[['Date', 'Hours']"; 
 		//System.out.println("Date Duration count:");

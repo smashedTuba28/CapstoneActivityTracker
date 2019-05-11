@@ -71,12 +71,14 @@ body {
     font-size: 10px; 
 }
 /* weekButton in Main*/
-.button{
-	background-color: lightgrey;
-	width: 30px;
- 	font-size: 20px;
- 	text-align : center;
-    margin: 10px;
+#studentList input{
+  background-color: #4CAF50; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 50%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
 }
 
 /*chart data section*/

@@ -83,6 +83,7 @@
 			<h4>${chartModel.mySubTeamName}</h4>
 			<div class="nameList">
 				<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+					<input type="hidden" name="currentSub" value="${chartModel.mySubTeamName}"/>
 					<div id="studentList"></div>
 				</form>
 			</div>
@@ -150,8 +151,5 @@
 			     docFrag.appendChild(elem);
 			}
 		</script>
-		
-		<input type="hidden" name="currentSub" value="${chartModel.mySubTeamName}"/>
-		
 </body>
 </html>

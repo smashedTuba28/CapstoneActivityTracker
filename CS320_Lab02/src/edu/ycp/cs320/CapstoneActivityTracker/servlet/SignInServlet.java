@@ -78,7 +78,7 @@ public class SignInServlet extends HttpServlet {
 			password = hashSHA256.getHash(password);
 			
 			//verify account 
-			if(controller.validateCredentials(email, password, accountType)) {
+			if(controller.validateCredentials(email, password, accountType)) { 
 				//add account_id to session
 				
 		

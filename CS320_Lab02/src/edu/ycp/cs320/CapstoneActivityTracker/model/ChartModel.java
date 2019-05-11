@@ -12,7 +12,7 @@ public class ChartModel {
 		private String studentNames;
 		private String mySubTeamName;
 		private List<RoomEvent> events;
-		
+		 
 		
 		public ChartModel() {
 		}

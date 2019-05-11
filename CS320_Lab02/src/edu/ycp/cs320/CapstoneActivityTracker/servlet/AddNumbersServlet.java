@@ -52,7 +52,7 @@ public class AddNumbersServlet extends HttpServlet {
 				AddNumbersController controller = new AddNumbersController();
 				result = controller.add(first, second);
 			}
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException e) { 
 			errorMessage = "Invalid double";
 		}
 		

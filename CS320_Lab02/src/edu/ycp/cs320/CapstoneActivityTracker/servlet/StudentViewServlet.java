@@ -31,7 +31,7 @@ public class StudentViewServlet  extends HttpServlet {
 			account_id = req.getSession().getAttribute("account_id").toString();
 		}catch(NullPointerException e) {}
 		
-		//check session
+		//check session 
 		
 		if (account_id == null) {
 			//redirect
@@ -109,7 +109,11 @@ public class StudentViewServlet  extends HttpServlet {
 		
 		try {
 			teammate = req.getParameter("studentButton").toString();
+		}catch(NullPointerException e){}
+		try {
 			subTeamTeamname = req.getParameter("subTeamButton").toString();
+		}catch(NullPointerException e){}
+		try {
 			currentSubTeam = req.getParameter("currentSub").toString();
 		}catch(NullPointerException e){}
 		
@@ -122,8 +126,14 @@ public class StudentViewServlet  extends HttpServlet {
 		
 		if(teammate != null) {
 			String[] name = teammate.split(" ");
+			System.out.println(name[0]);
+			System.out.println(name[1]);
+			System.out.println(currentSubTeam);
 			controller.populateStudentWeek(name, currentSubTeam, start, end);
-		
+			controller.getTeamInfoForAccount(Integer.parseInt(account_id), accountType);
+			System.out.println(chartModel.getData());
+			req.setAttribute("chartModel", chartModel);
+			req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
 		}
 		
 		
