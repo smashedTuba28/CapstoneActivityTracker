@@ -18,7 +18,7 @@ public class IndexServlet extends HttpServlet {
 		
 		req.getSession().removeAttribute("account_id");
 		req.getSession().removeAttribute("accountType");
-		resp.sendRedirect(req.getContextPath() + "/signIn"); 
+		resp.sendRedirect(req.getContextPath() + "/signIn");
 	}
 }
 

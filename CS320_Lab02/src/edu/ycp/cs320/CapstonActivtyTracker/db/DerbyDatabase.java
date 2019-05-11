@@ -164,7 +164,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt6 = null;
 				PreparedStatement stmt7 = null;
 				PreparedStatement stmt8 = null;
-				PreparedStatement stmt9 = null;
+				PreparedStatement stmt9 = null; 
 				
 				try {
 		///////////////////////////////////////////////

@@ -17,7 +17,7 @@ public class ChartController {
 	private IDatabase db;
 	private ChartModel model;
 	
-	 
+	  
 	public ChartController(){ 
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		db = DatabaseProvider.getInstance();
@@ -27,19 +27,19 @@ public class ChartController {
 		this.model = model;
 	}
 	 
-	public void populateStudentWeek(String[] name, String teamname, Date start, Date end) {
+	public void populateStudentWeek(String[] name, String teamname, Date start, Date end, int offset) {
 		List<StudentAccount> students = db.getAllStudentsInSubTeamWithTeamName(teamname);
 		for(StudentAccount s: students) {
 			if(s.getFirstname().equals(name[0]) && s.getLastname().equals(name[1])) {
-				populateStudentWeek(s.getAccountID(), start, end);
+				populateStudentWeek(s.getAccountID(), start, end, offset);
 			}
 		}
 	}
 	
-	public void populateStudentWeek(Integer account_id, Date start, Date end){
-		
-		StudentAccount student = db.getStudentAccountWithID(account_id);//get student from DB using general AccountID
-		
+	public void populateStudentWeek(Integer account_id, Date start, Date end, int offset){
+		model.setOffset(offset);
+
+		StudentAccount student = db.getStudentAccountWithID(account_id);//get student from DB using general AccountID		
 		//get all room events for student
 		List<RoomEvent> eventList = db.getAllRoomEventForStudentAccountWithAccountID(student.getStudentAccountID());
 		
@@ -57,7 +57,7 @@ public class ChartController {
 		//System.out.println(dateDuration[i]);
 		//}
 		
-		String title = "Individual Work Hours " + student.getFirstname() + " " + student.getLastname();
+		String title = "Individual Capstone Work Hours";
 		Calendar c = Calendar.getInstance();//create a calendar instance/reference
 		String data = "[['Date', 'Hours']"; 
 		//System.out.println("Date Duration count:");

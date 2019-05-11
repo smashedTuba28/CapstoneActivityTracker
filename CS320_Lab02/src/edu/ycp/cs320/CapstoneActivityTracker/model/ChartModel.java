@@ -12,6 +12,7 @@ public class ChartModel {
 		private String studentNames;
 		private String mySubTeamName;
 		private List<RoomEvent> events;
+		private int offset;
 		 
 		
 		public ChartModel() {
@@ -83,5 +84,13 @@ public class ChartModel {
 
 		public void setEvents(List<RoomEvent> events) {
 			this.events = events;
+		}
+
+		public int getOffset() {
+			return offset;
+		}
+
+		public void setOffset(int offset) {
+			this.offset = offset;
 		}
 }
