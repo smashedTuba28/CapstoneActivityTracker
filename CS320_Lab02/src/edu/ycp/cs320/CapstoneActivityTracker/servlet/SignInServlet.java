@@ -49,7 +49,7 @@ public class SignInServlet extends HttpServlet {
 		String accountType = null;
 		SignInController controller = new SignInController();
 		Account model = null;
-		controller.setModel(model);
+		controller.setModel(model); 
 		
 		
 		//decode POSTed from parameters and dispatch to controller

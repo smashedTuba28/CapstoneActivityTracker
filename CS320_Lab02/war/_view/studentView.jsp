@@ -63,10 +63,9 @@
 	<div class="navbar">
 		<a href="http://localhost:8081/CapstoneActivityTracker/studentView">Home</a>
 		<a href="http://localhost:8081/CapstoneActivityTracker/teamView">SubTeam</a>
-		<a href="">Account</a> <a
-			href="http://localhost:8081/CapstoneActivityTracker/index">Sign
-			Out</a> <img
-			src="https://www.ycp.edu/media/york-website/style-assets-2016/images/york-college-shield.svg"
+		<a href="">Account</a> 
+		<a href="http://localhost:8081/CapstoneActivityTracker/index">SignOut</a> 
+		<img src="https://www.ycp.edu/media/york-website/style-assets-2016/images/york-college-shield.svg"
 			id="logo"></img>
 	</div>
 
@@ -74,7 +73,7 @@
 	<div class="row">
 		<div class="side">
 			<h2>${chartModel.student}</h2>
-			<h3 value="">${chartModel.topTeamName}</h3>
+			<h3>${chartModel.topTeamName}</h3>
 				<div class="nameList">
 					<form action="${pageContext.servletContext.contextPath}/teamView" method="post">
 						<div id="subTeamList"></div>
@@ -90,17 +89,19 @@
 		</div>
 		<div class="main">
 			<div class="flex-container">
-				<form action="${pageContext.servletContext.contextPath}/studentView"
-					method="post">
-					<input class="button" type="button" value="<"></input>
+				<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+					<input class="button" type="submit" value="<"></input>
 					<input type="hidden" name="change" value="-1"/>
+					<input type="hidden" name="currentSub" value="${chartModel.mySubTeamName}"/>
+					<input type="hidden" name="s" value="${chartModel.student}"/>
 					<input type="hidden" name="offset" value="${chartModel.offset}"/>
 				</form>
 				<div class="chart" id="columnchart_hours"></div>
-				<form action="${pageContext.servletContext.contextPath}/studentView"
-					method="post">
-					<input class="button" type="button" value=">"></input>
+				<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+					<input class="button" type="submit" value=">"></input>
 					<input type="hidden" name="change" value="1"/>
+					<input type="hidden" name="currentSub" value="${chartModel.mySubTeamName}"/>
+					<input type="hidden" name="s" value="${chartModel.student}"/>
 					<input type="hidden" name="offset" value="${chartModel.offset}"/>
 				</form>
 			</div>
