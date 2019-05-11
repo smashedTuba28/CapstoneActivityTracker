@@ -6,12 +6,13 @@
 
 /* Style the body */
 body {
-  font-family: Arial;
+  font-family: "Trebuchet MS";
   margin: 0;
 }
 
 /* Header/Title */
 .header {
+	font-family: "Trebuchet MS";
   padding: 1px;
   text-align: center;
   background: green;
@@ -88,31 +89,9 @@ body {
 /*box for list subteam and student names*/
 .nameList {
   background-color: #aaa;
-  width: 80%;
-  align-items: center;
-  padding: 5px;
-}
-
-#studentList input{
-  background-color: #4CAF50; /* Green background */
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  padding: 10px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  width: 95%; /* Set a width if needed */
-  display: block; /* Make the buttons appear below each other */
-  font-size: 10px; 
-}
-
-#subTeamList input{
-  background-color: #4CAF50; /* Green background */
-  border: 1px solid green; /* Green border */
-  color: white; /* White text */
-  padding: 10px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  width: 95%; /* Set a width if needed */
-  display: block; /* Make the buttons appear below each other */
-  font-size: 10px; 
+  width: 60%;
+  text-align: center;
+  padding: 20px;
 }
 
 /* Footer */
@@ -121,6 +100,65 @@ body {
   text-align: center;
   background: green;
   width: 100%
+}
+.footerlogin{
+	position: absolute;
+    bottom: 0;
+  padding: 20px;
+  text-align: center;
+  background: green;
+  width: 100%
+}
+#person{
+	width: 180px;
+    height: 300px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    
+}
+
+.empty{
+	padding: 80px;
+}
+.emptybox{
+	padding: 50px;
+}
+.box{
+	border-radius: 7px;
+    width: 34%;
+    height: 40%;
+    padding: 30px;
+    position: relative;
+    left: 33%;
+	background-color: white;
+    border: 3px solid green;
+	align: center;
+}
+.loginText{
+    display: block;
+    text-align: center;
+}
+.loginText > label{
+	font-size: 25px;
+}
+.login > input{
+	border-radius: 3px;
+    border: 2px solid green;
+	padding: 10px;
+	width: 100%;
+}
+.login > select{
+    border: 2px solid green;
+	padding: 5px;
+}
+.login > input[type=submit]{
+	background-color: green;
+    border-color: darkgreen;
+    color: white;
+	width: 25%;
+    position: absolute;
+    right: 7%;
 }
 
 #banner {
