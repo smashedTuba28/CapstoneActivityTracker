@@ -32,9 +32,20 @@ public class AdminViewServlet extends HttpServlet {
 		}
 		else {	
 			
+			
+			
+			
 			//req.setAttribute("model", model);
+			req.setAttribute("model", model);
+			
 			//call the jsp and generate empty form
 			req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
+			
+			
+			
+			
+			
+			
 		}
 	}		
 }
