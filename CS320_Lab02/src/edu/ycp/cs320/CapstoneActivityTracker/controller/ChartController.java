@@ -65,7 +65,8 @@ public class ChartController {
 				//System.out.println(i + ": " + dateDuration[i]);
 				c.setTimeInMillis(start.getTime() + i*86400000);
 				//creates data chart using month, day, and dur value
-				data += ",['" + (c.get(Calendar.MONTH)+1)  + "-" + c.get(Calendar.DAY_OF_MONTH) + "', " + dateDuration[i] / 60. + "]";
+				data += ",['" + (c.get(Calendar.MONTH)+1)  + "-" + c.get(Calendar.DAY_OF_MONTH) + "-" 
+				+ c.get(Calendar.YEAR) + "', " + dateDuration[i] / 60. + "]";
 		}			
 		//finalize data string by closing bracket
 		data += "]";
