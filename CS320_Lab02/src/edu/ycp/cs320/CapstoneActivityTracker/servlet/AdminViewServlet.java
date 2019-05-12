@@ -25,7 +25,7 @@ public class AdminViewServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		System.out.println("StudentView Servlet: doGet");
+		System.out.println("AdminView Servlet: doGet");
 		String account_id= null;
 		try {
 			account_id = req.getSession().getAttribute("account_id").toString();
@@ -45,7 +45,6 @@ public class AdminViewServlet extends HttpServlet {
 			controller.setAdminname(account_id);
 			//intially populates TopTeams once page is opened
 			controller.populateModelWithTopTeams();
-			System.out.println(model.getTopTeamList());
 			model.setSubTeamList(new ArrayList<SubTeam>());
 			model.setStudents(new ArrayList<StudentAccount>());
 			//req.setAttribute("model", model);
@@ -59,7 +58,7 @@ public class AdminViewServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException{
-		System.out.println("SignIn Servlet: doPost");
+		System.out.println("AdminView Servlet: doPost");
 
 		//error message String to hold message text when applicable
 		String errorMessage = null;
