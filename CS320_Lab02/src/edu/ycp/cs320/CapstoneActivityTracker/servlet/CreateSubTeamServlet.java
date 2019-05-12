@@ -58,9 +58,6 @@ public class CreateSubTeamServlet extends HttpServlet {
 		String teamname = null;
 		String topTeam = null;
 		
-		
-		boolean TTcreation = false;
-		
 		try {
 			//decode POSted from parameter and dispatch to controller
 			teamname = req.getParameter("teamname").toString();
