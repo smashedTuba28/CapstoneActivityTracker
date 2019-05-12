@@ -6,6 +6,8 @@
 <head>
 <title>Create Account</title>
 <link rel="stylesheet" href="styling/style.css">
+<!--icon for ycp shield from ycp.edu-->
+<link rel="icon" href="https://www.ycp.edu/media/york-website/style-assets-2016/images/favicon.ico" type="image/ico"> 
 </head>
 
 <body>
