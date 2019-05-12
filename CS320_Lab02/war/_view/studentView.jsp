@@ -80,7 +80,7 @@
 			<h2>${chartModel.student}</h2>
 			<h3>${chartModel.topTeamName}</h3>
 				<div class="nameList">
-					<form action="${pageContext.servletContext.contextPath}/teamView" method="get">
+					<form action="${pageContext.servletContext.contextPath}/teamView" method="post">
 						<div id="subTeamList"></div>
 					</form>
 				</div>
@@ -135,7 +135,7 @@
 									<input type="text" size="80" name="lognote" value="${events.lognote}"/>
 									</br>
 								</div>
-								<input type="submit" name="logbutton" value="Update Me"/>
+								<input type="submit" name="logButton" value="Update Me"/>
 							</c:if>
 							<c:if test="${! chartModel.currentStudent.equals(chartModel.student)}">
 								<div class="logbox">
@@ -183,8 +183,9 @@
 		
 			for (var i=0; i < names.length ; i++){
 			     var elem = document.createElement('input');
-			     elem.type = 'button';
+			     elem.type = 'submit';
 			     elem.value = names[i];
+			     elem.name = "subTeamButton"
 			     var linebreak = document.createElement("br");
 			     elem.appendChild(linebreak);
 			     docFrag.appendChild(elem);
