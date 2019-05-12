@@ -1,17 +1,13 @@
 package edu.ycp.cs320.CapstoneActivityTracker.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.CapstoneActivityTracker.controller.AdminViewController;
 import edu.ycp.cs320.CapstoneActivityTracker.controller.CreateSubTeamController;
-import edu.ycp.cs320.CapstoneActivityTracker.model.AdminView;
-import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.createSubTeam;
 
 public class CreateSubTeamServlet extends HttpServlet {
@@ -32,6 +28,7 @@ public class CreateSubTeamServlet extends HttpServlet {
 		catch(NullPointerException e) {
 
 		}
+		
 		//check session
 		if ( account_id == null) {
 			//redirect when the user does not have an account_id
