@@ -200,9 +200,8 @@ public class DerbyDatabaseTest {
 		subTeams = new ArrayList<SubTeam>();
 		
 		subTeams = db.getSubTeamsInTopTeam(teamname);
-		
-		assertTrue(subTeams.get(0).getTeamname().equals("Sales"));
-		assertTrue(subTeams.get(1).getTeamname().equals("Reception"));
+		assertTrue(subTeams.get(0).getTeamname().equals("Accounting"));
+		assertTrue(subTeams.get(1).getTeamname().equals("Annex"));
 		
 	}
 	
