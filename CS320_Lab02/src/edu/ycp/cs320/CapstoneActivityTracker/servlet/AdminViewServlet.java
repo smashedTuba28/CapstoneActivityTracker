@@ -232,9 +232,5 @@ public class AdminViewServlet extends HttpServlet {
 				}
 			}
 		}
-		
-		
-
-
 	}
 }
