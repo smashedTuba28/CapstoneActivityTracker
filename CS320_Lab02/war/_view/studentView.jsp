@@ -9,7 +9,8 @@
 <head>
 <title>Individual Student View</title>
 <link rel="stylesheet" href="styling/style.css">
-
+<!--icon for ycp shield from ycp.edu-->
+<link rel="icon" href="https://www.ycp.edu/media/york-website/style-assets-2016/images/favicon.ico" type="image/ico">
 <!-- chart script from developers.google.com -->
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
@@ -26,13 +27,17 @@
        		// Set chart options
         	var options = {
        			title: '${chartModel.title}',
-       			subtitle: '${chartModel.student}',
+       			subtitle: '${chartModel.currentStudent}',
        			colors: ['#008000'],
+       			chartArea: {
+       				width: "75%",
+       				heigth: "50%"
+       			},
        			vAxis: {
-       				title: "Time (Hours)",
        				viewWindowMode: 'explcit',
        				viewWindow: {
-       					min:0
+       					min:0,
+       					max:24
        				}
        			},
        			hAxis: {
@@ -63,10 +68,9 @@
 	<div class="navbar">
 		<a href="http://localhost:8081/CapstoneActivityTracker/studentView">Home</a>
 		<a href="http://localhost:8081/CapstoneActivityTracker/teamView">SubTeam</a>
-		<a href="">Account</a> <a
-			href="http://localhost:8081/CapstoneActivityTracker/index">Sign
-			Out</a> <img
-			src="https://www.ycp.edu/media/york-website/style-assets-2016/images/york-college-shield.svg"
+		<a href="">Account</a> 
+		<a href="http://localhost:8081/CapstoneActivityTracker/index">SignOut</a> 
+		<img src="https://www.ycp.edu/media/york-website/style-assets-2016/images/york-college-shield.svg"
 			id="logo"></img>
 	</div>
 
@@ -74,9 +78,9 @@
 	<div class="row">
 		<div class="side">
 			<h2>${chartModel.student}</h2>
-			<h3 value="">${chartModel.topTeamName}</h3>
+			<h3>${chartModel.topTeamName}</h3>
 				<div class="nameList">
-					<form action="${pageContext.servletContext.contextPath}/teamView" method="post">
+					<form action="${pageContext.servletContext.contextPath}/teamView" method="get">
 						<div id="subTeamList"></div>
 					</form>
 				</div>
@@ -90,32 +94,63 @@
 		</div>
 		<div class="main">
 			<div class="flex-container">
-				<form action="${pageContext.servletContext.contextPath}/studentView"
-					method="post">
-					<input class="button" type="button" value="<"></input>
+				<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+					<input class="button" type="submit" value="<"></input>
 					<input type="hidden" name="change" value="-1"/>
+					<input type="hidden" name="currentSub" value="${chartModel.mySubTeamName}"/>
+					<input type="hidden" name="s" value="${chartModel.currentStudent}"/>
 					<input type="hidden" name="offset" value="${chartModel.offset}"/>
 				</form>
 				<div class="chart" id="columnchart_hours"></div>
-				<form action="${pageContext.servletContext.contextPath}/studentView"
-					method="post">
-					<input class="button" type="button" value=">"></input>
+				<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+					<input class="button" type="submit" value=">"></input>
 					<input type="hidden" name="change" value="1"/>
+					<input type="hidden" name="currentSub" value="${chartModel.mySubTeamName}"/>
+					<input type="hidden" name="s" value="${chartModel.currentStudent}"/>
 					<input type="hidden" name="offset" value="${chartModel.offset}"/>
 				</form>
 			</div>
-			<p>Week Log notes:</p>
-			<div>
-				<c:forEach items="${chartModel.events}" var="events">
-					<tr>
-						<td class="time">${events.startTime}</td>
-						<td class="log">${events.lognote}</td>
-						</br>
-					</tr>
-				</c:forEach>
+			
+			
+			<p>Week Lognotes:</p>
+			<div class="flex-container">
+				<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+					<c:forEach items="${chartModel.events}" var="events">
+						<div class="flex-containerLogs">
+							<div class="flagbox">
+								<c:if test="${events.flag}">
+									<img alt="System Flagged Event" class="flag" src="styling/clipart786779.png"> <!--png from clipartmax.com -->
+								</c:if>
+								<c:if test="${!events.flag}">
+									</br>
+								</c:if>
+							</div>
+							<div class="timebox">
+								<p class="time">${events.startTime} - ${events.endTime} </p>
+							</div>
+							
+							<c:if test="${teammate_name.equals(chartModel.student)}">
+								<div class="logbox">
+									<input type="hidden" name="event_id" value="${events.roomEventID}"/>
+									<input type="text" size="80" name="lognote" value="${events.lognote}"/>
+									</br>
+								</div>
+								<input type="submit" name="logbutton" value="Update Me"/>
+							</c:if>
+							<c:if test="${! teammate_name.equals(chartModel.student)}">
+								<div class="logbox">
+									<p>${events.lognote}</p>
+									</br>
+								</div>
+							</c:if>
+						</div>
+					</c:forEach>
+				</form>		
 			</div>
+			
 		</div>
-		<!-- Footer -->
+	</div>
+	<!-- Footer -->
 		<div class="footer">
 			<div class="flex-container">
 				<div class="footnote">Designed by Jason Steinberg, Travis
@@ -125,7 +160,7 @@
 				<div class="footnote">York College of PA CS320 Spring 2019</div>
 			</div>
 		</div>
-	</div>
+		
 	<script type="text/javascript">
 			//ceates the submit buttons based needed size
 			var docFrag = document.getElementById("studentList");

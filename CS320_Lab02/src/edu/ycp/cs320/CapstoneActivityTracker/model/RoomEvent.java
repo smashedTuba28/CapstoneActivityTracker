@@ -19,7 +19,7 @@ public class RoomEvent {
 	
 	//flag for when the student has stayed in the room past a certain time or amount of hours
 	private boolean flag;
-	
+	 
 	//RoomEvent starts at a later time, this just intializes the RoomEvent
 	public RoomEvent() {
 		flag = false;

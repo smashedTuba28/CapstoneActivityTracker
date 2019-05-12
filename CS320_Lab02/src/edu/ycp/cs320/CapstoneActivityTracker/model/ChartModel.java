@@ -5,12 +5,14 @@ import java.util.List;
 
 public class ChartModel {
 		private String data;
+		private String currentStudent;
 		private String student;
 		private String title;
 		private String topTeamName;
 		private String subTeamNames;
 		private String studentNames;
 		private String mySubTeamName;
+		private String currentSub;
 		private List<RoomEvent> events;
 		private int offset;
 		 
@@ -21,8 +23,8 @@ public class ChartModel {
 		public void setData(String data) {
 			this.data = data;
 		}
-		public void setStudent(String student) {
-			this.student = student;
+		public void setCurrentStudent(String student) {
+			this.currentStudent = student;
 		} 
 		public void setTitle(String title) {
 			this.title = title;
@@ -31,8 +33,8 @@ public class ChartModel {
 		public String getData() {
 			return data;
 		}
-		public String getStudent() {
-			return student;
+		public String getCurrentStudent() {
+			return currentStudent;
 		}
 		public String getTitle() {
 			return title;
@@ -92,5 +94,21 @@ public class ChartModel {
 
 		public void setOffset(int offset) {
 			this.offset = offset;
+		}
+
+		public String getCurrentSub() {
+			return currentSub;
+		}
+
+		public void setCurrentSub(String currentSub) {
+			this.currentSub = currentSub;
+		}
+
+		public String getStudent() {
+			return student;
+		}
+
+		public void setStudent(String student) {
+			this.student = student;
 		}
 }

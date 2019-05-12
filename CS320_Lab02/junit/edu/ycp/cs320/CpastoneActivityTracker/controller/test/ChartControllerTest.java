@@ -66,33 +66,34 @@ public class ChartControllerTest {
 		Date end = new Date(119,3,6,24,0,0);
 		
 		
-		controller.populateStudentWeek(account_id, start, end);
+		controller.populateStudentWeek(account_id, start, end, 0);
 		//expecting model to be populated with data for Jason Steinberg
-		assertTrue(model.getTitle().equals("Individual Work Hours"));
-		assertTrue(model.getStudent().equals("Jason Steinberg"));
+		assertTrue(model.getTitle().equals("Individual Capstone Work Hours"));
+		assertTrue(model.getCurrentStudent().equals("Jason Steinberg"));
 		assertTrue(model.getData().equals("[['Date', 'Hours'],"
-				+ "['3-31', 4.5],"
-				+ "['4-1', 5.0],"
-				+ "['4-2', 1.7833333333333334],"
-				+ "['4-3', 3.0],"
-				+ "['4-4', 6.816666666666666],"
-				+ "['4-5', 7.5],"
-				+ "['4-6', 10.0]]"));
-		
+				+ "['3-31-2019', 4.5],"
+				+ "['4-1-2019', 5.0],"
+				+ "['4-2-2019', 1.7833333333333334],"
+				+ "['4-3-2019', 3.0],"
+				+ "['4-4-2019', 6.816666666666666],"
+				+ "['4-5-2019', 7.5],"
+				+ "['4-6-2019', 10.0]]"));
+		assertEquals(0, model.getOffset());
 		//expecting model to be populated with data fro Travis Wetezel
 		account_id = 2;
-		controller.populateStudentWeek(account_id, start, end);
-		assertTrue(model.getTitle().equals("Individual Work Hours"));
-		assertTrue(model.getStudent().equals("Travis Wetzel"));
+		controller.populateStudentWeek(account_id, start, end, 0);
+		assertTrue(model.getTitle().equals("Individual Capstone Work Hours"));
+		assertTrue(model.getCurrentStudent().equals("Travis Wetzel"));
 		System.out.println(model.getData());
 		assertTrue(model.getData().equals("[['Date', 'Hours'],"
-				+ "['3-31', 2.5],"
-				+ "['4-1', 5.0],"
-				+ "['4-2', 1.8333333333333333],"
-				+ "['4-3', 6.0],"
-				+ "['4-4', 14.316666666666666],"
-				+ "['4-5', 4.0],"
-				+ "['4-6', 10.0]]"));	
+				+ "['3-31-2019', 2.5],"
+				+ "['4-1-2019', 5.0],"
+				+ "['4-2-2019', 1.8333333333333333],"
+				+ "['4-3-2019', 6.0],"
+				+ "['4-4-2019', 14.316666666666666],"
+				+ "['4-5-2019', 4.0],"
+				+ "['4-6-2019', 10.0]]"));	
+		assertEquals(0, model.getOffset());
 	}
 
 	@Test
@@ -129,17 +130,18 @@ public class ChartControllerTest {
 		Date start = new Date(119, 2, 31, 0,0,0);//March31st 2019
 		Date end = new Date(119,3,6,24,0,0);//April6th 2019
 		
-		controller.populateSubTeamWeek(teamname, start, end);
+		controller.populateSubTeamWeekWithTeamName(teamname, start, end, 0);
 		
 		assertTrue(model.getTitle().equals("Controls Work Hours"));
 		assertTrue(model.getData().equals("[['Date','Jason Steinberg','Travis Wetzel'],"
-				+ "['3-31', 4.5, 2.5],"
-				+ "['4-1', 5.0, 5.0],"
-				+ "['4-2', 1.7833333333333334, 1.8333333333333333],"
-				+ "['4-3', 3.0, 6.0],"
-				+ "['4-4', 6.816666666666666, 14.316666666666666],"
-				+ "['4-5', 7.5, 4.0],"
-				+ "['4-6', 10.0, 10.0]]"));
+				+ "['3-31-2019', 4.5, 2.5],"
+				+ "['4-1-2019', 5.0, 5.0],"
+				+ "['4-2-2019', 1.7833333333333334, 1.8333333333333333],"
+				+ "['4-3-2019', 3.0, 6.0],"
+				+ "['4-4-2019', 6.816666666666666, 14.316666666666666],"
+				+ "['4-5-2019', 7.5, 4.0],"
+				+ "['4-6-2019', 10.0, 10.0]]"));
+		assertEquals(0,model.getOffset());
 	}
 	
 	@Test

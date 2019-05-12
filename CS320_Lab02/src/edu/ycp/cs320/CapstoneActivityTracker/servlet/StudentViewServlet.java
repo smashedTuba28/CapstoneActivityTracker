@@ -3,6 +3,7 @@ package edu.ycp.cs320.CapstoneActivityTracker.servlet;
 import java.io.IOException;
 import java.time.Month;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,10 +31,15 @@ public class StudentViewServlet  extends HttpServlet {
 		try{
 			account_id = req.getSession().getAttribute("account_id").toString();
 		}catch(NullPointerException e) {}
+		try {
+			accountType = req.getSession().getAttribute("accountType").toString();
+		}catch(NullPointerException e) {}
+		
+		
 		
 		//check session 
 		
-		if (account_id == null) {
+		if (account_id == null || accountType == null) {
 			//redirect
 			resp.sendRedirect(req.getContextPath() + "/signIn");
 		}
@@ -41,11 +47,16 @@ public class StudentViewServlet  extends HttpServlet {
 			ChartController chartController = new ChartController();//create controller
 			ChartModel chartModel = new ChartModel();//create model
 			chartController.setModel(chartModel);//populate model 
+			req.setAttribute("teammate_name", chartModel.getCurrentStudent());
 			
-			try {
-				accountType = req.getSession().getAttribute("accountType").toString();
-			}catch(NullPointerException e) {}
-			chartController.getTeamInfoForAccount(Integer.parseInt(account_id), accountType);			
+			
+			try{
+				chartController.getTeamInfoForAccount(Integer.parseInt(account_id), accountType);			
+			}catch(NullPointerException e) {
+				chartModel.setTopTeamName("Contact an admin to be assigned to a team");
+				chartModel.setSubTeamNames("");
+				chartModel.setStudentNames("");
+			}
 			
 			//get current day but clear out time to 00:00:00:00
 			Calendar cal = Calendar.getInstance();
@@ -66,7 +77,6 @@ public class StudentViewServlet  extends HttpServlet {
 			
 			//find if needing logged in student or another individual
 			String teammate_id = null;
-			
 			try {
 				teammate_id = req.getSession().getAttribute("teammate_id").toString();
 			}catch(NullPointerException e) {}
@@ -96,18 +106,22 @@ public class StudentViewServlet  extends HttpServlet {
 		//session check
 		String account_id = null;
 		String accountType = null;
+		String teammate_id = null;
 		try{
 			account_id = req.getSession().getAttribute("account_id").toString();
 		}catch(NullPointerException e) {}
 		try {
 			accountType = req.getSession().getAttribute("accountType").toString();
 		}catch(NullPointerException e) {}
+		try {
+			teammate_id = null;
+		}catch(NullPointerException e) {}
+		
 		if (account_id == null || accountType == null) {
 			//redirect
 			resp.sendRedirect(req.getContextPath() + "/signIn");
 		}
 		//session check passed doPost
-		
 		
 		ChartModel chartModel = new ChartModel();
 		ChartController controller = new ChartController();
@@ -118,6 +132,9 @@ public class StudentViewServlet  extends HttpServlet {
 		String currentSubTeam = null;
 		Integer offset =  null;
 		Integer change = null;
+		String s = null;
+		
+		
 		
 		try {
 			teammate = req.getParameter("studentButton").toString();
@@ -134,7 +151,9 @@ public class StudentViewServlet  extends HttpServlet {
 		try {
 			change = Integer.parseInt(req.getParameter("change").toString());
 		}catch(NullPointerException e){}
-		
+		try {
+			s = req.getParameter("s").toString();
+		}catch(NullPointerException e){}
 		
 		//get current day but clear out time to 00:00:00:00
 		Calendar cal = Calendar.getInstance();
@@ -148,6 +167,20 @@ public class StudentViewServlet  extends HttpServlet {
 		
 		cal.add(Calendar.WEEK_OF_YEAR, 1);
 		Date end = new Date(cal.getTimeInMillis());
+		System.out.println("Post Start: " + start.toString());
+		System.out.println("Post End: " + end.toString());
+		
+		
+		try{
+			controller.getTeamInfoForAccount(Integer.parseInt(account_id), accountType);			
+		}catch(NullPointerException e) {
+			chartModel.setTopTeamName("Contact an admin to be assigned to a team");
+			chartModel.setSubTeamNames("");
+			chartModel.setStudentNames("");
+		}
+		
+		//
+		req.setAttribute("teammate_name", teammate);
 		
 		
 		if(offset != null) {
@@ -162,12 +195,20 @@ public class StudentViewServlet  extends HttpServlet {
 				}
 			}
 			//offset ready to make change away from current week
-		
-		//start at beginning of current week	
-		cal.setTime(start);	
-		cal.add(Calendar.WEEK_OF_YEAR, offset);	
-		start = new Date(cal.getTimeInMillis());	
-		cal.add(Calendar.WEEK_OF_YEAR, 1);	
+			//start at beginning of current week
+			System.out.println(offset);
+			
+			cal.setTime(start);	
+			cal.add(Calendar.WEEK_OF_YEAR, offset);	
+			start = new Date(cal.getTimeInMillis());	
+			cal.add(Calendar.WEEK_OF_YEAR, 1);	
+			end = new Date(cal.getTimeInMillis());
+			System.out.println("New Start: " + start.toString());
+			System.out.println("New end: " + end.toString());
+			
+			
+		}else {
+			offset = 0;
 		}
 		if(teammate != null) {
 			String[] name = teammate.split(" ");
@@ -175,26 +216,20 @@ public class StudentViewServlet  extends HttpServlet {
 			System.out.println(name[1]);
 			System.out.println(currentSubTeam);
 			controller.populateStudentWeek(name, currentSubTeam, start, end, offset);
-			controller.getTeamInfoForAccount(Integer.parseInt(account_id), accountType);
 			System.out.println(chartModel.getData());
 			req.setAttribute("chartModel", chartModel);
 			req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
 		}
-		if(subTeamTeamname!=null) {
+		else if(subTeamTeamname!=null) {
 			System.out.println(subTeamTeamname);
 			req.getSession().setAttribute("subTeamname", subTeamTeamname);
-			
-		
+			req.getRequestDispatcher("/_view/teamView.jsp").forward(req, resp);
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		else {
+			String[] name = s.split(" ");
+			controller.populateStudentWeek(name, currentSubTeam, start, end, offset);
+			req.setAttribute("chartModel", chartModel);
+			req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
+		}
 	}
 }
