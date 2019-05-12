@@ -31,12 +31,12 @@
 
 	<!---enter Top Team credentials--->
 	<div class="emptybox"></div>
-	<div class="box">
+	<div class="createTopTeambox">
 		<form action="${pageContext.servletContext.contextPath}/createTopTeam"
 			method="post">
 
-			<div class="login">
-				<div class="loginText">
+			<div class="createTopTeam">
+				<div class="createTopTeamText">
 					<c:if test="${! empty errorMessage}">
 						<div class="error">
 							<h3>${errorMessage}</h3>
@@ -45,6 +45,8 @@
 					<label for="createTopTeam"><b>Create Capstone Team</b></label>
 				</div>
 				</br> <input type="Text" name="teamname" size="12" value="${teamname}" placeholder="Capstone Team Name"/>
+                </br>
+                </br>
 				<input type="submit" name="createTeam" value="Create Capstone Team" />
 			</div>
 		</form>
