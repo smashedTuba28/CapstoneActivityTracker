@@ -9,11 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.CapstonActivtyTracker.db.FakeDatabase;
-import edu.ycp.cs320.CapstonActivtyTracker.db.hashSHA256;
 import edu.ycp.cs320.CapstoneActivityTracker.controller.CreateTopTeamController;
-import edu.ycp.cs320.CapstoneActivityTracker.controller.SignUpController;
-import edu.ycp.cs320.CapstoneActivityTracker.model.Account;
 
 
 public class CreateTopTeamServlet extends HttpServlet {
@@ -37,6 +33,14 @@ public class CreateTopTeamServlet extends HttpServlet {
 		if ( account_id == null) {
 			//redirect
 			resp.sendRedirect(req.getContextPath() + "/signIn");
+			
+		}
+		else {
+			
+				//call the jsp and generate empty form
+				req.getRequestDispatcher("/_view/createTopTeam.jsp").forward(req, resp);
+
+			
 		}
 	}
 	
@@ -76,7 +80,7 @@ public class CreateTopTeamServlet extends HttpServlet {
 		
 		if(!TTcreation) {
 			errorMessage = "Top Team not created!";
-			req.getRequestDispatcher("/_view/createTopTeam.jsp").forward(req, resp);
+			req.getRequestDispatcher("/_view/createTopTeam.jsp").forward(req, resp);;
 			
 		}
 		else{
