@@ -9,7 +9,8 @@
 <head>
 <title>Individual Student View</title>
 <link rel="stylesheet" href="styling/style.css">
-
+<!--icon for ycp shield from ycp.edu-->
+<link rel="icon" href="https://www.ycp.edu/media/york-website/style-assets-2016/images/favicon.ico" type="image/ico">
 <!-- chart script from developers.google.com -->
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
@@ -26,13 +27,17 @@
        		// Set chart options
         	var options = {
        			title: '${chartModel.title}',
-       			subtitle: '${chartModel.student}',
+       			subtitle: '${chartModel.currentStudent}',
        			colors: ['#008000'],
+       			chartArea: {
+       				width: "75%",
+       				heigth: "50%"
+       			},
        			vAxis: {
-       				title: "Time (Hours)",
        				viewWindowMode: 'explcit',
        				viewWindow: {
-       					min:0
+       					min:0,
+       					max:24
        				}
        			},
        			hAxis: {
@@ -75,7 +80,7 @@
 			<h2>${chartModel.student}</h2>
 			<h3>${chartModel.topTeamName}</h3>
 				<div class="nameList">
-					<form action="${pageContext.servletContext.contextPath}/teamView" method="post">
+					<form action="${pageContext.servletContext.contextPath}/teamView" method="get">
 						<div id="subTeamList"></div>
 					</form>
 				</div>
@@ -93,7 +98,7 @@
 					<input class="button" type="submit" value="<"></input>
 					<input type="hidden" name="change" value="-1"/>
 					<input type="hidden" name="currentSub" value="${chartModel.mySubTeamName}"/>
-					<input type="hidden" name="s" value="${chartModel.student}"/>
+					<input type="hidden" name="s" value="${chartModel.currentStudent}"/>
 					<input type="hidden" name="offset" value="${chartModel.offset}"/>
 				</form>
 				<div class="chart" id="columnchart_hours"></div>
@@ -101,12 +106,13 @@
 					<input class="button" type="submit" value=">"></input>
 					<input type="hidden" name="change" value="1"/>
 					<input type="hidden" name="currentSub" value="${chartModel.mySubTeamName}"/>
-					<input type="hidden" name="s" value="${chartModel.student}"/>
+					<input type="hidden" name="s" value="${chartModel.currentStudent}"/>
 					<input type="hidden" name="offset" value="${chartModel.offset}"/>
 				</form>
 			</div>
-			<p>Week Log notes:</p>
 			
+			
+			<p>Week Lognotes:</p>
 			<div class="flex-container">
 				<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
 					<c:forEach items="${chartModel.events}" var="events">
@@ -122,12 +128,21 @@
 							<div class="timebox">
 								<p class="time">${events.startTime} - ${events.endTime} </p>
 							</div>
-							<div class="logbox">
-								<input type="hidden" name="event_id" value="${events.roomEventID}"/>
-								<input type="text" size="80" name="lognote" value="${events.lognote}"/>
-								</br>
-							</div>
-							<input type="submit" name="logbutton" value="Update Me"/>
+							
+							<c:if test="${teammate_name.equals(chartModel.student)}">
+								<div class="logbox">
+									<input type="hidden" name="event_id" value="${events.roomEventID}"/>
+									<input type="text" size="80" name="lognote" value="${events.lognote}"/>
+									</br>
+								</div>
+								<input type="submit" name="logbutton" value="Update Me"/>
+							</c:if>
+							<c:if test="${! teammate_name.equals(chartModel.student)}">
+								<div class="logbox">
+									<p>${events.lognote}</p>
+									</br>
+								</div>
+							</c:if>
 						</div>
 					</c:forEach>
 				</form>		
