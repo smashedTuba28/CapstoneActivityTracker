@@ -179,8 +179,10 @@ public class TeamViewServlet extends HttpServlet {
 			req.setAttribute("chartModel", chartModel);
 			req.getRequestDispatcher("/_view/teamView.jsp").forward(req, resp);
 		}
+		else {
 		controller.populateSubTeamWeekWithTeamName(currentSub, start, end, offset);
 		req.setAttribute("chartModel", chartModel);
 		req.getRequestDispatcher("/_view/teamView.jsp").forward(req, resp);	
+		}
 	}
 }
