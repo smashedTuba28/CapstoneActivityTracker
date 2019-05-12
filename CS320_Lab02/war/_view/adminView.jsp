@@ -6,6 +6,9 @@
 <head>
 <title>Administrator View</title>
 <link rel="stylesheet" href="styling/style.css">
+<!--icon for ycp shield from ycp.edu-->
+<link rel="icon" href="https://www.ycp.edu/media/york-website/style-assets-2016/images/favicon.ico" type="image/ico"> 
+
 </head>
 <body>
 	<!-- Header -->
@@ -33,13 +36,13 @@
 		<!-- adminname from servlet -->
 			<h2>${model.adminname}</h2>
 				<div class="nameList">
-					<form action="${pageContext.servletContext.contextPath}/createTopTeam" method="post">
+					<form action="${pageContext.servletContext.contextPath}/createTopTeam" method="get">
 						<input class="adminbutton" type="submit" name="cTeam" value="Create Capstone Team" /> 
 					</form>
 				</div>
 				</br>
 			<div class="nameList">
-				<form action="${pageContext.servletContext.contextPath}/createSubTeam" method="post">
+				<form action="${pageContext.servletContext.contextPath}/createSubTeam" method="get">
 					<input class="adminbutton"  type="submit" name="cSub" value="Create Capstone Sub Team" />
 				</form>
 			</div>
