@@ -3,6 +3,7 @@ package edu.ycp.cs320.CapstoneActivityTracker.servlet;
 import java.io.IOException;
 import java.time.Month;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,13 @@ public class StudentViewServlet  extends HttpServlet {
 			try {
 				accountType = req.getSession().getAttribute("accountType").toString();
 			}catch(NullPointerException e) {}
-			chartController.getTeamInfoForAccount(Integer.parseInt(account_id), accountType);			
+			try{
+				chartController.getTeamInfoForAccount(Integer.parseInt(account_id), accountType);			
+			}catch(NullPointerException e) {
+				chartModel.setTopTeamName("Contact an admin to be assigned to a team");
+				chartModel.setSubTeamNames("");
+				chartModel.setStudentNames("");
+			}
 			
 			//get current day but clear out time to 00:00:00:00
 			Calendar cal = Calendar.getInstance();
@@ -159,6 +166,16 @@ public class StudentViewServlet  extends HttpServlet {
 		System.out.println("Post End: " + end.toString());
 		
 		
+		try{
+			controller.getTeamInfoForAccount(Integer.parseInt(account_id), accountType);			
+		}catch(NullPointerException e) {
+			chartModel.setTopTeamName("Contact an admin to be assigned to a team");
+			chartModel.setSubTeamNames("");
+			chartModel.setStudentNames("");
+		}
+		
+		
+		
 		if(offset != null) {
 			if(change != null) {
 				if(change.equals(-1)) {
@@ -193,7 +210,6 @@ public class StudentViewServlet  extends HttpServlet {
 			System.out.println(name[1]);
 			System.out.println(currentSubTeam);
 			controller.populateStudentWeek(name, currentSubTeam, start, end, offset);
-			controller.getTeamInfoForAccount(Integer.parseInt(account_id), accountType);
 			System.out.println(chartModel.getData());
 			req.setAttribute("chartModel", chartModel);
 			req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
@@ -207,7 +223,6 @@ public class StudentViewServlet  extends HttpServlet {
 		String[] name = s.split(" ");
 		System.out.println("Cinnamon");
 		controller.populateStudentWeek(name, currentSubTeam, start, end, offset);
-		controller.getTeamInfoForAccount(Integer.parseInt(account_id), accountType);
 		req.setAttribute("chartModel", chartModel);
 		req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
 	}

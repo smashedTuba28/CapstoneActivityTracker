@@ -106,17 +106,36 @@
 				</form>
 			</div>
 			<p>Week Log notes:</p>
-			<div>
-				<c:forEach items="${chartModel.events}" var="events">
-					<tr>
-						<td class="time">${events.startTime}</td>
-						<td class="log">${events.lognote}</td>
-						</br>
-					</tr>
-				</c:forEach>
+			
+			<div class="flex-container">
+				<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+					<c:forEach items="${chartModel.events}" var="events">
+						<div class="flex-containerLogs">
+							<div class="flagbox">
+								<c:if test="${events.flag}">
+									<img alt="System Flagged Event" class="flag" src="styling/clipart786779.png"> <!--png from clipartmax.com -->
+								</c:if>
+								<c:if test="${!events.flag}">
+									</br>
+								</c:if>
+							</div>
+							<div class="timebox">
+								<p class="time">${events.startTime} - ${events.endTime} </p>
+							</div>
+							<div class="logbox">
+								<input type="hidden" name="event_id" value="${events.roomEventID}"/>
+								<input type="text" size="80" name="lognote" value="${events.lognote}"/>
+								</br>
+							</div>
+							<input type="submit" name="logbutton" value="Update Me"/>
+						</div>
+					</c:forEach>
+				</form>		
 			</div>
+			
 		</div>
-		<!-- Footer -->
+	</div>
+	<!-- Footer -->
 		<div class="footer">
 			<div class="flex-container">
 				<div class="footnote">Designed by Jason Steinberg, Travis
@@ -126,7 +145,7 @@
 				<div class="footnote">York College of PA CS320 Spring 2019</div>
 			</div>
 		</div>
-	</div>
+		
 	<script type="text/javascript">
 			//ceates the submit buttons based needed size
 			var docFrag = document.getElementById("studentList");
