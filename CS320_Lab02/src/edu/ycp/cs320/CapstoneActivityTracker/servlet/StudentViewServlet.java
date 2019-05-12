@@ -35,10 +35,7 @@ public class StudentViewServlet  extends HttpServlet {
 			accountType = req.getSession().getAttribute("accountType").toString();
 		}catch(NullPointerException e) {}
 		
-		
-		
 		//check session 
-		
 		if (account_id == null || accountType == null) {
 			//redirect
 			resp.sendRedirect(req.getContextPath() + "/signIn");

@@ -129,7 +129,7 @@
 								<p class="time">${events.startTime} - ${events.endTime} </p>
 							</div>
 							
-							<c:if test="${teammate_name.equals(chartModel.student)}">
+							<c:if test="${chartModel.currentStudent.equals(chartModel.student)}">
 								<div class="logbox">
 									<input type="hidden" name="event_id" value="${events.roomEventID}"/>
 									<input type="text" size="80" name="lognote" value="${events.lognote}"/>
@@ -137,7 +137,7 @@
 								</div>
 								<input type="submit" name="logbutton" value="Update Me"/>
 							</c:if>
-							<c:if test="${! teammate_name.equals(chartModel.student)}">
+							<c:if test="${! chartModel.currentStudent.equals(chartModel.student)}">
 								<div class="logbox">
 									<p>${events.lognote}</p>
 									</br>
