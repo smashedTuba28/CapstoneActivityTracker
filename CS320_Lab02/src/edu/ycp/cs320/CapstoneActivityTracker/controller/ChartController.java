@@ -38,10 +38,12 @@ public class ChartController {
 	
 	public void populateStudentWeek(Integer account_id, Date start, Date end, int offset){
 		model.setOffset(offset);
-
-		StudentAccount student = db.getStudentAccountWithID(account_id);//get student from DB using general AccountID		
+		StudentAccount student = db.getStudentAccountWithID(account_id);//get student from DB using general AccountID	
 		//get all room events for student
 		List<RoomEvent> eventList = db.getAllRoomEventForStudentAccountWithAccountID(student.getStudentAccountID());
+		
+		model.setCurrentSub(db.getSubTeamWithAccountID(account_id).getTeamname());
+		
 		
 		//System.out.println(eventList.size());
 		
@@ -72,14 +74,32 @@ public class ChartController {
 		data += "]";
 		
 		model.setData(data);//assign formatted data to model
-		model.setStudent(student.getFirstname() + " " + student.getLastname());
+		model.setCurrentStudent(student.getFirstname() + " " + student.getLastname());
 		model.setTitle(title);
 	}
 	
-	public void populateSubTeamWeek(String account_id, Date start, Date end) {
+	
+	public void populateSubTeamWeekWithTeamName(String subTeamname, Date start, Date end, int offset) {
+		List<StudentAccount> students = db.getAllStudentsInSubTeamWithTeamName(subTeamname);
+		try{
+			String account_id = String.valueOf(students.get(0).getAccountID());
+			populateSubTeamWeek(account_id, start,end,offset);
+		}
+		catch (IndexOutOfBoundsException e){
+			
+		}
+	}
+	
+	
+	
+	
+	
+	public void populateSubTeamWeek(String account_id, Date start, Date end, int offset) {
+		SubTeam subTeam = db.getSubTeamWithAccountID(Integer.parseInt(account_id));		
 		
+		model.setOffset(offset);
+		model.setCurrentSub(subTeam.getTeamname());
 		
-		SubTeam subTeam = db.getSubTeamWithAccountID(Integer.parseInt(account_id));
 		String title = subTeam.getTeamname() + " Work Hours";
 		ArrayList<long[]> weekList = new ArrayList<long[]>();
 		String data = "[['Date'";
@@ -98,7 +118,7 @@ public class ChartController {
 		for (int i=0; i<7; i++) {
 			c.setTimeInMillis(start.getTime() + i*86400000);
 			
-			data += ",['" + (c.get(Calendar.MONTH)+1)  + "-" + c.get(Calendar.DAY_OF_MONTH) + "'";
+			data += ",['" + (c.get(Calendar.MONTH)+1)  + "-" + c.get(Calendar.DAY_OF_MONTH) + "-"+ c.get(Calendar.YEAR) +  "'";
 			for(int j=0; j < weekList.size(); j++) {
 				data += ", " + weekList.get(j)[i] / 60.;
 			}
@@ -114,6 +134,8 @@ public class ChartController {
 		
 		if(accountType.equals("student")) {
 			//student is currently logged in
+			StudentAccount student = db.getStudentAccountWithID(account_id);
+			model.setStudent(student.getFirstname() + " " +student.getLastname());
 			
 			//get the logged in student's topteam name
 			TopTeam topTeam = db.getTopTeamWithAccountID(account_id);
