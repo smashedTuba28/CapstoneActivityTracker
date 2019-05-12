@@ -9,6 +9,7 @@ public class AdminView {
 	private SubTeam subTeam;
 	private List<StudentAccount> students;
 	private StudentAccount student;
+	private String adminname;
 
 	
 	
@@ -58,5 +59,13 @@ public class AdminView {
 
 	public void setStudent(StudentAccount student) {
 		this.student = student;
+	}
+
+	public String getAdminname() {
+		return adminname;
+	}
+
+	public void setAdminname(String adminname) {
+		this.adminname = adminname;
 	}
 }

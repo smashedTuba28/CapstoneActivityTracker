@@ -8,14 +8,10 @@
 <link rel="stylesheet" href="styling/style.css">
 <!--icon for ycp shield from ycp.edu-->
 <link rel="icon" href="https://www.ycp.edu/media/york-website/style-assets-2016/images/favicon.ico" type="image/ico"> 
+
 </head>
 
 <body>
-	<c:if test="${! empty errorMessage}">
-		<div class="error">
-			<h3>${errorMessage}</h3>
-		</div>
-	</c:if>
 
 	<!-- Header -->
 	<div class="header">
@@ -24,32 +20,43 @@
 			src="https://www.ycp.edu/media/york-website/style-assets-2016/images/york-college-logo-white.svg"
 			id="banner"></img>
 		</a>
-
 	</div>
 
+	<!-- Navigation Bar -->
+	<div class="navbar">
+		<a href="http://localhost:8081/CapstoneActivityTracker/adminView">Home</a>
+		<a href="">Account</a> <a
+			href="http://localhost:8081/CapstoneActivityTracker/index">Sign
+			Out</a> <img
+			src="https://www.ycp.edu/media/york-website/style-assets-2016/images/york-college-shield.svg"
+			id="logo"></img>
+	</div>
 
-	<!---enter user credentials--->
+	<!---enter Top Team credentials--->
 	<div class="emptybox"></div>
-	<div class="box">
-		<form
-			action="${pageContext.servletContext.contextPath}/forgotPassword"
+	<div class="createTopTeambox">
+		<form action="${pageContext.servletContext.contextPath}/createTopTeam"
 			method="post">
 
-			<div class="login">
-				<div class="loginText">
-					<label for="login"><b>Forgot Password</b></label>
+			<div class="createTopTeam">
+				<div class="createTopTeamText">
+					<c:if test="${! empty errorMessage}">
+						<div class="error">
+							<h3>${errorMessage}</h3>
+						</div>
+					</c:if>
+					<label for="createTopTeam"><b>Create Capstone Team</b></label>
 				</div>
-				</br> <input type="Text" name="email" size="12" value="${schoolID}"
-					placeholder="YCP Email"> </br> <input type="Text"
-					name="schoolID" size="12" value="${email}"
-					placeholder="YCP School ID"> </br> </br> <a
-					href="http://localhost:8081/CapstoneActivityTracker/signIn"><b>Sign In</b></a>
-				<input type="submit" name="createAccount" value="Send Email" />
+				</br> <input type="Text" name="teamname" size="12" value="${teamname}" placeholder="Capstone Team Name"/>
+                </br>
+                </br>
+				<input type="submit" name="createTeam" value="Create Capstone Team" />
 			</div>
-
 		</form>
 	</div>
 	<div class="empty"></div>
+	
+	
 	<div class="footerlogin">
 		<div class="flex-container">
 			<div class="footnote">Designed by Jason Steinberg, Travis

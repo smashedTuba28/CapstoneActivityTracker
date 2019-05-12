@@ -25,7 +25,7 @@ public class AdminViewServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		System.out.println("StudentView Servlet: doGet");
+		System.out.println("AdminView Servlet: doGet");
 		String account_id= null;
 		try {
 			account_id = req.getSession().getAttribute("account_id").toString();
@@ -42,10 +42,9 @@ public class AdminViewServlet extends HttpServlet {
 			AdminView model = new AdminView();
 			AdminViewController controller = new AdminViewController();
 			controller.setModel(model);
-
+			controller.setAdminname(account_id);
 			//intially populates TopTeams once page is opened
 			controller.populateModelWithTopTeams();
-			System.out.println(model.getTopTeamList());
 			model.setSubTeamList(new ArrayList<SubTeam>());
 			model.setStudents(new ArrayList<StudentAccount>());
 			//req.setAttribute("model", model);
@@ -56,10 +55,11 @@ public class AdminViewServlet extends HttpServlet {
 		}
 	}
 
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException{
-		System.out.println("SignIn Servlet: doPost");
+		System.out.println("AdminView Servlet: doPost");
 
 		//error message String to hold message text when applicable
 		String errorMessage = null;
@@ -68,16 +68,23 @@ public class AdminViewServlet extends HttpServlet {
 		String topTeam = null;
 		String subTeam = null;
 		String student = null;
+		
 		//b == button press
 		String b1 = null;
 		String b2 = null;
 		String b3 = null;
-		//intiallizing controller and model for adminView
+		
+		String account_id = req.getSession().getAttribute("account_id").toString();
+		
+		
+		//initializing controller and model for adminView
 		AdminViewController controller = new AdminViewController();
 		AdminView model = new AdminView();
 
 		//setting the controller model
 		controller.setModel(model);
+		
+		
 		try {
 			//requesting parameters from JSP
 			topTeam = req.getParameter("topTeam").toString();
@@ -115,21 +122,34 @@ public class AdminViewServlet extends HttpServlet {
 		catch(NullPointerException e) {
 
 		}
-		
+		try {
+			account_id = req.getSession().getAttribute("account_id").toString();
+		}
+		catch(NullPointerException e) {
 
+		}
+		if ( account_id == null) {
+			//redirect
+			resp.sendRedirect(req.getContextPath() + "/signIn");
+		}
+		
+		//setting adminname for jsp to display in top left corner
+		controller.setAdminname(account_id);
+		//intially populates TopTeams once page is opened
+		controller.populateModelWithTopTeams();
+		model.setSubTeamList(new ArrayList<SubTeam>());
+		model.setStudents(new ArrayList<StudentAccount>());
+		
 		if(b1!=null) {
 			if(topTeam.equals("val")) {
 				
-				//intially populates TopTeams once page is opened
-				controller.populateModelWithTopTeams();
-				System.out.println(model.getTopTeamList());
-				model.setSubTeamList(new ArrayList<SubTeam>());
-				model.setStudents(new ArrayList<StudentAccount>());
 				//req.setAttribute("model", model);
 				req.setAttribute("model", model);
 
 				//call the jsp and generate empty form
 				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
+				
+				
 				
 				
 				
@@ -147,8 +167,6 @@ public class AdminViewServlet extends HttpServlet {
 				
 				System.out.print(topTeam);
 				controller.populateModelWithSubTeams(topTeam);
-				//intially populates TopTeams once page is opened
-				controller.populateModelWithTopTeams();
 				System.out.println(model.getTopTeamList());
 				model.setStudents(new ArrayList<StudentAccount>());
 				//req.setAttribute("model", model);
@@ -157,6 +175,13 @@ public class AdminViewServlet extends HttpServlet {
 				//call the jsp and generate empty form
 				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
 				
+				
+				
+				
+				
+				
+				
+				
 				/*controller.getTopTeam(topTeam);
 				controller.populateModelWithTopTeams();
 				controller.populateModelWithSubTeams(topTeam);
@@ -164,19 +189,18 @@ public class AdminViewServlet extends HttpServlet {
 				req.setAttribute("model", model);
 				//call the jsp and generate empty form
 				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);*/
+				
 			}
 		}
 		else if(b2!=null) {
 			if(subTeam.equals("val")) {
 				errorMessage = "select subTeam";
 				controller.getTopTeam(topTeam);
-				controller.populateModelWithTopTeams();
 				controller.populateModelWithSubTeams(topTeam);
 			}
 			else {
 				controller.getTopTeam(topTeam);
 				controller.getSubTeam(subTeam);
-				controller.populateModelWithTopTeams();
 				controller.populateModelWithSubTeams(topTeam);
 				controller.populateModelWithStudents(subTeam);
 				//req.setAttribute("model", model);
@@ -189,7 +213,6 @@ public class AdminViewServlet extends HttpServlet {
 			if(subTeam.equals("val")) {
 				errorMessage = "select subTeam";
 				controller.getTopTeam(topTeam);
-				controller.populateModelWithTopTeams();
 				controller.populateModelWithSubTeams(topTeam);
 				//req.setAttribute("model", model);
 				req.setAttribute("model", model);
@@ -199,16 +222,16 @@ public class AdminViewServlet extends HttpServlet {
 			}
 			else {
 				if(student==null) {
-					//get faculty view if successful login
-					req.getRequestDispatcher("/_view/teamView.jsp").forward(req, resp);
+					req.getSession().setAttribute("subTeamname", subTeam);
+					//get student view if successful login
+					resp.sendRedirect(req.getContextPath() + "/teamView");
 				}
 				else {
-					//get faculty view if successful login
-					req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
+					req.getSession().setAttribute("teammate_id", student);
+					//get student view if successful login
+					resp.sendRedirect(req.getContextPath() + "/studentView");
 				}
 			}
 		}
-
-
 	}
 }
