@@ -663,7 +663,7 @@ public class DerbyDatabaseTest {
 		assertFalse(student.getStatus());
 		
 		//cleanup
-		db.deleteStudentAccount(studentAccount_id);
+		db.deleteStudentAccount(student.getAccountID());
 	}
 	
 	@Test
@@ -692,6 +692,41 @@ public class DerbyDatabaseTest {
 		
 		subTeam = db.getSubTeamWithAccountID(-1);
 		assertTrue(subTeam == null);
+	}
+	
+	@Test
+	public void testAssignStudentToSubTeam() {
+		String firstname = "Test";
+		String lastname = "Tester";
+		String email = "ttester@ycp.edu";
+		String password = hashSHA256.getHash("testpassword");
+		String schoolID = "999999999";
+		String topTeam= "TEST TOP";
+		String subTeam = "TEST SUB";
+		
+		
+		System.out.println("#######################");
+		//set up topteam, subteam, and student account
+		db.createTopTeam(topTeam);
+		int tid = db.getTopTeamWithTeamname(topTeam).getTeamID();
+		System.out.println(tid);
+		db.createSubTeam(subTeam, tid);
+		int sid = db.getSubTeamWithTeamname(subTeam).getTeamID();
+		System.out.println(sid);
+		db.createStudentAccount(firstname, lastname, email, password, schoolID);
+		student = db.getStudentAccountWithEmailandSchoolID(email, schoolID);
+		//suTeam should have any students yet
+		//add student to sub team
+		assertTrue(db.assignStudentToSubTeam(subTeam, student.getAccountID()));
+		
+		List<StudentAccount> students = db.getAllStudentsInSubTeamWithTeamName(subTeam);
+		assertTrue(students!=null);
+		//assertEquals(1, students.size());
+		assertEquals(1, students.size());
+		
+		db.deleteStudentAccount(student.getAccountID());
+		db.deleteSubTeam(sid);
+		db.deleteTopTeam(tid);
 	}
 	
 }

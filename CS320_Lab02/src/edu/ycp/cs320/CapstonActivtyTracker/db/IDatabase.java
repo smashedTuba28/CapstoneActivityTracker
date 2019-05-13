@@ -41,4 +41,5 @@ public interface IDatabase {
 	public Boolean deleteSubTeam(Integer subTeamID);//delete
 	public Boolean createTopTeam(String topTeamname);//insert
 	public List<TopTeam> getAllTopTeams();
+	public Boolean assignStudentToSubTeam(String teamname, Integer account_id);
 }

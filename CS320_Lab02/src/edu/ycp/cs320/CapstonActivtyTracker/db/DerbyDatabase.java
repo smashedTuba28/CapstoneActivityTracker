@@ -1535,6 +1535,7 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt5 = null;
 				PreparedStatement stmt6 = null;
 				PreparedStatement stmt7 = null;
+				PreparedStatement stmt8 = null;
 				
 				ResultSet resultSet1 = null;
 				ResultSet resultSet2 = null;
@@ -1635,6 +1636,11 @@ public class DerbyDatabase implements IDatabase {
 					stmt6.setInt(1, studentAccount_id);
 					stmt6.executeUpdate();
 					
+					stmt8 = conn.prepareStatement(
+							" delete from adminAccounts "
+							+ " where adminAccounts.account_id_2 = ?"
+					);
+					stmt8.setInt(1, account_id);
 					
 					//now delete the general account profile
 					stmt7 = conn.prepareStatement(
@@ -1652,6 +1658,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(stmt2);
 					DBUtil.closeQuietly(stmt4);
 					DBUtil.closeQuietly(stmt6);
+					DBUtil.closeQuietly(stmt8);
 					DBUtil.closeQuietly(resultSet1);
 					DBUtil.closeQuietly(resultSet2);
 					DBUtil.closeQuietly(resultSet4);
@@ -2163,5 +2170,62 @@ public class DerbyDatabase implements IDatabase {
 				return topTeams;
 			}
 			});
+	}
+
+	@Override
+	public Boolean assignStudentToSubTeam(String teamname, Integer account_id) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				ResultSet resultSet1 = null;
+				ResultSet resultSet2 = null;
+				try {
+					stmt1= conn.prepareStatement(
+						" select subTeams.subTeam_id_1 "
+						+ " from subTeams"
+						+ " where subTeams.teamname = ?"	
+					);	
+					stmt1.setString(1, teamname);
+					resultSet1 = stmt1.executeQuery();
+					
+					
+					if(!resultSet1.next()) {
+						return false;
+					}
+					Integer sub = resultSet1.getInt(1); 
+					
+					stmt2 = conn.prepareStatement(
+						" select studentAccounts.studentAccount_id_1 "
+						+ " from studentAccounts, accounts "
+						+ " where accounts.account_id_1 = ? "
+						+ " and accounts.account_id_1 = studentAccounts.account_id_1"	
+					);		
+					stmt2.setInt(1, account_id);
+					resultSet2 = stmt2.executeQuery();
+					
+					if(!resultSet2.next()) {
+						return false;
+					}
+					Integer sid = resultSet2.getInt(1); 
+					
+					
+					stmt3 = conn.prepareStatement(
+						" insert into subTeamStudents "	
+							+ " (studentAccount_id_2, subTeam_id_2) "
+							+ " values (?,?)"
+					);		
+					stmt3.setInt(1, sid);
+					stmt3.setInt(2, sub);
+					stmt3.executeUpdate();
+					
+					return true;
+				}finally {
+					DBUtil.closeQuietly(stmt1);
+				}
+			}	
+		});
 	}
 }
