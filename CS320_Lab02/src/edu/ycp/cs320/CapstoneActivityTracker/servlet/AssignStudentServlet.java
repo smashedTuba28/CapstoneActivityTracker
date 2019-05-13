@@ -98,9 +98,10 @@ public class AssignStudentServlet  extends HttpServlet {
 		
 		//check that none are empty
 		if(createAssignment != null) {
-			if (subTeam.equals("null") ) {
+			if (subTeam==null) {
 				errorMessage = "Please Enter a Team Name";
 				System.out.println("subTeam==null");
+				req.setAttribute("errorMessage", errorMessage);
 				req.setAttribute("model", model);
 				req.getRequestDispatcher("/_view/createSubTeam.jsp").forward(req, resp);
 			}
@@ -111,14 +112,18 @@ public class AssignStudentServlet  extends HttpServlet {
 					req.setAttribute("model", model);
 					req.getRequestDispatcher("/_view/createSubTeam.jsp").forward(req, resp);
 				}
-				else if (student.equals("null")) {
+				/*
+				else if (student==null) {
 					System.out.println("student: null");
+					req.setAttribute("errorMessage", errorMessage);
 					req.setAttribute("model", model);
 					req.getRequestDispatcher("/_view/createSubTeam.jsp").forward(req, resp);
 				}
+				*/
 				else {
 					controller.assignStudentToSubTeam(subTeam, student);
 					errorMessage = "Team Successfully Created!";
+					req.setAttribute("errorMessage", errorMessage);
 					System.out.println("Team Successfully Created!");
 					req.getRequestDispatcher("/_view/createSubTeam.jsp").forward(req, resp);
 				}

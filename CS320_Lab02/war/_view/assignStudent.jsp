@@ -54,12 +54,11 @@
 						<option value="${student.accountID}">${student.firstname} ${student.lastname}</option>
 					</c:forEach>
 				</select>
-
                 </br>
                 </br>
                 <select size="1" name="subTeam" required="required">
 					<option value="val">Sub Team</option>
-					<c:forEach items="${model.subTeamList}" var="subTeam">
+					<c:forEach items="${model.subTeams}" var="subTeam">
 						<option value="${subTeam.teamname}">${subTeam.teamname}</option>
 					</c:forEach>
 				</select>

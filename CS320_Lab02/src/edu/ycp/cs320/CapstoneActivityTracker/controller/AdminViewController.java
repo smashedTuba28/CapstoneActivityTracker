@@ -39,7 +39,7 @@ public class AdminViewController {
 		*/
 		model.setTopTeamList(topTeamList);
 	}
-	public void getTopTeam(String topteamname) {
+	public void setTopTeam(String topteamname) {
 		TopTeam topteam = db.getTopTeamWithTeamname(topteamname);
 		model.setTopTeam(topteam);
 	}

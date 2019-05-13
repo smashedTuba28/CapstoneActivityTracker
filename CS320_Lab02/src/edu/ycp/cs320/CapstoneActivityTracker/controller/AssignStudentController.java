@@ -55,6 +55,5 @@ public class AssignStudentController {
 	public  boolean assignStudentToSubTeam(String teamname, String studentID) {
 		return db.assignStudentToSubTeam(teamname, Integer.parseInt(studentID));
 	}
-	//populateModelWithSubTeams()
-	//populateModelWithStudents()
+	
 }

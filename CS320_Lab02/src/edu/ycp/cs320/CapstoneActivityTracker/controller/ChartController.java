@@ -42,8 +42,12 @@ public class ChartController {
 		//get all room events for student
 		List<RoomEvent> eventList = db.getAllRoomEventForStudentAccountWithAccountID(student.getStudentAccountID());
 		
-		model.setCurrentSub(db.getSubTeamWithAccountID(account_id).getTeamname());
-		
+		try{
+			model.setCurrentSub(db.getSubTeamWithAccountID(account_id).getTeamname());
+		}
+		catch(NullPointerException e) {
+			
+		}
 		
 		//System.out.println(eventList.size());
 		

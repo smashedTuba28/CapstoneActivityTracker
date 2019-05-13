@@ -83,7 +83,7 @@
 					<select size="1" name="student">
 						<option value="val">${model.student.lastname}</option>
 						<c:forEach items="${model.students}" var="student">
-							<option value="${student.accountID}">${student.firstname}</option>
+							<option value="${student.accountID}">${student.firstname} ${student.lastname}</option>
 						</c:forEach>
 					</select> 
 					</div>

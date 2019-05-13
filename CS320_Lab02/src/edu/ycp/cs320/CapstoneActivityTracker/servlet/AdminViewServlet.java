@@ -195,11 +195,11 @@ public class AdminViewServlet extends HttpServlet {
 		else if(b2!=null) {
 			if(subTeam.equals("val")) {
 				errorMessage = "select subTeam";
-				controller.getTopTeam(topTeam);
+				controller.setTopTeam(topTeam);
 				controller.populateModelWithSubTeams(topTeam);
 			}
 			else {
-				controller.getTopTeam(topTeam);
+				controller.setTopTeam(topTeam);
 				controller.getSubTeam(subTeam);
 				controller.populateModelWithSubTeams(topTeam);
 				controller.populateModelWithStudents(subTeam);
@@ -212,17 +212,16 @@ public class AdminViewServlet extends HttpServlet {
 		else if(b3!=null) {
 			if(subTeam.equals("val")) {
 				errorMessage = "select subTeam";
-				controller.getTopTeam(topTeam);
+				controller.setTopTeam(topTeam);
 				controller.populateModelWithSubTeams(topTeam);
 				//req.setAttribute("model", model);
 				req.setAttribute("model", model);
 				//call the jsp and generate empty form
 				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
-				
 			}
 			else {
-				if(student==null) {
-					req.getSession().setAttribute("subTeamname", subTeam);
+				if(student.equals("val")) {
+					req.getSession().setAttribute("subTeam", subTeam);
 					//get student view if successful login
 					resp.sendRedirect(req.getContextPath() + "/teamView");
 				}
