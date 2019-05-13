@@ -74,6 +74,7 @@ body {
 .flex-containerLogs{
 	display: flex;
     align-items: baseline;
+    flex
 }
 
 /* weekButton in Main*/
