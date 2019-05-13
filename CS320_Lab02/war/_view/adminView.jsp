@@ -46,6 +46,12 @@
 					<input class="adminbutton"  type="submit" name="cSub" value="Create Capstone Sub Team" />
 				</form>
 			</div>
+			</br>
+			<div class="nameList">
+					<form action="${pageContext.servletContext.contextPath}/assignStudent" method="get">
+						<input class="adminbutton" type="submit" name="cTeam" value="Assign Student to Sub Team" /> 
+					</form>
+			</div>
 		</div>
 		<div class="main" style="justify-content:center; align-items:center;">
 			<div class="flex-containeradmin">
