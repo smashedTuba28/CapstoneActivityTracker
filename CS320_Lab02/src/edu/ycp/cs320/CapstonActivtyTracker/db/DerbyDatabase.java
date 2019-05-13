@@ -1519,7 +1519,7 @@ public class DerbyDatabase implements IDatabase {
 					DBUtil.closeQuietly(resultSet1);
 				}
 			}
-		});
+		}); 
 	}
 
 	@Override
