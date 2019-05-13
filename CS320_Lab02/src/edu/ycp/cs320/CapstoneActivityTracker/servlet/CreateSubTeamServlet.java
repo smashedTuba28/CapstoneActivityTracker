@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.CapstoneActivityTracker.controller.CreateSubTeamController;
-import edu.ycp.cs320.CapstoneActivityTracker.model.createSubTeam;
+import edu.ycp.cs320.CapstoneActivityTracker.model.CreateSubTeam;
 
 public class CreateSubTeamServlet extends HttpServlet {
 
@@ -37,7 +37,7 @@ public class CreateSubTeamServlet extends HttpServlet {
 		else {
 			//initializing controller and model for adminView
 			CreateSubTeamController controller = new CreateSubTeamController();
-			createSubTeam model = new createSubTeam();
+			CreateSubTeam model = new CreateSubTeam();
 			controller.setModel(model);
 			
 			//intially populates TopTeams once page is opened
@@ -59,7 +59,7 @@ public class CreateSubTeamServlet extends HttpServlet {
 
 		//initializing controller and model for adminView
 		CreateSubTeamController controller = new CreateSubTeamController();
-		createSubTeam model = new createSubTeam();
+		CreateSubTeam model = new CreateSubTeam();
 		controller.setModel(model);
 
 
