@@ -4,7 +4,7 @@
 <!-- used images from www.YCP.edu -->
 <html>
 <head>
-<title>Create Account</title>
+<title>Create Sub Team</title>
 <link rel="stylesheet" href="styling/style.css">
 <!--icon for ycp shield from ycp.edu-->
 <link rel="icon" href="https://www.ycp.edu/media/york-website/style-assets-2016/images/favicon.ico" type="image/ico"> 
@@ -57,7 +57,7 @@
 						<option value="${topTeam.teamname}">${topTeam.teamname}</option>
 					</c:forEach>
 				</select>
-				<input type="submit" name="createTeam" value="Create Capstone Sub Team" />
+				<input type="submit" name="createTeam" value="Create" />
 			</div>
 		</form>
 	</div>
