@@ -70,6 +70,10 @@ public class TeamViewServlet extends HttpServlet {
 				//populates model with needed information for jsp
 				controller.populateSubTeamWeek(account_id, start, end, 0);
 			}
+			
+			if(accountType.equals("admin")) {
+			}
+			
 			req.setAttribute("chartModel", model);
 			//call the jsp and generate empty form
 			req.getRequestDispatcher("/_view/teamView.jsp").forward(req, resp);

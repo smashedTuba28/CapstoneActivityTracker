@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
+import edu.ycp.cs320.CapstoneActivityTracker.model.AdminAccount;
 import edu.ycp.cs320.CapstoneActivityTracker.model.ChartModel;
 import edu.ycp.cs320.CapstoneActivityTracker.model.RoomEvent;
 import edu.ycp.cs320.CapstoneActivityTracker.model.StudentAccount;
@@ -193,7 +193,8 @@ public class ChartController {
 			System.out.println(model.getStudentNames());	
 		}
 		else {
-			
+			AdminAccount admin = db.getAdminAccountWithID(account_id);
+			model.setStudent(admin.getFirstname() + " " + admin.getLastname());
 		}
 	}
 
