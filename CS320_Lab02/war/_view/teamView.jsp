@@ -25,6 +25,7 @@
 
         var options = {
        			title: '${chartModel.title}',
+       			//colors: ['#008000'],
        			chartArea: {
        				width: "75%",
        				heigth: "50%"
@@ -86,8 +87,8 @@
 					</form>
 				</div>
 			</div>
-			<div class="main">
-				<div class="flex-container">
+			<div class="main" style="justify-content:center; align-items:center;">
+				<div class="flex-container" style="height:100%; width:100%">
 					<form action="${pageContext.servletContext.contextPath}/teamView" method="post">
 						<input class="button" type="submit" value="<"></input>
 						<input type="hidden" name="change" value="-1"/>
