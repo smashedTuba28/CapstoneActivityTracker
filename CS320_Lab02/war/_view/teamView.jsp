@@ -60,14 +60,19 @@
 		</div>
 		
 		<!-- Navigation Bar -->
-		<div class="navbar">
+	<div class="navbar">
+		<c:if test="${accountType.equals('admin')}">
+			<a href="http://localhost:8081/CapstoneActivityTracker/adminView">Home</a>
+		</c:if>
+		<c:if test="${accountType.equals('student')}">
 			<a href="http://localhost:8081/CapstoneActivityTracker/studentView">Home</a>
-			<a href="http://localhost:8081/CapstoneActivityTracker/teamView">My Sub-Team</a>
-			<a href="">Account</a> 
-			<a href="http://localhost:8081/CapstoneActivityTracker/index">SignOut</a> 
-			<img src="https://www.ycp.edu/media/york-website/style-assets-2016/images/york-college-shield.svg"
-				id="logo"></img>
-		</div>
+			<a href="http://localhost:8081/CapstoneActivityTracker/teamView">SubTeam</a>
+		</c:if>
+		<a href="">Account</a> 
+		<a href="http://localhost:8081/CapstoneActivityTracker/index">SignOut</a> 
+		<img src="https://www.ycp.edu/media/york-website/style-assets-2016/images/york-college-shield.svg"
+			id="logo"></img>
+	</div>
 		
 		<div class="row">
 			<div class="side">
