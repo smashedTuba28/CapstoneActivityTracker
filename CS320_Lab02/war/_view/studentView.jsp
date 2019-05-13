@@ -66,8 +66,13 @@
 
 	<!-- Navigation Bar -->
 	<div class="navbar">
-		<a href="http://localhost:8081/CapstoneActivityTracker/studentView">Home</a>
-		<a href="http://localhost:8081/CapstoneActivityTracker/teamView">SubTeam</a>
+		<c:if test="${accountType.equals('admin')}">
+			<a href="http://localhost:8081/CapstoneActivityTracker/adminView">Home</a>
+		</c:if>
+		<c:if test="${accountType.equals('student')}">
+			<a href="http://localhost:8081/CapstoneActivityTracker/studentView">Home</a>
+			<a href="http://localhost:8081/CapstoneActivityTracker/teamView">SubTeam</a>
+		</c:if>
 		<a href="">Account</a> 
 		<a href="http://localhost:8081/CapstoneActivityTracker/index">SignOut</a> 
 		<img src="https://www.ycp.edu/media/york-website/style-assets-2016/images/york-college-shield.svg"
@@ -80,17 +85,38 @@
 			<h2>${chartModel.student}</h2>
 			<h3>${chartModel.topTeamName}</h3>
 				<div class="nameList">
-					<form action="${pageContext.servletContext.contextPath}/teamView" method="post">
-						<div id="subTeamList"></div>
-					</form>
+					<c:if test="${accoutType.equals('admin')}">
+						<form action="${pageContext.servletContext.contextPath}/createTopTeam" method="get">
+							<input class="adminbutton" type="submit" name="cTeam" value="Create Capstone Team" /> 
+						</form>
+					</c:if>
+					<c:if test="${accoutType.equals('student')}">
+						<form action="${pageContext.servletContext.contextPath}/teamView" method="post">
+							<div id="subTeamList"></div>
+						</form>
+					</c:if>
 				</div>
 			<h4>${chartModel.mySubTeamName}</h4>
 			<div class="nameList">
-				<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
-					<input type="hidden" name="currentSub" value="${chartModel.mySubTeamName}"/>
-					<div id="studentList"></div>
-				</form>
+				<c:if test="${accoutType.equals('admin')}">
+					<form action="${pageContext.servletContext.contextPath}/createSubTeam" method="get">
+						<input class="adminbutton"  type="submit" name="cSub" value="Create Capstone Sub Team" />
+					</form>
+				</c:if>
+				<c:if test="${accoutType.equals('student')}">
+					<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+						<input type="hidden" name="currentSub" value="${chartModel.mySubTeamName}"/>
+						<div id="studentList"></div>
+					</form>
+				</c:if>
 			</div>
+			<c:if test="${accoutType.equals('admin')}">
+				<div class="nameList">
+					<form action="${pageContext.servletContext.contextPath}/assignStudent" method="get">
+						<input class="adminbutton" type="submit" name="cTeam" value="Assign Student to Sub Team" /> 
+					</form>
+			</div>
+			</c:if>
 		</div>
 		<div class="main">
 			<div class="flex-container">
