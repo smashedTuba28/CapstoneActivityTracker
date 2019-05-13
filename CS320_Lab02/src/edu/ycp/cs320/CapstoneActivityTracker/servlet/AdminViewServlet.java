@@ -74,7 +74,7 @@ public class AdminViewServlet extends HttpServlet {
 		String b2 = null;
 		String b3 = null;
 		
-		String account_id = req.getSession().getAttribute("account_id").toString();
+		String account_id = null;
 		
 		
 		//initializing controller and model for adminView
@@ -128,8 +128,10 @@ public class AdminViewServlet extends HttpServlet {
 		catch(NullPointerException e) {
 
 		}
-		if ( account_id == null) {
-			//redirect
+		try {
+			account_id = req.getSession().getAttribute("account_id").toString();
+		}
+		catch(NullPointerException e){
 			resp.sendRedirect(req.getContextPath() + "/signIn");
 		}
 		
@@ -148,9 +150,6 @@ public class AdminViewServlet extends HttpServlet {
 
 				//call the jsp and generate empty form
 				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
-				
-				
-				
 				
 				
 				
@@ -220,12 +219,14 @@ public class AdminViewServlet extends HttpServlet {
 				req.getRequestDispatcher("/_view/adminView.jsp").forward(req, resp);
 			}
 			else {
+				System.out.println("student BEFORE: " + student);
 				if(student.equals("val")) {
 					req.getSession().setAttribute("subTeam", subTeam);
 					//get student view if successful login
 					resp.sendRedirect(req.getContextPath() + "/teamView");
 				}
 				else {
+					System.out.println("student INSIDE ELSE: " + student);
 					req.getSession().setAttribute("teammate_id", student);
 					//get student view if successful login
 					resp.sendRedirect(req.getContextPath() + "/studentView");

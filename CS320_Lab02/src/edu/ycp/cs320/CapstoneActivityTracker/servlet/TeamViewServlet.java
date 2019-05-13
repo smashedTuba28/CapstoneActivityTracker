@@ -33,7 +33,7 @@ public class TeamViewServlet extends HttpServlet {
 			accountType = req.getSession().getAttribute("accountType").toString();
 		}catch(NullPointerException e) {}
 		try {
-			subTeamname= req.getSession().getAttribute("subTeamname").toString();
+			subTeamname= req.getSession().getAttribute("subTeam").toString();
 		}catch(NullPointerException e) {}
 		
 		//check session

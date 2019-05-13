@@ -25,7 +25,7 @@
 
         var options = {
        			title: '${chartModel.title}',
-       			//colors: ['#008000'],
+       			colors: ['#008000'],
        			chartArea: {
        				width: "75%",
        				heigth: "50%"

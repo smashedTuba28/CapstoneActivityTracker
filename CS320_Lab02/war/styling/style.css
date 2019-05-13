@@ -118,6 +118,7 @@ body {
 	display:flex;
     width: 20%;
     margin: auto;
+    justify-content: center;
 }
 .adminviewchart input{
 	background-color: green;
@@ -125,7 +126,8 @@ body {
     color: white;
     margin: auto;
     padding: 15%;
-    font-size: 25px;
+    flex-direction: row;
+    font-size: 35px;
     border-radius: 3px;
 }
 .adminmain{

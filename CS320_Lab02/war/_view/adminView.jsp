@@ -71,8 +71,8 @@
 					
 					<input type="submit" name="b1" value=">" /> 
 					
-					<select size="1" name="subTeam" required="required">
-						<option value="val">${model.subTeam.teamname}</option>
+					<select size="1" name="subTeam">
+						<option value="${model.subTeam.teamname}">${model.subTeam.teamname}</option>
 						<c:forEach items="${model.subTeamList}" var="subTeam">
 							<option value="${subTeam.teamname}">${subTeam.teamname}</option>
 						</c:forEach>
