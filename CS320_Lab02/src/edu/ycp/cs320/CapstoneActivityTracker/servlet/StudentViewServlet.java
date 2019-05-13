@@ -123,20 +123,16 @@ public class StudentViewServlet  extends HttpServlet {
 		controller.setModel(chartModel);
 		
 		String teammate = null;
-		String subTeamTeamname = null;
 		String currentSubTeam = null;
 		Integer offset =  null;
 		Integer change = null;
 		String s = null;
-		String event_id = null;
+		Integer event_id = null;
 		String lognote = null;
 		String logButton = null;
 		
 		try {
 			teammate = req.getParameter("studentButton").toString();
-		}catch(NullPointerException e){}
-		try {
-			subTeamTeamname = req.getParameter("subTeamButton").toString();
 		}catch(NullPointerException e){}
 		try {
 			currentSubTeam = req.getParameter("currentSub").toString();
@@ -149,6 +145,11 @@ public class StudentViewServlet  extends HttpServlet {
 		}catch(NullPointerException e){}
 		try {
 			s = req.getParameter("s").toString();
+		}catch(NullPointerException e){}
+		try {
+			logButton = req.getParameter("logButton").toString();
+			lognote = req.getParameter("lognote").toString();
+			event_id = Integer.parseInt(req.getParameter("event_id").toString());
 		}catch(NullPointerException e){}
 		
 		//get current day but clear out time to 00:00:00:00
@@ -206,7 +207,10 @@ public class StudentViewServlet  extends HttpServlet {
 		}else {
 			offset = 0;
 		}
-		if(teammate != null) {
+		if(logButton!=null){
+			controller.updateLognote(event_id, lognote);
+		}
+		else if(teammate != null) {
 			String[] name = teammate.split(" ");
 			System.out.println(name[0]);
 			System.out.println(name[1]);
@@ -215,11 +219,6 @@ public class StudentViewServlet  extends HttpServlet {
 			System.out.println(chartModel.getData());
 			req.setAttribute("chartModel", chartModel);
 			req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
-		}
-		else if(subTeamTeamname!=null) {
-			System.out.println(subTeamTeamname);
-			req.getSession().setAttribute("subTeamname", subTeamTeamname);
-			req.getRequestDispatcher("/_view/teamView.jsp").forward(req, resp);
 		}
 		else {
 			String[] name = s.split(" ");
