@@ -444,7 +444,7 @@ public class DerbyDatabaseTest {
 	
 	@Test
 	public void testGetAllRoomEventsForStudentAccountWithAccountID() {
-		Integer account_id = 1; //Jim from CSV
+		Integer account_id = 2; //Travis from CSV
 		List<RoomEvent> events = null;
 		
 		//get all room events for existing account
@@ -455,7 +455,7 @@ public class DerbyDatabaseTest {
 		assertNotEquals(0, events.size());
 		
 		//should have 8 events
-		assertEquals(13, events.size());
+		assertEquals(10, events.size());
 	}
 	
 	@Test
