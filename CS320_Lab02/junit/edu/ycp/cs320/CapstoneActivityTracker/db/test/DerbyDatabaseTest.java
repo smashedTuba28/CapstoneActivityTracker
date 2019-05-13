@@ -191,7 +191,6 @@ public class DerbyDatabaseTest {
 		assertTrue(roomList.get(2).getRoomID() == 20);
 		assertTrue(roomList.get(2).getRoomName().equals("Conference room"));
 		assertTrue(roomList.get(2).getRoomNumber() == 301);
-		
 	}
 
 	@Test
@@ -302,29 +301,6 @@ public class DerbyDatabaseTest {
 		
 	}
 
-/*	@Test
-	public void testCreateAdminAccount() {
-		String firstname = "Test";
-		String lastname = "Tester";
-		String email = "ttester@ycp.edu";
-		String password = hashSHA256.getHash("testpassword");
-		String schoolID = "999999999";
-		
-		//check that account does not already exist
-		admin = db.getAdminAccountWithEmailandSchoolID(email, schoolID);
-		assertTrue(admin == null);
-		
-		//create a new admin
-		db.createAdminAccount(firstname, lastname, email, password, schoolID);
-		
-		//verify that account now exists in DB
-		admin = db.getAdminAccountWithEmailandSchoolID(email, schoolID);
-		assertTrue(admin != null);
-		assertTrue(admin.getFirstname().equals("Test"));
-		
-		//delete from table as to not cause issues every time this runs
-		db.deleteAdminAccount(admin.getAccountID());
-	} */ 
 
 	@Test
 	public void testGetAdminAccountWithEmailandSchoolID() {
@@ -420,6 +396,8 @@ public class DerbyDatabaseTest {
 		roomEventList = db.getAllRoomEventForStudentAccountWithAccountID(studentAccount_id);		
 		assertTrue(roomEventList != null);
 		assertEquals(0, roomEventList.size());
+		
+		db.deleteStudentAccount(studentAccount_id);
 	}
 	
 	@Test
@@ -461,7 +439,7 @@ public class DerbyDatabaseTest {
 		assertNotEquals(0, events.size());
 
 		//cleanup after test
-		db.deleteStudentAccount(account_id);
+		db.deleteStudentAccount(student.getStudentAccountID());
 	}
 	
 	@Test
@@ -663,7 +641,7 @@ public class DerbyDatabaseTest {
 		assertFalse(student.getStatus());
 		
 		//cleanup
-		db.deleteStudentAccount(student.getAccountID());
+		db.deleteStudentAccount(student.getStudentAccountID());
 	}
 	
 	@Test
@@ -724,9 +702,8 @@ public class DerbyDatabaseTest {
 		//assertEquals(1, students.size());
 		assertEquals(1, students.size());
 		
-		db.deleteStudentAccount(student.getAccountID());
+		db.deleteStudentAccount(student.getStudentAccountID());
 		db.deleteSubTeam(sid);
 		db.deleteTopTeam(tid);
-	}
-	
+	}	
 }
