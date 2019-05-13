@@ -44,8 +44,6 @@ public class StudentViewServlet  extends HttpServlet {
 			ChartController chartController = new ChartController();//create controller
 			ChartModel chartModel = new ChartModel();//create model
 			chartController.setModel(chartModel);//populate model 
-			req.setAttribute("teammate_name", chartModel.getCurrentStudent());
-			
 			
 			try{
 				chartController.getTeamInfoForAccount(Integer.parseInt(account_id), accountType);			
@@ -176,9 +174,6 @@ public class StudentViewServlet  extends HttpServlet {
 			chartModel.setStudentNames("");
 		}
 		
-		//
-		req.setAttribute("teammate_name", teammate);
-		
 		
 		if(offset != null) {
 			if(change != null) {
@@ -189,7 +184,7 @@ public class StudentViewServlet  extends HttpServlet {
 				else {
 					//increment offset by 1;
 					offset += 1;
-				}
+				} 
 			}
 			//offset ready to make change away from current week
 			//start at beginning of current week
@@ -210,7 +205,7 @@ public class StudentViewServlet  extends HttpServlet {
 		if(logButton!=null){
 			controller.updateLognote(event_id, lognote);
 		}
-		else if(teammate != null) {
+		if(teammate != null) {
 			String[] name = teammate.split(" ");
 			System.out.println(name[0]);
 			System.out.println(name[1]);

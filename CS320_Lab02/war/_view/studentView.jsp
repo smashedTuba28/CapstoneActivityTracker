@@ -113,8 +113,7 @@
 			
 			
 			<p>Week Lognotes:</p>
-			<div class="flex-container">
-				<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+			<div class="flex-container" style="flex-direction: column">
 					<c:forEach items="${chartModel.events}" var="events">
 						<div class="flex-containerLogs">
 							<div class="flagbox">
@@ -128,18 +127,19 @@
 							<div class="timebox">
 								<p class="time">${events.startTime}-${events.endTime}::</p>
 							</div>
-							<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+								<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
 								<c:if test="${chartModel.currentStudent.equals(chartModel.student)}">
-									<div class="logbox">
-										<input type="hidden" name="offset" value="${chartModel.offset}"/>
-										<input type="hidden" name="event_id" value="${events.roomEventID}"/>
-										<input type="hidden" name="s" value="${chartModel.currentStudent}"/>
-										<input type="text" size="80" name="lognote" value="${events.lognote}"/>
-										</br>
-									</div>
-									<input type="submit" name="logButton" value="Update Me"/>
+										<div class="logbox">
+											<input type="hidden" name="currentSub" value="${chartModel.currentSub}"/>
+											<input type="hidden" name="offset" value="${chartModel.offset}"/>
+											<input type="hidden" name="event_id" value="${events.roomEventID}"/>
+											<input type="hidden" name="s" value="${chartModel.currentStudent}"/>
+											<input type="text" size="80" name="lognote" value="${events.lognote}"/>
+											</br>
+										</div>
+										<input type="submit" name="logButton" value="Update Me"/>
 								</c:if>
-							</form>
+								</form>	
 							<c:if test="${! chartModel.currentStudent.equals(chartModel.student)}">
 								<div class="logbox">
 									<p>${events.lognote}</p>
@@ -148,9 +148,7 @@
 							</c:if>
 						</div>
 					</c:forEach>
-				</form>		
 			</div>
-			
 		</div>
 	</div>
 	<!-- Footer -->
@@ -166,7 +164,7 @@
 		
 	<script type="text/javascript">
 			//ceates the submit buttons based needed size
-			var docFrag = document.getElementById("studentList");
+			var parent = document.getElementById("studentList");
 			var names = ${chartModel.studentNames};
 		
 			for (var i=0; i < names.length ; i++){
@@ -176,12 +174,12 @@
 			     elem.name = "studentButton";
 			     var linebreak = document.createElement("br");
 			     elem.appendChild(linebreak);
-			     docFrag.appendChild(elem);
+			     parent.appendChild(elem);
 			}
 		</script>
-	<script type="text/javascript">
+		<script type="text/javascript">
 			//ceates the submit buttons based needed size
-			var docFrag = document.getElementById("subTeamList");
+			var parent = document.getElementById("subTeamList");
 			var names = ${chartModel.subTeamNames};
 		
 			for (var i=0; i < names.length ; i++){
@@ -191,7 +189,7 @@
 			     elem.name = "subTeamButton"
 			     var linebreak = document.createElement("br");
 			     elem.appendChild(linebreak);
-			     docFrag.appendChild(elem);
+			     parent.appendChild(elem);
 			}
 		</script>
 </body>
