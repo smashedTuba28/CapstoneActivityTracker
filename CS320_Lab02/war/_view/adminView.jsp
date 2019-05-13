@@ -46,6 +46,12 @@
 					<input class="adminbutton"  type="submit" name="cSub" value="Create Capstone Sub Team" />
 				</form>
 			</div>
+			</br>
+			<div class="nameList">
+					<form action="${pageContext.servletContext.contextPath}/assignStudent" method="get">
+						<input class="adminbutton" type="submit" name="cTeam" value="Assign Student to Sub Team" /> 
+					</form>
+			</div>
 		</div>
 		<div class="main" style="justify-content:center; align-items:center;">
 			<div class="flex-containeradmin">
@@ -65,8 +71,8 @@
 					
 					<input type="submit" name="b1" value=">" /> 
 					
-					<select size="1" name="subTeam" required="required">
-						<option value="val">${model.subTeam.teamname}</option>
+					<select size="1" name="subTeam">
+						<option value="${model.subTeam.teamname}">${model.subTeam.teamname}</option>
 						<c:forEach items="${model.subTeamList}" var="subTeam">
 							<option value="${subTeam.teamname}">${subTeam.teamname}</option>
 						</c:forEach>
@@ -77,7 +83,7 @@
 					<select size="1" name="student">
 						<option value="val">${model.student.lastname}</option>
 						<c:forEach items="${model.students}" var="student">
-							<option value="${student.accountID}">${student.firstname}</option>
+							<option value="${student.accountID}">${student.firstname} ${student.lastname}</option>
 						</c:forEach>
 					</select> 
 					</div>

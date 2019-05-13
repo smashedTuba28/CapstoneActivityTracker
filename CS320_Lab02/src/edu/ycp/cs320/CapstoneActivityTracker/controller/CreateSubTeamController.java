@@ -12,7 +12,7 @@ public class CreateSubTeamController {
 	
 	private IDatabase db;
 	private List<TopTeam> topTeamsList;
-	private createSubTeam model;
+	private CreateSubTeam model;
 	private String topteamname;
 	
 	
@@ -43,7 +43,7 @@ public class CreateSubTeamController {
 		return db.getAllTopTeams();
 	}
 	
-	public void setModel(createSubTeam model) {
+	public void setModel(CreateSubTeam model) {
 		this.model = model;
 	}
 	

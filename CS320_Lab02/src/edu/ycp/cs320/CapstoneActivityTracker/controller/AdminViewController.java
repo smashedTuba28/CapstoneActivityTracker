@@ -21,21 +21,25 @@ public class AdminViewController {
 	public AdminViewController(){
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		db = DatabaseProvider.getInstance();
+		
 	}
 
 	public void setModel(AdminView model) {
 		this.model = model;
 	}
 	
+	
 	public void populateModelWithTopTeams(){
 		List<TopTeam> topTeamList = new ArrayList<TopTeam>();
 		topTeamList = db.getAllTopTeams();
+		/*
 		for(TopTeam topTeam: topTeamList) {
-			System.out.println(topTeam);
+			System.out.println(topTeam.getTeamname());
 		}
+		*/
 		model.setTopTeamList(topTeamList);
 	}
-	public void getTopTeam(String topteamname) {
+	public void setTopTeam(String topteamname) {
 		TopTeam topteam = db.getTopTeamWithTeamname(topteamname);
 		model.setTopTeam(topteam);
 	}

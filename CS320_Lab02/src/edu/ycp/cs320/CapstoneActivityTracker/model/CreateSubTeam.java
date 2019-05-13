@@ -2,7 +2,7 @@ package edu.ycp.cs320.CapstoneActivityTracker.model;
 
 import java.util.List;
 
-public class createSubTeam {
+public class CreateSubTeam {
 	//createSubTeam page needs to get topteams the top team chosen to assign the correct topTeam to the SubTeam being created
 	private List<TopTeam> topTeamList;
 	private TopTeam topTeam;
