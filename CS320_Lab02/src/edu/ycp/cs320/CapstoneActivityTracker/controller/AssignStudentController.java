@@ -21,6 +21,7 @@ public class AssignStudentController {
 	private List<SubTeam> subs;
 	private List<StudentAccount> studs;
 	
+	
 	public AssignStudentController(){
 		DatabaseProvider.setInstance(new DerbyDatabase());
 		db = DatabaseProvider.getInstance();
@@ -50,6 +51,7 @@ public class AssignStudentController {
 		model.setSubTeams(subs);
 		model.setStudents(studs);
 	}
+	
 	public  boolean assignStudentToSubTeam(String teamname, String studentID) {
 		return db.assignStudentToSubTeam(teamname, Integer.parseInt(studentID));
 	}
