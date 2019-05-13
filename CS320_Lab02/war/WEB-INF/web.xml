@@ -14,6 +14,10 @@
     <servlet-name>CreateTopTeamServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.CreateTopTeamServlet</servlet-class>
   </servlet>
+   <servlet>
+    <servlet-name>AssignStudentServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.AssignStudentServlet</servlet-class>
+  </servlet>
   <servlet>
     <servlet-name>CreateSubTeamServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.CapstoneActivityTracker.servlet.CreateSubTeamServlet</servlet-class>
@@ -69,6 +73,10 @@
   <servlet-mapping>
     <servlet-name>CreateTopTeamServlet</servlet-name>
     <url-pattern>/createTopTeam</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AssignStudentServlet</servlet-name>
+    <url-pattern>/assignStudent</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>CreateSubTeamServlet</servlet-name>
