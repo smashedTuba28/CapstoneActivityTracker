@@ -35,10 +35,7 @@ public class StudentViewServlet  extends HttpServlet {
 			accountType = req.getSession().getAttribute("accountType").toString();
 		}catch(NullPointerException e) {}
 		
-		
-		
 		//check session 
-		
 		if (account_id == null || accountType == null) {
 			//redirect
 			resp.sendRedirect(req.getContextPath() + "/signIn");
@@ -75,7 +72,7 @@ public class StudentViewServlet  extends HttpServlet {
 			System.out.println("End Time: " + end.toString());
 			
 			
-			//find if needing logged in student or another individual
+			//THIS IS TO CODE FOR COMOING FROM ADMIN AFTER SELECTING A STUDENT
 			String teammate_id = null;
 			try {
 				teammate_id = req.getSession().getAttribute("teammate_id").toString();
@@ -84,9 +81,11 @@ public class StudentViewServlet  extends HttpServlet {
 			if(teammate_id == null) {//no teammate use logged in account
 				chartController.populateStudentWeek(Integer.parseInt(account_id), start, end, 0); 
 			}
-			else {//teammate info being requested
+			else {//admin is requesting info being requested
 				chartController.populateStudentWeek(Integer.parseInt(teammate_id), start, end, 0);
 			}
+			//HERE ENDS THE SECTION COMING FROM ADMIN AFTER SELECTING A STUDENT
+
 			
 			req.setAttribute("chartModel", chartModel);
 			
@@ -106,41 +105,34 @@ public class StudentViewServlet  extends HttpServlet {
 		//session check
 		String account_id = null;
 		String accountType = null;
-		String teammate_id = null;
 		try{
 			account_id = req.getSession().getAttribute("account_id").toString();
 		}catch(NullPointerException e) {}
 		try {
 			accountType = req.getSession().getAttribute("accountType").toString();
 		}catch(NullPointerException e) {}
-		try {
-			teammate_id = null;
-		}catch(NullPointerException e) {}
+		
 		
 		if (account_id == null || accountType == null) {
 			//redirect
 			resp.sendRedirect(req.getContextPath() + "/signIn");
 		}
 		//session check passed doPost
-		
 		ChartModel chartModel = new ChartModel();
 		ChartController controller = new ChartController();
 		controller.setModel(chartModel);
 		
 		String teammate = null;
-		String subTeamTeamname = null;
 		String currentSubTeam = null;
 		Integer offset =  null;
 		Integer change = null;
 		String s = null;
-		
-		
+		Integer event_id = null;
+		String lognote = null;
+		String logButton = null;
 		
 		try {
 			teammate = req.getParameter("studentButton").toString();
-		}catch(NullPointerException e){}
-		try {
-			subTeamTeamname = req.getParameter("subTeamButton").toString();
 		}catch(NullPointerException e){}
 		try {
 			currentSubTeam = req.getParameter("currentSub").toString();
@@ -153,6 +145,11 @@ public class StudentViewServlet  extends HttpServlet {
 		}catch(NullPointerException e){}
 		try {
 			s = req.getParameter("s").toString();
+		}catch(NullPointerException e){}
+		try {
+			logButton = req.getParameter("logButton").toString();
+			lognote = req.getParameter("lognote").toString();
+			event_id = Integer.parseInt(req.getParameter("event_id").toString());
 		}catch(NullPointerException e){}
 		
 		//get current day but clear out time to 00:00:00:00
@@ -210,7 +207,10 @@ public class StudentViewServlet  extends HttpServlet {
 		}else {
 			offset = 0;
 		}
-		if(teammate != null) {
+		if(logButton!=null){
+			controller.updateLognote(event_id, lognote);
+		}
+		else if(teammate != null) {
 			String[] name = teammate.split(" ");
 			System.out.println(name[0]);
 			System.out.println(name[1]);
@@ -219,11 +219,6 @@ public class StudentViewServlet  extends HttpServlet {
 			System.out.println(chartModel.getData());
 			req.setAttribute("chartModel", chartModel);
 			req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
-		}
-		else if(subTeamTeamname!=null) {
-			System.out.println(subTeamTeamname);
-			req.getSession().setAttribute("subTeamname", subTeamTeamname);
-			req.getRequestDispatcher("/_view/teamView.jsp").forward(req, resp);
 		}
 		else {
 			String[] name = s.split(" ");

@@ -279,5 +279,12 @@ public class ChartController {
 	public void populateModelLognotes(List<RoomEvent> events) {
 		model.setEvents(events);
 	}
+
+	public Boolean updateLognote(Integer event_id, String lognote) {
+		if(db.updateLogNoteforRoomEvent(event_id, lognote)){
+			return true;
+		}
+		return false;
+	}
 }
 

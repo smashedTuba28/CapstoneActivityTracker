@@ -80,7 +80,7 @@
 			<h2>${chartModel.student}</h2>
 			<h3>${chartModel.topTeamName}</h3>
 				<div class="nameList">
-					<form action="${pageContext.servletContext.contextPath}/teamView" method="get">
+					<form action="${pageContext.servletContext.contextPath}/teamView" method="post">
 						<div id="subTeamList"></div>
 					</form>
 				</div>
@@ -126,18 +126,21 @@
 								</c:if>
 							</div>
 							<div class="timebox">
-								<p class="time">${events.startTime} - ${events.endTime} </p>
+								<p class="time">${events.startTime}-${events.endTime}::</p>
 							</div>
-							
-							<c:if test="${teammate_name.equals(chartModel.student)}">
-								<div class="logbox">
-									<input type="hidden" name="event_id" value="${events.roomEventID}"/>
-									<input type="text" size="80" name="lognote" value="${events.lognote}"/>
-									</br>
-								</div>
-								<input type="submit" name="logbutton" value="Update Me"/>
-							</c:if>
-							<c:if test="${! teammate_name.equals(chartModel.student)}">
+							<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
+								<c:if test="${chartModel.currentStudent.equals(chartModel.student)}">
+									<div class="logbox">
+										<input type="hidden" name="offset" value="${chartModel.offset}"/>
+										<input type="hidden" name="event_id" value="${events.roomEventID}"/>
+										<input type="hidden" name="s" value="${chartModel.currentStudent}"/>
+										<input type="text" size="80" name="lognote" value="${events.lognote}"/>
+										</br>
+									</div>
+									<input type="submit" name="logButton" value="Update Me"/>
+								</c:if>
+							</form>
+							<c:if test="${! chartModel.currentStudent.equals(chartModel.student)}">
 								<div class="logbox">
 									<p>${events.lognote}</p>
 									</br>
@@ -183,8 +186,9 @@
 		
 			for (var i=0; i < names.length ; i++){
 			     var elem = document.createElement('input');
-			     elem.type = 'button';
+			     elem.type = 'submit';
 			     elem.value = names[i];
+			     elem.name = "subTeamButton"
 			     var linebreak = document.createElement("br");
 			     elem.appendChild(linebreak);
 			     docFrag.appendChild(elem);
