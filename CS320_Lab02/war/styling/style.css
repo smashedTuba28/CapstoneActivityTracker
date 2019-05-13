@@ -125,7 +125,7 @@ body {
     border: green;
     color: white;
     margin: auto;
-    padding: 15%;
+    padding: 15px;
     flex-direction: row;
     font-size: 35px;
     border-radius: 3px;

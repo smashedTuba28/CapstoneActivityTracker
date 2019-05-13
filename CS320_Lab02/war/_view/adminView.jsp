@@ -58,7 +58,7 @@
 				<form class="adminform" action="${pageContext.servletContext.contextPath}/adminView"
 					method="post">
 						<div class="adminviewchart">
-							<input type="submit" name="b3" value="View Chart" />
+							<input type="submit" name="b3" value="View Chart"/>
 						</div>
 
 					<div class="adminmain">
