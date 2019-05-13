@@ -227,6 +227,7 @@ public class AdminViewServlet extends HttpServlet {
 				}
 				else {
 					System.out.println("student INSIDE ELSE: " + student);
+					req.getSession().setAttribute("subTeam", subTeam);
 					req.getSession().setAttribute("teammate_id", student);
 					//get student view if successful login
 					resp.sendRedirect(req.getContextPath() + "/studentView");

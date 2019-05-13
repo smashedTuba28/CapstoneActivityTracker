@@ -18,6 +18,8 @@ public class IndexServlet extends HttpServlet {
 		
 		req.getSession().removeAttribute("account_id");
 		req.getSession().removeAttribute("accountType");
+		req.getSession().removeAttribute("subTeam");
+		req.getSession().removeAttribute("teammate_id");
 		resp.sendRedirect(req.getContextPath() + "/signIn");
 	}
 }

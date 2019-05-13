@@ -72,21 +72,28 @@ public class StudentViewServlet  extends HttpServlet {
 			
 			//THIS IS TO CODE FOR COMOING FROM ADMIN AFTER SELECTING A STUDENT
 			String teammate_id = null;
+			String subTeam = null;
 			try {
 				teammate_id = req.getSession().getAttribute("teammate_id").toString();
 			}catch(NullPointerException e) {}
+			try {
+				subTeam = req.getSession().getAttribute("subTeam").toString();
+			}catch(NullPointerException e) {}
 			
-			if(teammate_id == null) {//no teammate use logged in account
+			if(teammate_id == null || subTeam == null) {//no teammate use logged in account
 				chartController.populateStudentWeek(Integer.parseInt(account_id), start, end, 0); 
 			}
 			else {//admin is requesting info being requested
 				chartController.populateStudentWeek(Integer.parseInt(teammate_id), start, end, 0);
+				System.out.println(subTeam);
+				System.out.println("setting");
+				chartModel.setMySubTeamName(subTeam);
 			}
 			//HERE ENDS THE SECTION COMING FROM ADMIN AFTER SELECTING A STUDENT
-
+			System.out.println(accountType);
 			
 			req.setAttribute("chartModel", chartModel);
-			
+			req.setAttribute("accountType", accountType);
 			System.out.println("Made IT");
 			//call the jsp and generate empty form
 			req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);
@@ -103,11 +110,15 @@ public class StudentViewServlet  extends HttpServlet {
 		//session check
 		String account_id = null;
 		String accountType = null;
+		String subTeam = null;
 		try{
 			account_id = req.getSession().getAttribute("account_id").toString();
 		}catch(NullPointerException e) {}
 		try {
 			accountType = req.getSession().getAttribute("accountType").toString();
+		}catch(NullPointerException e) {}
+		try {
+			subTeam = req.getSession().getAttribute("subTeam").toString();
 		}catch(NullPointerException e) {}
 		
 		
@@ -115,10 +126,23 @@ public class StudentViewServlet  extends HttpServlet {
 			//redirect
 			resp.sendRedirect(req.getContextPath() + "/signIn");
 		}
+		
+		
+		
+		
+		System.out.println(accountType);
+		req.setAttribute("accountType", accountType);
 		//session check passed doPost
 		ChartModel chartModel = new ChartModel();
 		ChartController controller = new ChartController();
 		controller.setModel(chartModel);
+		
+		if(accountType.equals("admin")) {
+			chartModel.setMySubTeamName(subTeam);
+		}
+		
+		
+		
 		
 		String teammate = null;
 		String currentSubTeam = null;
@@ -217,6 +241,7 @@ public class StudentViewServlet  extends HttpServlet {
 		}
 		else {
 			String[] name = s.split(" ");
+			System.out.println(name);
 			controller.populateStudentWeek(name, currentSubTeam, start, end, offset);
 			req.setAttribute("chartModel", chartModel);
 			req.getRequestDispatcher("/_view/studentView.jsp").forward(req, resp);

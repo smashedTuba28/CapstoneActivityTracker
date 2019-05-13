@@ -71,22 +71,47 @@
 		
 		<div class="row">
 			<div class="side">
-				<h2>${chartModel.student}</h2>
-				<h3>${chartModel.topTeamName}</h3>
-					<div class="nameList">
+			<h2>${chartModel.student}</h2>
+			<h3>${chartModel.topTeamName}</h3>
+				<div class="nameList">
+					<c:if test="${accountType.equals('admin')}">
+						<form action="${pageContext.servletContext.contextPath}/createTopTeam" method="get">
+							<input class="adminbutton" type="submit" name="cTeam" value="Create Capstone Team" /> 
+						</form>
+						
+					</c:if>
+					<c:if test="${accountType.equals('student')}">
 						<form action="${pageContext.servletContext.contextPath}/teamView" method="post">
-							<input type="hidden" name="currentSub" value="${chartModel.currentSub}"/>
 							<div id="subTeamList"></div>
 						</form>
-					</div>
+					</c:if>
+				</div>
+			<c:if test="${accountType.equals('admin')}"></br></c:if>	
+			<c:if test="${accountType.equals('student')}">	
 				<h4>${chartModel.mySubTeamName}</h4>
-				<div class="nameList">
+			</c:if>
+			<div class="nameList">
+				<c:if test="${accountType.equals('admin')}">
+					<form action="${pageContext.servletContext.contextPath}/createSubTeam" method="get">
+						<input class="adminbutton"  type="submit" name="cSub" value="Create Capstone Sub Team" />
+					</form>
+				</c:if>
+				<c:if test="${accountType.equals('student')}">
 					<form action="${pageContext.servletContext.contextPath}/studentView" method="post">
 						<input type="hidden" name="currentSub" value="${chartModel.mySubTeamName}"/>
 						<div id="studentList"></div>
 					</form>
-				</div>
+				</c:if>
+			</div>	
+			<c:if test="${accountType.equals('admin')}">
+				</br>
+				<div class="nameList">
+					<form action="${pageContext.servletContext.contextPath}/assignStudent" method="get">
+						<input class="adminbutton" type="submit" name="cTeam" value="Assign Student to Sub Team" /> 
+					</form>
 			</div>
+			</c:if>
+		</div>
 			<div class="main" style="justify-content:center; align-items:center;">
 				<div class="flex-container" style="height:100%; width:100%">
 					<form action="${pageContext.servletContext.contextPath}/teamView" method="post">

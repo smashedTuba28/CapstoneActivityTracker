@@ -4,7 +4,7 @@
 <!-- used images from www.YCP.edu -->
 <html>
 <head>
-<title>Create Account</title>
+<title>Assign Student To Team</title>
 <link rel="stylesheet" href="styling/style.css">
 <!--icon for ycp shield from ycp.edu-->
 <link rel="icon" href="https://www.ycp.edu/media/york-website/style-assets-2016/images/favicon.ico" type="image/ico"> 
@@ -45,7 +45,7 @@
 							<h3>${errorMessage}</h3>
 						</div>
 					</c:if>
-					<label for="createTopTeam"><b>Create Capstone Sub Team</b></label>
+					<label for="createTopTeam"><b>Assign Student To A Team</b></label>
 				</div>
 				</br>
 				<select size="1" name="student">
@@ -62,7 +62,7 @@
 						<option value="${subTeam.teamname}">${subTeam.teamname}</option>
 					</c:forEach>
 				</select>
-				<input type="submit" name="createAssignment" value="Create Capstone Sub Team" />
+				<input type="submit" name="createAssignment" value="Assign" />
 			</div>
 		</form>
 	</div>
